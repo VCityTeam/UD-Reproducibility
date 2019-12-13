@@ -1,11 +1,11 @@
-Technical/admin elements on [public online demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) and [private online demos](#private-demos)
+## Technical/admin elements on [public online demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) and [private online demos](#private-demos)
 
 ### [Public demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) 
-  * [UD-Viz Demos](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/) (front-end)<br>
-     Although the following sub-demos (of this section) distinguish themselves from one another by the usage of specific directories (or sub-servers?), they do share 
-     - some GrandLyon data servers
-     - the Tileset server
-     - others ? 
+  * [UD-Viz Demos](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/) (front-end)
+    * Although the following sub-demos (of this section) distinguish themselves from one another by the usage of specific directories (or sub-servers?), they do share 
+       - some GrandLyon data servers
+       - the Tileset server
+       - others ?
     * [Stable demo](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/examples/DemoStable/Demo.html): 
       * [Public description](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md#demo-online-UD-Viz-stable-end-user-modules)
       * Backend: EnhancedCity DB / API on rict.liris.cnrs.fr in `Demos/UDVDemo/UDV-server-stable/API_Enhanced_City`. It is visible from the outside on port 443 and it can be started with `sudo docker-compose up`.
