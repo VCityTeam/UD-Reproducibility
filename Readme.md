@@ -1,4 +1,30 @@
-# UD-Deploy: an Ubuntu based scafolding/deployment tool
+# UD-Repoducibility general description
+```
+UD-Repoducibility
+├── Articles
+├── Computations
+└── Demos
+```
+
+## Computations
+The Computations sub-directory gathers the concrete means (scripts...) enabling the reproduction of of computations based on UD.
+
+## Articles
+The Articles sub-directory gathers the reproducibility oriented articles using the results of the computations (based on UD).
+
+## Demos: an Ubuntu based scafolding/deployment tool
+```
+Demos
+└── Temporal-LyonMetropole
+    ├── Components
+    │   ├── Component1
+    │   └── Component2
+    ├── DockerComponent1.yml
+    ├── DockerComponent2.yml
+    ├── DockerCompose.yml
+    ├── SomeSpecificConfiguration.html
+    └── install.sh
+```
 
 Start by running the `sudo` dependent scripts
 ```
