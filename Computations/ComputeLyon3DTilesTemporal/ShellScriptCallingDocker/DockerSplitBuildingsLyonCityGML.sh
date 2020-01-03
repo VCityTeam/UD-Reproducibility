@@ -1,26 +1,23 @@
 # !/bin/sh
 
-# This script splits the buildings of Lyon for a given year.
-# It waits for the following parameters:
-# $1: input-folder: a folder containing the CityGML data of all the borough
-# of the city of Lyon for a given year like the one produced by the script
-# ../data/downloadPatchLyonCityGML.sh
-# $2 : year: year of the city of Lyon represented by the CityGML files.
-# $3 : output-folder: the folder containing the output splitted files.
-# $4 : Path to 3DUSE Build folder
-
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit
 
 # Check that parameters are correctly provided
 if [ $# != 3 ]
   then
-	  echo "Four parameters must be provided to this script:"
-    echo "  1. input folder (a folder containing the CityGML data of all the borough of the city of Lyon for a given year like the one produced by the script ../data/downloadPatchLyonCityGML.sh),"
+	  echo "Three parameters must be provided to this script:"
+    echo "  1. input folder (a folder containing the CityGML data of all the"
+    echo "     boroughs of the city of Lyon for a given year like the one"
+    echo "     produced by the script downloadPatchLyonCityGML.sh),"
     echo "  2. year (of the city of Lyon represented by the CityGML files),"
-    echo "  3. the name of the output folder" 
+    echo "  3. the name of the output folder with the resulting splitted files" 
     exit 1
 fi
+
+pushd ../Docker/
+docker build -t liris:3DUse 3DUse-DockerContext
+popd
 
 mkdir $3
 
