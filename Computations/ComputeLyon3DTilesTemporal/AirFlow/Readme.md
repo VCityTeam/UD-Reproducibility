@@ -4,9 +4,9 @@
 Refer to [this installation section of the Docker/Readme.md](../Docker/Readme.md#Installation)
 
 Note: too bad AirFlow won't do it for us
-### 
+###
 ```bash
-cd <this-repository>/Tools/computeLyonCityEvolution/Workflow/AirFlow
+cd <this-repository>/Tools/ComputeLyon3DTilesTemporal/Workflow/AirFlow
 virtualenv -p python3 venv
 source venv/bin/activate
 (venv) pip3 install apache-airflow
@@ -17,7 +17,7 @@ source venv/bin/activate
 ### Setting up airflow
 Point Airflow to use the dags directory located in the current working directoryby overwriting your `$AIRFLOW_HOME` directory (that defaults to `~/airflow`).
 ```
-cd <this-repository>/Tools/computeLyonCityEvolution/Workflow/AirFlow
+cd <this-repository>/Tools/ComputeLyon3DTilesTemporal/Workflow/AirFlow
 export AIRFLOW_HOME=`pwd`
 airflow initdb     # Initialize the dags database
 ```
@@ -44,11 +44,11 @@ The execution of the tutorial example goes
 ```
 (venv) airflow test DockerTutorial docker_command 2015-06-01
 ```
-Note that by default **FAILS** on OSX. 
-References: 
+Note that by default **FAILS** on OSX.
+References:
  - [Marc Lamberti's how to use dockeroperator apache airflow](https://marclamberti.com/blog/how-to-use-dockeroperator-apache-airflow/)
  - [API](https://airflow.apache.org/_api/airflow/operators/docker_operator/index.html?highlight=docker#module-airflow.operators.docker_operator)
- 
+
 ### Running the hand made Collect example
 ```
 (venv) airflow test Collect print_current_date 2015-06-01
@@ -85,7 +85,7 @@ For example assume that you dag includes a DockerOperator wrapping some treatmen
   * [sftpOperator](https://airflow.apache.org/_api/airflow/contrib/operators/sftp_operator/index.html) ?
     - [Multiple files sftp](https://precocityllc.com/blog/airflow-and-xcom-inter-task-communication-use-cases/)
  * S3 ? They are many S3 related operators e.g.
-    - [s3_copy_object_operator](https://airflow.apache.org/_api/airflow/contrib/operators/s3_copy_object_operator/index.html) or 
+    - [s3_copy_object_operator](https://airflow.apache.org/_api/airflow/contrib/operators/s3_copy_object_operator/index.html) or
     - [s3_to_sftp_operator](https://airflow.apache.org/_api/airflow/contrib/operators/s3_to_sftp_operator/index.html)
 
 ### DockerOperator open problem 2: how to deal with DockerOperator I/O on files ?
@@ -96,7 +96,7 @@ Just to illustrate how tedious this task can be, the following command is a CWL 
 docker run -i \
     --volume=/private/tmp/docker_tmp6rbchhl7:/FNUixl:rw \
     --volume=/private/tmp/docker_tmps7a_v8hv:/tmp:rw \
-    --volume=/<user_HOME_DIR>/UNSAVED/tmp/UD-SV.MEPP-team/ShellScripts/computeLyonCityEvolution/Cwl/Collect/junk-output-of_foreach_collect/LYON_1ER_2009/LYON_1ER_BATI_2009.gml:/var/lib/cwl/stg9c05f462-4e7d-4d93-9ad4-7d92162da6ce/LYON_1ER_BATI_2009.gml:ro \
+    --volume=/<user_HOME_DIR>/UNSAVED/tmp/UD-SV.MEPP-team/ShellScripts/ComputeLyon3DTilesTemporal/Cwl/Collect/junk-output-of_foreach_collect/LYON_1ER_2009/LYON_1ER_BATI_2009.gml:/var/lib/cwl/stg9c05f462-4e7d-4d93-9ad4-7d92162da6ce/LYON_1ER_BATI_2009.gml:ro \
     --workdir=/FNUixl \
     --read-only=true \
     --user=501:20 \
@@ -140,7 +140,7 @@ pg_ctl -D /usr/local/var/postgres start
 ```
 createdb airflow_meta      # For example
 ```
-Deal with the newly created [database ownership/password](https://stackoverflow.com/questions/12720967/how-to-change-postgresql-user-password). 
+Deal with the newly created [database ownership/password](https://stackoverflow.com/questions/12720967/how-to-change-postgresql-user-password).
 ```
 # Install necessary sub-packages
 (venv) pip install apache-airflow[crypto] # For connection credentials protection
@@ -220,20 +220,20 @@ Running this [KubernetesPodOperator tutorial](https://kubernetes.io/blog/2018/06
    airflow test SequentialTutorial templated 2015-06-01
    ```
 
- * Running a [full dag from the CLI](https://bcb.github.io/airflow/run-dag-and-watch-logs): 
+ * Running a [full dag from the CLI](https://bcb.github.io/airflow/run-dag-and-watch-logs):
    ```
    export AIRFLOW__CORE__LOG_FILENAME_TEMPLATE="{{ ti.dag_id }}.log"
    airflow scheduler   # start the scheduler
    airflow trigger_dag <my_dag_name>
    tail -f $AIRFLOW_HOME/logs/...     # Watch the logs
-   ``` 
- 
+   ```
+
  * Using the UI
    ```
    # start the web server, default port is 8080
    airflow webserver -p 8080
    airflow scheduler    # start the scheduler (when not already done)
-   # visit localhost:8080 in the browser 
+   # visit localhost:8080 in the browser
    ```
 
  * Various references:
@@ -269,7 +269,7 @@ References:
 A PermanentVolume can map to a file on the host. Use `kubectl describe pv` and look at the `Source/Path` entry.
 
 ```
-$ cd UD-SV.MEPP-team/ShellScripts/computeLyonCityEvolution/Workflow/AirFlow
+$ cd UD-SV.MEPP-team/ShellScripts/ComputeLyon3DTilesTemporal/Workflow/AirFlow
 $ airflow test kubernetes_airflow_documentation_sample start 2015-06-01 &
 kubectl get pods   # Yields: test-e38ed9c0  status = Pending
 kubectl get events # Yields: pod/test-e38ed9c0   persistentvolumeclaim "test-volume" not found

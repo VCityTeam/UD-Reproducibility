@@ -13,7 +13,7 @@ in the form of JSON schemas is however
 * Download the dataset to visualize which is
 [available online](https://doi.org/10.5281/zenodo.3596861). Detailed notes on
 how to compute this dataset can also be found
-[here](../../Computations/ComputeLyonCityEvolution/Readme.md).
+[here](../../Computations/ComputeLyon3DTilesTemporal/Readme.md).
 
 * Unzip this dataset
 
