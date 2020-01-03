@@ -2,7 +2,7 @@
 
 We compared the following datasets:
 
-#### DS-CityGML
+### DS-CityGML
 
   * **Format**: CityGML
   * **Description**: composed of three independent snapshots of the buildings of
@@ -16,7 +16,7 @@ We compared the following datasets:
     depot zenodo qui contient trois .zip (un par vintage))
   * **How to reproduce the computation of this dataset**: TODO (cf todo ci dessus)
 
-#### DS-3DTiles
+### DS-3DTiles
 
   * **Format**: 3D Tiles
   * **Description**: Conversion of DS-CityGML into the 3D Tiles format.
@@ -24,7 +24,7 @@ We compared the following datasets:
   * **Final dataset download link**: TODO (relancer le tiler sur DS-CityGML)
   * **How to reproduce the computation of this dataset**: TODO
 
-#### DS-3DTilesTmp
+### DS-3DTilesTmp
 
   * **Format**: 3D Tiles with temporal extension
   * **Description**: represents the buildings of Lyon between 2009 and 2015
