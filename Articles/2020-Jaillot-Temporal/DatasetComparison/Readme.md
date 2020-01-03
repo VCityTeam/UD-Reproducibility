@@ -37,6 +37,8 @@ We compared the following datasets:
   [ComputeLyon3DTilesTemporal](../../../Computations/ComputeLyon3DTilesTemporal)
   computation.
 
+### Resulting comparison 
+
 From these datasets we obtained the following comparison table:
 
 |                |           | Size (MB) | **Number of buildings** |
