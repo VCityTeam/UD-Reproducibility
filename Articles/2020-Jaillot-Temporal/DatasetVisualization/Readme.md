@@ -7,5 +7,5 @@ temporal navigation of a dataset in 3D Tiles (DS-3DTiles) and of a dataset in
 These datasets are described, links for downloading them are given and
 instructions for computing them again are provided on another page of this
 repository at the following links:
-[DS-3DTiles](../DatasetComparison/Readme#DS-3DTiles) and
-[DS-3DTiles-Tmp](../DatasetComparison/Readme#DS-3DTiles-Tmp).
+[DS-3DTiles](../DatasetComparison/Readme.md#DS-3DTiles) and
+[DS-3DTiles-Tmp](../DatasetComparison/Readme.md#DS-3DTiles-Tmp).
