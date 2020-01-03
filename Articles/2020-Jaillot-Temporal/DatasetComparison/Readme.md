@@ -24,7 +24,7 @@ We compared the following datasets:
   * **Final dataset download link**: TODO (relancer le tiler sur DS-CityGML)
   * **How to reproduce the computation of this dataset**: TODO
 
-### DS-3DTilesTmp
+### DS-3DTiles-Tmp
 
   * **Format**: 3D Tiles with temporal extension
   * **Description**: represents the buildings of Lyon between 2009 and 2015
