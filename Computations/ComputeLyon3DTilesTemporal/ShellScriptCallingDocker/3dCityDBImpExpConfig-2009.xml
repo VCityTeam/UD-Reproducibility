@@ -14,7 +14,7 @@
                 <type>PostGIS</type>
                 <server>134.214.143.170</server>
                 <port>5432</port>
-                <sid>citydb</sid>
+                <sid>citydb-full_lyon-2009</sid>
                 <user>postgres</user>
                 <password>postgres</password>
                 <savePassword>true</savePassword>

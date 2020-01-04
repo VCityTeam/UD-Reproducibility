@@ -58,30 +58,10 @@ echo "--- Stripping Appearance attributes"
 ./DockerStripAttributes.sh ${1}/Lyon_2015_Splitted 2015 ${1}/Lyon_2015_Splitted_Stripped
 
 ##########
-echo "--- Detect changes between two (consecutive) vintages of the city"
+#echo "--- Detect changes between two (consecutive) vintages of the city"
 ./DockerExtractBuildingDates.sh 2009 ${1}/Lyon_2009_Splitted 2012 ${1}/Lyon_2012_Splitted ${1}/final_output
 ./DockerExtractBuildingDates.sh 2012 ${1}/Lyon_2012_Splitted 2015 ${1}/Lyon_2015_Splitted ${1}/final_output
+
 fi
 
-exit 1
-
-# Prepare the 3dCityDatabase
-docker run -dit --name citydb-container -p 5432:5432 -e "CITYDBNAME=citydb" -e "SRID=3946" -e "SRSNAME=espg:3946" -e "POSTGRES_USER=postgres" -e "POSTGRES_PASSWORD=postgres"   tumgis/3dcitydb-postgis
-
-# Instructions on using the 3DCitydb-Importer_Exporter within docker are given by
-# https://github.com/tum-gis/3dcitydb-importer-exporter-docker
-# as pointed by https://github.com/3dcitydb/importer-exporter/issues/99
-git clone https://github.com/tum-gis/3dcitydb-importer-exporter-docker
-export impexp_version='4.2.2' && docker build -t tumgis/3dcitydb-impexp:${impexp_version} 3dcitydb-importer-exporter-docker/
-mkdir ${1}/imp-exp-share
-cp 3dCityDBImpExpConfig.xml ${1}/imp-exp-share
-pushd ${1}/imp-exp-share
-cp ${1}/Lyon_2009_Splitted/*.gml .
-cp ${1}/Lyon_2012_Splitted/*.gml .
-cp ${1}/Lyon_2015_Splitted/*.gml .
-
-docker run --name impexp-2 \
-  -v `pwd`:/share/ \
-  tumgis/3dcitydb-impexp:4.2.2 \
-  -config /share/3dCityDBImpExpConfig.xml   -import /share/*.gml
-
+./DockerLoad3dCityDataBase.sh citydb-full_lyon-2009 3dCityDBImpExpConfig-2009.xml ${1}/Lyon_2009_Splitted_Stripped
