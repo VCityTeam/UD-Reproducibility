@@ -46,12 +46,12 @@ From these datasets we obtained the following comparison table:
 | DS-CityGML     | *2009*    |    1300   |          14827          |
 |                | *2012*    |    1400   |          14835          |
 |                | *2015*    |    976    |          24289          |
-|                | **Total** |    3676   |        **53951**        |
+|                | **Total** |  **3676** |        **53951**        |
 | DS-3DTiles     | *2009*    |    202    |          14827          |
 |                | *2012*    |    218    |          14835          |
 |                | *2015*    |    319    |          24289          |
-|                | **Total** |    739    |        **53951**        |
-| DS-3DTiles-Tmp |           |    466    |        **36975**        |
+|                | **Total** |  **739**  |        **53951**        |
+| DS-3DTiles-Tmp |           |  **466**  |        **36975**        |
 
 
 *Notes on size computation*: Computed with `du -si` which gives the result in MB.
