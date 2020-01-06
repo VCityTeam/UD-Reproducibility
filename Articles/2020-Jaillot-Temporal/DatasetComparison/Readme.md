@@ -1,7 +1,5 @@
 ## Comparison of CityGML, 3D Tiles and 3D Tiles temporal datasets
 
-We compared the following datasets:
-
 ### DS-CityGML
 
   * **Format**: CityGML
