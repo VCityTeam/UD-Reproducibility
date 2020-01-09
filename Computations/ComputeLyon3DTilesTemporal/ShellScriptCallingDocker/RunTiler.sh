@@ -11,7 +11,7 @@ if [ $# != 2 ]; then
     echo "     within sub-directories as produced by e.g. the script"
     echo "     ./DockerExtractBuildingDates.sh],"
     echo "  2. the output folder holding the computed tileset."
-    echo "Note: the rest i.e. almost everything is hardwired."
+    echo "Note: the rest i.e. almost everything is alas hardwired."
     exit 1
 fi
 
@@ -34,6 +34,7 @@ run_docker() {
   #  - https://github.com/moby/moby/issues/12558):
   docker run \
     --mount src=`pwd`/$1,target=/Input,type=bind \
+    --mount src=`pwd`/$2,target=/Output,type=bind \
     --entrypoint /bin/bash \
     -t liris:Py3dTilesTiler \
     -c 'python Tilers/CityTiler/CityTemporalTiler.py \
@@ -41,12 +42,12 @@ run_docker() {
                      Tilers/CityTiler/CityTilerDBConfig2012.yml \
                      Tilers/CityTiler/CityTilerDBConfig2015.yml \
     --time_stamp 2009 2012 2015                                 \
-    --temporal_graph /Input/*DifferencesAsGraph.json'
+    --temporal_graph /Input/*DifferencesAsGraph.json \
+    && \
+    cp -r junk/tiles /Output && cp -r junk/tileset.json /Output'
+  # TODO: fix that default junk output name within CityTemporalTiler.py
 }
 
-
-# A single run gathers it all in a single Temporal tileset:
-run_docker $1
-
 mkdir -p $2
-cp -r junk/* $2/
+# A single run gathers it all in a single Temporal tileset:
+run_docker $1 $2
