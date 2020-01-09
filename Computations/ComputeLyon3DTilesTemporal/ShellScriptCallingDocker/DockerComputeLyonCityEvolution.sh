@@ -58,10 +58,44 @@ echo "--- Stripping Appearance attributes"
 ./DockerStripAttributes.sh ${1}/Lyon_2015_Splitted 2015 ${1}/Lyon_2015_Splitted_Stripped
 
 ##########
-#echo "--- Detect changes between two (consecutive) vintages of the city"
-./DockerExtractBuildingDates.sh 2009 ${1}/Lyon_2009_Splitted 2012 ${1}/Lyon_2012_Splitted ${1}/final_output
-./DockerExtractBuildingDates.sh 2012 ${1}/Lyon_2012_Splitted 2015 ${1}/Lyon_2015_Splitted ${1}/final_output
+echo "--- Detect changes between two (consecutive) vintages of the city"
+./DockerExtractBuildingDates.sh 2009 ${1}/Lyon_2009_Splitted \
+                                2012 ${1}/Lyon_2012_Splitted \
+                                ${1}/2009_2012_Differences
+./DockerExtractBuildingDates.sh 2012 ${1}/Lyon_2012_Splitted \
+                                2015 ${1}/Lyon_2015_Splitted \
+                                ${1}/2012_2015_Differences
 
 fi
+###### Launch the 3dcitydb-postgis database servers
+./LaunchDataBaseServers.sh
 
+###### Load the databases
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2009 3dCityDBImpExpConfig-2009.xml ${1}/Lyon_2009_Splitted_Stripped
+./DockerLoad3dCityDataBase.sh citydb-full_lyon-2012 3dCityDBImpExpConfig-2012.xml ${1}/Lyon_2012_Splitted_Stripped
+./DockerLoad3dCityDataBase.sh citydb-full_lyon-2015 3dCityDBImpExpConfig-2015.xml ${1}/Lyon_2015_Splitted_Stripped
+
+###### Preparing data for tile-set computation
+copy_difference_files_from_dir() {
+  # First argument: source directory
+  # Second argument: target directory
+  for i in $( ls ${1} ); do
+    filename=${1}/${i}/DifferencesAsGraph.json
+    if [ -f ${filename} ]; then
+      cp ${1}/${i}/DifferencesAsGraph.json ${2}/${i}-DifferencesAsGraph.json
+    else
+      echo "WARNING: unfound difference file ", ${filename}
+    fi 
+  done
+}
+
+mkdir -p ${1}/Differences
+copy_difference_files_from_dir ${1}/2009_2012_Differences ${1}/Differences
+copy_difference_files_from_dir ${1}/2012_2015_Differences ${1}/Differences
+
+###### Compute the resulting tile-set
+./RunTiler.sh ${1}/Differences ${1}/Result
+exit
+
+###### Hald the 3dcitydb-postgis database servers
+./HaltDataBaseServers.sh

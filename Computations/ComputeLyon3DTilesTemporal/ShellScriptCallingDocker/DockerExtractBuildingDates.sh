@@ -25,6 +25,10 @@ if [ $# != 5 ]
     exit 1
 fi
 
+pushd ../Docker/
+docker build -t liris:3DUse 3DUse-DockerContext
+popd
+
 mkdir $5
 
 run_docker() {

@@ -29,28 +29,21 @@ realpath() {
 # https://github.com/tum-gis/3dcitydb-importer-exporter-docker
 # as pointed by https://github.com/3dcitydb/importer-exporter/issues/99
 git clone https://github.com/tum-gis/3dcitydb-importer-exporter-docker
-   export impexp_version='4.2.2' \
-&& docker build -t tumgis/3dcitydb-impexp:${impexp_version} 3dcitydb-importer-exporter-docker/
+impexp_version='4.2.2'
+docker build -t tumgis/3dcitydb-impexp:${impexp_version} 3dcitydb-importer-exporter-docker/
 
 run_docker() {
   InputConfigAbsFilename=$(realpath ${1})
   InputConfigAbsDir=$(dirname ${InputConfigAbsFilename})
   InputConfigFilename=$(basename ${InputConfigAbsFilename})
   InputFilesAbsDir=$(realpath ${2})
-  docker run --name impexp-3 \
+  docker run --name 3dcitydb-impexp \
     --mount src=${InputConfigAbsDir},target=/InputConfig,type=bind \
     --mount src=${InputFilesAbsDir},target=/InputFiles,type=bind \
     tumgis/3dcitydb-impexp:4.2.2 \
     -config /InputConfig/${InputConfigFilename} \
     -import /InputFiles/*.gml
+  docker rm 3dcitydb-impexp
 }
+
 run_docker ${2} ${3}
-exit
-
-###### Launch the 3dcitydb-postgis database server
-docker run -dit --name citydb-container -p 5432:5432 \
-  -e "CITYDBNAME=${1}" \
-  -e "SRID=3946" -e "SRSNAME=espg:3946" \
-  -e "POSTGRES_USER=postgres" -e "POSTGRES_PASSWORD=postgres" \
-  tumgis/3dcitydb-postgis
-
