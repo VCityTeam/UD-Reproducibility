@@ -9,7 +9,7 @@ cd "$(dirname "$0")" || exit
 # Check that parameters are correctly provided
 if [ $# != 3 ]
   then
-	  echo "Two parameters must be provided to this script:"
+    echo "Three parameters must be provided to this script:"
     echo "  1. the (3dCity) database name where files should be imported,"
     echo "  2. pathname (absolute or relative) of the input folder holding the ImpExp"
     echo "     configuration file."
