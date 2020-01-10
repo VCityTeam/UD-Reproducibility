@@ -1,5 +1,6 @@
 PG_HOST: 134.214.143.170
-PG_PORT: 5433
-PG_NAME: citydb-full_lyon-2012
+PG_PORT: 5432
+PG_NAME: citydb-full_lyon-2009
 PG_USER: postgres
 PG_PASSWORD: postgres
+PG_VINTAGE: 2009

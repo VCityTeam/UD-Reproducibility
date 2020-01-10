@@ -15,12 +15,10 @@ if [ $# != 2 ]; then
     exit 1
 fi
 
-cp RunTiler-CityTilerDBConfig2009.yml \
-   ../Docker/CityTiler-DockerContext/CityTilerDBConfig2009.yml
-cp RunTiler-CityTilerDBConfig2012.yml \
-   ../Docker/CityTiler-DockerContext/CityTilerDBConfig2012.yml
-cp RunTiler-CityTilerDBConfig2015.yml \
-   ../Docker/CityTiler-DockerContext/CityTilerDBConfig2015.yml
+# Note: if you wonder where the configuration files of the form
+# CityTilerDBConfigYYYY.yml (that end up in ../Docker/CityTiler-DockerContext/)
+# might come from then look in the configuration section of
+# ComputeLyonCityEvolution.sh
 
 pushd ../Docker/
 docker build -t liris:Py3dTilesTiler CityTiler-DockerContext

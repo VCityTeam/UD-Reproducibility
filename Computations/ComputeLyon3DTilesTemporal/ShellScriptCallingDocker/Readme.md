@@ -1,8 +1,12 @@
 
 ## Running things
+Configure the three configuration files DBConfig[2009|2012|2015].yml
 ```
-mkdir some_output_dir     # e.g.
-./DockerComputeLyonCityEvolution.sh some_output_dir
+$ virtualenv -p python3 venv
+$ . venv/bin/activate
+(venv)$ pip install -r requirements.txt
+(venv) mkdir some_output_dir     # e.g.
+(venv) ./DockerComputeLyonCityEvolution.sh some_output_dir
 ```
 The resulting tile set will be located in the `some_output_dir/Result` subdirectory.
 
