@@ -19,19 +19,13 @@ fi
 
 ######## Configure what needs to be (with j2cli)
 echo "--- Configuring data base servers (and clients)"
-j2 3dCityDBImpExpConfig.j2 RunTiler-CityTilerDBConfig2009.yml \
-  -o 3dCityDBImpExpConfig-2009.xml
-j2 3dCityDBImpExpConfig.j2 RunTiler-CityTilerDBConfig2012.yml \
-  -o 3dCityDBImpExpConfig-2012.xml
-j2 3dCityDBImpExpConfig.j2 RunTiler-CityTilerDBConfig2015.yml \
-  -o 3dCityDBImpExpConfig-2015.xml
+j2 3dCityDBImpExpConfig.j2 DBConfig2009.yml -o 3dCityDBImpExpConfig-2009.xml
+j2 3dCityDBImpExpConfig.j2 DBConfig2012.yml -o 3dCityDBImpExpConfig-2012.xml
+j2 3dCityDBImpExpConfig.j2 DBConfig2015.yml -o 3dCityDBImpExpConfig-2015.xml
 
-j2 LaunchDataBaseSingleServer.sh.j2 RunTiler-CityTilerDBConfig2009.yml \
-  -o LaunchDataBaseServerFirst.sh
-j2 LaunchDataBaseSingleServer.sh.j2 RunTiler-CityTilerDBConfig2012.yml \
-  -o LaunchDataBaseServerSecond.sh
-j2 LaunchDataBaseSingleServer.sh.j2 RunTiler-CityTilerDBConfig2015.yml \
-  -o LaunchDataBaseServerThird.sh
+j2 LaunchDataBaseSingleServer.sh.j2 DBConfig2009.yml -o LaunchDataBaseServerFirst.sh
+j2 LaunchDataBaseSingleServer.sh.j2 DBConfig2012.yml -o LaunchDataBaseServerSecond.sh
+j2 LaunchDataBaseSingleServer.sh.j2 DBConfig2015.yml -o LaunchDataBaseServerThird.sh
 
 # RunTiler.sh configuration files are in yaml format
 cp DBConfig2009.yml ../Docker/CityTiler-DockerContext/CityTilerDBConfig2009.yml
