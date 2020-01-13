@@ -1,2 +1,6 @@
 3dcitydb-importer-exporter-docker/
+3dCityDBImpExpConfig-*.xml
+LaunchDataBaseServerFirst.sh
+LaunchDataBaseServerSecond.sh
+LaunchDataBaseServerThird.sh
 venv
