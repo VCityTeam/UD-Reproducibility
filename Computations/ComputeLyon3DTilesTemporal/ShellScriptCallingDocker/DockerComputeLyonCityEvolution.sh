@@ -41,7 +41,6 @@ cp DBConfig2015.yml ../Docker/CityTiler-DockerContext/CityTilerDBConfig2015.yml
 # Create output directory
 mkdir ${1}
 
-if false; then
 ##########
 echo "--- Download and patch the original data"
 # For the city of Lyon (years 2009, 2012 and 2015) we use the
@@ -87,7 +86,6 @@ echo "--- Detect changes between two (consecutive) vintages of the city"
                                 2015 ${1}/Lyon_2015_Splitted \
                                 ${1}/2012_2015_Differences
 
-fi
 ###### Launch the 3dcitydb-postgis database servers
 ./LaunchDataBaseServers.sh
 
