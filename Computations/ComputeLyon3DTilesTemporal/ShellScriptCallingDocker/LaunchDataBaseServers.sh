@@ -47,8 +47,6 @@ cd "$(dirname "$0")" || exit
 # References
 # - https://docs.docker.com/storage/bind-mounts/
 
-
-
 echo "Launching the (dockerized) 3dcitydb-postgis database servers."
 ./LaunchDataBaseServerFirst.sh
 ./LaunchDataBaseServerSecond.sh
