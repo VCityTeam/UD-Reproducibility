@@ -17,7 +17,7 @@ This demo is [accessible online](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/
 
 #### 3D city data server
 
-* [Download the data set](https://doi.org/10.5281/zenodo.3606733) representing the 3D cities in 3D Tiles. Detailed notes on how to compute this dataset can also be found [here](../../Computations/ComputeLyonVilleurbanneBron2015/Readme.md).
+* [Download the data set](https://doi.org/10.5281/zenodo.3606733) representing the 3D cities in 3D Tiles. Detailed notes on how to compute this dataset can also be found [here](../../Computations/ComputeLyonVilleurbanneBron3DTiles2015/Readme.md).
 
 * Unzip this dataset
 

@@ -34,7 +34,7 @@
   [ComputeLyon3DTilesTemporal](../../../Computations/ComputeLyon3DTilesTemporal)
   computation.
 
-### Resulting comparison 
+### Resulting comparison
 
 From these datasets we obtained the following comparison table:
 
