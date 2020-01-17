@@ -51,7 +51,7 @@ From these datasets we obtained the following comparison table:
 |                | *2012*    |    183    |          14835          |
 |                | *2015*    |    261    |          24289          |
 |                | **Total** |  **626**  |        **53951**        |
-|**DS-3DTiles-Tmp**|           |  **466**  |        **36975**        |
+|**DS-3DTiles-Tmp**|           |  **435**  |        **36975**        |
 
 
 **Note**: The size has been computed with `du --si` which gives the result in MB.
