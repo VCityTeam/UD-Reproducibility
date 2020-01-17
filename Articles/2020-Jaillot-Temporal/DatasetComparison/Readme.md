@@ -32,10 +32,10 @@
   extension. It contains states of buildings with their time-spans and
   transactions between these states.
   * **Original data**: DS-CityGML
-  * **Final dataset download link**: TODO (relancer le temporal tiler sur DS-CityGML)
+  * **Final dataset download link**: https://doi.org/10.5281/zenodo.3611403
   * **How to reproduce the computation of this dataset**: Reproduce the
   [ComputeLyon3DTilesTemporal](../../../Computations/ComputeLyon3DTilesTemporal)
-  computation.
+  computation. DS-3DTiles-Tmp is in the `Result` folder once the computation is finished.
 
 ### Resulting comparison
 
