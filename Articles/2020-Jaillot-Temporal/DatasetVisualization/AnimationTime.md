@@ -28,5 +28,7 @@ Figure 2 presents the navigation time between two timestamps.
 
 ### Reproduce these results
 
-* The animation time with 3D Tiles is deduced from [this result](LoadingAndRendering.md).
-* The animation time with 3D Tiles temporal extension can be obtained with [this demonstration](../../../Demos/Temporal-LyonMetropole/Readme.md)
+* All the values indicated on these images (excepted the 0.1 of DS-3DTiles-Tmp for temporal navigation) can be obtained  
+by reproducing [this result](LoadingAndRendering.md).
+
+* To reproduce the 0.1 result of DS-3DTiles-Tmp for temporal navigation, follow these instructions:
