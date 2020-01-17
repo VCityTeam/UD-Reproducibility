@@ -14,7 +14,7 @@ DS-3DTiles and DS-3DTiles-Tmp:
 <br/><br/>
 
 <figure>
-  <img src="Images/temporal-navigation.png" alt="drawing" width="700"/>
+  <img src="Images/temporal-navigation.png" alt="drawing" width="600"/>
   <figcaption>Figure 2 - Temporal navigation comparison between 3D Tiles and 3D Tiles with temporal extension.</figcaption>
 </figure>
 
