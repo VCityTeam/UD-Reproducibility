@@ -19,8 +19,11 @@
   * **Description**: Conversion of DS-CityGML into the 3D Tiles format.
   * **Original data**: DS-CityGML
   * **Final dataset download link**: https://doi.org/10.5281/zenodo.3611357
-  * **How to reproduce the computation of this dataset**: TODO
-
+  * **How to reproduce the computation of this dataset**: Reproduce the following computations:
+    * 2009 vintage: ../../../Computations/ComputeLyon3DTiles2009
+    * 2012 vintage: ../../../Computations/ComputeLyon3DTiles2012
+    * 2015 vintage: ../../../Computations/ComputeLyon3DTiles2015
+    
 ### DS-3DTiles-Tmp
 
   * **Format**: 3D Tiles with temporal extension
