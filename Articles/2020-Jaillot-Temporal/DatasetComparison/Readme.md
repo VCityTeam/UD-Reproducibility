@@ -8,11 +8,10 @@
   coordinates and images and from generic attributes that are not embedded in
   DS-3DTiles and DS-3DTilesTemporal (i.e. to make them comparable).
   * **Original data**: obtained from the [Grand Lyon open data website](https://data.beta.grandlyon.com/accueil)
-  * **Final dataset download link**: TODO: Update avec les datasets downloaded
-    patched et strippes car pour l'instant fait avec des remarkable dedans donc
-    pas top et correspond pas à ceux qu'on visualise ensuite... (faire un seul
-    depot zenodo qui contient trois .zip (un par vintage))
-  * **How to reproduce the computation of this dataset**: TODO (cf todo ci dessus)
+  * **Final dataset download link**: https://doi.org/10.5281/zenodo.3611331
+  * **How to reproduce the computation of this dataset**: Reproduce the
+  [ComputeLyon3DTilesTemporal](../../../Computations/ComputeLyon3DTilesTemporal)
+  computation. In the output directory, DS-CityGML is the composition of the "Lyon_2009_Splitted_Stripped", "Lyon_2012_Splitted_Stripped" and "Lyon_2015_Splitted_Stripped" folders.
 
 ### DS-3DTiles
 
