@@ -18,7 +18,7 @@
   * **Format**: 3D Tiles
   * **Description**: Conversion of DS-CityGML into the 3D Tiles format.
   * **Original data**: DS-CityGML
-  * **Final dataset download link**: TODO (relancer le tiler sur DS-CityGML)
+  * **Final dataset download link**: https://doi.org/10.5281/zenodo.3611357
   * **How to reproduce the computation of this dataset**: TODO
 
 ### DS-3DTiles-Tmp
