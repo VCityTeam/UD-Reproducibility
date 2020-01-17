@@ -1,9 +1,5 @@
 ## Visualization of 3D Tiles and 3D Tiles temporal datasets
 
-**TODO: les datasets utilisés ici ne sont pas exactement les meme que ceux
-utilises pour la comparaison de taille. Soit utiliser les même. Soit dire qu'on
-en utilise des differents.**
-
 We compared the performances in terms of visualization and of spatial and
 temporal navigation of a dataset in 3D Tiles (*DS-3DTiles*) and of a dataset in
 3D Tiles with temporal extension (*DS-3DTiles-Tmp*).
