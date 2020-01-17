@@ -28,7 +28,20 @@ Figure 2 presents the navigation time between two timestamps.
 
 ### Reproduce these results
 
-* All the values indicated on these images (excepted the 0.1 of DS-3DTiles-Tmp for temporal navigation) can be obtained  
-by reproducing [this result](LoadingAndRendering.md).
+* All the values indicated on these images (excepted the 0.1 of DS-3DTiles-Tmp for temporal navigation) are deduced from [this result](LoadingAndRendering.md). They can be reproduced by following the notes to reproduce it.
 
-* To reproduce the 0.1 result of DS-3DTiles-Tmp for temporal navigation, follow these instructions:
+* To obtain the 0.1 value corresponding to the temporal navigation in DS-3DTiles-Tmp, you can also use the [above-mentioned reproducibility notes](LoadingAndRendering.md). However, to obtain this value, you must open the temporal module from the left side menu bar. Then, switch the time with the time slider. The measured time is logged in the console of your web browser.
+
+#### Temporal navigation in DS-3DTiles-Tmp evaluation
+
+* Download [DS-3DTiles-Tmp](../DatasetComparison/Readme.md#DS-3DTiles-Tmp).
+
+* Unzip this dataset
+
+* Install a 3DTiles web server: [3dtiles web server: DESKTOP developing context](../../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md)
+
+* Move the unzipped dataset you downloaded previously to `3d-tiles-samples/tilesets/` and test that it are accessible by opening the following URL:
+`http://localhost:8003/tilesets/Lyon_2009-2015_Without_Remarkable_2_Tiles/tileset.json`
+
+* Intall the dedicated branch of the UD-Viz web client:
+
