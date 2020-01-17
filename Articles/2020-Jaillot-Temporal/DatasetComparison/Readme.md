@@ -52,4 +52,4 @@ From these datasets we obtained the following comparison table:
 |**DS-3DTiles-Tmp**|           |  **466**  |        **36975**        |
 
 
-**Note**: The size has been computed with `du -si` which gives the result in MB.
+**Note**: The size has been computed with `du --si` which gives the result in MB.
