@@ -1,0 +1,13 @@
+# !/bin/sh
+
+# This script only works when invocated where it stands...
+cd "$(dirname "$0")" || exit
+
+docker run -dt --name citydb-container-{{PG_VINTAGE}} \
+  -p {{PG_PORT}}:5432 \
+  -e "CITYDBNAME={{PG_NAME}}" \
+  -e "SRID=3946" \
+  -e "SRSNAME=espg:3946" \
+  -e "POSTGRES_USER={{PG_USER}}" \
+  -e "POSTGRES_PASSWORD={{PG_PASSWORD}}" \
+  tumgis/3dcitydb-postgis
