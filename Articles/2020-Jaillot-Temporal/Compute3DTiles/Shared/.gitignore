@@ -3,4 +3,7 @@
 LaunchDataBaseServerFirst.sh
 LaunchDataBaseServerSecond.sh
 LaunchDataBaseServerThird.sh
+HaltDataBaseServerFirst.sh
+HaltDataBaseServerSecond.sh
+HaltDataBaseServerThird.sh
 venv

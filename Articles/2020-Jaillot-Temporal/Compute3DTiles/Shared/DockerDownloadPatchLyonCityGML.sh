@@ -19,7 +19,7 @@ if [ $1 != 2009 -a $1 != 2012 -a $1 != 2015 ]
     exit 1
 fi
 
-pushd ../Docker/
+pushd Docker/
 docker build -t liris:collect_lyon_data Collect-DockerContext
 popd
 

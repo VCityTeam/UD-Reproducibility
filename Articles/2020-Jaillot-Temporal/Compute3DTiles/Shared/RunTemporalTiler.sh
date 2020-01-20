@@ -16,11 +16,11 @@ if [ $# != 2 ]; then
 fi
 
 # Note: if you wonder where the configuration files of the form
-# CityTilerDBConfigYYYY.yml (that end up in ../Docker/CityTiler-DockerContext/)
+# CityTilerDBConfigYYYY.yml (that end up in Docker/CityTiler-DockerContext/)
 # might come from then look in the configuration section of
 # ComputeLyonCityEvolution.sh
 
-pushd ../Docker/
+pushd Docker/
 docker build -t liris:Py3dTilesTiler CityTiler-DockerContext
 popd
 

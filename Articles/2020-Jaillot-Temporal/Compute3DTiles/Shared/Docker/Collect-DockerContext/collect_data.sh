@@ -43,7 +43,7 @@ then
   # Remove the full block describing the building
   # <bldg:Building gml:id="LYON_7EME_00110">
   echo "Patching file LYON_7EME_BATI_2009.gml"
-  sed -e '3065366,3065392d' -i LYON_7EME_2009/LYON_7EME_BATI_2009.gml
+  patch LYON_7EME_2009/LYON_7EME_BATI_2009.gml /DataPatches/LYON_7EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
 
@@ -53,7 +53,7 @@ then
   # <bldg:Building gml:id="LYON_8_00166"> and
   # <bldg:Building gml:id="LYON_8_00177">
   echo "Patching file LYON_8EME_2009.gml"
-  sed -e '1202763,1202789d' -e '1202791,1202817d' -i LYON_8EME_2009/LYON_8EME_BATI_2009.gml
+  patch LYON_8EME_2009/LYON_8EME_BATI_2009.gml /DataPatches/LYON_8EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
 

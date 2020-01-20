@@ -17,7 +17,7 @@ if [ $# != 3 ]
     exit 1
 fi
 
-pushd ../Docker/
+pushd Docker/
 docker build -t liris:CityGML2Stripper CityGML2Stripper-DockerContext
 popd
 
