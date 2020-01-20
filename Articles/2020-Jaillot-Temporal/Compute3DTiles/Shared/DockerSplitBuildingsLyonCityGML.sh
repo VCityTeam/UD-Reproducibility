@@ -15,7 +15,7 @@ if [ $# != 3 ]
     exit 1
 fi
 
-pushd ../Docker/
+pushd Docker/
 docker build -t liris:3DUse 3DUse-DockerContext
 popd
 

@@ -20,34 +20,13 @@ fi
 
 ######## Configure what needs to be (with j2cli)
 echo "--- Configuring data base servers (and clients)"
-j2 3dCityDBImpExpConfig.j2 DBConfig2009.yml -o 3dCityDBImpExpConfig-2009.xml
-j2 3dCityDBImpExpConfig.j2 DBConfig2012.yml -o 3dCityDBImpExpConfig-2012.xml
-j2 3dCityDBImpExpConfig.j2 DBConfig2015.yml -o 3dCityDBImpExpConfig-2015.xml
-
-j2   LaunchDataBaseSingleServer.sh.j2 DBConfig2009.yml \
-  -o LaunchDataBaseServerFirst.sh
-j2   LaunchDataBaseSingleServer.sh.j2 DBConfig2012.yml \
-  -o LaunchDataBaseServerSecond.sh
-j2   LaunchDataBaseSingleServer.sh.j2 DBConfig2015.yml \
-  -o LaunchDataBaseServerThird.sh
-chmod a+x LaunchDataBaseServerFirst.sh \
-          LaunchDataBaseServerSecond.sh \
-          LaunchDataBaseServerThird.sh
-
-j2   HaltDataBaseSingleServer.sh.j2 DBConfig2009.yml \
-  -o HaltDataBaseServerFirst.sh
-j2   HaltDataBaseSingleServer.sh.j2 DBConfig2012.yml \
-  -o HaltDataBaseServerSecond.sh
-j2   HaltDataBaseSingleServer.sh.j2 DBConfig2015.yml \
-  -o HaltDataBaseServerThird.sh
-chmod a+x HaltDataBaseServerFirst.sh \
-          HaltDataBaseServerSecond.sh \
-          HaltDataBaseServerThird.sh
-
-# RunTiler.sh configuration files are in yaml format
-cp DBConfig2009.yml Docker/CityTiler-DockerContext/CityTilerDBConfig2009.yml
-cp DBConfig2012.yml Docker/CityTiler-DockerContext/CityTilerDBConfig2012.yml
-cp DBConfig2015.yml Docker/CityTiler-DockerContext/CityTilerDBConfig2015.yml
+j2 Configure.sh.j2 DBConfig2009.yml -o Configure-2009.sh
+j2 Configure.sh.j2 DBConfig2012.yml -o Configure-2012.sh
+j2 Configure.sh.j2 DBConfig2015.yml -o Configure-2015.sh
+chmod a+x Configure-2009.sh Configure-2012.sh Configure-2015.sh
+./Configure-2009.sh
+./Configure-2012.sh
+./Configure-2015.sh
 
 # Directory standing within ../Shared
 temp_dir=temp_output/${1}
@@ -99,7 +78,13 @@ echo "--- Detect changes between two (consecutive) vintages of the city"
                                 ${temp_dir}/2012_2015_Differences
 
 ###### Launch the 3dcitydb-postgis database servers
-./LaunchDataBaseServers.sh
+echo "--- Launching the (dockerized) 3dcitydb-postgis database servers."
+./LaunchDataBaseServer2009.sh
+./LaunchDataBaseServer2012.sh
+./LaunchDataBaseServer2015.sh
+echo -n "   Waiting for tumgis/3dcitydb-postgis to spin off..."
+sleep 10
+echo "done."
 
 ###### Load the databases
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2009 3dCityDBImpExpConfig-2009.xml ${temp_dir}/Lyon_2009_Splitted_Stripped
@@ -128,8 +113,13 @@ copy_difference_files_from_dir ${temp_dir}/2012_2015_Differences ${temp_dir}/Dif
 echo "--- Running the tileset computation per se"
 ./RunTemporalTiler.sh ${temp_dir}/Differences ${temp_dir}/Result
 
-###### Hald the 3dcitydb-postgis database servers
-./HaltDataBaseServers.sh
+###### Halt the 3dcitydb-postgis database servers
+echo "--- Halting the 3dcitydb-postgis database servers."
+echo "  Stoping containers:"
+docker stop citydb-container-2009 citydb-container-2012 citydb-container-2015
+echo "  Removing containers:"
+docker rm   citydb-container-2009 citydb-container-2012 citydb-container-2015
+echo "3dcitydb-postgis database servers now halted."
 
 # Eventually we move back the result to the directory holding this script
 output_dir=../Temporal/${1}

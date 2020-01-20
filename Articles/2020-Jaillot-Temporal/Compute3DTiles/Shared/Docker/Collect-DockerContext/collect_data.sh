@@ -42,7 +42,6 @@ if [ ${1} == "LYON_7EME_2009.zip" ]
 then
   # Remove the full block describing the building
   # <bldg:Building gml:id="LYON_7EME_00110">
-  echo "Patching file LYON_7EME_BATI_2009.gml"
   patch LYON_7EME_2009/LYON_7EME_BATI_2009.gml /DataPatches/LYON_7EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
@@ -52,7 +51,6 @@ then
   # Remove the full blocks describing the buildings
   # <bldg:Building gml:id="LYON_8_00166"> and
   # <bldg:Building gml:id="LYON_8_00177">
-  echo "Patching file LYON_8EME_2009.gml"
   patch LYON_8EME_2009/LYON_8EME_BATI_2009.gml /DataPatches/LYON_8EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
