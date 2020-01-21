@@ -1,20 +1,21 @@
 # !/bin/sh
 
-# Awaited parameters:
-# * output folder for the intermdiate data and for the final result.
+# Exit on first trouble 
+set -e
 
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit
-cd ../Shared
 
 # Check that parameters are correctly provided
 if [ $# != 1 ]
   then
-	  echo "Awaited parameters: output folder."
+	  echo "Awaited parameters: output folder for the intermediate and final data."
     exit 1
 fi
 
+
 ########## Create output directory
+cd ../Shared
 # Directory standing within ../Shared
 temp_dir=temp_output/${1}
 mkdir -p ${temp_dir}
@@ -45,8 +46,8 @@ echo "--- Stripping Appearance attributes"
 
 ###### Launch the 3dcitydb-postgis database server
 ./LaunchDataBaseServer2009.sh
-echo -n "   Waiting for tumgis/3dcitydb-postgis to spin off..."
-sleep 10
+echo -n "   Waiting 30' for tumgis/3dcitydb-postgis to spin off ..."
+sleep 30
 echo "done."
 
 ###### Load the databases
