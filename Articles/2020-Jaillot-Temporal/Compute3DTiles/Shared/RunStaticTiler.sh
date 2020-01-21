@@ -34,7 +34,7 @@ run_docker() {
     -c 'python Tilers/CityTiler/CityTiler.py \
     Tilers/CityTiler/CityTilerDBConfig2009.yml \
     && \
-    cp -r junk/tiles /Output && cp -r junk/tileset.json /Output'
+    cp -r junk_buildings /Output/tileset_ouput_dir'
   # TODO: fix that default junk output name within CityTemporalTiler.py
 }
 
