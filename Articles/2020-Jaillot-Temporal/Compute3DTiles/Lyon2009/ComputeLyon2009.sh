@@ -62,3 +62,6 @@ echo "--- Running the tileset computation per se"
 
 ###### Eventually we move back the result to the directory holding this script
 mv ${temp_dir} ../Lyon2009/
+
+###### Checking result validity
+# ./validate_checksum.sh "Result/tileset_ouput_dir"
