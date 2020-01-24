@@ -22,9 +22,9 @@ mkdir -p ${temp_dir}
 
 ######## Configure what needs to be (with j2cli)
 echo "--- Configuring"
-j2 Configure.sh.j2 DBConfig2009.yml -o Configure-2009.sh
-chmod a+x Configure-2009.sh
-./Configure-2009.sh
+j2 Configure.sh.j2 DBConfig2012.yml -o Configure-2012.sh
+chmod a+x Configure-2012.sh
+./Configure-2012.sh
 
 ##########
 echo "--- Download and patch the original data"
@@ -32,36 +32,34 @@ echo "--- Download and patch the original data"
 # [Data Grand Lyon open portal](https://data.grandlyon.com/) and patch the
 # errors in the files (e.g. buildings with empty geometry and textures with
 # wrong coordinates).
-./DockerDownloadPatchLyonCityGML.sh 2009 ${temp_dir}/Lyon_2009
+./DockerDownloadPatchLyonCityGML.sh 2012 ${temp_dir}/Lyon_2012
 
 ##########
 echo "--- Spliting buildings (when required)"
-# Building split is only required for the years 2009 and 2012 since 2015 buildings
-# are alreading properly "splitted":
-./DockerSplitBuildingsLyonCityGML.sh ${temp_dir}/Lyon_2009 2009 ${temp_dir}/Lyon_2009_Splitted
+./DockerSplitBuildingsLyonCityGML.sh ${temp_dir}/Lyon_2012 2012 ${temp_dir}/Lyon_2012_Splitted
 
 ##########
 echo "--- Stripping Appearance attributes"
-./DockerStripAttributes.sh ${temp_dir}/Lyon_2009_Splitted 2009 ${temp_dir}/Lyon_2009_Splitted_Stripped
+./DockerStripAttributes.sh ${temp_dir}/Lyon_2012_Splitted 2012 ${temp_dir}/Lyon_2012_Splitted_Stripped
 
 ###### Launch the 3dcitydb-postgis database server
-./LaunchDataBaseServer2009.sh
+./LaunchDataBaseServer2012.sh
 echo -n "   Waiting 30' for tumgis/3dcitydb-postgis to spin off ..."
 sleep 30
 echo "done."
 
 ###### Load the databases
-./DockerLoad3dCityDataBase.sh citydb-full_lyon-2009 3dCityDBImpExpConfig-2009.xml ${temp_dir}/Lyon_2009_Splitted_Stripped
+./DockerLoad3dCityDataBase.sh citydb-full_lyon-2012 3dCityDBImpExpConfig-2012.xml ${temp_dir}/Lyon_2012_Splitted_Stripped
 
 ###### Compute the resulting tile-set
 echo "--- Running the tileset computation per se"
-./RunStaticTiler.sh ${temp_dir}/Result CityTilerDBConfig2009.yml
+./RunStaticTiler.sh ${temp_dir}/Result CityTilerDBConfig2012.yml
 
 ###### Hald the 3dcitydb-postgis database servers
-./HaltDataBaseServer2009.sh
+./HaltDataBaseServer2012.sh
 
 ###### Eventually we move back the result to the directory holding this script
-mv ${temp_dir} ../Lyon2009/
+mv ${temp_dir} ../Lyon2012/
 
 ###### Checking result validity
 # ./validate_checksum.sh "Result/tileset_ouput_dir"

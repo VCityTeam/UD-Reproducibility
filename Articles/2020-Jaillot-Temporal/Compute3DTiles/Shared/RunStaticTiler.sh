@@ -5,9 +5,10 @@ cd "$(dirname "$0")" || exit
 
 # This script strips the CityGML files some un-necessary attibutes.
 
-if [ $# != 1 ]; then
-    echo "A single parameters must be provided to this script:"
+if [ $# != 2 ]; then
+    echo "Two parameters must be provided to this script:"
     echo "  1. the output folder holding the computed tileset."
+    echo "  2. the database server configuration file."
     echo "Note: the rest i.e. almost everything is alas hardwired."
     exit 1
 fi
@@ -32,7 +33,7 @@ run_docker() {
     --entrypoint /bin/bash \
     -t liris:Py3dTilesTiler \
     -c 'python Tilers/CityTiler/CityTiler.py \
-    Tilers/CityTiler/CityTilerDBConfig2009.yml \
+    Tilers/CityTiler/$2 \
     && \
     cp -r junk_buildings /Output/tileset_ouput_dir'
   # TODO: fix that default junk output name within CityTemporalTiler.py
@@ -40,4 +41,4 @@ run_docker() {
 
 mkdir -p $1
 # A single run gathers it all in a single Temporal tileset:
-run_docker $1
+run_docker $1 $2
