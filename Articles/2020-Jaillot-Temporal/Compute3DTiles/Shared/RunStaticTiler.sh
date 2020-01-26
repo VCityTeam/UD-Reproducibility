@@ -23,20 +23,10 @@ docker build -t liris:Py3dTilesTiler CityTiler-DockerContext
 popd
 
 run_docker() {
-  # We must by-pass the entry-point and invoke a shell by hand in 
-  # order to avoid to get bitten by some premature shell interpretation
-  # of the wildcard argument of the --temporal_graph flag (references:
-  #  - https://stackoverflow.com/questions/41428013/why-does-wildcard-for-jar-execution-not-work-in-docker-cmd
-  #  - https://github.com/moby/moby/issues/12558):
   docker run \
     --mount src=`pwd`/$1,target=/Output,type=bind \
-    --entrypoint /bin/bash \
     -t liris:Py3dTilesTiler \
-    -c 'python Tilers/CityTiler/CityTiler.py \
-    Tilers/CityTiler/$2 \
-    && \
-    cp -r junk_buildings /Output/tileset_ouput_dir'
-  # TODO: fix that default junk output name within CityTemporalTiler.py
+    Tiler $2 
 }
 
 mkdir -p $1

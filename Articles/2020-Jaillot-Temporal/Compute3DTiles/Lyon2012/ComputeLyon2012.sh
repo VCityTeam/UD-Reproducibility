@@ -25,7 +25,9 @@ echo "--- Configuring"
 j2 Configure.sh.j2 DBConfig2012.yml -o Configure-2012.sh
 chmod a+x Configure-2012.sh
 ./Configure-2012.sh
+echo ""
 
+if true; then
 ##########
 echo "--- Download and patch the original data"
 # For the city of Lyon we use the
@@ -33,30 +35,47 @@ echo "--- Download and patch the original data"
 # errors in the files (e.g. buildings with empty geometry and textures with
 # wrong coordinates).
 ./DockerDownloadPatchLyonCityGML.sh 2012 ${temp_dir}/Lyon_2012
+echo "--- Done"
+echo ""
 
 ##########
 echo "--- Spliting buildings (when required)"
 ./DockerSplitBuildingsLyonCityGML.sh ${temp_dir}/Lyon_2012 2012 ${temp_dir}/Lyon_2012_Splitted
+echo "--- Done"
+echo ""
 
 ##########
 echo "--- Stripping Appearance attributes"
 ./DockerStripAttributes.sh ${temp_dir}/Lyon_2012_Splitted 2012 ${temp_dir}/Lyon_2012_Splitted_Stripped
+echo "--- Done"
+echo ""
 
 ###### Launch the 3dcitydb-postgis database server
+echo "--- Launching the database server"
 ./LaunchDataBaseServer2012.sh
-echo -n "   Waiting 30' for tumgis/3dcitydb-postgis to spin off ..."
-sleep 30
-echo "done."
+echo -n "   Waiting 60' for tumgis/3dcitydb-postgis to spin off ..."
+sleep 60
+echo "--- Done"
+echo ""
 
+fi
 ###### Load the databases
+echo "--- Loading the database"
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2012 3dCityDBImpExpConfig-2012.xml ${temp_dir}/Lyon_2012_Splitted_Stripped
+echo "--- Done"
+echo ""
 
 ###### Compute the resulting tile-set
 echo "--- Running the tileset computation per se"
 ./RunStaticTiler.sh ${temp_dir}/Result CityTilerDBConfig2012.yml
+echo "--- Done"
+echo ""
 
 ###### Hald the 3dcitydb-postgis database servers
+echo "--- Running the tileset computation per se"
 ./HaltDataBaseServer2012.sh
+echo "--- Done"
+echo ""
 
 ###### Eventually we move back the result to the directory holding this script
 mv ${temp_dir} ../Lyon2012/

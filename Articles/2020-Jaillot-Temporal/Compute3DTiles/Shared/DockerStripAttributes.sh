@@ -24,6 +24,7 @@ popd
 mkdir $3
 
 run_docker() {
+  echo "Stripping Appearance attributes from file $1"
   docker run \
     --mount src=`pwd`,target=/Input,type=bind \
     --mount src=`pwd`,target=/Output,type=bind \
