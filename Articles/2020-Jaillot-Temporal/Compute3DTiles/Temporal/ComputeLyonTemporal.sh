@@ -35,7 +35,6 @@ chmod a+x Configure-2009.sh Configure-2012.sh Configure-2015.sh
 echo "--- Done"
 echo ""
 
-if false; then
 ##########
 echo "--- Download and patch the original data"
 # For the city of Lyon we use the
@@ -114,7 +113,6 @@ copy_difference_files_from_dir ${temp_dir}/2012_2015_Differences ${temp_dir}/Dif
 echo "--- Done"
 echo ""
 
-fi
 ###### Compute the resulting tile-set
 echo "--- Running the tileset computation per se"
 ./RunTemporalTiler.sh ${temp_dir}/Result \
