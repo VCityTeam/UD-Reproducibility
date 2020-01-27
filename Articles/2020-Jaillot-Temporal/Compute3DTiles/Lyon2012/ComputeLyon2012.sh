@@ -13,7 +13,6 @@ if [ $# != 1 ]
     exit 1
 fi
 
-
 ########## Create output directory
 cd ../Shared
 # Directory standing within ../Shared
@@ -25,9 +24,9 @@ echo "--- Configuring"
 j2 Configure.sh.j2 DBConfig2012.yml -o Configure-2012.sh
 chmod a+x Configure-2012.sh
 ./Configure-2012.sh
+echo "--- Done"
 echo ""
 
-if true; then
 ##########
 echo "--- Download and patch the original data"
 # For the city of Lyon we use the
@@ -58,7 +57,6 @@ sleep 60
 echo "--- Done"
 echo ""
 
-fi
 ###### Load the databases
 echo "--- Loading the database"
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2012 3dCityDBImpExpConfig-2012.xml ${temp_dir}/Lyon_2012_Splitted_Stripped
@@ -71,8 +69,8 @@ echo "--- Running the tileset computation per se"
 echo "--- Done"
 echo ""
 
-###### Hald the 3dcitydb-postgis database servers
-echo "--- Running the tileset computation per se"
+###### Halt the 3dcitydb-postgis database server
+echo "--- Halting the database server."
 ./HaltDataBaseServer2012.sh
 echo "--- Done"
 echo ""
