@@ -3,7 +3,21 @@
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit
 
-docker run -dt --name citydb-container-{{PG_VINTAGE}} \
+echo "Launching citydb-container-{{PG_VINTAGE}}:"
+echo "  - database name: {{PG_NAME}}"
+echo "  - listening port: {{PG_PORT}}"
+
+# For some odd reason the pulled image tumgis/3dcitydb-postgis 
+# seems to get cleaned up with the --rm flag (is is so?).
+# Note that we use the --rm in order to free the build tag
+# name citydb-container-{{PG_VINTAGE}} (because the final
+# "docker rm" (refer to HaltDataBaseSingleServer.sh.j2 ) is
+# sometimes not executed (on pipeline failure) and that image
+# name remains dangling.
+# We thus pull first
+docker pull tumgis/3dcitydb-postgis
+
+docker run --rm -dt --name citydb-container-{{PG_VINTAGE}} \
   -p {{PG_PORT}}:5432 \
   -e "CITYDBNAME={{PG_NAME}}" \
   -e "SRID=3946" \
@@ -11,3 +25,5 @@ docker run -dt --name citydb-container-{{PG_VINTAGE}} \
   -e "POSTGRES_USER={{PG_USER}}" \
   -e "POSTGRES_PASSWORD={{PG_PASSWORD}}" \
   tumgis/3dcitydb-postgis
+
+echo "Done with launching of citydb-container-{{PG_VINTAGE}}"

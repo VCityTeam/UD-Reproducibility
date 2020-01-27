@@ -4,22 +4,27 @@
 # buildings of the city of Lyon at two different vintages and outputs the
 # changes as graphML-JSON files.
 
-# Awaited parameters:
-# * output folder for the intermdiate data and for the final result.
+# Exit on first trouble 
+set -e
 
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit
-cd ../Shared
 
 # Check that parameters are correctly provided
 if [ $# != 1 ]
   then
-	  echo "Awaited parameters: output folder."
+    echo "Awaited parameters: output folder for the intermediate and final data."
     exit 1
 fi
 
+########## Create output directory
+cd ../Shared
+# Directory standing within ../Shared
+temp_dir=temp_output/${1}
+mkdir -p ${temp_dir}
+
 ######## Configure what needs to be (with j2cli)
-echo "--- Configuring data base servers (and clients)"
+echo "--- Configuring"
 j2 Configure.sh.j2 DBConfig2009.yml -o Configure-2009.sh
 j2 Configure.sh.j2 DBConfig2012.yml -o Configure-2012.sh
 j2 Configure.sh.j2 DBConfig2015.yml -o Configure-2015.sh
@@ -27,46 +32,37 @@ chmod a+x Configure-2009.sh Configure-2012.sh Configure-2015.sh
 ./Configure-2009.sh
 ./Configure-2012.sh
 ./Configure-2015.sh
+echo "--- Done"
+echo ""
 
-# Directory standing within ../Shared
-temp_dir=temp_output/${1}
-mkdir -p ${temp_dir}
-
+if false; then
 ##########
 echo "--- Download and patch the original data"
-# For the city of Lyon (years 2009, 2012 and 2015) we use the
+# For the city of Lyon we use the
 # [Data Grand Lyon open portal](https://data.grandlyon.com/) and patch the
 # errors in the files (e.g. buildings with empty geometry and textures with
 # wrong coordinates).
 ./DockerDownloadPatchLyonCityGML.sh 2009 ${temp_dir}/Lyon_2009
 ./DockerDownloadPatchLyonCityGML.sh 2012 ${temp_dir}/Lyon_2012
 ./DockerDownloadPatchLyonCityGML.sh 2015 ${temp_dir}/Lyon_2015
+echo "--- Done"
+echo ""
 
 ##########
 echo "--- Spliting buildings (when required)"
-# Building split is only required for the years 2009 and 2012 since 2015 buildings
-# are alreading properly "splitted":
 ./DockerSplitBuildingsLyonCityGML.sh ${temp_dir}/Lyon_2009 2009 ${temp_dir}/Lyon_2009_Splitted
 ./DockerSplitBuildingsLyonCityGML.sh ${temp_dir}/Lyon_2012 2012 ${temp_dir}/Lyon_2012_Splitted
-
-# For 2015 we simply re-cast the file hierachy out of the original GrandLyon
-# folders organization
-mkdir ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_1ER_2015/LYON_1ER_BATI_2015.gml   ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_2EME_2015/LYON_2EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_3EME_2015/LYON_3EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_4EME_2015/LYON_4EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_5EME_2015/LYON_5EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_6EME_2015/LYON_6EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_7EME_2015/LYON_7_BATI_2015.gml    ${temp_dir}/Lyon_2015_Splitted/LYON_7EME_BATI_2015.gml
-cp ${temp_dir}/Lyon_2015/LYON_8EME_2015/LYON_8EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
-cp ${temp_dir}/Lyon_2015/LYON_9EME_2015/LYON_9EME_BATI_2015.gml ${temp_dir}/Lyon_2015_Splitted
+./SplitBuildingsLyonCityGML2015.sh ${temp_dir}/Lyon_2015  ${temp_dir}/Lyon_2015_Splitted
+echo "--- Done"
+echo ""
 
 ##########
 echo "--- Stripping Appearance attributes"
 ./DockerStripAttributes.sh ${temp_dir}/Lyon_2009_Splitted 2009 ${temp_dir}/Lyon_2009_Splitted_Stripped
 ./DockerStripAttributes.sh ${temp_dir}/Lyon_2012_Splitted 2012 ${temp_dir}/Lyon_2012_Splitted_Stripped
 ./DockerStripAttributes.sh ${temp_dir}/Lyon_2015_Splitted 2015 ${temp_dir}/Lyon_2015_Splitted_Stripped
+echo "--- Done"
+echo ""
 
 ##########
 echo "--- Detect changes between two (consecutive) vintages of the city"
@@ -76,29 +72,36 @@ echo "--- Detect changes between two (consecutive) vintages of the city"
 ./DockerExtractBuildingDates.sh 2012 ${temp_dir}/Lyon_2012_Splitted \
                                 2015 ${temp_dir}/Lyon_2015_Splitted \
                                 ${temp_dir}/2012_2015_Differences
+echo "--- Done"
+echo ""
 
-###### Launch the 3dcitydb-postgis database servers
-echo "--- Launching the (dockerized) 3dcitydb-postgis database servers."
+###### Launch the 3dcitydb-postgis database server
+echo "--- Launching the database server"
 ./LaunchDataBaseServer2009.sh
 ./LaunchDataBaseServer2012.sh
 ./LaunchDataBaseServer2015.sh
-echo -n "   Waiting for tumgis/3dcitydb-postgis to spin off..."
-sleep 10
-echo "done."
+echo "   Waiting 60' for tumgis/3dcitydb-postgis to spin off ..."
+sleep 60
+echo "--- Done"
+echo ""
 
 ###### Load the databases
+echo "--- Loading the database"
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2009 3dCityDBImpExpConfig-2009.xml ${temp_dir}/Lyon_2009_Splitted_Stripped
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2012 3dCityDBImpExpConfig-2012.xml ${temp_dir}/Lyon_2012_Splitted_Stripped
 ./DockerLoad3dCityDataBase.sh citydb-full_lyon-2015 3dCityDBImpExpConfig-2015.xml ${temp_dir}/Lyon_2015_Splitted_Stripped
+echo "--- Done"
+echo ""
 
 ###### Preparing data for tile-set computation
+echo "--- Preparing data for tile-set computation"
 copy_difference_files_from_dir() {
   # First argument: source directory
   # Second argument: target directory
-  for i in $( ls ${temp_dir} ); do
-    filename=${temp_dir}/${i}/DifferencesAsGraph.json
+  for i in $( ls ${1} ); do
+    filename=${1}/${i}/DifferencesAsGraph.json
     if [ -f ${filename} ]; then
-      cp ${temp_dir}/${i}/DifferencesAsGraph.json ${2}/${i}-DifferencesAsGraph.json
+      cp ${filename} ${2}/${i}-DifferencesAsGraph.json
     else
       echo "WARNING: unfound difference file ", ${filename}
     fi 
@@ -108,20 +111,23 @@ copy_difference_files_from_dir() {
 mkdir -p ${temp_dir}/Differences
 copy_difference_files_from_dir ${temp_dir}/2009_2012_Differences ${temp_dir}/Differences
 copy_difference_files_from_dir ${temp_dir}/2012_2015_Differences ${temp_dir}/Differences
+echo "--- Done"
+echo ""
 
+fi
 ###### Compute the resulting tile-set
 echo "--- Running the tileset computation per se"
-./RunTemporalTiler.sh ${temp_dir}/Differences ${temp_dir}/Result
+./RunTemporalTiler.sh ${temp_dir}/Result \
+  CityTilerDBConfig2009.yml CityTilerDBConfig2012.yml CityTilerDBConfig2015.yml \
+  ${temp_dir}/Differences
 
-###### Halt the 3dcitydb-postgis database servers
-echo "--- Halting the 3dcitydb-postgis database servers."
-echo "  Stoping containers:"
-docker stop citydb-container-2009 citydb-container-2012 citydb-container-2015
-echo "  Removing containers:"
-docker rm   citydb-container-2009 citydb-container-2012 citydb-container-2015
-echo "3dcitydb-postgis database servers now halted."
+###### Halt the 3dcitydb-postgis database server
+echo "--- Halting the database server."
+./HaltDataBaseServer2009.sh
+./HaltDataBaseServer2012.sh
+./HaltDataBaseServer2015.sh
+echo "--- Done"
+echo ""
 
-# Eventually we move back the result to the directory holding this script
-output_dir=../Temporal/${1}
-mkdir -p ${output_dir}
-mv ${temp_dir}/Lyon_2009 ${output_dir}
+###### Eventually we move back the result to the directory holding this script
+mv ${temp_dir} ../Temporal/
