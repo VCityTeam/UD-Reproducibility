@@ -43,5 +43,5 @@ Figure 2 presents the navigation time between two timestamps.
 * Move the unzipped dataset you downloaded previously to `3d-tiles-samples/tilesets/` and test that it are accessible by opening the following URL:
 `http://localhost:8003/tilesets/Lyon_2009-2015_Without_Remarkable_2_Tiles/tileset.json`
 
-* Intall the dedicated branch of the UD-Viz web client:
+* Install the dedicated branch of the UD-Viz web client:
 
