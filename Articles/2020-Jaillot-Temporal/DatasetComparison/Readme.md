@@ -34,7 +34,7 @@
   * **Original data**: DS-CityGML
   * **Final dataset download link**: https://doi.org/10.5281/zenodo.3611403
   * **How to reproduce the computation of this dataset**: Reproduce the
-  [ComputeLyon3DTilesTemporal](../../../Computations/ComputeLyon3DTilesTemporal)
+  [ComputeLyon3DTilesTemporal](../Compute3DTiles/Temporal/Readme.md)
   computation. DS-3DTiles-Tmp is in the `Result` folder once the computation is finished.
 
 ### Resulting comparison
