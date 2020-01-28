@@ -78,7 +78,7 @@ subprocess.call(command)
 if os.path.isdir('junk_buildings'):
   shutil.copytree('junk_buildings', '/Output/BuildingsTileset')
 
-if os.path.isfile(log_filename):
-  shutil.move(log_filename, '/Output/'+log_filename)
+if os.path.isdir('junk'):
+  shutil.copytree('junk', '/Output/TemporalTileset')
 
 print( "Exiting ", TilerMode, " with success.")
