@@ -1,5 +1,5 @@
 
-## Configuration stp
+## Configuration step
 Configure the three configuration files `DBConfig[2009|2012|2015].yml`.
 
 Notes:
