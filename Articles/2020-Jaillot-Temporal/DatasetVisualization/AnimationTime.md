@@ -45,3 +45,18 @@ Figure 2 presents the navigation time between two timestamps.
 
 * Install the dedicated branch of the UD-Viz web client:
 
+````
+git clone https://github.com/MEPP-team/UDV.git
+git checkout article-temporel-3DTilesTemporal
+./install.sh
+````
+
+* The demo should be accessible at the following URL: http://localhost:8080/examples/ArticleTemporal/Demo.html.
+
+* **Usage**:
+  * You can find the available modules of the demo in the sidebar situated on the
+left side of the web page. Among these modules, the `Temporal Navigation` module
+allows to navigate in time. Clicking on it opens a time slider at the bottom of
+the page which you can use to change the display date.
+
+  * Open the console to see the measured time for switching the display when changing the display date.
