@@ -8,6 +8,10 @@
    one the following journals is eligible to apply for the stamp__.
    
 ## Some articles
+ * [ACM's Artifact review and badging](https://www.acm.org/publications/policies/artifact-review-badging):
+   - defines some terms like **Repeatability**, **Replicability** and **Reproductibility**,
+   - for **artifacts** it distinguishes the Functionnal, Reusable, Available levels;
+   - for **results** it distinguishes Replicated and Reproduced
  * [Towards Software Non-Creator-Instigated Identification (NCI) and Citation](https://danielskatzblog.wordpress.com/2019/03/05/towards-software-non-creator-instigated-identification-nci-and-citation/) by Katz, Bouquin, Hong
  * [CRediT: Contributor Roles Taxonomy](https://casrai.org/credit/)
  * [Software Citation Principles](https://www.force11.org/software-citation-principles) (by Smith, Katz, Niemeyer through FORCE11 Software Citation Working Group, 2016)
