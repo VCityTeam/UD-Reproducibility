@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/bash
 
 # This script detects the changes between CityGML files representing the
 # buildings of the city of Lyon at two different vintages and outputs the

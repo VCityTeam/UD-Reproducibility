@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/bash
 # set -ex
 
 # This script only works when invocated where it stands...
