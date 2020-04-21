@@ -28,9 +28,11 @@
 
 ### Public demos on rict2
 Offered demos:
- - [Rict2 ateway](http://rict2.liris.cnrs.fr/)
+ - [Rict2 gateway](http://rict2.liris.cnrs.fr/)
  - [DemoLimonest](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoLimonest/Demo.html) 
  - [DemoBron](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoBron/Demo.html)
+ - [Temporal-Limonest](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest/UDV-Core/examples/DemoTemporal/Demo.html): requires pointing the camera to Limonest AND activate the temporal GUI gizmo
+ - [Temporal-Bron](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest/UDV-Core/examples/DemoTemporalBron/Demo.html): : requires pointing the camera to Bron AND activate the temporal GUI gizmo
 
 Installation notes:<br>
 Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf that serves the directory
