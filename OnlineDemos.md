@@ -37,7 +37,9 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
 `DocumentRoot /home/citydb_user/UD-Deploy/WebDemos` that in turn has three sub-directories
   * [Datastore](http://rict2.liris.cnrs.fr/Datastore`) that holds tiles
   * [UD-Viz-Temporal-Limonest/](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest/)
-  * [UD-Viz/UD-Viz-Core/](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/) that was patched to offer [DemoLimonest](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoLimonest/Demo.html) and [DemoBron](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoBron/Demo.html)
+  * [http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/) that offers
+      - [DemoLimonest](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoLimonest/Demo.html) corresponding to [this repository entry](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest)
+      - [DemoBron](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoBron/Demo.html) corresponding to [this repositoryu entry](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron)
 
 ### Private demos<a name="private-demos"></a>
   * [Vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
