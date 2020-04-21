@@ -59,3 +59,11 @@ Demos
 ```
 
 `install.sh` generaly endups with a `docker-compose up` and is launched with `nohup install.sh &`
+ 
+**On going discussions**:
+ - make sure [this topic meeting](https://github.com/VCityTeam/VCity/wiki/2019_12_20_VJA_EBO) content was taken into account
+ - General logic: apply DRY over both `UD-Viz/../examples` and UD-Reproductibility/Demos
+ - Three ways respect DRY
+   * the [UD-Viz examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) data/server dependency is hardcoded towards some data server (think of rict2)
+   * UD-Viz has no longer deployed examples. The UD-Viz standard demo acknowledges the fact that a standard demo is in fact the pair (UD-VIZ, UD-Serv) : in order to install such a demo we thus point to UD-reproducibility/Demos/Standard-demos that has the same status (tools, experession) as UD-reproducibility/Demos/Bron
+   * the UD-Viz examples points to a configuration server (installed with UD-reproducibility) that dynamically lists the available data sets (bron, limonest, new-york_. In such a scenario note the dependency of the position of the camera (and possibly some menus like selecting the temporal GUI wdiget) towards the selected data : a demo is not only a data server but also a GUI configuration... 
