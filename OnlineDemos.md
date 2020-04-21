@@ -1,6 +1,6 @@
 ## Technical/admin elements on [public online demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) and [private online demos](#private-demos)
 
-### [Public demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) 
+### [Public demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) on rict
   * [UD-Viz Demos](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/) (front-end)
     * Although the following sub-demos (of this section) distinguish themselves from one another by the usage of specific directories (or sub-servers?), they do share 
        - some GrandLyon data servers
@@ -25,6 +25,9 @@
 
      * This demo is currently in a [PR acceptance process in iTowns](https://github.com/iTowns/itowns/pull/1034) 
      * After a shutdown; this demo re-starts alone as everything is served using Apache which is automatically restarted when the VM is reboot
+
+### Public demos on rict2
+ - [Gateway](http://rict2.liris.cnrs.fr/)
 
 ### Private demos<a name="private-demos"></a>
   * [Vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
