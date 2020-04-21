@@ -39,10 +39,10 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
 `DocumentRoot /home/citydb_user/UD-Deploy/WebDemos` that in turn has three sub-directories
   * [Datastore](http://rict2.liris.cnrs.fr/Datastore`) that holds tiles
   * [UD-Viz-Temporal-Limonest/](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest/)
-  * [http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/) that offers
+  * [http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/) that offers two STATIC (non temporal) demos
       - [DemoLimonest](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoLimonest/Demo.html) corresponding to [this repository entry](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest)
       - [DemoBron](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoBron/Demo.html) corresponding to [this repository entry](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron)
-  * [http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest) that offers
+  * [http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest) that offers two TEMPORAL demos
       - [DemoLimonest](http://rict2.liris.cnrs.fr/UD-Viz-Temporal-Limonest/UDV-Core/examples/DemoTemporal/Demo.html): WARNING the corresponding configuration files (`data/config/generalDemoConfig.json` and  `../src/Utils/BaseDemo/js/BaseDemo.js` within ``UD-Deploy/WebDemos/UD-Viz-Temporal-Limonest/UDV-Core/examples`) were NOT PUSHED on git 
       - [DemoBron](UD-Viz-Temporal-Limonest/UDV-Core/examples/DemoTemporalBron/Demo.html): WARNING the corresponding directory (`UD-Deploy/WebDemos/UD-Viz-Temporal-Limonest/UDV-Core/examples/DemoTemporalBron`) was NOT PUSHED on git 
 
