@@ -60,7 +60,7 @@ Demos
 
 `install.sh` generaly endups with a `docker-compose up` and is launched with `nohup install.sh &`
  
-**On going discussions**:
+## On going
  - **General logic** (to be placed within UD-Doc): 
     * The notion of "Usage Context" (UC) of UD-Viz: using UD-Viz de facto requires
        - a set of modules, 
