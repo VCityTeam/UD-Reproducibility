@@ -80,6 +80,7 @@ Demos
  - **Data related good practice**: place all demo data on a [zenodo](https://zenodo.org/) like site and have the UD-Reproductibility demo pull them (note that Zenod allows for 50G maximum per data repository, and no number of repository limite)
 - Related actions (belongin to an issue)
     * the UD-Viz [FullDemo](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo might be renamed AllModulesDemo
+    * the UD-Viz [DemoStable/](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo should be renamed LyonDocuments (and corresponds to the FabPat project)
     * [DemoWindow](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoWindow) that technically illustrate some `Utils` feature (as opposed to a module) and that should be moved to [UD-Viz/UD-Viz-Core/src/Utils/GUI/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Utils/GUI/) (the examples sub-directory having to be created)
     * All the UD-Viz UCs must be cloned and adapted for their data server side to `UD-Reproductibility/Demos`
     * Update the [main index.html descritpion](https://github.com/VCityTeam/UD-Viz/blob/master/UD-Viz-Core/index.html) and provide an UC oriented description (module, data, scene descritpion) of what each demo is
@@ -89,5 +90,6 @@ Demos
       - [UD-Viz/DemoPC](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoPC): which specific Point Cloud set is this about, 
       - [UD-Viz/DemoStable](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoStable): a subset of modules, together with specific data server e.g. Lyon documents: this demo was called stable to illustrate enhanced data servers) to `UD-Reproductibility/Demos` 
    * make a [`MAM` tag](https://github.com/VCityTeam/UD-Viz/tags) of the current version and remove the [UD-Viz/UD-Viz-Core/examples/MAM](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/MAM) directory that is not up-todate.
+   * Once temporal related code gets moved to the UD-Viz master create the UD-Viz version of the [Temporal-LyonMetropole](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Demos/Temporal-LyonMetropole) UD-Reproductibility UC.
 
 
