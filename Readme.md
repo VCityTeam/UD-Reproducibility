@@ -61,8 +61,7 @@ Demos
 `install.sh` generaly endups with a `docker-compose up` and is launched with `nohup install.sh &`
  
 **On going discussions**:
- - make sure [this topic meeting](https://github.com/VCityTeam/VCity/wiki/2019_12_20_VJA_EBO) content was taken into account
- - **General logic**: 
+ - **General logic** (to be placed within UD-Doc): 
     * The notion of "Usage Context" (UC) of UD-Viz: using UD-Viz de facto requires
        - a set of modules, 
        - a set of data servers,
@@ -78,7 +77,7 @@ Demos
        1. within the UD-Viz repositor and using the canonical data server (think of rict2)
        2. within `UD-Reproductibility/Demos` where it re-deploys the data server set and pactches the scene description to point to the newly installed data servers (as opposed to the canonical ones).
  - **Data related good practice**: place all demo data on a [zenodo](https://zenodo.org/) like site and have the UD-Reproductibility demo pull them (note that Zenod allows for 50G maximum per data repository, and no number of repository limite)
-- Related actions (belongin to an issue)
+- Related actions (belonging to one or several issues to be created)
     * the UD-Viz [FullDemo](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo might be renamed AllModulesDemo
     * the UD-Viz [DemoStable/](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo should be renamed LyonDocuments (and corresponds to the FabPat project)
     * [DemoWindow](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoWindow) that technically illustrate some `Utils` feature (as opposed to a module) and that should be moved to [UD-Viz/UD-Viz-Core/src/Utils/GUI/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Utils/GUI/) (the examples sub-directory having to be created)
