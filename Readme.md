@@ -75,7 +75,10 @@ Demos
           * a UD-Viz client side developer that can also accept such a dependency towards pre-installed remote data servers
           * a module specific UDV-Viz demo
        - the ones requiring a specific installation of some set of data servers<br>
-    * Adopted principle: keep the UC accepting a canonical data server set belong to the UD-Viz repository. The other type of UC belong to `UD-Reproductibility/Demos` directory 
+    * Adopted principle: 
+      * keep the UC accepting a canonical data server set belong to the UD-Viz repository. More precisely: keep the module specific UC with each module e.g. [GuidedTour/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Modules/GuidedTour/examples)
+      * the  UD-Viz demo
+      * The demo-deployment UCs that belong to `UD-Reproductibility/Demos` directory: for example move [UD-Viz/DemoBron](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron), [UD-Viz/DemoLimonest](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest) to `UD-Reproductibility/Demos` 
  - Three ways respect DRY
    * the [UD-Viz examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) data/server dependency is hardcoded towards some data server (think of rict2)
    * UD-Viz has no longer deployed examples. The UD-Viz standard demo acknowledges the fact that a standard demo is in fact the pair (UD-VIZ, UD-Serv) : in order to install such a demo we thus point to UD-reproducibility/Demos/Standard-demos that has the same status (tools, experession) as UD-reproducibility/Demos/Bron
