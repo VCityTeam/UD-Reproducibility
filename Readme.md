@@ -62,8 +62,21 @@ Demos
  
 **On going discussions**:
  - make sure [this topic meeting](https://github.com/VCityTeam/VCity/wiki/2019_12_20_VJA_EBO) content was taken into account
- - General logic: apply DRY over both `UD-Viz/../examples` and UD-Reproductibility/Demos
+ - **General logic**: 
+    * The notion of "Usage Context" (UC) of UD-Viz: using UD-Viz de facto requires
+       - a set of modules, 
+       - a set of data servers,
+       - a scene description (position of the camera, pre-selected objects...)
+    * There are many Usage Contexts (corresponding to demos) e.g. Bron-temporel, Lyon-Villeurbane-Doc_module.
+    * We apply the seperation of concerns between `UD-Viz` as a javascript software library and specific Usage Contexts that must be redeployed in order to offer (possibly online demos).
+    * There are two types of UD-Viz Usage Contexts:
+       - the ones that can default the server side to some canonical data server set: for example
+          * the standard UD-Viz demo (Usage Context) for which the user wishing to install and try out the UD-Viz client side can accept to use some pre-installed (VCityTeam managed) remote data servers
+          * a UD-Viz client side developer that can also accept such a dependency towards pre-installed remote data servers
+          * a module specific UDV-Viz demo
+       - the ones requiring a specific installation of some set of data servers<br>
+    * Adopted principle: keep the UC accepting a canonical data server set belong to the UD-Viz repository. The other type of UC belong to `UD-Reproductibility/Demos` directory 
  - Three ways respect DRY
    * the [UD-Viz examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) data/server dependency is hardcoded towards some data server (think of rict2)
    * UD-Viz has no longer deployed examples. The UD-Viz standard demo acknowledges the fact that a standard demo is in fact the pair (UD-VIZ, UD-Serv) : in order to install such a demo we thus point to UD-reproducibility/Demos/Standard-demos that has the same status (tools, experession) as UD-reproducibility/Demos/Bron
-   * the UD-Viz examples points to a configuration server (installed with UD-reproducibility) that dynamically lists the available data sets (bron, limonest, new-york_. In such a scenario note the dependency of the position of the camera (and possibly some menus like selecting the temporal GUI wdiget) towards the selected data : a demo is not only a data server but also a GUI configuration... 
+   * the UD-Viz examples points to a configuration server (installed with UD-reproducibility) that dynamically lists the available data sets (bron, limonest, new-york_. 
