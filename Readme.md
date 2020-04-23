@@ -77,8 +77,9 @@ Demos
        - the ones requiring a specific installation of some set of data servers<br>
     * Adopted principle: 
       * keep the UC accepting a canonical data server set belong to the UD-Viz repository. More precisely: keep the module specific UC with each module e.g. [GuidedTour/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Modules/GuidedTour/examples)
-      * the  UD-Viz demo
-      * The demo-deployment UCs that belong to `UD-Reproductibility/Demos` directory: for example move [UD-Viz/DemoBron](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron), [UD-Viz/DemoLimonest](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest) to `UD-Reproductibility/Demos` 
+      * the  UD-Viz demos:
+        - [FullDemo](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) that might be renamed AllModulesDemo
+      * The demo-deployment UCs that belong to `UD-Reproductibility/Demos` directory: for example move [UD-Viz/DemoBron](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron), [UD-Viz/DemoLimonest](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest), [UD-Viz/DemoMultiLayer](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoMultiLayer) (just a specific 3dTiles), [UD-Viz/DemoPC](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoPC) (just a specific Point Cloud set), [UD-Viz/DemoStable](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoStable) (a subset of modules, together with specific data server e.g. Lyon documents: this demo was called stable to illustrate enhanced data servers) to `UD-Reproductibility/Demos` 
  - Three ways respect DRY
    * the [UD-Viz examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) data/server dependency is hardcoded towards some data server (think of rict2)
    * UD-Viz has no longer deployed examples. The UD-Viz standard demo acknowledges the fact that a standard demo is in fact the pair (UD-VIZ, UD-Serv) : in order to install such a demo we thus point to UD-reproducibility/Demos/Standard-demos that has the same status (tools, experession) as UD-reproducibility/Demos/Bron
