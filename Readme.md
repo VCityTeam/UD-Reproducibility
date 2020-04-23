@@ -68,15 +68,17 @@ Demos
        - a set of data servers,
        - a scene description (position of the camera, pre-selected objects...)
     * There are many Usage Contexts (corresponding to demos) e.g. Bron-temporel, Lyon-Villeurbane-Doc_module.
-    * We apply the seperation of concerns between `UD-Viz` as a javascript software library and specific Usage Contexts that must be redeployed in order to offer (possibly online demos).
     * There are two types of UD-Viz Usage Contexts:
        - the ones that can default the server side to some canonical data server set (think of rict2): for example
           * the standard UD-Viz demo (Usage Context) for which the user wishing to install and try out the UD-Viz client side can accept to use some pre-installed (VCityTeam managed) remote data servers
           * a UD-Viz client side developer that can also accept such a dependency towards pre-installed remote data servers
           * a module specific UDV-Viz demo
-       - the ones requiring a specific installation of some set of data servers<br>
-    * Adopted principle: 
-      * keep the UC accepting a canonical data server set belong to the UD-Viz repository. More precisely: keep the module specific UC with each module e.g. [GuidedTour/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Modules/GuidedTour/examples)
+       - the ones requiring the installation of some set of data servers (in order to develop the server side or to install rict2 itself)<br>
+    * Adopted principle: a considered UC should have an implementation for each of the above categories. For example the Demo-Bron UC should exist 
+       1. within the UD-Viz repositor and using the canonical data server (think of rict2)
+       2. within `UD-Reproductibility/Demos` where it re-deploys the data server set and pactches the scene description to point to the newly installed data servers (as opposed to the canonical ones).
+
+ More precisely: keep the module specific UC with each module e.g. [GuidedTour/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Modules/GuidedTour/examples)
       * the  UD-Viz demos:
         - [FullDemo](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) that might be renamed AllModulesDemo
         - [DemoWindow](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoWindow) that technically illustrate some `Utils` feature (as opposed to a module) and that should be moved to [UD-Viz/UD-Viz-Core/src/Utils/GUI/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Utils/GUI/) (the examples sub-directory having to be created)
