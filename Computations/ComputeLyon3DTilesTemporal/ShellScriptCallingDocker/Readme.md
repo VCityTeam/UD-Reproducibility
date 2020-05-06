@@ -1,3 +1,7 @@
+## Pre-requisites
+ - bash/sh shellscript interpreters
+ - [install Docker](https://docs.docker.com/install/).
+ - [install Python3](https://www.python.org/)
 
 ## Configuration stp
 Configure the three configuration files `DBConfig[2009|2012|2015].yml`.
