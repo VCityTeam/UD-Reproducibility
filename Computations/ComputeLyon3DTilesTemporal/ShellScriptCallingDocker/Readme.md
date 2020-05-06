@@ -1,6 +1,6 @@
 ## Pre-requisites
  - bash/sh shellscript interpreters
- - [install Docker](https://docs.docker.com/install/).
+ - [install Docker](https://docs.docker.com/install/)
  - [install Python3](https://www.python.org/)
 
 ## Configuration stp
