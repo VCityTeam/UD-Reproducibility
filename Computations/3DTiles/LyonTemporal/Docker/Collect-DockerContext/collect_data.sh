@@ -42,8 +42,7 @@ if [ ${1} == "LYON_7EME_2009.zip" ]
 then
   # Remove the full block describing the building
   # <bldg:Building gml:id="LYON_7EME_00110">
-  echo "Patching file LYON_7EME_BATI_2009.gml"
-  sed -e '3065366,3065392d' -i LYON_7EME_2009/LYON_7EME_BATI_2009.gml
+  patch LYON_7EME_2009/LYON_7EME_BATI_2009.gml /DataPatches/LYON_7EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
 
@@ -52,8 +51,7 @@ then
   # Remove the full blocks describing the buildings
   # <bldg:Building gml:id="LYON_8_00166"> and
   # <bldg:Building gml:id="LYON_8_00177">
-  echo "Patching file LYON_8EME_2009.gml"
-  sed -e '1202763,1202789d' -e '1202791,1202817d' -i LYON_8EME_2009/LYON_8EME_BATI_2009.gml
+  patch LYON_8EME_2009/LYON_8EME_BATI_2009.gml /DataPatches/LYON_8EME_BATI_2009.gml.patch
   echo "Patching done."
 fi
 
@@ -61,8 +59,7 @@ if [ ${1} == "LYON_7EME_2012.zip" ]
 then
   # remove the full block describing the building
   # <bldg:Building gml:id="LYON_7EME_00215">
-  echo "Patching file LYON_7EME_2012.gml"
-  sed -e '2752390,2752416d' -i LYON_7EME_2012/LYON_7EME_BATI_2012.gml
+  patch LYON_7EME_2012/LYON_7EME_BATI_2012.gml /DataPatches/LYON_7EME_BATI_2012.gml.patch
   echo "Patching done."
 fi
 
@@ -71,8 +68,7 @@ then
   # Replace occurences of -1.#IND00 in line 1099147
   # (they do not represent a valide double) with a
   # valid double e.g. -1.00
-  echo "Patching file LYON_8EME_2012.gml"
-  sed -e '1099147s/#IND00/00/g' -i LYON_8EME_2012/LYON_8EME_BATI_2012.gml
+  patch LYON_8EME_2012/LYON_8EME_BATI_2012.gml /DataPatches/LYON_8EME_BATI_2012.gml.patch
   echo "Patching done."
 fi
 

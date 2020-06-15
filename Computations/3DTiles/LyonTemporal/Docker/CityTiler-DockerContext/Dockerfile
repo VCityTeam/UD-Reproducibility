@@ -19,9 +19,10 @@ RUN set -ex \
 #    && pip install pytest pytest-benchmark \
 #    && pytest
 
-# Copy the configuration files that are encountered the context
-COPY ./CityTilerDBConfig*.yml py3dtiles.git/Tilers/CityTiler/
-
 WORKDIR py3dtiles.git/
 
-ENTRYPOINT ["python", "Tilers/CityTiler/CityTemporalTiler.py"] 
+# Copy the configuration files that are encountered the context
+COPY ./CityTilerDBConfig*.yml Tilers/CityTiler/
+COPY ./entrypoint.py ./
+
+ENTRYPOINT ["./entrypoint.py"] 
