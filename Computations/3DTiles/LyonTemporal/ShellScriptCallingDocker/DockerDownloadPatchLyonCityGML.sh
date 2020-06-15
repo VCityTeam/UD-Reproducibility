@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/sh
 
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit

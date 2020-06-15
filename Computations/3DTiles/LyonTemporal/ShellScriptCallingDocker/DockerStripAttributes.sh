@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/sh
 
 # This script only works when invocated where it stands...
 cd "$(dirname "$0")" || exit
@@ -24,6 +24,7 @@ popd
 mkdir $3
 
 run_docker() {
+  echo "Stripping Appearance attributes from file $1"
   docker run \
     --mount src=`pwd`,target=/Input,type=bind \
     --mount src=`pwd`,target=/Output,type=bind \

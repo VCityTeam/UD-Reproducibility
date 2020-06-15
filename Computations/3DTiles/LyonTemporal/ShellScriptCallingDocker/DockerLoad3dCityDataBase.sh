@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/sh
 # set -ex
 
 # This script only works when invocated where it stands...
@@ -28,22 +28,26 @@ realpath() {
 # Instructions on using the 3DCitydb-Importer_Exporter within docker are given by
 # https://github.com/tum-gis/3dcitydb-importer-exporter-docker
 # as pointed by https://github.com/3dcitydb/importer-exporter/issues/99
-git clone https://github.com/tum-gis/3dcitydb-importer-exporter-docker
-impexp_version='4.2.2'
-docker build -t tumgis/3dcitydb-impexp:${impexp_version} 3dcitydb-importer-exporter-docker/
+if [ -d 3dcitydb-importer-exporter-docker ]; then
+  echo "3dcitydb-importer-exporter-docker already cloned (not pulled again)."
+else
+  git clone https://github.com/tum-gis/3dcitydb-importer-exporter-docker
+fi
+export impexp_version='4.2.2'
+docker build -t tumgis/3dcitydb-impexp:${impexp_version} \
+                3dcitydb-importer-exporter-docker/
 
 run_docker() {
   InputConfigAbsFilename=$(realpath ${1})
   InputConfigAbsDir=$(dirname ${InputConfigAbsFilename})
   InputConfigFilename=$(basename ${InputConfigAbsFilename})
   InputFilesAbsDir=$(realpath ${2})
-  docker run --name 3dcitydb-impexp \
+  docker run --rm --name 3dcitydb-impexp \
     --mount src=${InputConfigAbsDir},target=/InputConfig,type=bind \
     --mount src=${InputFilesAbsDir},target=/InputFiles,type=bind \
     tumgis/3dcitydb-impexp:4.2.2 \
     -config /InputConfig/${InputConfigFilename} \
     -import /InputFiles/*.gml
-  docker rm 3dcitydb-impexp
 }
 
 run_docker ${2} ${3}
