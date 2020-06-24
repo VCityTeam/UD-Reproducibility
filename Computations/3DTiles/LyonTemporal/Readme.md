@@ -26,3 +26,7 @@ Note that the most complete one and the only one that is still maintained (i.e.
 Note: the [Docker](Docker/Readme.md) directory holds the docker contexts
 required to build the containers which usage is shared by
 ShellScriptCallingDocker, Cwl as well as the Airflow versions.
+
+Other pipelining tools in Python:
+ - [Luigi](https://luigi.readthedocs.io/en/latest/)
+ - [d6tflow](https://github.com/d6t/d6tflow)
