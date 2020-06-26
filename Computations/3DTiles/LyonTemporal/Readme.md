@@ -29,7 +29,9 @@ ShellScriptCallingDocker, Cwl as well as the Airflow versions.
 
 Other pipelining tools in Python:
  - [Prefect Core](https://www.prefect.io/products/core/)
-    * Pros: allows to expose worflow parameters in the interface
+    * Pros: 
+       - [Docker aware](https://docs.prefect.io/api/latest/tasks/docker.html) 
+       - allows to expose worflow parameters in the working interface
     * Cons: they are some usage restrictions (license limitations) not trivial to understand
  - [AirFow](https://airflow.apache.org/)
     * Cons: 
@@ -40,7 +42,7 @@ Other pipelining tools in Python:
  - Metaflow: 
     * Cons: 
       - data science oriented (as opposed to say [BI](https://en.wikipedia.org/wiki/Business_intelligence))
-      - [AWS](https://en.wikipedia.org/wiki/Amazon_Web_Services) oriented/biases
+      - [AWS](https://en.wikipedia.org/wiki/Amazon_Web_Services) influence
  - [Ray](https://docs.ray.io/en/master/):
     * Cons: data science oriented (as opposed to say [BI](https://en.wikipedia.org/wiki/Business_intelligence))
  - [d6tflow](https://github.com/d6t/d6tflow)
