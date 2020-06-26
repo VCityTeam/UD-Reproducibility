@@ -28,5 +28,6 @@ required to build the containers which usage is shared by
 ShellScriptCallingDocker, Cwl as well as the Airflow versions.
 
 Other pipelining tools in Python:
+ - [Prefect Core](https://www.prefect.io/products/core/)
  - [Luigi](https://luigi.readthedocs.io/en/latest/)
  - [d6tflow](https://github.com/d6t/d6tflow)
