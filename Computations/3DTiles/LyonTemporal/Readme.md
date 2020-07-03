@@ -39,6 +39,8 @@ Other pipelining tools in Python:
       - user interface is heavy weight
       - the integrated logs do not satisfy all the needs (and cannot substituted with external alternative)
  - [Luigi](https://luigi.readthedocs.io/en/latest/)
+    * Pros:
+      - [Docker aware](https://luigi.readthedocs.io/en/latest/api/luigi.contrib.docker_runner.html?highlight=docker)
  - [Metaflow](https://metaflow.org/) 
     * Cons: 
       - data science oriented (as opposed to say [BI](https://en.wikipedia.org/wiki/Business_intelligence))
