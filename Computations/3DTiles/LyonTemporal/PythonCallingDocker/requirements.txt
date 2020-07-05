@@ -1,0 +1,4 @@
+j2cli[yaml]
+docker
+wget
+patch
