@@ -54,13 +54,13 @@ class DownloadPatch:
 
 class CityGMLFileFromArchive(dict):
 
-    _keys = "url name patch_filename new_name vintage".split()
+    _keys = "url name patch_filename old_name vintage".split()
     # url: the url where to retrieve the archive from
     # name: the name of the cityGML file this class retrieves and
     #       sanitizes
-    # new_name: the target name that the cityGML should optionally be renamed
-    #           to
-    # patch_filename: the patch that should optionnaly be applied
+    # old_name: the name of the cityGML as it got extracted from the archive
+    #           (and miss-named).
+    # patch_filename: the patch that should optionnally be applied
     # vintage: the year (as integer) at which the file corresponds to
 
     # Technical reference: 'https://treyhunner.com/2019/04/'\
@@ -82,6 +82,19 @@ class CityGMLFileFromArchive(dict):
         if not os.path.isdir(self.directory):
             os.makedirs(self.directory)
 
+    def get_directory(self):
+        return self.directory
+
+    def set_filename(self, name):
+        self['name'] = name
+
+    def get_filename(self):
+        return self['name']
+
+    def get_full_filename(self):
+        """Fully qualified pathname for the file"""
+        return os.path.join(self.directory, self['name'])
+
     def assert_directory_is_set(self):
         if not self.directory:
             logging.info('CityGMLFileFromArchive: unset directory. Exiting.')
@@ -91,7 +104,7 @@ class CityGMLFileFromArchive(dict):
         if 'name' not in self:
             logging.info('CityGMLFileFromArchive: unset name. Exiting.')
             sys.exit(1)
-        full_filename = os.path.join(self.directory, self['name'])
+        full_filename = self.get_full_filename()
         if not os.path.isfile(full_filename):
             logging.info(f'Archive {full_filename} not found. Exiting.')
             sys.exit(1)
@@ -109,18 +122,16 @@ class CityGMLFileFromArchive(dict):
 
     def rename_when_needed(self):
         self.assert_directory_is_set()
-        if 'new_name' not in self:
+        if 'old_name' not in self:
             return
         if 'name' not in self:
             logging.info('CityGMLFileFromArchive: unset name. Exiting.')
             sys.exit(1)
-        old = os.path.join(self.directory, self['name'])
+        old = os.path.join(self.directory, self['old_name'])
         if not os.path.isfile(old):
             logging.info(f'File to rename {old} not found. Exiting')
             sys.exit(1)
-        new = os.path.join(self.directory, self['new_name'])
-        os.rename(old, new)
-        self['name'] = self['new_name']
+        os.rename(old, self.get_full_filename())
         self.assert_file_exists()
 
     def patch_when_needed(self):
@@ -144,8 +155,7 @@ class CityGMLFileFromArchive(dict):
             except:
                 success = False
             if not success:
-                logging.info(f'Patch failed for {source_patch} with'
-                             f'{number_errors}. Exiting')
+                logging.info(f'Patch failed for {source_patch}. Exiting')
                 sys.exit(1)
 
 
@@ -178,6 +188,8 @@ class DowloadAndSanitize:
 
     def archives_to_sanitize(self):
         # Sanitizing files is the exception
+        if 'LYON_4EME_2009' in self.archives:
+            self.archives['LYON_4EME_2009']['old_name'] = 'LYON_4_BATI_2009.gml'
         if 'LYON_7EME_2009' in self.archives:
             self.archives['LYON_7EME_2009']['patch_filename'] = \
               os.path.join(DowloadAndSanitize.patches_directory,
@@ -192,19 +204,25 @@ class DowloadAndSanitize:
             # Specify the target directory
             archive.set_directory(self.target_directory)
             archive.download_and_expand('BATI')
-            # It just happens that for the Grand Lyon zip files are expanded they
-            # end up in a sub-directory having for name the key_name (but this
-            # schema could be different for other data repositories that build
-            # archives with another naming logic)
+            # It just happens that for the Grand Lyon zip files are expanded
+            # they end up in a sub-directory having for name the key_name (but
+            # this schema could be different for other data repositories that
+            # build archives with another naming logic)
+            # Note: this "knowledge" could be hidden away within the archive
+            # object belonging class (because we could retrieve this
+            # information out of the zip file). Nevertheless this renaming
+            # is (awkwardly) placed in here in order to promote it to a higher
+            # level in the class nesting on clarity purposes.
             archive.set_directory(os.path.join(archive.directory, key_name))
+            archive.set_filename(os.path.basename(archive.get_filename()))
             archive.rename_when_needed()
             archive.patch_when_needed()
 
     def get_resulting_filenanes(self):
         result = list()
-        for archive in self.archives:
-            file_name = os.path.join(archive.directory, archive.name)
-            result.append(file_name)
+        for dummy, archive in self.archives.items():
+            archive.assert_file_exists()    # Just making sure
+            result.append(archive.get_full_filename())
         return result
 
 
@@ -226,9 +244,12 @@ if __name__ == '__main__':
                      'LYON_9EME',
                      'BRON',
                      'VILLEURBANNE']
-    # lyon_boroughs = ['LYON_1ER']
-    lyon_boroughs = ['LYON_7EME']
-    d = DowloadAndSanitize([2009, 2012], lyon_boroughs)
+    # lyon_boroughs = ['LYON_1ER']     # straight no chaser
+    # lyon_boroughs = ['LYON_7EME']      # There's a patch in 2009
+    # lyon_boroughs = ['LYON_4EME']      # There's a rename in 2009
+
+    lyon_boroughs = ['LYON_1ER', 'LYON_7EME']
+    d = DowloadAndSanitize([2009], lyon_boroughs)
     d.set_output_directory('junk')
     d.run()
     print("aaaaaaaaaaaaa", d.get_resulting_filenanes())
