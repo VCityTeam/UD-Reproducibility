@@ -4,52 +4,9 @@ import sys
 import zipfile
 import patch
 import shutil
-import docker
 import logging
 import wget
 from pushd import pushd
-
-
-class DownloadPatch:
-    docker_image_context_dir = os.path.join(os.getcwd(),
-                                            '..',
-                                            'Docker',
-                                            'Collect-DockerContext')
-    tag_name = 'liris:collect_lyon_data'
-
-    def __init__(self, files):
-        self.files = files
-        # Assert a docker server is active
-        self.client = docker.from_env()
-        try:
-            self.client.ping()
-        except (requests.exceptions.ConnectionError, docker.errors.APIError):
-            logging.error('Unable to connect to a docker server:')
-            logging.error('   is a docker server running this host ?')
-            sys.exit(1)
-
-        # Assert that the context directory exists
-        if not os.path.exists(type(self).docker_image_context_dir):
-            logging.error(f'Unfound context directory: {docker_image_context_dir} ')
-            sys.exit(1)
-        self.build()
-
-    def build(self):
-        try:
-            result = self.client.images.build(
-                path=type(self).docker_image_context_dir,
-                tag=type(self).tag_name)
-            logging.info(f'Docker building image: {type(self).tag_name}')
-            for line in result:
-                logging.info(f'    {line}')
-            logging.info(f'Docker building image done.')
-        except docker.errors.APIError as err:
-            logging.error('Unable to build the docker image: with error')
-            logging.error(f'   {err}')
-            sys.exit(1)
-        except TypeError:
-            logging.error('Building the docker image requires path or fileobj.')
-            sys.exit(1)
 
 
 class CityGMLFileFromArchive(dict):
@@ -70,6 +27,9 @@ class CityGMLFileFromArchive(dict):
         super().__init__(*args, **kwargs)
         # The directory where the cityGML file ends up located
         self.directory = None
+        # Weather of not we should remove un-required/temporary files
+        # (like the original archive) in the sake of disk space.a
+        self.tidy_up = False
 
     def __setitem__(self, key, val):
         if key not in CityGMLFileFromArchive._keys:
@@ -84,6 +44,9 @@ class CityGMLFileFromArchive(dict):
 
     def get_directory(self):
         return self.directory
+
+    def set_tidy_up(self):
+        self.tidy_up = True
 
     def set_filename(self, name):
         self['name'] = name
@@ -118,7 +81,10 @@ class CityGMLFileFromArchive(dict):
                 for file in zip_ref.namelist():
                     if re.search(pattern, file):
                         zip_ref.extract(file)
-        self.assert_file_exists()
+            if self.tidy_up:
+                os.remove(downloaded)
+        # Note: we cannot yet assert_file_exists() because some renaming
+        # might be required.
 
     def rename_when_needed(self):
         self.assert_directory_is_set()
@@ -159,16 +125,28 @@ class CityGMLFileFromArchive(dict):
                 sys.exit(1)
 
 
-class DowloadAndSanitize:
-
+class LyonMetropoleDowloadAndSanitize:
+    """
+    Download some archives holding cityGML files
+    """
     # FIXME: The following hard-wiring is a weakness
     patches_directory = '../Docker/Collect-DockerContext/DataPatches'
 
-    def __init__(self, vintages, boroughs):
-        self.vintages = vintages
-        self.boroughs = boroughs
+    def __init__(self, vintages, boroughs, pattern):
         self.archives = dict()
         self.target_directory = os.getcwd()
+        self.vintages = vintages
+        self.boroughs = boroughs
+
+        # Although the archive is spelled out the BATI string (which
+        # stands for "constructed" in french) is holds a BATI cityGML
+        # where BATI is here understood as building
+        if pattern == 'BATI' or pattern == 'TIN' or \
+           pattern == 'WATER' or pattern == 'PONT':
+            self.pattern = pattern
+        else:
+            logging.info(f'Unknown pattern {pattern}. Exiting')
+            sys.exit(1)
 
     def set_output_directory(self, target_directory):
         self.target_directory = target_directory
@@ -180,6 +158,8 @@ class DowloadAndSanitize:
                              'grandlyon/localisation/bati3d/'
                 url = repository + borough + '_' + str(year) + '.zip'
                 key_name = borough + '_' + str(year)
+                # "BATI" refers here to the name of the archive as opposed
+                # to building (refer to self.pattern variable documentation)
                 filename = os.path.join(key_name,
                                         borough + '_BATI_' + str(year) + '.gml')
                 self.archives[key_name] = CityGMLFileFromArchive(url=url,
@@ -187,13 +167,29 @@ class DowloadAndSanitize:
                                                                  year=year)
 
     def archives_to_sanitize(self):
-        # Sanitizing files is the exception
+        """Sanitizing files is the exception"""
+        # Vintage 2009
         if 'LYON_4EME_2009' in self.archives:
             self.archives['LYON_4EME_2009']['old_name'] = 'LYON_4_BATI_2009.gml'
+        if 'LYON_5EME_2009' in self.archives:
+            self.archives['LYON_5EME_2009']['old_name'] = 'LYON_5_BATI_2009.gml'
         if 'LYON_7EME_2009' in self.archives:
             self.archives['LYON_7EME_2009']['patch_filename'] = \
-              os.path.join(DowloadAndSanitize.patches_directory,
+              os.path.join(LyonMetropoleDowloadAndSanitize.patches_directory,
                            'LYON_7EME_BATI_2009.gml.patch')
+        if 'LYON_8EME_2009' in self.archives:
+            self.archives['LYON_8EME_2009']['patch_filename'] = \
+              os.path.join(LyonMetropoleDowloadAndSanitize.patches_directory,
+                           'LYON_8EME_BATI_2009.gml.patch')
+        # Vintage 2012
+        if 'LYON_7EME_2012' in self.archives:
+            self.archives['LYON_7EME_2012']['patch_filename'] = \
+              os.path.join(LyonMetropoleDowloadAndSanitize.patches_directory,
+                           'LYON_7EME_BATI_2012.gml.patch')
+        if 'LYON_8EME_2012' in self.archives:
+            self.archives['LYON_8EME_2012']['patch_filename'] = \
+              os.path.join(LyonMetropoleDowloadAndSanitize.patches_directory,
+                           'LYON_8EME_BATI_2012.gml.patch')
 
     def run(self):
         self.define_archives()
@@ -203,7 +199,8 @@ class DowloadAndSanitize:
         for key_name, archive in self.archives.items():
             # Specify the target directory
             archive.set_directory(self.target_directory)
-            archive.download_and_expand('BATI')
+            archive.set_tidy_up()     # Comment out for debugging
+            archive.download_and_expand(self.pattern)
             # It just happens that for the Grand Lyon zip files are expanded
             # they end up in a sub-directory having for name the key_name (but
             # this schema could be different for other data repositories that
@@ -217,6 +214,7 @@ class DowloadAndSanitize:
             archive.set_filename(os.path.basename(archive.get_filename()))
             archive.rename_when_needed()
             archive.patch_when_needed()
+            archive.assert_file_exists()
 
     def get_resulting_filenanes(self):
         result = list()
@@ -244,12 +242,10 @@ if __name__ == '__main__':
                      'LYON_9EME',
                      'BRON',
                      'VILLEURBANNE']
-    # lyon_boroughs = ['LYON_1ER']     # straight no chaser
-    # lyon_boroughs = ['LYON_7EME']      # There's a patch in 2009
-    # lyon_boroughs = ['LYON_4EME']      # There's a rename in 2009
 
-    lyon_boroughs = ['LYON_1ER', 'LYON_7EME']
-    d = DowloadAndSanitize([2009], lyon_boroughs)
+    d = LyonMetropoleDowloadAndSanitize([2009, 2012], lyon_boroughs, 'BATI')
     d.set_output_directory('junk')
     d.run()
-    print("aaaaaaaaaaaaa", d.get_resulting_filenanes())
+    print("Resulting files: ")
+    for f in d.get_resulting_filenanes():
+        print(f)
