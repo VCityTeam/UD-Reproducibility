@@ -243,7 +243,7 @@ if __name__ == '__main__':
                      'BRON',
                      'VILLEURBANNE']
 
-    d = LyonMetropoleDowloadAndSanitize([2009, 2012], lyon_boroughs, 'BATI')
+    d = LyonMetropoleDowloadAndSanitize([2009], lyon_boroughs, 'BATI')
     d.set_output_directory('junk')
     d.run()
     print("Resulting files: ")

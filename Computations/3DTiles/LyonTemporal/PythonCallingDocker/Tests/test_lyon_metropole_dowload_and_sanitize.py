@@ -60,3 +60,23 @@ class TestLyonMetropoleDowloadAndSanitize(unittest.TestCase):
             self.fail()
         if not md5(files[0]) == 'a9050aed7b48935068b608c481cb84f5':
             self.fail()
+
+    def test_lyon_1er_2009_2012_2015(self):
+        """
+        This case illustrates the extraction of three vintages
+        """
+        self.shared()
+        loader = LyonMetropoleDowloadAndSanitize([2009, 2012, 2015],
+                                                 ['LYON_1ER'],
+                                                 'BATI')
+        loader.set_output_directory('pytest_outputs')
+        loader.run()
+        files = loader.get_resulting_filenanes()
+        if not len(files) == 3:
+            self.fail()
+        if not md5(files[0]) == 'ce21b88136f30ffe888c3e859b92306c':
+            self.fail()
+        if not md5(files[1]) == '29dea1b063600fa947289efa98eac36a':
+            self.fail()
+        if not md5(files[1]) == 'cee6bfc7b1709fb433b96fe1254c0716':
+            self.fail()
