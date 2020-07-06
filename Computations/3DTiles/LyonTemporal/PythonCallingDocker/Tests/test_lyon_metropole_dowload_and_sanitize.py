@@ -63,7 +63,8 @@ class TestLyonMetropoleDowloadAndSanitize(unittest.TestCase):
 
     def test_lyon_1er_2009_2012_2015(self):
         """
-        This case illustrates the extraction of three vintages
+        This case illustrates the extraction of three vintages.
+        We chose Lyon 1ER (borough) because this is the smallest in disk size.
         """
         self.shared()
         loader = LyonMetropoleDowloadAndSanitize([2009, 2012, 2015],
