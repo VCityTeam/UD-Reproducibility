@@ -78,5 +78,5 @@ class TestLyonMetropoleDowloadAndSanitize(unittest.TestCase):
             self.fail()
         if not md5(files[1]) == '29dea1b063600fa947289efa98eac36a':
             self.fail()
-        if not md5(files[1]) == 'cee6bfc7b1709fb433b96fe1254c0716':
+        if not md5(files[2]) == 'cee6bfc7b1709fb433b96fe1254c0716':
             self.fail()
