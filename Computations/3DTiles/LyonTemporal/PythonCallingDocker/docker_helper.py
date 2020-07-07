@@ -11,8 +11,8 @@ class DockerHelper(ABC):
         self.context_dir = context_dir
         self.tag_name = tag_name
         self.client = None     # The name for the docker client (read server)
-        self.mounted_input_dir = None
-        self.mounted_output_dir = None
+        self.mounted_input_dir = os.getcwd()
+        self.mounted_output_dir = os.getcwd()
         # Some containers (like 3DUse) provide multiple commands each of
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
@@ -65,6 +65,9 @@ class DockerHelper(ABC):
             sys.exit(1)
         self.mounted_input_dir = directory
 
+    def get_mounted_input_directory(self):
+        return self.mounted_input_dir
+
     def set_mounted_output_directory(self, directory):
         if not os.path.isdir(directory):
             logging.info(f'Output dir to mount {directory} not found. Exiting')
@@ -86,15 +89,24 @@ class DockerHelper(ABC):
             # to place its output in the /Input mounted point (because in this
             # /Output is (equal to) /Input.
             volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
-        self.client.containers.run(
+
+        container = self.client.containers.run(
             self.tag_name,
-            # command=["/bin/sh", "-c", "ls > ls_results"],
-            command=["/bin/sh", "-c", self.get_command()],
-            #volumes={self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'},
-            #         self.mounted_output_dir: {'bind': '/Output', 'mode': 'rw'}
-            #         },
+            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
+            command=self.get_command(),
             volumes=volumes,
             working_dir=self.working_dir,
             stdin_open=True,
             stderr=True,
+            detach=True,
             tty=True)
+        container.wait()
+
+        out = container.logs(stdout=True, stderr=False)
+        if out:
+            logging.info('Docker run standard output follows:')
+            logging.info(f'docker-stdout> {out}')
+        err = container.logs(stdout=False, stderr=True)
+        if err:
+            logging.info('Docker run standard error follows:')
+            logging.info(f'docker-stderr> {err}')

@@ -34,3 +34,11 @@ If you whish to measure the execution time and log the execution traces you migh
 time ./DockerComputeLyonCityEvolution.sh some_output_dir > run.log 2>&1 &
 tail -f run.log
 ```
+
+## Developers notes
+ * Debugging of a container
+   ```
+   docker run -v `pwd`/junk/LYON_1ER_2009/:/Input -v `pwd`/junk_split/:/Output -it liris:3DUse /bin/bash
+   root@ splitCityGMLBuildings --input-file /Input/LYON_1ER_BATI_2009.gml --output-file LYON_1ER_BATI_2009_splited.gml --output-dir /Output/
+   ```
+

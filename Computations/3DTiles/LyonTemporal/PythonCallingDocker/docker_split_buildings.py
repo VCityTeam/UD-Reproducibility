@@ -26,7 +26,6 @@ class DockerSplitBuilding(Docker3DUse):
 
     def assert_ready_for_run(self):
         if not self.input_filename:
-
             logging.info('Missing input_filename for running. Exiting')
             sys.exit(1)
         if not self.output_filename:
@@ -57,13 +56,15 @@ class DockerSplitBuilding(Docker3DUse):
         # In order to set the output the syntax of splitCityGMLBuildings
         # separates the directory from the file specifications:
         command += '--output-file ' + self.output_filename + ' '
-        if not self.mounted_input_dir == self.mounted_output_dir:
-            command += '--output-dir /Output/'
-        else:
+
+        if self.mounted_input_dir == self.mounted_output_dir:
+            # Because mounting twice the same directory will be avoided
+            # in the DockerHelp.run() method.
             command += '--output-dir /Input/'
+        else:
+            command += '--output-dir /Output/'
         if self.command_output_directory:
             command += self.command_output_directory + ' '
-        command += ' > DockerCommandOutput.log 2>&1'
         return command
 
 
@@ -72,18 +73,30 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='docker_helper.log',
+                        filename='docker_split_buildings.log',
                         filemode='w')
 
     d = DockerSplitBuilding()
     d.set_mounted_input_directory(os.path.join(os.getcwd(),
                                                'junk/LYON_1ER_2009'))
+
+    # Setting up, the output directory:
+    #  1. side by side with input file: use
+    #     d.set_mounted_output_directory(d.get_mounted_input_directory())
+    #  2. in some arbitrary designated place: use e.g.
+    #     output_dir = os.path.join(os.getcwd(),'junk_split')
+    #     if not os.path.exists(output_dir):
+    #         os.makedirs(output_dir)
+    #     d.set_mounted_output_directory(output_dir)
+    #  3. in the invocation directory: just leave the output directory unset
+    #
+    # Optionally one can define the output directory to be a sub-directory
+    # of the mounted output directory with
+    # d.set_command_output_directory('LYON_1ER')
+    #
+    # For this __main__, we leave it unset and thus expect the split file
+    # in the invocation dir.
     d.set_input_filename('LYON_1ER_BATI_2009.gml')
-    output_dir = os.path.join(os.getcwd(),'junk_split')
-    # output_dir = os.path.join(os.getcwd(), 'junk/LYON_1ER_2009')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    d.set_mounted_output_directory(output_dir)
     d.set_output_filename('LYON_1ER_BATI_2009_splited.gml')
-    # Not strictly required d.set_command_output_directory('LYON_1ER')
+
     d.run()
