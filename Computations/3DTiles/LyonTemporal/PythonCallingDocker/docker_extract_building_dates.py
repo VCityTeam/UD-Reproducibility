@@ -81,8 +81,7 @@ class DockerExtractBuildingDates(Docker3DUse):
         return command
 
 
-def single_extract(input_dir,
-                   first_date,
+def single_extract(first_date,
                    first_input_filename,
                    second_date,
                    second_input_filename,
@@ -90,24 +89,28 @@ def single_extract(input_dir,
     d = DockerExtractBuildingDates()
     # Docker only accepts absolute path names as argument for its volumes
     # to be mounted:
-    absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+    absolute_path_input_dir = os.path.join(os.getcwd())
     d.set_mounted_input_directory(absolute_path_input_dir)
     absolute_path_output_dir = os.path.join(os.getcwd(), output_dir)
+    if not os.path.isdir(absolute_path_output_dir):
+        os.mkdir(absolute_path_output_dir)
     d.set_mounted_output_directory(absolute_path_output_dir)
 
     d.set_first_date(first_date)
     d.set_first_input_filename(first_input_filename)
     d.set_second_date(second_date)
     d.set_second_input_filename(second_input_filename)
+    d.set_command_output_directory(output_dir)
 
     d.run()
+
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='docker_split_buildings.log',
+                        filename='docker_extract_building_dates.log',
                         filemode='w')
 
     # Note: there is probably something simpler to be done with
@@ -117,28 +120,26 @@ if __name__ == '__main__':
     for borough in demo.boroughs:
         for vintage_index in range(len(demo.vintages)-1):
             first_date = str(demo.vintages[vintage_index])
-
-
-            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-
-            first_file = os.path.join(demo.output_dir,
-                                      borough + '_' + first_date,
-                                      borough + '_BATI_' + first_date + '.gml')
+            first_file = os.path.join(
+                demo.output_dir,
+                borough + '_' + first_date,
+                borough + '_BATI_' + first_date + '.gml')
             second_date = str(demo.vintages[vintage_index+1])
+            second_file = os.path.join(
+                demo.output_dir,
+                borough + '_' + second_date,
+                borough + '_BATI_' + second_date + '.gml')
             inputs.append(
-                [v_first,
-                 os.path.join(demo.output_dir, borough + '_' + str(vintage)),
+                [first_date,
+                 first_file,
+                 second_date,
+                 second_file,
+                 borough + '_' + first_date + '-' + second_date])
 
-
-                 borough + '_BATI_' + str(vintage) + '.gml',
-                 borough + '_BATI_' + str(vintage) + '_splited.gml'])
-
-    for f in files[0:0]:
+    for f in inputs:
         print("Now handling", f)
-        split(first_date=f[0],
-              first_input_filename=f[1],
-              second_date=f[2],
-              second_input_filename=f[3],
-              )
-
+        single_extract(first_date=f[0],
+                       first_input_filename=f[1],
+                       second_date=f[2],
+                       second_input_filename=f[3],
+                       output_dir=f[4])
