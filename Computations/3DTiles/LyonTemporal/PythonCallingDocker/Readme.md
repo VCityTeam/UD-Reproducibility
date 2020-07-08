@@ -17,7 +17,7 @@ $ . venv/bin/activate
 ```
 If you wan to run unit tests:
 ```
-(venv)$ pip install pytest pytest-benchmark
+(venv)$ pip install pytest pytest-benchmark pytest-dependency
 (venv)$ pytest
 ```
 
