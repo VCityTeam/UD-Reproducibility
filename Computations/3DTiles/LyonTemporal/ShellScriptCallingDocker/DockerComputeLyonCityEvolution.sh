@@ -18,8 +18,6 @@ if [ $# != 1 ]
 fi
 
 ########## Create output directory
-cd ../Shared
-# Directory standing within ../Shared
 temp_dir=temp_output/${1}
 mkdir -p ${temp_dir}
 
@@ -126,6 +124,3 @@ echo "--- Halting the database server."
 ./HaltDataBaseServer2015.sh
 echo "--- Done"
 echo ""
-
-###### Eventually we move back the result to the directory holding this script
-mv ${temp_dir} ../Temporal/
