@@ -7,6 +7,7 @@ import shutil
 import logging
 import wget
 from pushd import pushd
+import demo_configuration as demo
 
 
 class CityGMLFileFromArchive(dict):
@@ -69,7 +70,7 @@ class CityGMLFileFromArchive(dict):
             sys.exit(1)
         full_filename = self.get_full_filename()
         if not os.path.isfile(full_filename):
-            logging.info(f'Archive {full_filename} not found. Exiting.')
+            logging.info(f'Extracted file {full_filename} not found. Exiting.')
             sys.exit(1)
 
     def download_and_expand(self, pattern):
@@ -191,6 +192,10 @@ class LyonMetropoleDowloadAndSanitize:
               os.path.join(LyonMetropoleDowloadAndSanitize.patches_directory,
                            'LYON_8EME_BATI_2012.gml.patch')
 
+        # Vintage 2015
+        if 'LYON_7EME_2015' in self.archives:
+            self.archives['LYON_7EME_2015']['old_name'] = 'LYON_7_BATI_2015.gml'
+
     def run(self):
         self.define_archives()
         self.archives_to_sanitize()
@@ -229,22 +234,11 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='DownloadPatchLyonCityGML.log',
+                        filename='lyon_metropole_dowload_and_sanitize.log',
                         filemode='w')
-    lyon_boroughs = ['LYON_1ER',
-                     'LYON_2EME',
-                     'LYON_3EME',
-                     'LYON_4EME',
-                     'LYON_5EME',
-                     'LYON_6EME',
-                     'LYON_7EME',
-                     'LYON_8EME',
-                     'LYON_9EME',
-                     'BRON',
-                     'VILLEURBANNE']
 
-    d = LyonMetropoleDowloadAndSanitize([2009], lyon_boroughs, 'BATI')
-    d.set_output_directory('junk')
+    d = LyonMetropoleDowloadAndSanitize(demo.vintages, demo.boroughs, 'BATI')
+    d.set_output_directory(demo.output_dir)
     d.run()
     print("Resulting files: ")
     for f in d.get_resulting_filenanes():

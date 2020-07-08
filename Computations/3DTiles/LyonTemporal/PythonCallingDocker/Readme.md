@@ -24,16 +24,15 @@ If you wan to run unit tests:
 FIXME: the rest is under construction
 
 ## Running the worflow
-```
-(venv)$ python FIXME ./DockerComputeLyonCityEvolution.sh <some_output_dir>
-```
-The resulting tile-set will be located in the `some_output_dir/Result` sub-directory.
 
-If you whish to measure the execution time and log the execution traces you might use
+### Manual step by step run
+
 ```
-time ./DockerComputeLyonCityEvolution.sh some_output_dir > run.log 2>&1 &
-tail -f run.log
+(venv)$ python lyon_metropole_dowload_and_sanitize.py
+(venv)$ python docker_split_buildings.py
 ```
+The resulting file hierarchy will be located in the `junk` sub-directory.
+
 
 ## Developers notes
  * Debugging of a container
