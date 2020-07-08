@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 from docker_helper import DockerHelper
+import demo_configuration as demo
 
 
 class DockerStripAttributes(DockerHelper):
@@ -13,7 +14,7 @@ class DockerStripAttributes(DockerHelper):
                                    'CityGML2Stripper-DockerContext')
         tag_name = 'liris:CityGML2Stripper'
         super().__init__(context_dir, tag_name)
-        self.working_dir = '/root/UD-Serv/Utils/CityGML2Stripper'
+        self.working_dir = None
         self.input_filename = None
         self.output_filename = None
 
@@ -41,8 +42,36 @@ class DockerStripAttributes(DockerHelper):
         # We don't need to specify the executable since an entrypoint is specified in the DockerFile of
         # DockerStripAttributes
         command = '--input /Input/' + self.input_filename + ' '
-        command += '--output /Output/' + self.output_filename + ' '
+        # command += '--output /Input/' + self.output_filename + ' '
+
+        if self.mounted_input_dir == self.mounted_output_dir:
+            # Because mounting twice the same directory will be avoided
+            # in the DockerHelp.run() method.
+            command += '--output /Input/'
+        else:
+            command += '--output /Output/'
+        command += self.output_filename + ' '
         return command
+
+
+def strip(input_dir, input_filename, output_filename):
+    d = DockerStripAttributes()
+    # Docker only accepts absolute path names as argument for its volumes
+    # to be mounted:
+    absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+
+    d.set_mounted_input_directory(absolute_path_input_dir)
+    d.set_mounted_output_directory(d.get_mounted_input_directory())
+    d.set_input_filename(input_filename)
+    d.set_output_filename(output_filename)
+
+    d.run()
+
+    # Since CityGML2Stripper does not allow to specify an output folder,
+    # you can use os.replace to move the resulting file to a specific folder.
+    # For instance, you can do:
+    #   os.replace('LYON_1ER_BATI_2009_splited_stripped.gml',
+    #              '/path/to/destination/folder/LYON_1ER_BATI_2009_splited_stripped.gml')
 
 
 if __name__ == '__main__':
@@ -53,17 +82,17 @@ if __name__ == '__main__':
                         filename='docker_strip_attributes.log',
                         filemode='w')
 
-    d = DockerStripAttributes()
+    # Note: there is probably something simpler to be done with
+    # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
+    # cannot access it in this context
+    inputs = list()
+    for borough in demo.boroughs:
+        for vintage in demo.vintages:
+            inputs.append(
+                [os.path.join(demo.output_dir, borough + '_' + str(vintage)),
+                 borough + '_BATI_' + str(vintage) + '_splited.gml',
+                 borough + '_BATI_' + str(vintage) + '_splited_stripped.gml'])
 
-    input_directory = os.path.join(os.getcwd(), 'junk/LYON_1ER_2009')
-    d.set_mounted_input_directory(input_directory)
-    d.set_input_filename('LYON_1ER_BATI_2009_splited.gml')
-    d.set_output_filename('LYON_1ER_BATI_2009_splited_stripped.gml')
-
-    d.run()
-
-    # Since CityGML2Stripper does not allow to specify an output folder,
-    # you can use os.replace to move the resulting file to a specific folder.
-    # For instance, you can do:
-    #   os.replace('LYON_1ER_BATI_2009_splited_stripped.gml',
-    #              '/path/to/destination/folder/LYON_1ER_BATI_2009_splited_stripped.gml')
+    for f in inputs:
+        print("Now handling", f)
+        strip(input_dir=f[0], input_filename=f[1], output_filename=f[2])

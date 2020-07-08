@@ -30,6 +30,7 @@ FIXME: the rest is under construction
 ```
 (venv)$ python lyon_metropole_dowload_and_sanitize.py
 (venv)$ python docker_split_buildings.py
+(venv)$ python docker_strip_attributes.py
 ```
 The resulting file hierarchy will be located in the `junk` sub-directory.
 
