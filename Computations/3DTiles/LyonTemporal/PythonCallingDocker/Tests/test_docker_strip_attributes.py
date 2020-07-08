@@ -3,11 +3,12 @@ import os
 import unittest
 import logging
 import pytest
-from docker_strip_attributes import DockerStripAttributes
-from helper_test import md5
 
 sys.path.insert(0, '.')
+from docker_strip_attributes import DockerStripAttributes
+
 sys.path.insert(0, 'Tests')
+from helper_test import md5
 
 
 class TestDockerStripAttributes(unittest.TestCase):
@@ -38,5 +39,5 @@ class TestDockerStripAttributes(unittest.TestCase):
 
         if not os.path.isfile(full_out_filename):
             self.fail()
-        if not md5(full_out_filename) == 'd4d40ba60cbbcedcb422d8afb92c6b3a':
+        if not md5(full_out_filename) == '9a05e075b8e08491adea1255c55ea26a':
             self.fail()
