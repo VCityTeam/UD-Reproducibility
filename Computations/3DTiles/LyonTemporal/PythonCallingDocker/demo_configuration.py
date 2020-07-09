@@ -8,6 +8,4 @@ boroughs = ['LYON_1ER',
             'LYON_6EME',
             'LYON_7EME',
             'LYON_8EME',
-            'LYON_9EME',
-            'BRON',
-            'VILLEURBANNE']
+            'LYON_9EME']
