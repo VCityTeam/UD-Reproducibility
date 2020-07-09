@@ -91,10 +91,7 @@ def single_extract(first_date,
     # to be mounted:
     absolute_path_input_dir = os.path.join(os.getcwd())
     d.set_mounted_input_directory(absolute_path_input_dir)
-    absolute_path_output_dir = os.path.join(os.getcwd(), output_dir)
-    if not os.path.isdir(absolute_path_output_dir):
-        os.mkdir(absolute_path_output_dir)
-    d.set_mounted_output_directory(absolute_path_output_dir)
+    d.set_mounted_output_directory(d.get_mounted_input_directory())
 
     d.set_first_date(first_date)
     d.set_first_input_filename(first_input_filename)
@@ -113,6 +110,7 @@ if __name__ == '__main__':
                         filename='docker_extract_building_dates.log',
                         filemode='w')
 
+    relative_output_dir_base = 'Differences'  # Relative to demo.output_dir
     # Note: there is probably something simpler to be done with
     # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
     # cannot access it in this context
@@ -120,21 +118,32 @@ if __name__ == '__main__':
     for borough in demo.boroughs:
         for vintage_index in range(len(demo.vintages)-1):
             first_date = str(demo.vintages[vintage_index])
+            second_date = str(demo.vintages[vintage_index+1])
+
+            # Make sure the output directory exists:
+            relative_output_dir = \
+                first_date + '_' + second_date + '_' + relative_output_dir_base
+            output_dir = os.path.join(demo.output_dir, relative_output_dir)
+            if not os.path.isdir(output_dir):
+                logging.info(f'Creating directory {output_dir}.')
+                os.mkdir(output_dir)
+
             first_file = os.path.join(
                 demo.output_dir,
                 borough + '_' + first_date,
                 borough + '_BATI_' + first_date + '.gml')
-            second_date = str(demo.vintages[vintage_index+1])
             second_file = os.path.join(
                 demo.output_dir,
                 borough + '_' + second_date,
                 borough + '_BATI_' + second_date + '.gml')
+
             inputs.append(
                 [first_date,
                  first_file,
                  second_date,
                  second_file,
-                 borough + '_' + first_date + '-' + second_date])
+                 os.path.join(output_dir,
+                              borough + '_' + first_date + '-' + second_date)])
 
     for f in inputs:
         print("Now handling", f)
