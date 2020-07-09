@@ -10,7 +10,7 @@ class DockerHelper(ABC):
     def __init__(self, image_name):
         # The name of the image to build or to pull
         self.image_name = image_name
-        self.client = None     # The name for the docker client (read server)
+        self.client = None  # The name for the docker client (read server)
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
         # Some containers (like 3DUse) provide multiple commands each of
@@ -56,16 +56,20 @@ class DockerHelper(ABC):
             logging.error('Building the docker image requires path or fileobj.')
             sys.exit(1)
 
-
-    # def pull(self):
-    #     """
-    #     Pulls an image (set in self.image_name) from the docker registry.
-    #     """
-    #     try:
-    #         image = self.client.images.pull(reprository=self.image_name)
-    #         logging.info(f'Docker pulling image: {self.image_name}')
-    #         for line in result:
-    #             logging.info(f'    {line}')
+    def pull(self):
+        """
+        Pulls an image (set in self.image_name) from the docker registry.
+        """
+        try:
+            images = self.client.images.pull(repository=self.image_name)
+            logging.info(f'Docker pulling image: {self.image_name}')
+            for line in images:
+                logging.info(f'    {line}')
+            logging.info(f'Docker pulling image done.')
+        except docker.errors.APIError as err:
+            logging.error('Unable to build the docker image: with error')
+            logging.error(f'   {err}')
+            sys.exit(1)
 
     def set_mounted_input_directory(self, directory):
         if not os.path.isdir(directory):

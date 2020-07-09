@@ -43,7 +43,6 @@ class DockerStripAttributes(DockerHelper):
         # We don't need to specify the executable since an entrypoint is specified in the DockerFile of
         # DockerStripAttributes
         command = '--input /Input/' + self.input_filename + ' '
-        # command += '--output /Input/' + self.output_filename + ' '
 
         if self.mounted_input_dir == self.mounted_output_dir:
             # Because mounting twice the same directory will be avoided
