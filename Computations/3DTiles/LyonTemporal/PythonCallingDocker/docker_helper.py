@@ -7,9 +7,9 @@ from abc import ABC, abstractmethod
 
 class DockerHelper(ABC):
 
-    def __init__(self, context_dir, tag_name):
-        self.context_dir = context_dir
-        self.tag_name = tag_name
+    def __init__(self, image_name):
+        # The name of the image to build or to pull
+        self.image_name = image_name
         self.client = None     # The name for the docker client (read server)
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
@@ -17,6 +17,7 @@ class DockerHelper(ABC):
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
         self.working_dir = '.'
+        self.assert_server_is_active()
 
     def assert_server_is_active(self):
         """
@@ -31,21 +32,19 @@ class DockerHelper(ABC):
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
-        # Assert that the context directory exists
-        if not os.path.exists(self.context_dir):
-            logging.error(f'Unfound context directory: {self.context_dir} ')
-            sys.exit(1)
-
-    def build(self):
+    def build(self, context_dir):
         """
         Provision the docker image.
         """
-        self.assert_server_is_active()
+        if not os.path.exists(context_dir):
+            logging.error(f'Unfound context directory: {context_dir} ')
+            sys.exit(1)
+
         try:
             result = self.client.images.build(
-                path=self.context_dir,
-                tag=self.tag_name)
-            logging.info(f'Docker building image: {self.tag_name}')
+                path=context_dir,
+                tag=self.image_name)
+            logging.info(f'Docker building image: {self.image_name}')
             for line in result:
                 logging.info(f'    {line}')
             logging.info(f'Docker building image done.')
@@ -56,6 +55,17 @@ class DockerHelper(ABC):
         except TypeError:
             logging.error('Building the docker image requires path or fileobj.')
             sys.exit(1)
+
+
+    # def pull(self):
+    #     """
+    #     Pulls an image (set in self.image_name) from the docker registry.
+    #     """
+    #     try:
+    #         image = self.client.images.pull(reprository=self.image_name)
+    #         logging.info(f'Docker pulling image: {self.image_name}')
+    #         for line in result:
+    #             logging.info(f'    {line}')
 
     def set_mounted_input_directory(self, directory):
         if not os.path.isdir(directory):
@@ -89,7 +99,7 @@ class DockerHelper(ABC):
             volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
 
         container = self.client.containers.run(
-            self.tag_name,
+            self.image_name,
             # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
             volumes=volumes,

@@ -87,7 +87,6 @@ def single_extract(first_date,
                    second_input_filename,
                    output_dir):
     d = DockerExtractBuildingDates()
-    d.build()
     # Docker only accepts absolute path names as argument for its volumes
     # to be mounted:
     absolute_path_input_dir = os.path.join(os.getcwd())

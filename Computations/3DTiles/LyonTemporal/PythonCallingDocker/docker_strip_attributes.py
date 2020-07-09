@@ -8,12 +8,13 @@ import demo_configuration as demo
 class DockerStripAttributes(DockerHelper):
 
     def __init__(self):
+        super().__init__('liris:CityGML2Stripper')
         context_dir = os.path.join(os.getcwd(),
                                    '..',
                                    'Docker',
                                    'CityGML2Stripper-DockerContext')
-        tag_name = 'liris:CityGML2Stripper'
-        super().__init__(context_dir, tag_name)
+        self.build(context_dir)
+
         self.working_dir = None
         self.input_filename = None
         self.output_filename = None
@@ -56,7 +57,7 @@ class DockerStripAttributes(DockerHelper):
 
 def strip(input_dir, input_filename, output_filename):
     d = DockerStripAttributes()
-    d.build()
+
     # Docker only accepts absolute path names as argument for its volumes
     # to be mounted:
     absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)

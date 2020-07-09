@@ -60,7 +60,6 @@ class DockerSplitBuilding(Docker3DUse):
 
 def split(input_dir, input_filename, output_filename):
     d = DockerSplitBuilding()
-    d.build()
     # Docker only accepts absolute path names as argument for its volumes
     # to be mounted:
     absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
