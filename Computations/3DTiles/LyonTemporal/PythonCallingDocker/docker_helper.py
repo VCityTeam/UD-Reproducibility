@@ -18,9 +18,6 @@ class DockerHelper(ABC):
         # variable of the Dockerfile)
         self.working_dir = '.'
 
-        self.assert_server_is_active()
-        self.build()
-
     def assert_server_is_active(self):
         """
         Assert that a docker server is up and available
@@ -43,6 +40,7 @@ class DockerHelper(ABC):
         """
         Provision the docker image.
         """
+        self.assert_server_is_active()
         try:
             result = self.client.images.build(
                 path=self.context_dir,
