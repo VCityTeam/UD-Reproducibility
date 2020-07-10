@@ -3,5 +3,6 @@ pytest_outputs/
 3dCityDBImpExpConfig-*.xml
 *.log
 venv
+.direnv
 .idea
 junk
