@@ -2,4 +2,4 @@ Jinja2
 docker
 wget
 patch
-yaml
+pyyaml
