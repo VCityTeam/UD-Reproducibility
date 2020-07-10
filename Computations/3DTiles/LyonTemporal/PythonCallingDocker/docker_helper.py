@@ -16,8 +16,9 @@ class DockerHelper(ABC):
         # Some containers (like 3DUse) provide multiple commands each of
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
-        self.working_dir = '.'
+        self.working_dir = None
         self.assert_server_is_active()
+        self.container = None
 
     def assert_server_is_active(self):
         """
@@ -56,16 +57,16 @@ class DockerHelper(ABC):
             logging.error('Building the docker image requires path or fileobj.')
             sys.exit(1)
 
-    def pull(self):
+    def pull(self, tag):
         """
         Pulls an image (set in self.image_name) from the docker registry.
         """
         try:
-            images = self.client.images.pull(repository=self.image_name)
-            logging.info(f'Docker pulling image: {self.image_name}')
-            for line in images:
-                logging.info(f'    {line}')
+            self.client.images.pull(repository=self.image_name, tag=tag)
+            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
             logging.info(f'Docker pulling image done.')
+            # FIXME: update image name:
+            self.image_name += ':' + tag
         except docker.errors.APIError as err:
             logging.error('Unable to build the docker image: with error')
             logging.error(f'   {err}')
@@ -119,6 +120,42 @@ class DockerHelper(ABC):
             logging.info('Docker run standard output follows:')
             logging.info(f'docker-stdout> {out}')
         err = container.logs(stdout=False, stderr=True)
+        if err:
+            logging.info('Docker run standard error follows:')
+            logging.info(f'docker-stderr> {err}')
+
+    def run_service(self):
+        volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
+        if not self.mounted_input_dir == self.mounted_output_dir:
+            # When mounting the same directory twice (which is the case when
+            # the input and output directory are the same) then containers.run()
+            # raises a docker.errors.ContainerError. Hence we only mount the
+            # /Output volume when they both differ. Note that when this
+            # happens the command in the derived class must be altered in order
+            # to place its output in the /Input mounted point (because in this
+            # /Output is (equal to) /Input.
+            volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
+
+        self.container = self.client.containers.run(
+            self.image_name,
+            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
+            command=self.get_command(),
+            volumes=volumes,
+            working_dir=self.working_dir,
+            stdin_open=True,
+            stderr=True,
+            detach=True,
+            remove=True,
+            name='citydb-container-' + str(self.PG_VINTAGE),
+            ports=self.ports,
+            environment=self.environment,
+            tty=True)
+
+        out = self.container.logs(stdout=True, stderr=False)
+        if out:
+            logging.info('Docker run standard output follows:')
+            logging.info(f'docker-stdout> {out}')
+        err = self.container.logs(stdout=False, stderr=True)
         if err:
             logging.info('Docker run standard error follows:')
             logging.info(f'docker-stderr> {err}')

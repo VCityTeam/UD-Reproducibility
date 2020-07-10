@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import yaml
+import time
 
 from docker_helper import DockerHelper
 import demo_configuration as demo
@@ -11,18 +12,16 @@ class Docker3DCityDBServer(DockerHelper):
 
     def __init__(self):
         super().__init__('tumgis/3dcitydb-postgis')
-        self.pull()
+        # FIXME hardcoded version
+        self.pull('v3.3.1')
 
         self.config_file = None
         self.config_file_loaded = False
 
         # Defined in config_file
-        self.PG_HOST = None
-        self.PG_PORT = None
-        self.PG_NAME = None
-        self.PG_USER = None
-        self.PG_PASSWORD = None
+        self.ports = None
         self.PG_VINTAGE = None
+        self.environment = None
 
     def set_config_file(self, config_file):
         if not os.path.isfile(config_file):
@@ -32,8 +31,7 @@ class Docker3DCityDBServer(DockerHelper):
         self.config_file = config_file
 
     def load_config_file(self):
-        self.config_file = config_file
-        with open(config_file, 'r') as db_config_file:
+        with open(self.config_file, 'r') as db_config_file:
             try:
                 db_config = yaml.load(db_config_file, Loader=yaml.FullLoader)
                 db_config_file.close()
@@ -50,14 +48,16 @@ class Docker3DCityDBServer(DockerHelper):
                 or ('PG_USER' not in db_config)
                 or ('PG_PASSWORD' not in db_config)
                 or ('PG_VINTAGE' not in db_config)):
-            print('ERROR: Database is not properly defined in ' + config_file + ', please refer to README.md')
+            print('ERROR: Database is not properly defined in ' + self.config_file + ', please refer to README.md')
             sys.exit(1)
 
-        self.PG_HOST = db_config['PG_HOST']
-        self.PG_PORT = db_config['PG_PORT']
-        self.PG_NAME = db_config['PG_NAME']
-        self.PG_USER = db_config['PG_USER']
-        self.PG_PASSWORD = db_config['PG_PASSWORD']
+        self.environment = {'CITYDBNAME': db_config['PG_NAME'],
+                            'SRID': 3946,
+                            'SRSNAME': 'espg:3946',
+                            'POSTGRES_USER': db_config['PG_USER'],
+                            'POSTGRES_PASSWORD': db_config['PG_PASSWORD']}
+
+        self.ports = {'5432/tcp':db_config['PG_PORT']}
         self.PG_VINTAGE = db_config['PG_VINTAGE']
 
         self.config_file_loaded = True
@@ -71,17 +71,7 @@ class Docker3DCityDBServer(DockerHelper):
             sys.exit(1)
 
     def get_command(self):
-        self.assert_ready_for_run()
-        # FIXME: There is double quotes in the docker run of LaunchDataBaseSingleServer.sh.j2
-        # Are those needed ?
-        command = '--rm -dt --name citydb-container-' + self.PG_VINTAGE + ' '
-        command += '-p ' + self.PG_PORT + ':5432 '
-        command += '-e CITYDBNAME=' + self.PG_NAME + ' '
-        command += '-e SRID=3946 '
-        command += '-e SRSNAME=espg:3946 '
-        command += '-e POSTGRES_USER=' + self.PG_USER + ' '
-        command += '-e POSTGRES_PASSWORD=' + self.PG_PASSWORD + ' '
-        command += 'tumgis/3dcitydb-postgis '
+        return None
 
 
 if __name__ == '__main__':
@@ -96,6 +86,6 @@ if __name__ == '__main__':
     for i, vintage in enumerate(demo.vintages):
         print('Starting database for the ', vintage, ' vintage.')
         active_databases.append(Docker3DCityDBServer())
-        active_databases.set_config_file('DBConfig' + vintage + '.yml')
+        active_databases[i].set_config_file('DBConfig' + str(vintage) + '.yml')
         active_databases[i].load_config_file()
-        active_databases[i].run()
+        active_databases[i].run_service()

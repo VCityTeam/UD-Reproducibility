@@ -15,7 +15,6 @@ class DockerStripAttributes(DockerHelper):
                                    'CityGML2Stripper-DockerContext')
         self.build(context_dir)
 
-        self.working_dir = None
         self.input_filename = None
         self.output_filename = None
 
