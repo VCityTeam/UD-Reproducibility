@@ -7,20 +7,24 @@ import time
 from docker_helper import DockerHelper
 import demo_configuration as demo
 
-
+# This class misses a stop() or halt() method
 class Docker3DCityDBServer(DockerHelper):
 
     def __init__(self):
         super().__init__('tumgis/3dcitydb-postgis')
-        # FIXME hardcoded version
-        self.pull('v3.3.1')
+        # FIXME: The tag should be an attribute of the
+        #  to be created DockerBuild (or DockerHelperBuild)
+        self.pull('v4.0.2')
 
         self.config_file = None
         self.config_file_loaded = False
 
         # Defined in config_file
+        # ports hold the mapping between internal and external ports
+        # of the container as it will be passed to the run method of
+        # docker sdk
         self.ports = None
-        self.PG_VINTAGE = None
+        self.vintage = None
         self.environment = None
 
     def set_config_file(self, config_file):
@@ -58,7 +62,7 @@ class Docker3DCityDBServer(DockerHelper):
                             'POSTGRES_PASSWORD': db_config['PG_PASSWORD']}
 
         self.ports = {'5432/tcp':db_config['PG_PORT']}
-        self.PG_VINTAGE = db_config['PG_VINTAGE']
+        self.vintage = db_config['PG_VINTAGE']
 
         self.config_file_loaded = True
 
@@ -71,6 +75,7 @@ class Docker3DCityDBServer(DockerHelper):
             sys.exit(1)
 
     def get_command(self):
+        # No command is declared here since we pull this docker from the registry
         return None
 
 

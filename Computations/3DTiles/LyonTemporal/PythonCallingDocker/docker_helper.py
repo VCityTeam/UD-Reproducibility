@@ -33,6 +33,7 @@ class DockerHelper(ABC):
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
+    # FIXME: build and pull should be in different classes (DockerBuild and DockerPull)
     def build(self, context_dir):
         """
         Provision the docker image.
@@ -65,7 +66,9 @@ class DockerHelper(ABC):
             self.client.images.pull(repository=self.image_name, tag=tag)
             logging.info(f'Docker pulling image: {self.image_name}:{tag}')
             logging.info(f'Docker pulling image done.')
-            # FIXME: update image name:
+            # FIXME: this concatenation is a hack since the run method does not
+            # have a tag argument, but the tag should be an attribute of the class
+            # and be concatenated when docker.run is invoked.
             self.image_name += ':' + tag
         except docker.errors.APIError as err:
             logging.error('Unable to build the docker image: with error')
@@ -91,6 +94,7 @@ class DockerHelper(ABC):
     def get_command(self):
         print("WTF")
 
+    # FIXME: run and run_service should be in different classes, e.g. DockerRun and DockerRunService
     def run(self):
         volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
         if not self.mounted_input_dir == self.mounted_output_dir:
@@ -124,6 +128,8 @@ class DockerHelper(ABC):
             logging.info('Docker run standard error follows:')
             logging.info(f'docker-stderr> {err}')
 
+    # FIXME: This method is similar to run. We don't do the docker.wait and we pass more arguments to containers.run
+    # They should probably be factorized
     def run_service(self):
         volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
         if not self.mounted_input_dir == self.mounted_output_dir:
@@ -146,7 +152,7 @@ class DockerHelper(ABC):
             stderr=True,
             detach=True,
             remove=True,
-            name='citydb-container-' + str(self.PG_VINTAGE),
+            name='citydb-container-' + str(self.vintage),
             ports=self.ports,
             environment=self.environment,
             tty=True)
