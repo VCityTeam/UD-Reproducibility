@@ -4,5 +4,6 @@ pytest_outputs/
 *.log
 venv
 .direnv
+.envrc
 .idea
 junk
