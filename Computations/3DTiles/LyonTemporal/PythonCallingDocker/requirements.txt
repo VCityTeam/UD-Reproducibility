@@ -1,4 +1,5 @@
-j2cli[yaml]
+Jinja2
 docker
 wget
 patch
+pyyaml

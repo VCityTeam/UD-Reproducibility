@@ -8,13 +8,13 @@ import demo_configuration as demo
 class DockerStripAttributes(DockerHelper):
 
     def __init__(self):
+        super().__init__('liris:CityGML2Stripper')
         context_dir = os.path.join(os.getcwd(),
                                    '..',
                                    'Docker',
                                    'CityGML2Stripper-DockerContext')
-        tag_name = 'liris:CityGML2Stripper'
-        super().__init__(context_dir, tag_name)
-        self.working_dir = None
+        self.build(context_dir)
+
         self.input_filename = None
         self.output_filename = None
 
@@ -42,7 +42,6 @@ class DockerStripAttributes(DockerHelper):
         # We don't need to specify the executable since an entrypoint is specified in the DockerFile of
         # DockerStripAttributes
         command = '--input /Input/' + self.input_filename + ' '
-        # command += '--output /Input/' + self.output_filename + ' '
 
         if self.mounted_input_dir == self.mounted_output_dir:
             # Because mounting twice the same directory will be avoided
@@ -56,6 +55,7 @@ class DockerStripAttributes(DockerHelper):
 
 def strip(input_dir, input_filename, output_filename):
     d = DockerStripAttributes()
+
     # Docker only accepts absolute path names as argument for its volumes
     # to be mounted:
     absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)

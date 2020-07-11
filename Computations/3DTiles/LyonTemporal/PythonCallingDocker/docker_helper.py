@@ -7,19 +7,18 @@ from abc import ABC, abstractmethod
 
 class DockerHelper(ABC):
 
-    def __init__(self, context_dir, tag_name):
-        self.context_dir = context_dir
-        self.tag_name = tag_name
-        self.client = None     # The name for the docker client (read server)
+    def __init__(self, image_name):
+        # The name of the image to build or to pull
+        self.image_name = image_name
+        self.client = None  # The name for the docker client (read server)
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
         # Some containers (like 3DUse) provide multiple commands each of
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
-        self.working_dir = '.'
-
+        self.working_dir = None
         self.assert_server_is_active()
-        self.build()
+        self.container = None
 
     def assert_server_is_active(self):
         """
@@ -34,20 +33,20 @@ class DockerHelper(ABC):
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
-        # Assert that the context directory exists
-        if not os.path.exists(self.context_dir):
-            logging.error(f'Unfound context directory: {self.context_dir} ')
-            sys.exit(1)
-
-    def build(self):
+    # FIXME: build and pull should be in different classes (DockerBuild and DockerPull)
+    def build(self, context_dir):
         """
         Provision the docker image.
         """
+        if not os.path.exists(context_dir):
+            logging.error(f'Unfound context directory: {context_dir} ')
+            sys.exit(1)
+
         try:
             result = self.client.images.build(
-                path=self.context_dir,
-                tag=self.tag_name)
-            logging.info(f'Docker building image: {self.tag_name}')
+                path=context_dir,
+                tag=self.image_name)
+            logging.info(f'Docker building image: {self.image_name}')
             for line in result:
                 logging.info(f'    {line}')
             logging.info(f'Docker building image done.')
@@ -57,6 +56,23 @@ class DockerHelper(ABC):
             sys.exit(1)
         except TypeError:
             logging.error('Building the docker image requires path or fileobj.')
+            sys.exit(1)
+
+    def pull(self, tag):
+        """
+        Pulls an image (set in self.image_name) from the docker registry.
+        """
+        try:
+            self.client.images.pull(repository=self.image_name, tag=tag)
+            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
+            logging.info(f'Docker pulling image done.')
+            # FIXME: this concatenation is a hack since the run method does not
+            # have a tag argument, but the tag should be an attribute of the class
+            # and be concatenated when docker.run is invoked.
+            self.image_name += ':' + tag
+        except docker.errors.APIError as err:
+            logging.error('Unable to build the docker image: with error')
+            logging.error(f'   {err}')
             sys.exit(1)
 
     def set_mounted_input_directory(self, directory):
@@ -78,6 +94,7 @@ class DockerHelper(ABC):
     def get_command(self):
         print("WTF")
 
+    # FIXME: run and run_service should be in different classes, e.g. DockerRun and DockerRunService
     def run(self):
         volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
         if not self.mounted_input_dir == self.mounted_output_dir:
@@ -91,7 +108,7 @@ class DockerHelper(ABC):
             volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
 
         container = self.client.containers.run(
-            self.tag_name,
+            self.image_name,
             # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
             volumes=volumes,
@@ -107,6 +124,44 @@ class DockerHelper(ABC):
             logging.info('Docker run standard output follows:')
             logging.info(f'docker-stdout> {out}')
         err = container.logs(stdout=False, stderr=True)
+        if err:
+            logging.info('Docker run standard error follows:')
+            logging.info(f'docker-stderr> {err}')
+
+    # FIXME: This method is similar to run. We don't do the docker.wait and we pass more arguments to containers.run
+    # They should probably be factorized
+    def run_service(self):
+        volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
+        if not self.mounted_input_dir == self.mounted_output_dir:
+            # When mounting the same directory twice (which is the case when
+            # the input and output directory are the same) then containers.run()
+            # raises a docker.errors.ContainerError. Hence we only mount the
+            # /Output volume when they both differ. Note that when this
+            # happens the command in the derived class must be altered in order
+            # to place its output in the /Input mounted point (because in this
+            # /Output is (equal to) /Input.
+            volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
+
+        self.container = self.client.containers.run(
+            self.image_name,
+            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
+            command=self.get_command(),
+            volumes=volumes,
+            working_dir=self.working_dir,
+            stdin_open=True,
+            stderr=True,
+            detach=True,
+            remove=True,
+            name='citydb-container-' + str(self.vintage),
+            ports=self.ports,
+            environment=self.environment,
+            tty=True)
+
+        out = self.container.logs(stdout=True, stderr=False)
+        if out:
+            logging.info('Docker run standard output follows:')
+            logging.info(f'docker-stdout> {out}')
+        err = self.container.logs(stdout=False, stderr=True)
         if err:
             logging.info('Docker run standard error follows:')
             logging.info(f'docker-stderr> {err}')
