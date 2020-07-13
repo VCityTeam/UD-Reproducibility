@@ -1,10 +1,8 @@
 import os
-import sys
-import logging
-from docker_helper import DockerHelper
+from docker_helper import DockerHelperTask
 
 
-class Docker3DUse(DockerHelper):
+class Docker3DUse(DockerHelperTask):
 
     def __init__(self):
         super().__init__('liris:3DUse')

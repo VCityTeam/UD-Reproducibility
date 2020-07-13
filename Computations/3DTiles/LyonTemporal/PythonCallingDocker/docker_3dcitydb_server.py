@@ -4,16 +4,17 @@ import logging
 import yaml
 import time
 
-from docker_helper import DockerHelper
+from docker_helper import DockerHelperService
 import demo_configuration as demo
 
-# This class misses a stop() or halt() method
-class Docker3DCityDBServer(DockerHelper):
+
+class Docker3DCityDBServer(DockerHelperService):
 
     def __init__(self):
         super().__init__('tumgis/3dcitydb-postgis')
         # FIXME: The tag should be an attribute of the
-        #  to be created DockerBuild (or DockerHelperBuild)
+        #  to be created DockerBuild (or DockerHelperBuild): why not use
+        # self.image_name ?
         self.pull('v4.0.2')
 
         self.config_file = None
@@ -63,6 +64,7 @@ class Docker3DCityDBServer(DockerHelper):
 
         self.ports = {'5432/tcp':db_config['PG_PORT']}
         self.vintage = db_config['PG_VINTAGE']
+        self.container_name = 'citydb-container-' + str(self.vintage)
 
         self.config_file_loaded = True
 
@@ -75,22 +77,25 @@ class Docker3DCityDBServer(DockerHelper):
             sys.exit(1)
 
     def get_command(self):
-        # No command is declared here since we pull this docker from the registry
+        # No command is declared here since the command is already set
+        # by default in the Dockerfile
         return None
 
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='docker_3dcitydb_server.log',
-                        filemode='w')
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
     active_databases = list()
-    for i, vintage in enumerate(demo.vintages):
-        print('Starting database for the ', vintage, ' vintage.')
-        active_databases.append(Docker3DCityDBServer())
-        active_databases[i].set_config_file('DBConfig' + str(vintage) + '.yml')
-        active_databases[i].load_config_file()
-        active_databases[i].run_service()
+    for vintage in demo.vintages:
+        data_base = Docker3DCityDBServer()
+        data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
+        data_base.load_config_file()
+        data_base.run()
+        active_databases.append(data_base)
+
+    print('Sleeping for 10 seconds.')
+    time.sleep(10)
+    for server in active_databases:
+        print(f'Halting container {server.get_container().name}.')
+        server.halt_service()

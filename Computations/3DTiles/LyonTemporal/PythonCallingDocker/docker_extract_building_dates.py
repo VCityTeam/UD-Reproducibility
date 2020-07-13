@@ -57,7 +57,7 @@ class DockerExtractBuildingDates(Docker3DUse):
     def set_command_output_directory(self, output_directory):
         # This is internal to the container and as seen by the container
         # command (as opposed to the directory mounted from "outside" the
-        # container i.e. DockerHelper.mounted_output_dir)
+        # container i.e. DockerHelperBase.mounted_output_dir)
         self.command_output_directory = output_directory
 
     def get_command(self):
@@ -104,11 +104,7 @@ def single_extract(first_date,
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='docker_extract_building_dates.log',
-                        filemode='w')
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
     relative_output_dir_base = 'Differences'  # Relative to demo.output_dir
     # Note: there is probably something simpler to be done with

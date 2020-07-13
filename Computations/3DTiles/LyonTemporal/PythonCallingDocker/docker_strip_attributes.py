@@ -1,11 +1,11 @@
 import os
 import sys
 import logging
-from docker_helper import DockerHelper
+from docker_helper import DockerHelperBase
 import demo_configuration as demo
 
 
-class DockerStripAttributes(DockerHelper):
+class DockerStripAttributes(DockerHelperBase):
 
     def __init__(self):
         super().__init__('liris:CityGML2Stripper')
@@ -76,11 +76,7 @@ def strip(input_dir, input_filename, output_filename):
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename='docker_strip_attributes.log',
-                        filemode='w')
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
     # Note: there is probably something simpler to be done with
     # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we

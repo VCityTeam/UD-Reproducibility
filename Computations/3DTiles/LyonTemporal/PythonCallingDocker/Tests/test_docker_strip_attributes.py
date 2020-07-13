@@ -14,9 +14,10 @@ from helper_test import md5
 class TestDockerStripAttributes(unittest.TestCase):
 
     def shared(self):
-        # We need to redirect DockerHelper loggers to# standard output
+        # We need to redirect DockerHelperBase loggers to standard output
         logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+    @pytest.mark.dependency(depends=["test_lyon_1er_2009"])
     def test_lyon_1er_2009_strip(self):
         self.shared()
 

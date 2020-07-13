@@ -36,7 +36,7 @@ class DockerSplitBuilding(Docker3DUse):
     def set_command_output_directory(self, output_directory):
         # This is internal to the container and as seen by the container
         # command (as opposed to the directory mounted from "outside" the
-        # container i.e. DockerHelper.mounted_output_dir)
+        # container i.e. DockerHelperBase.mounted_output_dir)
         self.command_output_directory = output_directory
 
     def get_command(self):

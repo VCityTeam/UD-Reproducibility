@@ -1,49 +1,63 @@
 import os
 import sys
 import docker
+import requests
 import logging
 from abc import ABC, abstractmethod
 
 
-class DockerHelper(ABC):
+class DockerHelperBase(ABC):
 
     def __init__(self, image_name):
         # The name of the image to build or to pull
         self.image_name = image_name
-        self.client = None  # The name for the docker client (read server)
+        self.container_name = None
+        self.container_name = None
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
         # Some containers (like 3DUse) provide multiple commands each of
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
         self.working_dir = None
+        self.environment = None   # Docker run environment variables
+
+        self.ports = None  # Specific to derived class DockerHelperService
+
+        self.__client = None  # The name for the docker client (read server)
+        self.__container = None
+        self.__run_arguments = None  # The arguments handled over to the run()
+
         self.assert_server_is_active()
-        self.container = None
 
     def assert_server_is_active(self):
         """
         Assert that a docker server is up and available
         :return: None, sys.exit() on failure
         """
-        self.client = docker.from_env()
+        self.__client = docker.from_env()
         try:
-            self.client.ping()
+            self.__client.ping()
         except (requests.exceptions.ConnectionError, docker.errors.APIError):
             logging.error('Unable to connect to a docker server:')
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
+    def get_container(self):
+        if not self.__container:
+            logging.info('Warning: requesting an unset container.')
+        return self.__container
+
     # FIXME: build and pull should be in different classes (DockerBuild and DockerPull)
     def build(self, context_dir):
         """
-        Provision the docker image.
+        Provision the docker image by building it.
         """
         if not os.path.exists(context_dir):
             logging.error(f'Unfound context directory: {context_dir} ')
             sys.exit(1)
 
         try:
-            result = self.client.images.build(
+            result = self.__client.images.build(
                 path=context_dir,
                 tag=self.image_name)
             logging.info(f'Docker building image: {self.image_name}')
@@ -60,10 +74,11 @@ class DockerHelper(ABC):
 
     def pull(self, tag):
         """
-        Pulls an image (set in self.image_name) from the docker registry.
+        Provision the docker image by pulling it from some well know docker
+        registry (stored in self.image_name).
         """
         try:
-            self.client.images.pull(repository=self.image_name, tag=tag)
+            self.__client.images.pull(repository=self.image_name, tag=tag)
             logging.info(f'Docker pulling image: {self.image_name}:{tag}')
             logging.info(f'Docker pulling image done.')
             # FIXME: this concatenation is a hack since the run method does not
@@ -94,8 +109,11 @@ class DockerHelper(ABC):
     def get_command(self):
         print("WTF")
 
-    # FIXME: run and run_service should be in different classes, e.g. DockerRun and DockerRunService
     def run(self):
+        """
+        Prepare the information required to launch the container and run it
+        (always in a detached mode, for technical reasons)
+        """
         volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
         if not self.mounted_input_dir == self.mounted_output_dir:
             # When mounting the same directory twice (which is the case when
@@ -107,8 +125,7 @@ class DockerHelper(ABC):
             # /Output is (equal to) /Input.
             volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
 
-        container = self.client.containers.run(
-            self.image_name,
+        arguments = dict(
             # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
             volumes=volumes,
@@ -116,52 +133,59 @@ class DockerHelper(ABC):
             stdin_open=True,
             stderr=True,
             detach=True,
-            tty=True)
-        container.wait()
+            tty=True
+        )
 
-        out = container.logs(stdout=True, stderr=False)
-        if out:
-            logging.info('Docker run standard output follows:')
-            logging.info(f'docker-stdout> {out}')
-        err = container.logs(stdout=False, stderr=True)
-        if err:
-            logging.info('Docker run standard error follows:')
-            logging.info(f'docker-stderr> {err}')
+        if self.container_name:
+            containers = self.__client.containers.list(
+                filters={'name': self.container_name})
+            if containers:
+                logging.error(f'A container named {self.container_name} '
+                              'already exists. Exiting.')
+                sys.exit(1)
+            arguments['name'] = self.container_name
 
-    # FIXME: This method is similar to run. We don't do the docker.wait and we pass more arguments to containers.run
-    # They should probably be factorized
-    def run_service(self):
-        volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
-        if not self.mounted_input_dir == self.mounted_output_dir:
-            # When mounting the same directory twice (which is the case when
-            # the input and output directory are the same) then containers.run()
-            # raises a docker.errors.ContainerError. Hence we only mount the
-            # /Output volume when they both differ. Note that when this
-            # happens the command in the derived class must be altered in order
-            # to place its output in the /Input mounted point (because in this
-            # /Output is (equal to) /Input.
-            volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
+        arguments['environment'] = self.environment
+        if self.working_dir:
+            arguments['working_dir'] = self.working_dir
+        if self.ports:
+            arguments['ports'] = self.ports
+        self.__run_arguments = arguments
 
-        self.container = self.client.containers.run(
+        self.__container = self.__client.containers.run(
             self.image_name,
-            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
-            command=self.get_command(),
-            volumes=volumes,
-            working_dir=self.working_dir,
-            stdin_open=True,
-            stderr=True,
-            detach=True,
-            remove=True,
-            name='citydb-container-' + str(self.vintage),
-            ports=self.ports,
-            environment=self.environment,
-            tty=True)
+            **self.__run_arguments)
 
-        out = self.container.logs(stdout=True, stderr=False)
+    def retrieve_output_and_errors(self):
+        out = self.__container.logs(stdout=True, stderr=False)
         if out:
             logging.info('Docker run standard output follows:')
             logging.info(f'docker-stdout> {out}')
-        err = self.container.logs(stdout=False, stderr=True)
+        err = self.__container.logs(stdout=False, stderr=True)
         if err:
             logging.info('Docker run standard error follows:')
             logging.info(f'docker-stderr> {err}')
+
+
+class DockerHelperService(DockerHelperBase):
+    """
+    Have the container run a server and serve until explicit termination
+    is required.
+    """
+    def halt_service(self):
+        self.get_container().stop()
+        self.retrieve_output_and_errors()
+        self.get_container().remove()
+
+
+class DockerHelperTask(DockerHelperBase):
+    """
+    Have the container execute some (computational) task and, when
+    computation is done, terminate the container.
+    """
+
+    def run(self):
+        super().run()
+        self.get_container().wait()
+        self.retrieve_output_and_errors()
+        self.get_container().remove()
