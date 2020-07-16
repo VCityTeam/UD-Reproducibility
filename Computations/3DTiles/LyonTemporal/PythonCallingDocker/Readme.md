@@ -20,7 +20,7 @@ $ . venv/bin/activate
 If you wan to run unit tests:
 ```
 (venv)$ git rev-parse --show-toplevel
-(venv)$ pip install pytest pytest-benchmark pytest-dependency
+(venv)$ pip install pytest pytest-ordering pytest-dependency
 (venv)$ pytest
 ```
 

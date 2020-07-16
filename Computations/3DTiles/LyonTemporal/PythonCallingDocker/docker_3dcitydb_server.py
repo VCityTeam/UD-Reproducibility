@@ -84,7 +84,7 @@ class Docker3DCityDBServer(DockerHelperService):
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
     active_databases = list()
     for vintage in demo.vintages:
@@ -94,8 +94,8 @@ if __name__ == '__main__':
         data_base.run()
         active_databases.append(data_base)
 
-    print('Sleeping for 10 seconds.')
+    logging.info('Sleeping for 10 seconds.')
     time.sleep(10)
     for server in active_databases:
-        print(f'Halting container {server.get_container().name}.')
+        logging.info(f'Halting container {server.get_container().name}.')
         server.halt_service()
