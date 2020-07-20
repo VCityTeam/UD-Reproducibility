@@ -36,6 +36,7 @@ FIXME: the rest is under construction
 (venv)$ python docker_split_buildings.py
 (venv)$ python docker_strip_attributes.py
 (venv)$ python docker_extract_building_dates.py
+(venv)$ python docker_3dcitydb_server.py
 ```
 The resulting file hierarchy will be located in the `junk` sub-directory.
 

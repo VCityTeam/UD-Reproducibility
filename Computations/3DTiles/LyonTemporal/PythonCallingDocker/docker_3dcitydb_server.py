@@ -83,7 +83,7 @@ class Docker3DCityDBServer(DockerHelperService):
         return None
 
     def run(self):
-        self.add_volume('./docker-data/postgres-data/', '/var/lib/postgresql/data', 'rw')
+        self.add_volume('/Output/postgres-data/', '/var/lib/postgresql/data', 'rw')
         super().run()
 
 
