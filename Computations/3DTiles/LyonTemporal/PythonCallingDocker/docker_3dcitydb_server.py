@@ -12,9 +12,10 @@ class Docker3DCityDBServer(DockerHelperService):
 
     def __init__(self):
         super().__init__('tumgis/3dcitydb-postgis')
-        # FIXME: The tag should be an attribute of the
-        #  to be created DockerBuild (or DockerHelperBuild): why not use
-        # self.image_name ?
+        # FIXME: The tag should be an attribute of the soon to be created
+        #   DockerBuild (or DockerHelperBuild) class and to be used here
+        #   as baseclass. This would avoid having to hardwire the tag
+        #   value in the following line:
         self.pull('v4.0.2')
 
         self.config_file = None

@@ -2,7 +2,6 @@ import sys
 import os
 import logging
 import pytest
-import time
 
 sys.path.insert(0, '.')
 from docker_strip_attributes import DockerStripAttributes
@@ -49,13 +48,6 @@ class TestDockerStripAttributes:
         d.set_input_filename(in_filename)
         d.set_output_filename(out_filename)
         d.run()
-
-        # Because of caching issues for bind mounts on OSX, refer e.g. to
-        # https://docs.docker.com/docker-for-mac/osxfs-caching/
-        # the following check sometimes fails (although the file will
-        # eventually "pop up" when the buffers get processed). We thus
-        # introduce the following delay kludge:
-        time.sleep(10)
 
         if not os.path.isfile(full_out_filename):
             pytest.fail(f'Output file {full_out_filename} not found.')

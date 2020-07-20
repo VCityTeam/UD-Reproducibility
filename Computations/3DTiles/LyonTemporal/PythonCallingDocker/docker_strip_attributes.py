@@ -1,11 +1,11 @@
 import os
 import sys
 import logging
-from docker_helper import DockerHelperBase
+from docker_helper import DockerHelperTask
 import demo_configuration as demo
 
 
-class DockerStripAttributes(DockerHelperBase):
+class DockerStripAttributes(DockerHelperTask):
 
     def __init__(self):
         super().__init__('liris:CityGML2Stripper')

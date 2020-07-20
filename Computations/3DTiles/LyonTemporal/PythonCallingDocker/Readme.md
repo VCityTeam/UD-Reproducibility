@@ -47,6 +47,15 @@ The resulting file hierarchy will be located in the `junk` sub-directory.
    root@ splitCityGMLBuildings --input-file /Input/LYON_1ER_BATI_2009.gml --output-file LYON_1ER_BATI_2009_splited.gml --output-dir /Output/
    ```
 
+## Issues
+### Convert the configuration files to YAML
+Merge the three configuration files in a singe one using a YAML syntax.
+Extract the loading of that file (Docker3DCityDBServer::load_config_file)
+from the Docker3DCityDBServer class and pass the loaded dictionnary to
+the Docker3DCityDBServer::__init__ constructor.
+This will facilitate the Airflow/Prefect version that won't be able
+to use a configuration file but will be handled over parameters.
+
 ### Bug: extractBuildingDates stage fails on Villeurbanne data
 The following run fails
 ```

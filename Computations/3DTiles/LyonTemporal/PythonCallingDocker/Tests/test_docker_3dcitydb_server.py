@@ -28,7 +28,7 @@ class TestDocker3DCityDBServer:
             configuration_file = 'DBConfig2009.yml'
             if not os.path.isfile(configuration_file):
                 pytest.fail(f'Cannot fold back to configuration file '
-                              f'{configuration_file}. Failing')
+                            f'{configuration_file}. Failing')
 
         container.set_config_file(configuration_file)
         container.load_config_file()
