@@ -13,7 +13,6 @@ class DockerHelperBase(ABC):
         # The name of the image to build or to pull
         self.image_name = image_name
         self.container_name = None
-        self.container_name = None
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
         # Some containers (like 3DUse) provide multiple commands each of
