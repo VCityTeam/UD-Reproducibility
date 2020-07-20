@@ -26,7 +26,7 @@ If you wan to run unit tests:
 
 FIXME: the rest is under construction
 
-## Running the worflow
+## Running the workflow
 
 ### Manual step by step run
 
@@ -49,7 +49,7 @@ The resulting file hierarchy will be located in the `junk` sub-directory.
 
 ## Issues
 ### Convert the configuration files to YAML
-Merge the three configuration files in a singe one using a YAML syntax.
+Merge the three configuration files in a single one using a YAML syntax.
 Extract the loading of that file (Docker3DCityDBServer::load_config_file)
 from the Docker3DCityDBServer class and pass the loaded dictionnary to
 the Docker3DCityDBServer::__init__ constructor.

@@ -82,6 +82,10 @@ class Docker3DCityDBServer(DockerHelperService):
         # by default in the Dockerfile
         return None
 
+    def run(self):
+        self.add_volume('./docker-data/postgres-data/', '/var/lib/postgresql/data', 'rw')
+        super().run()
+
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)

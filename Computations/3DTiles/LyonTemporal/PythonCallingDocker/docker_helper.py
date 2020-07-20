@@ -19,6 +19,7 @@ class DockerHelperBase(ABC):
         # which might require its proper working directory (i.e. the WORKDIR
         # variable of the Dockerfile)
         self.working_dir = None
+        self.volumes = dict()
         self.environment = None   # Docker run environment variables
 
         self.ports = None  # Specific to derived class DockerHelperService
@@ -105,6 +106,16 @@ class DockerHelperBase(ABC):
             sys.exit(1)
         self.mounted_output_dir = directory
 
+    def add_volume(self, host_volume, inside_docker_volume, mode):
+        """
+        :param host_volume: The host path or the volume name (that must have been created before
+        with docker volume create) to bind the data to.
+        :param inside_docker_volume: The path to mount the volume inside the container.
+        :param mode: Volume access mode which is either 'rw' for 'read write'
+        or 'ro' for read-only.
+        """
+        self.volumes[host_volume] = {'bind': inside_docker_volume, 'mode': mode}
+
     @abstractmethod
     def get_command(self):
         print("WTF")
@@ -112,23 +123,12 @@ class DockerHelperBase(ABC):
     def run(self):
         """
         Prepare the information required to launch the container and run it
-        (always in a detached mode, for technical reasons)
+        (always in a detached mode, for technical reasons).
         """
-        volumes = {self.mounted_input_dir: {'bind': '/Input', 'mode': 'rw'}}
-        if not self.mounted_input_dir == self.mounted_output_dir:
-            # When mounting the same directory twice (which is the case when
-            # the input and output directory are the same) then containers.run()
-            # raises a docker.errors.ContainerError. Hence we only mount the
-            # /Output volume when they both differ. Note that when this
-            # happens the command in the derived class must be altered in order
-            # to place its output in the /Input mounted point (because in this
-            # /Output is (equal to) /Input.
-            volumes[self.mounted_output_dir] = {'bind': '/Output', 'mode': 'rw'}
-
         arguments = dict(
             # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
-            volumes=volumes,
+            volumes=self.volumes,
             working_dir=self.working_dir,
             stdin_open=True,
             stderr=True,
@@ -185,6 +185,17 @@ class DockerHelperTask(DockerHelperBase):
     """
 
     def run(self):
+        # Set input and output volumes
+        self.add_volume(self.mounted_input_dir, '/Input', 'rw')
+        if not self.mounted_input_dir == self.mounted_output_dir:
+            # When mounting the same directory twice (which is the case when
+            # the input and output directory are the same) then containers.run()
+            # raises a docker.errors.ContainerError. Hence we only mount the
+            # /Output volume when they both differ. Note that when this
+            # happens the command in the derived class must be altered in order
+            # to place its output in the /Input mounted point (because in this
+            # /Output is (equal to) /Input.
+            self.add_volume(self.mounted_output_dir, '/Output', 'rw')
         super().run()
         self.get_container().wait()
         self.retrieve_output_and_errors()
