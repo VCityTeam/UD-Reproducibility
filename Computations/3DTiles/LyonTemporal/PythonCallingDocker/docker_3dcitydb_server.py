@@ -4,11 +4,11 @@ import logging
 import yaml
 import time
 
-from docker_helper import DockerHelperService
+from docker_helper import DockerHelperPull, DockerHelperService
 import demo_configuration as demo
 
 
-class Docker3DCityDBServer(DockerHelperService):
+class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
 
     def __init__(self):
         super().__init__('tumgis/3dcitydb-postgis')

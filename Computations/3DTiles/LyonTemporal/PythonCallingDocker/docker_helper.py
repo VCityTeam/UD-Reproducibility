@@ -46,49 +46,6 @@ class DockerHelperBase(ABC):
             logging.info('Warning: requesting an unset container.')
         return self.__container
 
-    # FIXME: build and pull should be in different classes (DockerBuild and DockerPull)
-    def build(self, context_dir):
-        """
-        Provision the docker image by building it.
-        """
-        if not os.path.exists(context_dir):
-            logging.error(f'Unfound context directory: {context_dir} ')
-            sys.exit(1)
-
-        try:
-            result = self.__client.images.build(
-                path=context_dir,
-                tag=self.image_name)
-            logging.info(f'Docker building image: {self.image_name}')
-            for line in result:
-                logging.info(f'    {line}')
-            logging.info(f'Docker building image done.')
-        except docker.errors.APIError as err:
-            logging.error('Unable to build the docker image: with error')
-            logging.error(f'   {err}')
-            sys.exit(1)
-        except TypeError:
-            logging.error('Building the docker image requires path or fileobj.')
-            sys.exit(1)
-
-    def pull(self, tag):
-        """
-        Provision the docker image by pulling it from some well know docker
-        registry (stored in self.image_name).
-        """
-        try:
-            self.__client.images.pull(repository=self.image_name, tag=tag)
-            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
-            logging.info(f'Docker pulling image done.')
-            # FIXME: this concatenation is a hack since the run method does not
-            # have a tag argument, but the tag should be an attribute of the class
-            # and be concatenated when docker.run is invoked.
-            self.image_name += ':' + tag
-        except docker.errors.APIError as err:
-            logging.error('Unable to build the docker image: with error')
-            logging.error(f'   {err}')
-            sys.exit(1)
-
     def set_mounted_input_directory(self, directory):
         if not os.path.isdir(directory):
             logging.info(f'Input dir to mount {directory} not found. Exiting')
@@ -165,6 +122,57 @@ class DockerHelperBase(ABC):
             logging.info('Docker run standard error follows:')
             logging.info(f'docker-stderr> {err}')
 
+
+class DockerHelperBuild(DockerHelperBase):
+    """
+    Build an image from a local Docker context
+    """
+    def build(self, context_dir):
+        """
+        Provision the docker image by building it.
+        """
+        if not os.path.exists(context_dir):
+            logging.error(f'Unfound context directory: {context_dir} ')
+            sys.exit(1)
+
+        try:
+            result = self.__client.images.build(
+                path=context_dir,
+                tag=self.image_name)
+            logging.info(f'Docker building image: {self.image_name}')
+            for line in result:
+                logging.info(f'    {line}')
+            logging.info(f'Docker building image done.')
+        except docker.errors.APIError as err:
+            logging.error('Unable to build the docker image: with error')
+            logging.error(f'   {err}')
+            sys.exit(1)
+        except TypeError:
+            logging.error('Building the docker image requires path or fileobj.')
+            sys.exit(1)
+
+
+class DockerHelperPull(DockerHelperBase):
+    """
+    Pull an image from a well known docker registry
+    """
+    def pull(self, tag):
+        """
+        Provision the docker image by pulling it from some well know docker
+        registry (stored in self.image_name).
+        """
+        try:
+            self.__client.images.pull(repository=self.image_name, tag=tag)
+            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
+            logging.info(f'Docker pulling image done.')
+            # FIXME: this concatenation is a hack since the run method does not
+            # have a tag argument, but the tag should be an attribute of the class
+            # and be concatenated when docker.run is invoked.
+            self.image_name += ':' + tag
+        except docker.errors.APIError as err:
+            logging.error('Unable to build the docker image: with error')
+            logging.error(f'   {err}')
+            sys.exit(1)
 
 class DockerHelperService(DockerHelperBase):
     def __init__(self, image_name):
