@@ -26,7 +26,7 @@ If you wan to run unit tests:
 
 FIXME: the rest is under construction
 
-## Running the worflow
+## Running the workflow
 
 ### Manual step by step run
 
@@ -36,6 +36,7 @@ FIXME: the rest is under construction
 (venv)$ python docker_split_buildings.py
 (venv)$ python docker_strip_attributes.py
 (venv)$ python docker_extract_building_dates.py
+(venv)$ python docker_3dcitydb_server.py
 ```
 The resulting file hierarchy will be located in the `junk` sub-directory.
 
@@ -49,7 +50,7 @@ The resulting file hierarchy will be located in the `junk` sub-directory.
 
 ## Issues
 ### Convert the configuration files to YAML
-Merge the three configuration files in a singe one using a YAML syntax.
+Merge the three configuration files in a single one using a YAML syntax.
 Extract the loading of that file (Docker3DCityDBServer::load_config_file)
 from the Docker3DCityDBServer class and pass the loaded dictionnary to
 the Docker3DCityDBServer::__init__ constructor.
