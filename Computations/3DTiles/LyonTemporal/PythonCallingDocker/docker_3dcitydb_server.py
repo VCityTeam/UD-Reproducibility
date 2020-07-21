@@ -83,7 +83,13 @@ class Docker3DCityDBServer(DockerHelperService):
         return None
 
     def run(self):
-        self.add_volume('/Output/postgres-data/', '/var/lib/postgresql/data', 'rw')
+        """
+        Overloads the run method of DockerHelperService.
+        :return:
+        """
+        absolute_path_output_dir = os.path.join(os.getcwd(), demo.output_dir, '/postgres-data/')
+        print(absolute_path_output_dir)
+        self.add_volume(absolute_path_output_dir, '/var/lib/postgresql/data', 'rw')
         super().run()
 
 
