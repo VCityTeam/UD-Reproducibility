@@ -167,8 +167,8 @@ class DockerHelperBase(ABC):
 
 
 class DockerHelperService(DockerHelperBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, image_name):
+        super().__init__(image_name)
         self.ports = None
 
     """
@@ -196,7 +196,7 @@ class DockerHelperTask(DockerHelperBase):
     def run(self):
         # Set input and output volumes
         # Tasks volumes are set in this class with the following convention:
-        # input files are located 
+        # input files are located
         self.add_volume(self.mounted_input_dir, '/Input', 'rw')
         if not self.mounted_input_dir == self.mounted_output_dir:
             # When mounting the same directory twice (which is the case when
