@@ -87,8 +87,7 @@ class Docker3DCityDBServer(DockerHelperService):
         Overloads the run method of DockerHelperService.
         :return:
         """
-        absolute_path_output_dir = os.path.join(os.getcwd(), demo.output_dir, '/postgres-data/')
-        print(absolute_path_output_dir)
+        absolute_path_output_dir = os.path.join(os.getcwd(), demo.output_dir) + '/postgres-data'
         self.add_volume(absolute_path_output_dir, '/var/lib/postgresql/data', 'rw')
         super().run()
 
