@@ -22,8 +22,8 @@ class DockerHelperBase(ABC):
         self.volumes = dict()
         self.environment = None   # Docker run environment variables
         self.run_arguments = None  # The arguments handled over to the run()
+        self.client = None  # The name for the docker client (read server)
 
-        self.__client = None  # The name for the docker client (read server)
         self.__container = None
 
         self.assert_server_is_active()
@@ -33,9 +33,9 @@ class DockerHelperBase(ABC):
         Assert that a docker server is up and available
         :return: None, sys.exit() on failure
         """
-        self.__client = docker.from_env()
+        self.client = docker.from_env()
         try:
-            self.__client.ping()
+            self.client.ping()
         except (requests.exceptions.ConnectionError, docker.errors.APIError):
             logging.error('Unable to connect to a docker server:')
             logging.error('   is a docker server running this host ?')
@@ -90,7 +90,7 @@ class DockerHelperBase(ABC):
         )
 
         if self.container_name:
-            containers = self.__client.containers.list(
+            containers = self.client.containers.list(
                 filters={'name': self.container_name})
             if containers:
                 logging.error(f'A container named {self.container_name} '
@@ -108,7 +108,7 @@ class DockerHelperBase(ABC):
         Prepare the information required to launch the container and run it
         (always in a detached mode, for technical reasons).
         """
-        self.__container = self.__client.containers.run(
+        self.__container = self.client.containers.run(
             self.image_name,
             **self.run_arguments)
 
@@ -136,7 +136,7 @@ class DockerHelperBuild(DockerHelperBase):
             sys.exit(1)
 
         try:
-            result = self.__client.images.build(
+            result = self.client.images.build(
                 path=context_dir,
                 tag=self.image_name)
             logging.info(f'Docker building image: {self.image_name}')
@@ -162,7 +162,7 @@ class DockerHelperPull(DockerHelperBase):
         registry (stored in self.image_name).
         """
         try:
-            self.__client.images.pull(repository=self.image_name, tag=tag)
+            self.client.images.pull(repository=self.image_name, tag=tag)
             logging.info(f'Docker pulling image: {self.image_name}:{tag}')
             logging.info(f'Docker pulling image done.')
             # FIXME: this concatenation is a hack since the run method does not
@@ -173,6 +173,7 @@ class DockerHelperPull(DockerHelperBase):
             logging.error('Unable to build the docker image: with error')
             logging.error(f'   {err}')
             sys.exit(1)
+
 
 class DockerHelperService(DockerHelperBase):
     def __init__(self, image_name):
