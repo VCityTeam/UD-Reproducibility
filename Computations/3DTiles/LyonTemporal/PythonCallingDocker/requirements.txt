@@ -3,3 +3,5 @@ docker
 wget
 patch
 pyyaml
+gitpython
+

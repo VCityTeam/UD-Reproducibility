@@ -38,7 +38,7 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                 db_config = yaml.load(db_config_file, Loader=yaml.FullLoader)
                 db_config_file.close()
             except:
-                print('ERROR: ', sys.exec_info()[0])
+                logging.error(f'{sys.exec_info()[0]}. Exiting')
                 db_config_file.close()
                 sys.exit(1)
 
@@ -50,8 +50,8 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                 or ('PG_USER' not in db_config)
                 or ('PG_PASSWORD' not in db_config)
                 or ('PG_VINTAGE' not in db_config)):
-            print('ERROR: Database is not properly defined in ' +
-                  self.config_file + ', please refer to README.md')
+            logging.error('Database is not properly defined in ' +
+                          self.config_file + ', please refer to README.md')
             sys.exit(1)
 
         self.environment = {'CITYDBNAME': db_config['PG_NAME'],
@@ -103,8 +103,11 @@ if __name__ == '__main__':
         data_base.run()
         active_databases.append(data_base)
 
-    logging.info('Sleeping for 10 seconds.')
+    logging.info('Enjoying the databases hum for 10 seconds.')
     time.sleep(10)
+
+    logging.info(f'Halting containers: begining')
     for server in active_databases:
-        logging.info(f'Halting container {server.get_container().name}.')
+        logging.info(f'   Halting container {server.get_container().name}.')
         server.halt_service()
+    logging.info(f'Halting containers: done')
