@@ -1,11 +1,11 @@
 import os
-from docker_helper import DockerHelperTask
+from docker_helper import DockerHelperBuild, DockerHelperTask
 
 
-class Docker3DUse(DockerHelperTask):
+class Docker3DUse(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
-        super().__init__('liris:3DUse')
+        super().__init__('liris', '3DUse')
         context_dir = os.path.join(os.getcwd(),
                                    '..',
                                    'Docker',

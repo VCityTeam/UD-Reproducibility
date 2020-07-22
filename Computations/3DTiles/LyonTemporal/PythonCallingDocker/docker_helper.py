@@ -8,24 +8,21 @@ from abc import ABC, abstractmethod
 
 
 class DockerHelperBase(ABC):
-
-    def __init__(self, image_name):
-        # The name of the image to build or to pull
+    """
+    Helper class for docker manipulation, built on docker SDK library.
+    """
+    def __init__(self, image_name, tag):
+        """
+        :param image_name: image name (e.g. "3DCityDB")
+        :param tag: tag of the image (e.g. "v4.0.2")
+        """
+        # Some methods of docker SDK need the image_name and/or the tag_name
+        # independently while others need the full image name which is a
+        # concatenation of these.
         self.image_name = image_name
-        self.container_name = None
-        self.mounted_input_dir = os.getcwd()
-        self.mounted_output_dir = os.getcwd()
-        # Some containers (like 3DUse) provide multiple commands each of
-        # which might require its proper working directory (i.e. the WORKDIR
-        # variable of the Dockerfile)
-        self.working_dir = None
-        self.volumes = dict()
-        self.environment = None   # Docker run environment variables
-        self.run_arguments = None  # The arguments handled over to the run()
-
-        self.__client = None  # The name for the docker client (read server)
-        self.__container = None
-
+        self.tag = tag
+        self.full_image_name = image_name + ':' + tag
+        self.client = None  # The name for the docker client (read server)
         self.assert_server_is_active()
 
     def assert_server_is_active(self):
@@ -33,20 +30,19 @@ class DockerHelperBase(ABC):
         Assert that a docker server is up and available
         :return: None, sys.exit() on failure
         """
-        self.__client = docker.from_env()
+        self.client = docker.from_env()
         try:
-            self.__client.ping()
+            self.client.ping()
         except (requests.exceptions.ConnectionError, docker.errors.APIError):
             logging.error('Unable to connect to a docker server:')
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
-    def get_container(self):
-        if not self.__container:
-            logging.info('Warning: requesting an unset container.')
-        return self.__container
 
-    # FIXME: build and pull should be in different classes (DockerBuild and DockerPull)
+class DockerHelperBuild(DockerHelperBase):
+    """
+    Build an image from a local Docker context
+    """
     def build(self, context_dir):
         """
         Provision the docker image by building it.
@@ -56,10 +52,13 @@ class DockerHelperBase(ABC):
             sys.exit(1)
 
         try:
-            result = self.__client.images.build(
+            # Note: The tag argument is not self.tag since it is not the
+            # version of the image that is expected here but the full image
+            # name; i.e. here we "tag" the built image with the full image name.
+            result = self.client.images.build(
                 path=context_dir,
-                tag=self.image_name)
-            logging.info(f'Docker building image: {self.image_name}')
+                tag=self.full_image_name)
+            logging.info(f'Docker building image: {self.full_image_name}')
             for line in result:
                 logging.info(f'    {line}')
             logging.info(f'Docker building image done.')
@@ -71,23 +70,45 @@ class DockerHelperBase(ABC):
             logging.error('Building the docker image requires path or fileobj.')
             sys.exit(1)
 
-    def pull(self, tag):
+
+class DockerHelperPull(DockerHelperBase):
+    """
+    Pull an image from a well known docker registry
+    """
+    def pull(self):
         """
         Provision the docker image by pulling it from some well know docker
-        registry (stored in self.image_name).
+        registry (stored in self.repository).
         """
         try:
-            self.__client.images.pull(repository=self.image_name, tag=tag)
-            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
+            self.client.images.pull(repository=self.image_name, tag=self.tag)
+            logging.info(f'Docker pulling image: {self.full_image_name}')
             logging.info(f'Docker pulling image done.')
-            # FIXME: this concatenation is a hack since the run method does not
-            # have a tag argument, but the tag should be an attribute of the class
-            # and be concatenated when docker.run is invoked.
-            self.image_name += ':' + tag
         except docker.errors.APIError as err:
             logging.error('Unable to build the docker image: with error')
             logging.error(f'   {err}')
             sys.exit(1)
+
+
+class DockerHelperContainer(DockerHelperBase):
+    """
+    Helper class for docker containers. Helps input / outputs
+    management, volumes management and running containers
+    """
+    def __init__(self, image_name, tag):
+        super().__init__(image_name, tag)
+        self.container_name = None
+        self.mounted_input_dir = os.getcwd()
+        self.mounted_output_dir = os.getcwd()
+        # Some containers (like 3DUse) provide multiple commands each of
+        # which might require its proper working directory (i.e. the WORKDIR
+        # variable of the Dockerfile)
+        self.working_dir = None
+        self.volumes = dict()
+        self.environment = None   # Docker run environment variables
+        self.run_arguments = None  # The arguments handled over to the run()
+
+        self.__container = None
 
     def set_mounted_input_directory(self, directory):
         if not os.path.isdir(directory):
@@ -103,6 +124,11 @@ class DockerHelperBase(ABC):
             logging.info(f'Output dir to mount {directory} not found. Exiting')
             sys.exit(1)
         self.mounted_output_dir = directory
+
+    def get_container(self):
+        if not self.__container:
+            logging.info('Warning: requesting an unset container.')
+        return self.__container
 
     def add_volume(self, host_volume, inside_docker_volume, mode):
         """
@@ -121,6 +147,11 @@ class DockerHelperBase(ABC):
         print("WTF")
 
     def set_run_arguments(self):
+        """
+        Sets common arguments passed to the run method of the docker SDK lib.
+        Other arguments can be set by child classes, e.g. the
+        DockerHelperService class sets the 'ports' argument.
+        """
         self.run_arguments = dict(
             # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
@@ -133,7 +164,7 @@ class DockerHelperBase(ABC):
         )
 
         if self.container_name:
-            containers = self.__client.containers.list(
+            containers = self.client.containers.list(
                 filters={'name': self.container_name})
             if containers:
                 logging.error(f'A container named {self.container_name} '
@@ -151,8 +182,8 @@ class DockerHelperBase(ABC):
         Prepare the information required to launch the container and run it
         (always in a detached mode, for technical reasons).
         """
-        self.__container = self.__client.containers.run(
-            self.image_name,
+        self.__container = self.client.containers.run(
+            self.full_image_name,
             **self.run_arguments)
 
     def retrieve_output_and_errors(self):
@@ -166,9 +197,9 @@ class DockerHelperBase(ABC):
             logging.info(f'docker-stderr> {err}')
 
 
-class DockerHelperService(DockerHelperBase):
-    def __init__(self, image_name):
-        super().__init__(image_name)
+class DockerHelperService(DockerHelperContainer):
+    def __init__(self, image_name, tag):
+        super().__init__(image_name, tag)
         self.ports = None
 
     """
@@ -187,12 +218,11 @@ class DockerHelperService(DockerHelperBase):
         super().run()
 
 
-class DockerHelperTask(DockerHelperBase):
+class DockerHelperTask(DockerHelperContainer):
     """
     Have the container execute some (computational) task and, when
     computation is done, terminate the container.
     """
-
     def run(self):
         # Set input and output volumes
         # Tasks volumes are set in this class with the following convention:
