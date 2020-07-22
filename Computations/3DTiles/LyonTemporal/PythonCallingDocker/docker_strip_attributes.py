@@ -3,6 +3,7 @@ import sys
 import logging
 from docker_helper import DockerHelperBuild, DockerHelperTask
 import demo_configuration as demo
+import demo_strip_attributes
 
 
 class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
@@ -39,8 +40,8 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
 
     def get_command(self):
         self.assert_ready_for_run()
-        # We don't need to specify the executable since an entrypoint is specified in the DockerFile of
-        # DockerStripAttributes
+        # We don't need to specify the executable since an entrypoint
+        # is specified in the DockerFile of DockerStripAttributes
         command = '--input /Input/' + self.input_filename + ' '
 
         if self.mounted_input_dir == self.mounted_output_dir:
@@ -53,42 +54,27 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
         return command
 
 
-def strip(input_dir, input_filename, output_filename):
-    d = DockerStripAttributes()
-
-    # Docker only accepts absolute path names as argument for its volumes
-    # to be mounted:
-    absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
-
-    d.set_mounted_input_directory(absolute_path_input_dir)
-    d.set_mounted_output_directory(d.get_mounted_input_directory())
-    d.set_input_filename(input_filename)
-    d.set_output_filename(output_filename)
-
-    d.run()
-
-    # Since CityGML2Stripper does not allow to specify an output folder,
-    # you can use os.replace to move the resulting file to a specific folder.
-    # For instance, you can do:
-    #   os.replace('LYON_1ER_BATI_2009_splited_stripped.gml',
-    #              '/path/to/destination/folder/LYON_1ER_BATI_2009_splited_stripped.gml')
-
-
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-    # Note: there is probably something simpler to be done with
-    # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
-    # cannot access it in this context
-    inputs = list()
-    for borough in demo.boroughs:
-        for vintage in demo.vintages:
-            inputs.append(
-                [os.path.join(demo.output_dir, borough + '_' + str(vintage)),
-                 borough + '_BATI_' + str(vintage) + '_splited.gml',
-                 borough + '_BATI_' + str(vintage) + '_splited_stripped.gml'])
+    # The following vintage_inputs lists should merged into a single list
+    # of files to be returned by an upcoming SplitInputsOutputs.get_
+    # resulting_filenames() method...
+    strip = demo_strip_attributes.StripInputsOutputs()
+    for vintage in demo.vintages:
+        vintage_inputs = list()
+        for borough in demo.boroughs:
+            input_filename = os.path.join(
+                 demo.output_dir,
+                 borough + '_' + str(vintage),
+                 borough + '_BATI_' + str(vintage) + '_splited.gml')
+            vintage_inputs.append(input_filename)
 
-    for f in inputs:
-        print("Now handling", f)
-        strip(input_dir=f[0], input_filename=f[1], output_filename=f[2])
+        for filename in vintage_inputs:
+            strip.strip_single_file(
+                DockerStripAttributes(),
+                input_dir=os.path.dirname(filename),
+                input_filename=os.path.basename(filename),
+                output_dir=strip.get_output_dir(vintage))
+
