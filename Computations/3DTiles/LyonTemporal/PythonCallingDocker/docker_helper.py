@@ -9,9 +9,17 @@ from abc import ABC, abstractmethod
 
 class DockerHelperBase(ABC):
 
-    def __init__(self, image_name):
-        # The name of the image to build or to pull
+    def __init__(self, image_name, tag):
+        """
+        :param image_name: image name (e.g. "3DCityDB")
+        :param tag: tag of the image (e.g. "v4.0.2")
+        """
+        # Some methods of docker SDK need the image_name and/or the tag_name
+        # independently while others need the full image name which is a
+        # concatenation of these.
         self.image_name = image_name
+        self.tag = tag
+        self.full_image_name = image_name + ':' + tag
         self.container_name = None
         self.mounted_input_dir = os.getcwd()
         self.mounted_output_dir = os.getcwd()
@@ -109,7 +117,7 @@ class DockerHelperBase(ABC):
         (always in a detached mode, for technical reasons).
         """
         self.__container = self.client.containers.run(
-            self.image_name,
+            self.full_image_name,
             **self.run_arguments)
 
     def retrieve_output_and_errors(self):
@@ -127,6 +135,7 @@ class DockerHelperBuild(DockerHelperBase):
     """
     Build an image from a local Docker context
     """
+    # FIXME: make context_dir an attribute of the class ?
     def build(self, context_dir):
         """
         Provision the docker image by building it.
@@ -136,10 +145,13 @@ class DockerHelperBuild(DockerHelperBase):
             sys.exit(1)
 
         try:
+            # Note: The tag argument is not self.tag since it is not the
+            # version of the image that is expected here but the full image
+            # name; i.e. here we "tag" the built image with the full image name.
             result = self.client.images.build(
                 path=context_dir,
-                tag=self.image_name)
-            logging.info(f'Docker building image: {self.image_name}')
+                tag=self.full_image_name)
+            logging.info(f'Docker building image: {self.full_image_name}')
             for line in result:
                 logging.info(f'    {line}')
             logging.info(f'Docker building image done.')
@@ -156,19 +168,15 @@ class DockerHelperPull(DockerHelperBase):
     """
     Pull an image from a well known docker registry
     """
-    def pull(self, tag):
+    def pull(self):
         """
         Provision the docker image by pulling it from some well know docker
-        registry (stored in self.image_name).
+        registry (stored in self.repository).
         """
         try:
-            self.client.images.pull(repository=self.image_name, tag=tag)
-            logging.info(f'Docker pulling image: {self.image_name}:{tag}')
+            self.client.images.pull(repository=self.image_name, tag=self.tag)
+            logging.info(f'Docker pulling image: {self.full_image_name}')
             logging.info(f'Docker pulling image done.')
-            # FIXME: this concatenation is a hack since the run method does not
-            # have a tag argument, but the tag should be an attribute of the class
-            # and be concatenated when docker.run is invoked.
-            self.image_name += ':' + tag
         except docker.errors.APIError as err:
             logging.error('Unable to build the docker image: with error')
             logging.error(f'   {err}')
@@ -176,8 +184,8 @@ class DockerHelperPull(DockerHelperBase):
 
 
 class DockerHelperService(DockerHelperBase):
-    def __init__(self, image_name):
-        super().__init__(image_name)
+    def __init__(self, image_name, tag):
+        super().__init__(image_name, tag)
         self.ports = None
 
     """
@@ -201,7 +209,6 @@ class DockerHelperTask(DockerHelperBase):
     Have the container execute some (computational) task and, when
     computation is done, terminate the container.
     """
-
     def run(self):
         # Set input and output volumes
         # Tasks volumes are set in this class with the following convention:

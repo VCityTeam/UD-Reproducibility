@@ -8,7 +8,7 @@ import demo_configuration as demo
 class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
-        super().__init__('liris:CityGML2Stripper')
+        super().__init__('liris', 'CityGML2Stripper')
         context_dir = os.path.join(os.getcwd(),
                                    '..',
                                    'Docker',
