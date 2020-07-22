@@ -8,7 +8,9 @@ from abc import ABC, abstractmethod
 
 
 class DockerHelperBase(ABC):
-
+    """
+    Helper class for docker manipulation, built on docker SDK library.
+    """
     def __init__(self, image_name, tag):
         """
         :param image_name: image name (e.g. "3DCityDB")
@@ -20,20 +22,7 @@ class DockerHelperBase(ABC):
         self.image_name = image_name
         self.tag = tag
         self.full_image_name = image_name + ':' + tag
-        self.container_name = None
-        self.mounted_input_dir = os.getcwd()
-        self.mounted_output_dir = os.getcwd()
-        # Some containers (like 3DUse) provide multiple commands each of
-        # which might require its proper working directory (i.e. the WORKDIR
-        # variable of the Dockerfile)
-        self.working_dir = None
-        self.volumes = dict()
-        self.environment = None   # Docker run environment variables
-        self.run_arguments = None  # The arguments handled over to the run()
         self.client = None  # The name for the docker client (read server)
-
-        self.__container = None
-
         self.assert_server_is_active()
 
     def assert_server_is_active(self):
@@ -49,93 +38,11 @@ class DockerHelperBase(ABC):
             logging.error('   is a docker server running this host ?')
             sys.exit(1)
 
-    def get_container(self):
-        if not self.__container:
-            logging.info('Warning: requesting an unset container.')
-        return self.__container
-
-    def set_mounted_input_directory(self, directory):
-        if not os.path.isdir(directory):
-            logging.info(f'Input dir to mount {directory} not found. Exiting')
-            sys.exit(1)
-        self.mounted_input_dir = directory
-
-    def get_mounted_input_directory(self):
-        return self.mounted_input_dir
-
-    def set_mounted_output_directory(self, directory):
-        if not os.path.isdir(directory):
-            logging.info(f'Output dir to mount {directory} not found. Exiting')
-            sys.exit(1)
-        self.mounted_output_dir = directory
-
-    def add_volume(self, host_volume, inside_docker_volume, mode):
-        """
-        :param host_volume: The host path (must be absolute) or
-        the volume name (must have been created earlier with
-        docker volume create) to bind the data to.
-        :param inside_docker_volume: The path to mount
-        the volume inside the container.
-        :param mode: Volume access mode which is either
-        'rw' for 'read write' or 'ro' for read-only.
-        """
-        self.volumes[host_volume] = {'bind': inside_docker_volume, 'mode': mode}
-
-    @abstractmethod
-    def get_command(self):
-        print("WTF")
-
-    def set_run_arguments(self):
-        self.run_arguments = dict(
-            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
-            command=self.get_command(),
-            volumes=self.volumes,
-            working_dir=self.working_dir,
-            stdin_open=True,
-            stderr=True,
-            detach=True,
-            tty=True
-        )
-
-        if self.container_name:
-            containers = self.client.containers.list(
-                filters={'name': self.container_name})
-            if containers:
-                logging.error(f'A container named {self.container_name} '
-                              'already exists. Exiting.')
-                sys.exit(1)
-            self.run_arguments['name'] = self.container_name
-
-        if self.environment:
-            self.run_arguments['environment'] = self.environment
-        if self.working_dir:
-            self.run_arguments['working_dir'] = self.working_dir
-
-    def run(self):
-        """
-        Prepare the information required to launch the container and run it
-        (always in a detached mode, for technical reasons).
-        """
-        self.__container = self.client.containers.run(
-            self.full_image_name,
-            **self.run_arguments)
-
-    def retrieve_output_and_errors(self):
-        out = self.__container.logs(stdout=True, stderr=False)
-        if out:
-            logging.info('Docker run standard output follows:')
-            logging.info(f'docker-stdout> {out}')
-        err = self.__container.logs(stdout=False, stderr=True)
-        if err:
-            logging.info('Docker run standard error follows:')
-            logging.info(f'docker-stderr> {err}')
-
 
 class DockerHelperBuild(DockerHelperBase):
     """
     Build an image from a local Docker context
     """
-    # FIXME: make context_dir an attribute of the class ?
     def build(self, context_dir):
         """
         Provision the docker image by building it.
@@ -183,7 +90,114 @@ class DockerHelperPull(DockerHelperBase):
             sys.exit(1)
 
 
-class DockerHelperService(DockerHelperBase):
+class DockerHelperContainer(DockerHelperBase):
+    """
+    Helper class for docker containers. Helps input / outputs
+    management, volumes management and running containers
+    """
+    def __init__(self, image_name, tag):
+        super().__init__(image_name, tag)
+        self.container_name = None
+        self.mounted_input_dir = os.getcwd()
+        self.mounted_output_dir = os.getcwd()
+        # Some containers (like 3DUse) provide multiple commands each of
+        # which might require its proper working directory (i.e. the WORKDIR
+        # variable of the Dockerfile)
+        self.working_dir = None
+        self.volumes = dict()
+        self.environment = None   # Docker run environment variables
+        self.run_arguments = None  # The arguments handled over to the run()
+
+        self.__container = None
+
+    def set_mounted_input_directory(self, directory):
+        if not os.path.isdir(directory):
+            logging.info(f'Input dir to mount {directory} not found. Exiting')
+            sys.exit(1)
+        self.mounted_input_dir = directory
+
+    def get_mounted_input_directory(self):
+        return self.mounted_input_dir
+
+    def set_mounted_output_directory(self, directory):
+        if not os.path.isdir(directory):
+            logging.info(f'Output dir to mount {directory} not found. Exiting')
+            sys.exit(1)
+        self.mounted_output_dir = directory
+
+    def get_container(self):
+        if not self.__container:
+            logging.info('Warning: requesting an unset container.')
+        return self.__container
+
+    def add_volume(self, host_volume, inside_docker_volume, mode):
+        """
+        :param host_volume: The host path (must be absolute) or
+        the volume name (must have been created earlier with
+        docker volume create) to bind the data to.
+        :param inside_docker_volume: The path to mount
+        the volume inside the container.
+        :param mode: Volume access mode which is either
+        'rw' for 'read write' or 'ro' for read-only.
+        """
+        self.volumes[host_volume] = {'bind': inside_docker_volume, 'mode': mode}
+
+    @abstractmethod
+    def get_command(self):
+        print("WTF")
+
+    def set_run_arguments(self):
+        """
+        Sets common arguments passed to the run method of the docker SDK lib.
+        Other arguments can be set by child classes, e.g. the
+        DockerHelperService class sets the 'ports' argument.
+        """
+        self.run_arguments = dict(
+            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
+            command=self.get_command(),
+            volumes=self.volumes,
+            working_dir=self.working_dir,
+            stdin_open=True,
+            stderr=True,
+            detach=True,
+            tty=True
+        )
+
+        if self.container_name:
+            containers = self.client.containers.list(
+                filters={'name': self.container_name})
+            if containers:
+                logging.error(f'A container named {self.container_name} '
+                              'already exists. Exiting.')
+                sys.exit(1)
+            self.run_arguments['name'] = self.container_name
+
+        if self.environment:
+            self.run_arguments['environment'] = self.environment
+        if self.working_dir:
+            self.run_arguments['working_dir'] = self.working_dir
+
+    def run(self):
+        """
+        Prepare the information required to launch the container and run it
+        (always in a detached mode, for technical reasons).
+        """
+        self.__container = self.client.containers.run(
+            self.full_image_name,
+            **self.run_arguments)
+
+    def retrieve_output_and_errors(self):
+        out = self.__container.logs(stdout=True, stderr=False)
+        if out:
+            logging.info('Docker run standard output follows:')
+            logging.info(f'docker-stdout> {out}')
+        err = self.__container.logs(stdout=False, stderr=True)
+        if err:
+            logging.info('Docker run standard error follows:')
+            logging.info(f'docker-stderr> {err}')
+
+
+class DockerHelperService(DockerHelperContainer):
     def __init__(self, image_name, tag):
         super().__init__(image_name, tag)
         self.ports = None
@@ -204,7 +218,7 @@ class DockerHelperService(DockerHelperBase):
         super().run()
 
 
-class DockerHelperTask(DockerHelperBase):
+class DockerHelperTask(DockerHelperContainer):
     """
     Have the container execute some (computational) task and, when
     computation is done, terminate the container.

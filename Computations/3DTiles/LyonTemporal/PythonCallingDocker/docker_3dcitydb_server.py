@@ -50,7 +50,8 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                 or ('PG_USER' not in db_config)
                 or ('PG_PASSWORD' not in db_config)
                 or ('PG_VINTAGE' not in db_config)):
-            print('ERROR: Database is not properly defined in ' + self.config_file + ', please refer to README.md')
+            print('ERROR: Database is not properly defined in ' +
+                  self.config_file + ', please refer to README.md')
             sys.exit(1)
 
         self.environment = {'CITYDBNAME': db_config['PG_NAME'],
@@ -59,7 +60,7 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                             'POSTGRES_USER': db_config['PG_USER'],
                             'POSTGRES_PASSWORD': db_config['PG_PASSWORD']}
 
-        self.ports = {'5432/tcp':db_config['PG_PORT']}
+        self.ports = {'5432/tcp': db_config['PG_PORT']}
         self.vintage = db_config['PG_VINTAGE']
         self.container_name = 'citydb-container-' + str(self.vintage)
 
@@ -83,8 +84,10 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
         Overloads the run method of DockerHelperService.
         :return:
         """
-        absolute_path_output_dir = os.path.join(os.getcwd(), demo.output_dir) + '/postgres-data'
-        self.add_volume(absolute_path_output_dir, '/var/lib/postgresql/data', 'rw')
+        absolute_path_output_dir = os.path.join(os.getcwd(), demo.output_dir) + \
+                                   '/postgres-data'
+        self.add_volume(absolute_path_output_dir, '/var/lib/postgresql/data',
+                        'rw')
         super().run()
 
 
