@@ -62,7 +62,7 @@ class DockerExtractBuildingDates(Docker3DUse):
 
     def get_command(self):
         self.assert_ready_for_run()
-        command = 'extractBuildingDates '   # Mind the trailing separator
+        command = 'extractBuildingDates '  # Mind the trailing separator
 
         command += '--first_date ' + self.first_date + ' '
         command += '--first_file /Input/' + self.first_input_filename + ' '
@@ -106,20 +106,23 @@ if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
-    relative_output_dir_base = 'Differences'  # Relative to demo.output_dir
+    output_dir_base = os.path.join(demo.output_dir, 'Differences')
+    # Relative to demo.output_dir
+    logging.info(f'Creating directory {output_dir_base}.')
+    # Create the relative output directory base
+    os.mkdir(output_dir_base)
     # Note: there is probably something simpler to be done with
     # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
     # cannot access it in this context
     inputs = list()
     for borough in demo.boroughs:
-        for vintage_index in range(len(demo.vintages)-1):
+        for vintage_index in range(len(demo.vintages) - 1):
             first_date = str(demo.vintages[vintage_index])
-            second_date = str(demo.vintages[vintage_index+1])
+            second_date = str(demo.vintages[vintage_index + 1])
 
             # Make sure the output directory exists:
-            relative_output_dir = \
-                first_date + '_' + second_date + '_' + relative_output_dir_base
-            output_dir = os.path.join(demo.output_dir, relative_output_dir)
+            output_dir = output_dir_base + '/' + first_date + '_' + \
+                second_date + '_' + 'Differences'
             if not os.path.isdir(output_dir):
                 logging.info(f'Creating directory {output_dir}.')
                 os.mkdir(output_dir)
