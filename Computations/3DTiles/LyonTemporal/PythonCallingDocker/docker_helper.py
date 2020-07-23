@@ -35,7 +35,7 @@ class DockerHelperBase(ABC):
             self.client.ping()
         except (requests.exceptions.ConnectionError, docker.errors.APIError):
             logging.error('Unable to connect to a docker server:')
-            logging.error('   is a docker server running this host ?')
+            logging.error('   is a docker server running on this host ?')
             sys.exit(1)
 
 
@@ -140,6 +140,17 @@ class DockerHelperContainer(DockerHelperBase):
         :param mode: Volume access mode which is either
         'rw' for 'read write' or 'ro' for read-only.
         """
+        if not os.path.isdir(host_volume):
+            logging.error(f'No such host directory {host_volume}. Exiting')
+            sys.exit(1)
+        if not os.path.isabs(host_volume):
+            logging.error(f'Host directory {host_volume} is not absolute.'
+                          'Exiting')
+            sys.exit(1)
+        if not os.path.isabs(inside_docker_volume):
+            logging.error(f'Mount point {inside_docker_volume} is not absolute.'
+                          ' Exiting')
+            sys.exit(1)
         self.volumes[host_volume] = {'bind': inside_docker_volume, 'mode': mode}
 
     @abstractmethod
