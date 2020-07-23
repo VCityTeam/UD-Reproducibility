@@ -43,7 +43,7 @@ class StripInputsOutputs:
         for vintage in self.vintages:
             for borough in self.boroughs:
                 result.append(
-                    borough + '_BATI_' + str(vintage) + '_splitted_stripped.gml')
+                    borough + '_BATI_' + str(vintage) + '_splited_stripped.gml')
         return result
 
     def get_resulting_filenames(self):

@@ -2,22 +2,23 @@ import os
 import sys
 import logging
 import git
-from docker_3duse import DockerHelperTask
-import demo_configuration as demo
+from docker_helper import DockerHelperBuild, DockerHelperTask
+import demo_strip_attributes
+import demo_configuration
 
 
-class DockerLoadDatabase(DockerHelperTask):
+class DockerLoadDatabase(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
-        super().__init__('tumgis/3dcitydb-impexp:4.2.2')
+        super().__init__('tumgis/3dcitydb-impexp','4.2.2')
 
         extraction_dir = os.path.join(
             os.getcwd(),
             '3dcitydb-importer-exporter-docker.git')
         if os.path.isdir(extraction_dir):
             logging.info(f'Extraction directory {extraction_dir} already '
-                         'exists. Using the existing one (that might not.'
-                         'up to date/the proper branch...')
+                         'exists. Using the existing one (that might not '
+                         'be up to date or on the proper branch...')
         else:
             repository = \
                 "https://github.com/tum-gis/3dcitydb-importer-exporter-docker"
@@ -53,7 +54,7 @@ class DockerLoadDatabase(DockerHelperTask):
             sys.exit(1)
         self.configuration_filename = os.path.basename(configuration_filename)
         self.configuration_dir = os.path.dirname(configuration_filename)
-        self.add_volume(self.configuration_dir, '/InputConfig')
+        self.add_volume(self.configuration_dir, '/InputConfig', 'rw')
 
     def set_files_to_import(self, files):
         if not type(files) is list:
@@ -77,16 +78,16 @@ class DockerLoadDatabase(DockerHelperTask):
                     logging.error(f'Exiting.')
                     sys.exit(1)
             self.files_to_import.append(os.path.basename(file))
-        self.add_volume(self.importation_dir, '/InputFiles')
+        self.add_volume(self.importation_dir, '/InputFiles', 'rw')
 
     def get_command(self):
         self.assert_ready_for_run()
         command = '-config '   # Mind the trailing separator
         command += '/InputConfig/' + self.configuration_filename + ' '
 
-        command += '-import'
+        command += '-import '
         for file in self.files_to_import:
-            command += ' /InputFiles' + file
+            command += '/InputFiles/' + file + ';'
 
         return command
 
@@ -109,26 +110,33 @@ if __name__ == '__main__':
     # cannot access it in this context
 
     logging.info('Stage 1: starting databases.')
-    active_databases = list()
-    for vintage in demo.vintages:
-        data_base = Docker3DCityDBServer()
-        data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
-        data_base.load_config_file()
-        data_base.run()
-        active_databases.append(data_base)
-    logging.info('Stage 1: done.')
+    if False:
+        active_databases = list()
+        for vintage in demo.vintages:
+            data_base = Docker3DCityDBServer()
+            data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
+            data_base.load_config_file()
+            data_base.run()
+            active_databases.append(data_base)
+        logging.info('Stage 1: done.')
 
     logging.info(f'Stage 2: importing files to databases.')
-    for vintage in demo.vintages:
+    for vintage in demo_configuration.vintages:
         inputs = list()
-        for borough in demo.boroughs:
+        strip = demo_strip_attributes.StripInputsOutputs(
+            output_dir=demo_configuration.output_dir,
+            vintages=[vintage],
+            boroughs=demo_configuration.boroughs)
+
+        for file in strip.get_resulting_files_basenames():
             relative_filename = os.path.join(
-                demo.strip.output_dir(vintage),
-                borough + '_BATI_' + str(vintage) + '_splited_stripped.gml')
+               strip.get_output_dir(vintage),
+               file)
             inputs.append(os.path.abspath(relative_filename))
 
         configuration_file = '3dCityDBImpExpConfig-' + str(vintage) + '.xml'
         logging.info(f'Importation for vintage {str(vintage)}: starting.')
+        logging.info(f'Files set for importation: {inputs}')
         import_files(os.path.abspath(configuration_file), inputs)
         logging.info(f'Importation for vintage {str(vintage)}: done.')
     logging.info('Stage 2: done')
