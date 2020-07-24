@@ -3,8 +3,9 @@ import sys
 import logging
 import git
 from docker_helper import DockerHelperBuild, DockerHelperTask
+from docker_3dcitydb_server import Docker3DCityDBServer
 import demo_strip_attributes
-import demo_configuration
+import demo_configuration as demo
 
 
 class DockerLoadDatabase(DockerHelperBuild, DockerHelperTask):
@@ -100,7 +101,6 @@ def import_files(configuration_file, input_filenames):
 
 
 if __name__ == '__main__':
-    from docker_3dcitydb_server import Docker3DCityDBServer
 
     logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -110,23 +110,23 @@ if __name__ == '__main__':
     # cannot access it in this context
 
     logging.info('Stage 1: starting databases.')
-    if False:
-        active_databases = list()
-        for vintage in demo.vintages:
-            data_base = Docker3DCityDBServer()
-            data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
-            data_base.load_config_file()
-            data_base.run()
-            active_databases.append(data_base)
-        logging.info('Stage 1: done.')
+
+    active_databases = list()
+    for vintage in demo.vintages:
+        data_base = Docker3DCityDBServer()
+        data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
+        data_base.load_config_file()
+        data_base.run()
+        active_databases.append(data_base)
+    logging.info('Stage 1: done.')
 
     logging.info(f'Stage 2: importing files to databases.')
-    for vintage in demo_configuration.vintages:
+    for vintage in demo.vintages:
         inputs = list()
         strip = demo_strip_attributes.StripInputsOutputs(
-            output_dir=demo_configuration.output_dir,
+            output_dir=demo.output_dir,
             vintages=[vintage],
-            boroughs=demo_configuration.boroughs)
+            boroughs=demo.boroughs)
 
         for file in strip.get_resulting_files_basenames():
             relative_filename = os.path.join(
