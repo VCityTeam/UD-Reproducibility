@@ -238,16 +238,20 @@ class DockerHelperTask(DockerHelperContainer):
         # Set input and output volumes
         # Tasks volumes are set in this class with the following convention:
         # input files are located
-        self.add_volume(self.mounted_input_dir, '/Input', 'rw')
-        if not self.mounted_input_dir == self.mounted_output_dir:
-            # When mounting the same directory twice (which is the case when
-            # the input and output directory are the same) then containers.run()
-            # raises a docker.errors.ContainerError. Hence we only mount the
-            # /Output volume when they both differ. Note that when this
-            # happens the command in the derived class must be altered in order
-            # to place its output in the /Input mounted point (because in this
-            # /Output is (equal to) /Input.
-            self.add_volume(self.mounted_output_dir, '/Output', 'rw')
+        # FIXME: This should not be done in this class but should be the
+        #  responsibility of inheriting classes instead since in some cases, it
+        #  is not the volumes we want to mount (e.g. for DockerLoad3DCityDB)
+        #  Note: removing it makes the dockerload3dcitydb work
+        # self.add_volume(self.mounted_input_dir, '/Input', 'rw')
+        # if not self.mounted_input_dir == self.mounted_output_dir:
+        #     # When mounting the same directory twice (which is the case when
+        #     # the input and output directory are the same) then containers.run()
+        #     # raises a docker.errors.ContainerError. Hence we only mount the
+        #     # /Output volume when they both differ. Note that when this
+        #     # happens the command in the derived class must be altered in order
+        #     # to place its output in the /Input mounted point (because in this
+        #     # /Output is (equal to) /Input.
+        #     self.add_volume(self.mounted_output_dir, '/Output', 'rw')
         self.set_run_arguments()
         super().run()
         self.get_container().wait()

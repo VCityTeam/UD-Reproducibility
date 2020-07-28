@@ -25,7 +25,7 @@ cat <<EOF
 EOF
 
 # Print version info
-./bin/impexp  -shell -version
+./bin/impexp -shell -version
  
 # Print cmd line passed to container
 printf "Following command line parameters are passed to the 3DCityDB ImporterExporter:\n"
@@ -33,4 +33,4 @@ printf "\n\t"
 echo "-shell $@"
 echo
 
-./bin/impexp  -shell "$@"
+./bin/impexp -shell "$@"

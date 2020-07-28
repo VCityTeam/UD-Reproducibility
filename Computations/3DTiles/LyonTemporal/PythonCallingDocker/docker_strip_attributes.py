@@ -76,5 +76,7 @@ if __name__ == '__main__':
                 DockerStripAttributes(),
                 input_dir=os.path.dirname(filename),
                 input_filename=os.path.basename(filename),
-                output_dir=strip.get_output_dir(vintage))
+                output_dir=os.path.dirname(filename))
+            # FIXME: we should probably use strip.get_output_dir(vintage,
+            #  borough) for the output_dir.
 

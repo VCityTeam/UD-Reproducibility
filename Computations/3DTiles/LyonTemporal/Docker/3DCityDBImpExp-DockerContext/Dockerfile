@@ -26,8 +26,14 @@ RUN set -x && \
 # Clone 3DCityDB
 RUN set -x && \
   mkdir -p build_tmp && \
-  git clone -b "${IMPEXP_VERSION}" --depth 1 https://github.com/3dcitydb/importer-exporter.git build_tmp && \
-  git checkout 8fddd30edbe2e21b37114182af33edc1379bc945
+  git clone -b "${IMPEXP_VERSION}" --depth 1 https://github.com/3dcitydb/importer-exporter.git build_tmp
+
+# Checkout on a specific sha1 that we know to be working with the -shell option
+# FIXME: the checkout does not work when running the docker file but does
+# when running the commands of this docker in a terminal....
+#RUN set -x && \
+#  cd build_tmp && \
+#  git checkout 8fddd30edbe2e21b37114182af33edc1379bc945
 
 # Build ImpExp
 RUN set -x && \
