@@ -5,6 +5,7 @@ import pytest
 
 sys.path.insert(0, '.')
 from docker_strip_attributes import DockerStripAttributes
+from demo_strip_attributes import StripInputsOutputs
 
 sys.path.insert(0, 'Tests')
 from helper_test import md5
@@ -29,27 +30,36 @@ class TestDockerStripAttributes:
     # @pytest.mark.run(after='tests/test_lyon_metropole_dowload_and_sanitize.py::TestLyonMetropoleDowloadAndSanitize::test_lyon_1er_2009')
     # @pytest.mark.run(after='test_lyon_1er_2009')
     #
-    @pytest.mark.run(order=3)
-    def test_lyon_1er_2009_strip(self):
+    @pytest.mark.run(order=5)
+    def test_lyon_1er_2009_2012_strip(self):
         self.shared()
 
-        in_out_dir = 'pytest_outputs/LYON_1ER_2009'
-        in_filename = 'LYON_1ER_BATI_2009_splited.gml'
-        out_filename = 'LYON_1ER_BATI_2009_splited_stripped.gml'
-        full_in_filename = os.path.join(in_out_dir, in_filename)
-        full_out_filename = os.path.join(in_out_dir, out_filename)
+        vintages = ['2009', '2012']
+        stripper = StripInputsOutputs()
+        out_files = []
 
-        if not os.path.isfile(full_in_filename):
-            pytest.fail(f'Input file {full_in_filename} not found.')
+        for vintage in vintages:
+            in_out_dir = 'pytest_outputs/LYON_1ER_' + vintage
+            in_filename = 'LYON_1ER_BATI_' + vintage + '_splited.gml'
+            out_filename = 'LYON_1ER_BATI_' + vintage + '_splited_stripped.gml'
+            full_in_filename = os.path.join(in_out_dir, in_filename)
+            full_out_filename = os.path.join(in_out_dir, out_filename)
+            out_files.append(full_out_filename)
 
-        d = DockerStripAttributes()
-        d.set_mounted_input_directory(os.path.join(os.getcwd(), in_out_dir))
-        d.set_mounted_output_directory(d.get_mounted_input_directory())
-        d.set_input_filename(in_filename)
-        d.set_output_filename(out_filename)
-        d.run()
+            if not os.path.isfile(full_in_filename):
+                pytest.fail(f'Input file {full_in_filename} not found.')
 
-        if not os.path.isfile(full_out_filename):
-            pytest.fail(f'Output file {full_out_filename} not found.')
-        if not md5(full_out_filename) == '9a05e075b8e08491adea1255c55ea26a':
-            pytest.fail('Signature of outfile does not match.')
+            stripper.strip_single_file(
+                DockerStripAttributes(),
+                input_dir=in_out_dir,
+                input_filename=in_filename,
+                output_dir=in_out_dir
+            )
+
+            if not os.path.isfile(full_out_filename):
+                pytest.fail(f'Output file {full_out_filename} not found.')
+
+        if not md5(out_files[0]) == '9a05e075b8e08491adea1255c55ea26a':
+            pytest.fail('Signature of ' + out_files[0] + ' does not match.')
+        if not md5(out_files[1]) == 'b508e21e5c77c15e0c6c404ead69555e':
+            pytest.fail('Signature of ' + out_files[1] + ' does not match.')
