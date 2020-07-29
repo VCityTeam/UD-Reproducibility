@@ -86,13 +86,12 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
         """
         absolute_path_output_dir = os.path.join(os.getcwd(),
                                                 demo.output_dir,
-                                                'postgres-data')
+                                                'postgres-data',
+                                                self.container_name)
         if not os.path.isdir(absolute_path_output_dir):
             logging.info('Creating local mount-point directory '
                          f'{absolute_path_output_dir}')
             os.mkdir(absolute_path_output_dir)
-        # FIXME: the class user must be able to specify the local directory
-        # (we need to separate the vintage databases).
 
         self.add_volume(absolute_path_output_dir,
                         '/var/lib/postgresql/data',
@@ -109,6 +108,7 @@ if __name__ == '__main__':
         data_base = Docker3DCityDBServer()
         data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
         data_base.load_config_file()
+        data_base.set_database_name('')
         data_base.run()
         active_databases.append(data_base)
 
