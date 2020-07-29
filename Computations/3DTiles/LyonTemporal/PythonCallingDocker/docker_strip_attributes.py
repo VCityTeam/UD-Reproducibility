@@ -53,6 +53,20 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
         command += self.output_filename + ' '
         return command
 
+    def run(self):
+        # Set input and output volumes
+        self.add_volume(self.mounted_input_dir, '/Input', 'rw')
+        if not self.mounted_input_dir == self.mounted_output_dir:
+            # When mounting the same directory twice (which is the case when
+            # the input and output directory are the same) then containers.run()
+            # raises a docker.errors.ContainerError. Hence we only mount the
+            # /Output volume when they both differ. Note that when this
+            # happens the command in the derived class must be altered in order
+            # to place its output in the /Input mounted point (because in this
+            # /Output is (equal to) /Input.
+            self.add_volume(self.mounted_output_dir, '/Output', 'rw')
+        super().run()
+
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
@@ -76,5 +90,7 @@ if __name__ == '__main__':
                 DockerStripAttributes(),
                 input_dir=os.path.dirname(filename),
                 input_filename=os.path.basename(filename),
-                output_dir=strip.get_output_dir(vintage))
+                output_dir=os.path.dirname(filename))
+            # FIXME: we should probably use strip.get_output_dir(vintage,
+            #  borough) for the output_dir.
 

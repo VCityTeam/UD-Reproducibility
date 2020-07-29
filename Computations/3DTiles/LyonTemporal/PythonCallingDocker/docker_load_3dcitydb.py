@@ -3,28 +3,35 @@ import sys
 import logging
 import git
 from docker_helper import DockerHelperBuild, DockerHelperTask
+from docker_3dcitydb_server import Docker3DCityDBServer
 import demo_strip_attributes
-import demo_configuration
+import demo_configuration as demo
 
 
-class DockerLoadDatabase(DockerHelperBuild, DockerHelperTask):
+class DockerLoad3DCityDB(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
-        super().__init__('tumgis/3dcitydb-impexp','4.2.2')
+        super().__init__('tumgis/3dcitydb-impexp', '4.2.3')
 
-        extraction_dir = os.path.join(
-            os.getcwd(),
-            '3dcitydb-importer-exporter-docker.git')
-        if os.path.isdir(extraction_dir):
-            logging.info(f'Extraction directory {extraction_dir} already '
-                         'exists. Using the existing one (that might not '
-                         'be up to date or on the proper branch...')
-        else:
-            repository = \
-                "https://github.com/tum-gis/3dcitydb-importer-exporter-docker"
-            git.Repo.clone_from(repository, extraction_dir)
+        # Note: old method with git clone, now we build the docker from a local
+        # DockerFile (see ../Docker/3DCityDB-ImpExp-DockerContext/Readme.md)
+        # extraction_dir = os.path.join(
+        #     os.getcwd(),
+        #     '3dcitydb-importer-exporter-docker.git')
+        # if os.path.isdir(extraction_dir):
+        #     logging.info(f'Extraction directory {extraction_dir} already '
+        #                  'exists. Using the existing one (that might not '
+        #                  'be up to date or on the proper branch...')
+        # else:
+        #     repository = \
+        #         "https://github.com/tum-gis/3dcitydb-importer-exporter-docker"
+        #     git.Repo.clone_from(repository, extraction_dir)
 
-        self.build(extraction_dir)
+        context_dir = os.path.join(os.getcwd(),
+                                   '..',
+                                   'Docker',
+                                   '3DCityDBImpExp-DockerContext')
+        self.build(context_dir)
 
         self.configuration_filename = None
         self.configuration_dir = None
@@ -82,7 +89,7 @@ class DockerLoadDatabase(DockerHelperBuild, DockerHelperTask):
 
     def get_command(self):
         self.assert_ready_for_run()
-        command = '-config '   # Mind the trailing separator
+        command = '-config '  # Mind the trailing separator
         command += '/InputConfig/' + self.configuration_filename + ' '
 
         command += '-import '
@@ -92,15 +99,14 @@ class DockerLoadDatabase(DockerHelperBuild, DockerHelperTask):
         return command
 
 
-def import_files(configuration_file, input_filenames):
-    d = DockerLoadDatabase()
-    d.set_configuration_filename(configuration_file)
+def import_files(config_file, input_filenames):
+    d = DockerLoad3DCityDB()
+    d.set_configuration_filename(config_file)
     d.set_files_to_import(input_filenames)
     d.run()
 
 
 if __name__ == '__main__':
-    from docker_3dcitydb_server import Docker3DCityDBServer
 
     logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -110,29 +116,28 @@ if __name__ == '__main__':
     # cannot access it in this context
 
     logging.info('Stage 1: starting databases.')
-    if False:
-        active_databases = list()
-        for vintage in demo.vintages:
-            data_base = Docker3DCityDBServer()
-            data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
-            data_base.load_config_file()
-            data_base.run()
-            active_databases.append(data_base)
-        logging.info('Stage 1: done.')
+
+    active_databases = list()
+    for vintage in demo.vintages:
+        data_base = Docker3DCityDBServer()
+        data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
+        data_base.load_config_file()
+        data_base.run()
+        active_databases.append(data_base)
+    logging.info('Stage 1: done.')
 
     logging.info(f'Stage 2: importing files to databases.')
-    for vintage in demo_configuration.vintages:
+    for vintage in demo.vintages:
         inputs = list()
-        strip = demo_strip_attributes.StripInputsOutputs(
-            output_dir=demo_configuration.output_dir,
-            vintages=[vintage],
-            boroughs=demo_configuration.boroughs)
-
-        for file in strip.get_resulting_files_basenames():
-            relative_filename = os.path.join(
-               strip.get_output_dir(vintage),
-               file)
-            inputs.append(os.path.abspath(relative_filename))
+        # FIXME: the usage of StripInputsOutputs has been removed from now
+        #  until the fixmes of this class are resolved
+        for borough in demo.boroughs:
+            relative_output_dir = borough + '_' + str(vintage)
+            filename = borough + '_BATI_' + str(vintage) + \
+                '_splited_stripped.gml'
+            filepath = os.path.join(demo.output_dir, relative_output_dir,
+                                    filename)
+            inputs.append(os.path.abspath(filepath))
 
         configuration_file = '3dCityDBImpExpConfig-' + str(vintage) + '.xml'
         logging.info(f'Importation for vintage {str(vintage)}: starting.')

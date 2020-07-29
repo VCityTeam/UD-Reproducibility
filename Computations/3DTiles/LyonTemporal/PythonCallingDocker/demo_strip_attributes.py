@@ -3,22 +3,34 @@ import os
 import sys
 import demo_configuration
 
-
+# FIXME: is that the inputsOutputs for one file or for multiple files ? Since
+#  the strip process treats only one file at a time, it should be for one
+#  file ? Currently this class seems to mix those approaches (for one file or
+#  for multiple files)
 class StripInputsOutputs:
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the strip algorithms for designating its input/output directories
     and filenames
     """
+    # FIXME: add several output options (e.g. using an enum) :
+    #  next_to_imput_dir,
     def __init__(self,
+                 input_dir=demo_configuration.output_dir,
                  output_dir=demo_configuration.output_dir,
                  vintages=demo_configuration.vintages,
                  boroughs=demo_configuration.boroughs):
+        self.input_dir = input_dir
         self.output_dir = output_dir
+        # FIXME: these two arguments may be directly used from
+        #  demo_configuration since we import it ?
         self.vintages = vintages
         self.boroughs = boroughs
 
-    def get_output_dir(self, vintage, create=True):
+    # FIXME: ambiguous name since it does not returns self.output_dir but a
+    #  so called "resulting dir". Can we reduce the entropy and avoid having
+    #  to much input/output files/folders?
+    def get_output_dir(self, vintage, borough, create=True):
         """
         :param vintage: a integer or string designating a year
         :param create: when the proposed output directory does not already
@@ -27,13 +39,16 @@ class StripInputsOutputs:
         """
         if isinstance(vintage, int):
             vintage = str(vintage)
-        strip_dir = 'LYON_' + vintage + '_Splitted_Stripped'
+        strip_dir = borough + vintage
         result_dir = os.path.join(self.output_dir, strip_dir)
         if create and not os.path.isdir(result_dir):
             logging.info(f'Creating strip output directory {result_dir}.')
             os.mkdir(result_dir)
         return result_dir
 
+    # FIXME: add the possibility to pass a (list of) vintage and/or a (
+    #  list of) borough to allow
+    #  to get all filenames or only for a vintage and/or borough
     def get_resulting_files_basenames(self):
         """
         :return: the list of the basename (no directory) filenames that the
