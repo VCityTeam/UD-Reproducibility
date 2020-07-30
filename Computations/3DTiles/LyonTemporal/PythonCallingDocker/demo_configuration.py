@@ -11,3 +11,26 @@ boroughs = [
             'LYON_8EME',
             'LYON_9EME'
 ]
+databases = {
+    2009: {
+        'PG_HOST': '192.168.1.51',
+        'PG_PORT': '5432',
+        'PG_NAME': 'citydb-full_lyon-2009',
+        'PG_USER': 'postgres',
+        'PG_PASSWORD': 'postgres'
+    },
+    2012: {
+        'PG_HOST': '192.168.1.51',
+        'PG_PORT': '5433',
+        'PG_NAME': 'citydb-full_lyon-2012',
+        'PG_USER': 'postgres',
+        'PG_PASSWORD': 'postgres'
+    },
+    2015: {
+        'PG_HOST': '192.168.1.51',
+        'PG_PORT': '5434',
+        'PG_NAME': 'citydb-full_lyon-2015',
+        'PG_USER': 'postgres',
+        'PG_PASSWORD': 'postgres'
+    }
+}

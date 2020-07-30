@@ -2,7 +2,11 @@
  - [install Python3.7](https://www.python.org/)
 
 ## Configuration step
-Configure the three database configuration files `DBConfig[2009|2012|2015].yml`.
+Configure the `demo_configuration.py` file with the output_directory, the
+vintages (currently only 2009, 2012 and 2015 are available for the Grand Lyon) 
+and the borough you want to include (e.g. LYON_1ER, VILLEURBANNE, etc.). You
+must also provide one database configuration per vintage (these databases
+hold the citygml data). 
 
 Notes:
  * in order to configure `PG_HOST` i.e. the IP number of the host machine, you
