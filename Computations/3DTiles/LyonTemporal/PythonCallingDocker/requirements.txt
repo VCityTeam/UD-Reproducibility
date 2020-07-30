@@ -2,6 +2,5 @@ Jinja2
 docker
 wget
 patch
-pyyaml
 gitpython
 

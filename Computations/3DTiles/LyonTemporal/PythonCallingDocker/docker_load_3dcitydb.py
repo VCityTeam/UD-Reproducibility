@@ -110,9 +110,12 @@ def generate_configuration_file(j2_template_file, db_config, output_filename):
         logging.info(f'Jinja2 template file {j2_template_file} '
                      f'not found. Exiting')
         sys.exit(1)
+    # Load template from file system
     template_loader = jinja2.FileSystemLoader(searchpath="./")
     template_env = jinja2.Environment(loader=template_loader)
     template = template_env.get_template(j2_template_file)
+    # Create a TemplateStream object (that can be dumped into a file
+    # afterwards) and replace the variables with the values from db_config
     template_stream = template.stream(PG_HOST=db_config['PG_HOST'],
                                       PG_PORT=db_config['PG_PORT'],
                                       PG_NAME=db_config['PG_NAME'],
@@ -132,6 +135,22 @@ if __name__ == '__main__':
     # cannot access it in this context
 
     logging.info('Stage 1: starting databases.')
+    active_databases = list()
+    for vintage in demo.vintages:
+        if not demo.databases:
+            logging.info(f'Databases configurations not found. Exiting')
+            sys.exit(1)
+        if not demo.databases[vintage]:
+            logging.info(f'Database configuration for vintage {vintage} not '
+                         f'found. You must specify one database configuration '
+                         f'per vintage. Exiting')
+            sys.exit(1)
+        data_base = Docker3DCityDBServer(vintage, demo.databases[vintage])
+        data_base.run()
+        active_databases.append(data_base)
+    logging.info('Stage 1: done.')
+
+    logging.info(f'Stage 2: importing files to databases.')
 
     for vintage in demo.vintages:
         if not demo.databases:
@@ -147,37 +166,30 @@ if __name__ == '__main__':
                                     demo.databases[vintage],
                                     out_db_config_filename)
 
-    # active_databases = list()
-    # for vintage in demo.vintages:
-    #     data_base = Docker3DCityDBServer()
-    #     data_base.set_config_file('DBConfig' + str(vintage) + '.yml')
-    #     data_base.load_config_file()
-    #     data_base.run()
-    #     active_databases.append(data_base)
-    # logging.info('Stage 1: done.')
-    #
-    # logging.info(f'Stage 2: importing files to databases.')
-    # for vintage in demo.vintages:
-    #     inputs = list()
-    #     # FIXME: the usage of StripInputsOutputs has been removed from now
-    #     #  until the fixmes of this class are resolved
-    #     for borough in demo.boroughs:
-    #         relative_output_dir = borough + '_' + str(vintage)
-    #         filename = borough + '_BATI_' + str(vintage) + \
-    #             '_splited_stripped.gml'
-    #         filepath = os.path.join(demo.output_dir, relative_output_dir,
-    #                                 filename)
-    #         inputs.append(os.path.abspath(filepath))
-    #
-    #     configuration_file = '3dCityDBImpExpConfig-' + str(vintage) + '.xml'
-    #     logging.info(f'Importation for vintage {str(vintage)}: starting.')
-    #     logging.info(f'Files set for importation: {inputs}')
-    #     import_files(os.path.abspath(configuration_file), inputs)
-    #     logging.info(f'Importation for vintage {str(vintage)}: done.')
-    # logging.info('Stage 2: done')
-    #
-    # logging.info('Stage 3: halting containers.')
-    # for server in active_databases:
-    #     logging.info(f'   Halting container {server.get_container().name}.')
-    #     server.halt_service()
-    # logging.info('Stage 3: done')
+    for vintage in demo.vintages:
+        inputs = list()
+        # FIXME: the usage of StripInputsOutputs has been removed from now
+        #  until the fixmes of this class are resolved
+        for borough in demo.boroughs:
+            relative_output_dir = borough + '_' + str(vintage)
+            filename = borough + '_BATI_' + str(vintage) + \
+                '_splited_stripped.gml'
+            filepath = os.path.join(demo.output_dir, relative_output_dir,
+                                    filename)
+            inputs.append(os.path.abspath(filepath))
+
+        db_config_filename = '3dCityDBImpExpConfig' + str(vintage) + '.xml'
+        generate_configuration_file('3dCityDBImpExpConfig.j2',
+                                    demo.databases[vintage],
+                                    db_config_filename)
+        logging.info(f'Importation for vintage {str(vintage)}: starting.')
+        logging.info(f'Files set for importation: {inputs}')
+        import_files(os.path.abspath(db_config_filename), inputs)
+        logging.info(f'Importation for vintage {str(vintage)}: done.')
+    logging.info('Stage 2: done')
+
+    logging.info('Stage 3: halting containers.')
+    for server in active_databases:
+        logging.info(f'   Halting container {server.get_container().name}.')
+        server.halt_service()
+    logging.info('Stage 3: done')
