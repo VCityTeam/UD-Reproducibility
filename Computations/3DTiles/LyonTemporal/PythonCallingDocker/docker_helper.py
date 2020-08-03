@@ -125,6 +125,9 @@ class DockerHelperContainer(DockerHelperBase):
             sys.exit(1)
         self.mounted_output_dir = directory
 
+    def get_mounted_output_directory(self):
+        return self.mounted_output_dir
+
     def get_container(self):
         if not self.__container:
             logging.info('Warning: requesting an unset container.')

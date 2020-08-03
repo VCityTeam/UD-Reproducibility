@@ -38,6 +38,8 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
 
         self.container_name = 'citydb-container-' + str(self.vintage)
 
+
+
     def get_command(self):
         # No command is declared here since the command is already set
         # by default in the Dockerfile
@@ -48,16 +50,7 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
         Overloads the run method of DockerHelperService.
         :return:
         """
-        absolute_path_output_dir = os.path.join(os.getcwd(),
-                                                demo.output_dir,
-                                                'postgres-data',
-                                                self.container_name)
-        if not os.path.isdir(absolute_path_output_dir):
-            logging.info('Creating local mount-point directory '
-                         f'{absolute_path_output_dir}')
-            os.mkdir(absolute_path_output_dir)
-
-        self.add_volume(absolute_path_output_dir,
+        self.add_volume(self.get_mounted_output_directory(),
                         '/var/lib/postgresql/data',
                         'rw')
         super().run()
@@ -66,6 +59,14 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+
+    postgres_output_path = os.path.join(os.getcwd(),
+                                        demo.output_dir,
+                                        'postgres-data')
+    if not os.path.isdir(postgres_output_path):
+        logging.info(f'Creating local output dir {postgres_output_path} for '
+                     f'postgres data.')
+        os.mkdir(postgres_output_path)
 
     active_databases = list()
     for vintage in demo.vintages:
@@ -78,6 +79,13 @@ if __name__ == '__main__':
                          f'per vintage. Exiting')
             sys.exit(1)
         data_base = Docker3DCityDBServer(vintage, demo.databases[vintage])
+        absolute_path_output_dir = os.path.join(postgres_output_path,
+                                                data_base.container_name)
+        if not os.path.isdir(absolute_path_output_dir):
+            logging.info(f'Creating local output dir {absolute_path_output_dir}'
+                         f'.')
+            os.mkdir(absolute_path_output_dir)
+        data_base.set_mounted_output_directory(absolute_path_output_dir)
         data_base.run()
         active_databases.append(data_base)
 
