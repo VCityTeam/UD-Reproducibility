@@ -2,7 +2,11 @@
  - [install Python3.7](https://www.python.org/)
 
 ## Configuration step
-Configure the three database configuration files `DBConfig[2009|2012|2015].yml`.
+Configure the `demo_configuration.py` file with the output_directory, the
+vintages (currently only 2009, 2012 and 2015 are available for the Grand Lyon) 
+and the borough you want to include (e.g. LYON_1ER, VILLEURBANNE, etc.). You
+must also provide one database configuration per vintage (these databases
+hold the citygml data). 
 
 Notes:
  * in order to configure `PG_HOST` i.e. the IP number of the host machine, you
@@ -50,13 +54,6 @@ The resulting file hierarchy will be located in the `junk` sub-directory.
    ```
 
 ## Issues
-### Convert the configuration files to YAML
-Merge the three configuration files in a single one using a YAML syntax.
-Extract the loading of that file (Docker3DCityDBServer::load_config_file)
-from the Docker3DCityDBServer class and pass the loaded dictionnary to
-the Docker3DCityDBServer::__init__ constructor.
-This will facilitate the Airflow/Prefect version that won't be able
-to use a configuration file but will be handled over parameters.
 
 ### Bug: extractBuildingDates stage fails on Villeurbanne data
 The following run fails
