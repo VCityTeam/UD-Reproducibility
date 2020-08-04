@@ -78,8 +78,6 @@ if __name__ == '__main__':
 
     graph_difference_absolute_path = os.path.join(os.getcwd(), demo.output_dir)
     graph_difference_absolute_path += '/Differences/'
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    print(graph_difference_absolute_path)
     d.set_mounted_input_directory(graph_difference_absolute_path)
 
     absolute_output_dir = os.path.join(os.getcwd(), demo.output_dir)
