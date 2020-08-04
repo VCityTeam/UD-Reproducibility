@@ -3,7 +3,7 @@ import sys
 import logging
 import jinja2
 from docker_helper import DockerHelperBuild, DockerHelperTask
-from docker_3dcitydb_server import Docker3DCityDBServer
+from docker_3dcitydb_server import start_single_database
 import demo_configuration as demo
 
 
@@ -135,19 +135,18 @@ if __name__ == '__main__':
     # cannot access it in this context
 
     logging.info('Stage 1: starting databases.')
+    postgres_output_path = os.path.join(os.getcwd(),
+                                        demo.output_dir,
+                                        'postgres-data')
+    if not os.path.isdir(postgres_output_path):
+        logging.info(f'Creating local output dir {postgres_output_path} for '
+                     f'postgres data.')
+        os.mkdir(postgres_output_path)
+
     active_databases = list()
     for vintage in demo.vintages:
-        if not demo.databases:
-            logging.info(f'Databases configurations not found. Exiting')
-            sys.exit(1)
-        if not demo.databases[vintage]:
-            logging.info(f'Database configuration for vintage {vintage} not '
-                         f'found. You must specify one database configuration '
-                         f'per vintage. Exiting')
-            sys.exit(1)
-        data_base = Docker3DCityDBServer(vintage, demo.databases[vintage])
-        data_base.run()
-        active_databases.append(data_base)
+        vintaged_db = start_single_database(vintage, postgres_output_path)
+        active_databases.append(vintaged_db)
     logging.info('Stage 1: done.')
 
     logging.info(f'Stage 2: importing files to databases.')
@@ -188,8 +187,8 @@ if __name__ == '__main__':
         logging.info(f'Importation for vintage {str(vintage)}: done.')
     logging.info('Stage 2: done')
 
-    logging.info('Stage 3: halting containers.')
-    for server in active_databases:
-        logging.info(f'   Halting container {server.get_container().name}.')
-        server.halt_service()
-    logging.info('Stage 3: done')
+    # logging.info('Stage 3: halting containers.')
+    # for server in active_databases:
+    #     logging.info(f'   Halting container {server.get_container().name}.')
+    #     server.halt_service()
+    # logging.info('Stage 3: done')

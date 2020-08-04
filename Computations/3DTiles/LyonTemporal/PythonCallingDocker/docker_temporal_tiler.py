@@ -64,6 +64,7 @@ class DockerTemporalTiler(DockerPy3dtiles):
         command += '--time_stamp '
         for vintage in self.vintages:
             command += str(vintage) + ' '
+        return command
 
 
 if __name__ == '__main__':
@@ -77,10 +78,16 @@ if __name__ == '__main__':
 
     graph_difference_absolute_path = os.path.join(os.getcwd(), demo.output_dir)
     graph_difference_absolute_path += '/Differences/'
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    print(graph_difference_absolute_path)
     d.set_mounted_input_directory(graph_difference_absolute_path)
 
     absolute_output_dir = os.path.join(os.getcwd(), demo.output_dir)
     absolute_output_dir += '/TemporalTileset/'
+    if not os.path.isdir(absolute_output_dir):
+        logging.info(f'Creating local output dir {absolute_output_dir} for '
+                     f'the resulting tileset.')
+        os.mkdir(absolute_output_dir)
     d.set_mounted_output_directory(absolute_output_dir)
 
     d.run()

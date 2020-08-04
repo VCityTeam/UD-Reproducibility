@@ -38,8 +38,6 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
 
         self.container_name = 'citydb-container-' + str(self.vintage)
 
-
-
     def get_command(self):
         # No command is declared here since the command is already set
         # by default in the Dockerfile
@@ -56,6 +54,27 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
         super().run()
 
 
+def start_single_database(db_vintage, postgres_data_output_path):
+    if not demo.databases:
+        logging.info(f'Databases configurations not found. Exiting')
+        sys.exit(1)
+    if not demo.databases[db_vintage]:
+        logging.info(f'Database configuration for vintage {db_vintage} not '
+                     f'found. You must specify one database configuration '
+                     f'per vintage. Exiting')
+        sys.exit(1)
+    data_base = Docker3DCityDBServer(db_vintage, demo.databases[db_vintage])
+    absolute_path_output_dir = os.path.join(postgres_data_output_path,
+                                            data_base.container_name)
+    if not os.path.isdir(absolute_path_output_dir):
+        logging.info(f'Creating local output dir {absolute_path_output_dir}'
+                     f'.')
+        os.mkdir(absolute_path_output_dir)
+    data_base.set_mounted_output_directory(absolute_path_output_dir)
+    data_base.run()
+    return data_base
+
+
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -70,24 +89,8 @@ if __name__ == '__main__':
 
     active_databases = list()
     for vintage in demo.vintages:
-        if not demo.databases:
-            logging.info(f'Databases configurations not found. Exiting')
-            sys.exit(1)
-        if not demo.databases[vintage]:
-            logging.info(f'Database configuration for vintage {vintage} not '
-                         f'found. You must specify one database configuration '
-                         f'per vintage. Exiting')
-            sys.exit(1)
-        data_base = Docker3DCityDBServer(vintage, demo.databases[vintage])
-        absolute_path_output_dir = os.path.join(postgres_output_path,
-                                                data_base.container_name)
-        if not os.path.isdir(absolute_path_output_dir):
-            logging.info(f'Creating local output dir {absolute_path_output_dir}'
-                         f'.')
-            os.mkdir(absolute_path_output_dir)
-        data_base.set_mounted_output_directory(absolute_path_output_dir)
-        data_base.run()
-        active_databases.append(data_base)
+        vintaged_db = start_single_database(vintage, postgres_output_path)
+        active_databases.append(vintaged_db)
 
     logging.info('Enjoying the databases hum for 10 seconds.')
     time.sleep(10)
