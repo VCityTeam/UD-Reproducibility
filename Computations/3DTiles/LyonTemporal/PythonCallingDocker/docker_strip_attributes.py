@@ -2,8 +2,6 @@ import os
 import sys
 import logging
 from docker_helper import DockerHelperBuild, DockerHelperTask
-import demo_configuration as demo
-import demo_strip_attributes
 
 
 class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
@@ -67,30 +65,4 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
             self.add_volume(self.mounted_output_dir, '/Output', 'rw')
         super().run()
 
-
-if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-
-    # The following vintage_inputs lists should merged into a single list
-    # of files to be returned by an upcoming SplitInputsOutputs.get_
-    # resulting_filenames() method...
-    strip = demo_strip_attributes.StripInputsOutputs()
-    for vintage in demo.vintages:
-        vintage_inputs = list()
-        for borough in demo.boroughs:
-            input_filename = os.path.join(
-                 demo.output_dir,
-                 borough + '_' + str(vintage),
-                 borough + '_BATI_' + str(vintage) + '_splited.gml')
-            vintage_inputs.append(input_filename)
-
-        for filename in vintage_inputs:
-            strip.strip_single_file(
-                DockerStripAttributes(),
-                input_dir=os.path.dirname(filename),
-                input_filename=os.path.basename(filename),
-                output_dir=os.path.dirname(filename))
-            # FIXME: we should probably use strip.get_output_dir(vintage,
-            #  borough) for the output_dir.
 

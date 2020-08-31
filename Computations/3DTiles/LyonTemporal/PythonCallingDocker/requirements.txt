@@ -1,4 +1,4 @@
-Jinja2
+jinja2
 docker
 wget
 patch
