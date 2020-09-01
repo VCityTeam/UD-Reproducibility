@@ -121,7 +121,6 @@ class DemoExtractBuildingDates:
             first_vintage = str(self.vintages[vintage_index])
             second_vintage = str(self.vintages[vintage_index + 1])
             for borough in self.boroughs:
-
                 # Make sure the output directory exists:
                 output_dir = self.get_vintages_result_dir(first_vintage,
                                                           second_vintage,
