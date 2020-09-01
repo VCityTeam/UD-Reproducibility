@@ -39,7 +39,7 @@ FIXME: the rest is under construction
 (venv)$ python lyon_metropole_dowload_and_sanitize.py
 (venv)$ python docker_split_buildings.py
 (venv)$ python demo_strip_attributes.py
-(venv)$ python docker_extract_building_dates.py
+(venv)$ python demo_extract_building_dates.py
 (venv)$ python docker_3dcitydb_server.py
 (venv)$ python docker_load_3dcitydb.py
 ```

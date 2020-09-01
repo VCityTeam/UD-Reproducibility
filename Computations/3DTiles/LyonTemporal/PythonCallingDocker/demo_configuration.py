@@ -1,5 +1,6 @@
 # output_dir = 'junk'
 # vintages = [2009, 2012, 2015]
+# city = 'LYON'
 # boroughs = [
 #             'LYON_1ER',
 #             'LYON_2EME',
@@ -36,8 +37,17 @@
 # }
 # FIXME: this is a debug config that should be erased later on
 output_dir = 'junk'
-vintages = [2009, 2012]
-boroughs = ['LYON_1ER']
+vintages = [2009, 2012, 2015]
+city = 'LYON'
+boroughs = [
+            'LYON_1ER',
+            'LYON_2EME',
+            'LYON_3EME',
+            'LYON_4EME',
+            'LYON_5EME',
+            'LYON_6EME',
+            'LYON_7EME'
+]
 # FIXME: Currently, these files needs to be copied created manually and
 #  stored in Docker/CityTiler-DockerContext since they are copied by the
 #  DockerFile in the docker context and handed to the tiler. However,
