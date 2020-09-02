@@ -40,10 +40,11 @@ FIXME: the rest is under construction
 (venv)$ python docker_split_buildings.py
 (venv)$ python demo_strip_attributes.py
 (venv)$ python demo_extract_building_dates.py
-(venv)$ python docker_3dcitydb_server.py
-(venv)$ python docker_load_3dcitydb.py
+(venv)$ python demo_3dcitydb_server.py
+(venv)$ python demo_load_3dcitydb.py
 ```
-The resulting file hierarchy will be located in the `junk` sub-directory.
+The resulting file hierarchy will be located in the `junk` sub-directory (as
+configured by the `output_dir` variable of `demo_configuration.py`.
 
 
 ## Developers notes
@@ -76,3 +77,20 @@ ERROR 1: TopologyException: found non-noded intersection between LINESTRING (1.8
 This error seems related with postgis or gdal according to threads like:
  * [R wrapping of gdal](https://stackoverflow.com/questions/13662448/what-does-the-following-error-mean-topologyexception-found-non-nonded-intersec)
  * [r-spatial/sf issue](https://github.com/r-spatial/sf/issues/860)
+
+### Debugging the importer exporter
+ * The following proves that the database server is ok
+   ```
+   docker run -v `pwd`/:/InputConfig -it --entrypoint /bin/bash tumgis/3dcitydb-impexp:4.2.3
+
+   apt-get update
+   apt-get install postgresql postgresql-contrib
+   psql -h 134.214.143.170 -p 5432 -U postgres -d citydb-full_lyon-2009 -c "\dt"
+   # provide postgres as password
+   .... # you will get some answer
+   ```
+
+ * The following single call reproduces the error:
+    ```
+    docker run -v `pwd`/:/InputConfig -v `pwd`/junk/LYON_2009_Stripped:/InputFiles -it tumgis/3dcitydb-impexp:4.2.3 -config /InputConfig/3dCityDBImpExpConfig2009.xml -import /InputFiles/LYON_1ER_BATI_2009_splited_stripped.gml
+    ```

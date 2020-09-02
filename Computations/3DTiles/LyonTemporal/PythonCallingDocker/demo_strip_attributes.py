@@ -1,28 +1,19 @@
 import logging
 import os
 import sys
-import demo_configuration
 import docker_strip_attributes
+from demo import Demo
 
 
-class DemoStrip:
+class DemoStrip(Demo):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the strip algorithms for designating its input/output directories
     and filenames
     """
-    def __init__(self,
-                 input_dir=demo_configuration.output_dir,
-                 output_dir=demo_configuration.output_dir,
-                 city=demo_configuration.city,
-                 vintages=demo_configuration.vintages,
-                 boroughs=demo_configuration.boroughs):
-        self.input_dir = input_dir
-        self.output_dir = output_dir
-        self.city = city
-        self.vintages = vintages
-        self.boroughs = boroughs
-
+    def __init__(self):
+        Demo.__init__(self)
+       
     def get_result_dir(self, vintage, create=True):
         """
         :param vintage: a integer or string designating a year

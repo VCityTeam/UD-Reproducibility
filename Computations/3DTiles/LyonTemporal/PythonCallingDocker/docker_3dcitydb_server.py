@@ -61,5 +61,7 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
             os.mkdir(absolute_path_output_dir)
         data_base.set_mounted_output_directory(absolute_path_output_dir)
         data_base.run()
+        logging.info(f'3DCityDB server container of database {data_base.container_name} '
+                     f'(for vintage {db_vintage}) started.')
         return data_base
 
