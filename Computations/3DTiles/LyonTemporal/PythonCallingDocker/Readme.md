@@ -37,7 +37,7 @@ FIXME: the rest is under construction
 ```
 (venv)$ git rev-parse --show-toplevel
 (venv)$ python lyon_metropole_dowload_and_sanitize.py
-(venv)$ python docker_split_buildings.py
+(venv)$ python demo_split_buildings.py
 (venv)$ python demo_strip_attributes.py
 (venv)$ python demo_extract_building_dates.py
 (venv)$ python demo_3dcitydb_server.py
