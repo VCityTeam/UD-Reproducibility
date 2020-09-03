@@ -1,28 +1,19 @@
 import os
 import sys
 import logging
-import demo_configuration
+from demo import Demo
 from demo_strip_attributes import DemoStrip
 from docker_extract_building_dates import DockerExtractBuildingDates
 
 
-class DemoExtractBuildingDates:
+class DemoExtractBuildingDates(Demo):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the extract building dates algorithm for designating its 
     input/output directories and filenames
     """
-    def __init__(self,
-                 input_dir=demo_configuration.output_dir,
-                 output_dir=demo_configuration.output_dir,
-                 city=demo_configuration.city,
-                 vintages=demo_configuration.vintages,
-                 boroughs=demo_configuration.boroughs):
-        self.input_dir = input_dir
-        self.output_dir = output_dir
-        self.city = city
-        self.vintages = vintages
-        self.boroughs = boroughs
+    def __init__(self):
+        Demo.__init__(self)
 
     def get_vintages_result_dir(self, first_vintage, second_vintage, create=True):
         """
@@ -102,18 +93,6 @@ class DemoExtractBuildingDates:
             result.extend(
                 self.get_vintages_resulting_filenames(first_vintage, second_vintage, False))
         return result
-
-    def assert_output_files_exist(self):
-        """
-        :return: True when all the strip produced files exist in the default
-                 place (i.e. when an alternate output_dir was not specified)
-                 False otherwise.
-        """
-        for filename in self.get_resulting_filenames():
-            if not os.path.isfile(filename):
-                logging.error(f'Strip output file {filename} not found.')
-                return False
-        return True
 
     def run(self):
         strip = DemoStrip()

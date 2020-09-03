@@ -65,18 +65,6 @@ class DemoStrip(Demo):
             result.extend(self.get_vintage_resulting_filenames(vintage))
         return result
 
-    def assert_output_files_exist(self):
-        """
-        :return: True when all the strip produced files exist in the default
-                 place (i.e. when an alternate output_dir was not specified)
-                 False otherwise.
-        """
-        for filename in self.get_resulting_filenames():
-            if not os.path.isfile(filename):
-                logging.error(f'Strip output file {filename} not found.')
-                return False
-        return True
-
     @staticmethod
     def derive_output_file_basename_from_input(input_filename):
         input_filename = os.path.basename(input_filename)
