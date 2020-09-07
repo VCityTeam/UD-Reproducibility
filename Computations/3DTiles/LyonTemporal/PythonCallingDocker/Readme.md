@@ -2,11 +2,13 @@
  - [install Python3.7](https://www.python.org/)
 
 ## Configuration step
-Configure the `demo_configuration.py` file with the output_directory, the
-vintages (currently only 2009, 2012 and 2015 are available for the Grand Lyon) 
-and the borough you want to include (e.g. LYON_1ER, VILLEURBANNE, etc.). You
-must also provide one database configuration per vintage (these databases
-hold the citygml data). 
+Edit the `demo_configuration.py` configuration file in order to setup
+ - the required output directory,
+ - the concerned vintages (currently only 2009, 2012 and 2015 are available from
+   Grand Lyon open data) 
+ - the considered boroughs,
+ - the database configurations corresponding to each considered vintage 
+   (these databases will hold the integrated citygml data). 
 
 Notes:
  * in order to configure `PG_HOST` i.e. the IP number of the host machine, you
@@ -14,37 +16,58 @@ Notes:
  * the `PG_HOST`, although present in three configuration files, must be the same shared IP number value for the three configuration files. This is because the three (3dCity) databases used by the worklow run on the same host...
 
 ## Installing dependencies
-Then, running the workflow goes:
+
+### The direnv method (recommendable)
 ```
 $ git rev-parse --show-toplevel
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
+$ ln -s .envrc.tpl .envrc
+$ direnv allow
+(venv)$          # You are all set
+```
+
+### The hands on method
+Create a python virtual environment and activate it
+```
+$ git rev-parse --show-toplevel
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
 $ virtualenv -p python3 venv
 $ . venv/bin/activate
 (venv)$ pip install -r requirements.txt
 ```
-If you wan to run unit tests:
+
+## Running the unit tests
+In order to test the containers:
 ```
-(venv)$ git rev-parse --show-toplevel
+$ git rev-parse --show-toplevel
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
 (venv)$ pip install pytest pytest-ordering pytest-dependency
 (venv)$ pytest
 ```
 
-FIXME: the rest is under construction
-
 ## Running the workflow
+Be it with the single run of the full workflow or with the manual 
+steps (refer bellow) the resulting file hierarchies will be located
+in the `junk` sub-directory (as configured by the `output_dir` variable
+of `demo_configuration.py`, refer above).
+
+### Running the full workflow
+```
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
+(venv)$ python demo_full_worflow.py
+```
 
 ### Manual step by step run
-
+The following manual steps should be applied in order:
 ```
-(venv)$ git rev-parse --show-toplevel
-(venv)$ python lyon_metropole_dowload_and_sanitize.py
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
+(venv)$ python demo_lyon_metropole_dowload_and_sanitize.py
 (venv)$ python demo_split_buildings.py
 (venv)$ python demo_strip_attributes.py
 (venv)$ python demo_extract_building_dates.py
-(venv)$ python demo_3dcitydb_server.py
+(venv)$ python demo_3dcitydb_server.py  # Just a test: produces no output
 (venv)$ python demo_load_3dcitydb.py
 ```
-The resulting file hierarchy will be located in the `junk` sub-directory (as
-configured by the `output_dir` variable of `demo_configuration.py`.
 
 
 ## Developers notes

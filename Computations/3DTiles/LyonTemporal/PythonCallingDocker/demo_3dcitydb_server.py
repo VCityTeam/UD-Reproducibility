@@ -2,13 +2,11 @@ import os
 import sys
 import logging
 import time
-
-import demo_configuration
 from docker_3dcitydb_server import Docker3DCityDBServer
 from demo import Demo
 
+
 class Demo3dCityDBServer(Demo):
-    
 
     def __init__(self):
         Demo.__init__(self)

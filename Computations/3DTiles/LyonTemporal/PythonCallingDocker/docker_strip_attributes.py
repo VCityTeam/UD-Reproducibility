@@ -66,50 +66,50 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
         super().run()
 
 
-def strip_single_file(container,
-                      input_dir,
-                      input_filename,
-                      output_filename,
-                      output_dir=None):
-    """
-    A function to be used to manually handle the stripping of a single file
-    (basicallyt a wrap of the container invocation)
-    :param container: a DockerStripAttributes instance
-    :param input_dir: the directory where the input file is to be found
-    :param input_filename: the name of the input file
-    :param output_filename: the name of the output file
-    :param output_dir: the directory where the output file is to be placed.
-                       When invocation ommits the output_dir, this function
-                       places its result in the input_dir
-    :return: the resulting output filename
-    """
+    @staticmethod
+    def strip_single_file(input_dir,
+                          input_filename,
+                          output_filename,
+                          output_dir=None):
+        """
+        A function to be used to manually handle the stripping of a single file
+        (basicallyt a wrap of the container invocation)
+        :param container: a DockerStripAttributes instance
+        :param input_dir: the directory where the input file is to be found
+        :param input_filename: the name of the input file
+        :param output_filename: the name of the output file
+        :param output_dir: the directory where the output file is to be placed.
+                        When invocation ommits the output_dir, this function
+                        places its result in the input_dir
+        :return: the resulting output filename
+        """
 
-    # Docker only accepts absolute path names as argument for its volumes
-    # to be mounted:
-    absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+        # Docker only accepts absolute path names as argument for its volumes
+        # to be mounted:
+        absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+        container = DockerStripAttributes()
+        container.set_mounted_input_directory(absolute_path_input_dir)
+        container.set_mounted_output_directory(
+            container.get_mounted_input_directory())
+        container.set_input_filename(input_filename)
+        container.set_output_filename(output_filename)
+        container.run()
 
-    container.set_mounted_input_directory(absolute_path_input_dir)
-    container.set_mounted_output_directory(
-        container.get_mounted_input_directory())
-    container.set_input_filename(input_filename)
-    container.set_output_filename(output_filename)
-    container.run()
+        full_output_filename = os.path.join(input_dir, output_filename)
+        logging.info(f'Striping to yield file {full_output_filename}.')
+        if not os.path.isfile(full_output_filename):
+            logging.error(
+                f'Output file {full_output_filename} not found. Exiting.')
+            sys.exit(1)
 
-    full_output_filename = os.path.join(input_dir, output_filename)
-    logging.info(f'Striping to yield file {full_output_filename}.')
-    if not os.path.isfile(full_output_filename):
-        logging.error(
-            f'Output file {full_output_filename} not found. Exiting.')
-        sys.exit(1)
-
-    if not output_dir:
-        return full_output_filename
-    else:
-        # Since CityGML2Stripper does not allow to specify an output folder,
-        # we need to "manually" move the resulting file
-        target_filename = os.path.join(output_dir, output_filename)
-        logging.info(f'Moving resulting file from {full_output_filename} ')
-        logging.info(f'to {target_filename}.')
-        os.replace(full_output_filename, target_filename)
-        return target_filename
+        if not output_dir:
+            return full_output_filename
+        else:
+            # Since CityGML2Stripper does not allow to specify an output folder,
+            # we need to "manually" move the resulting file
+            target_filename = os.path.join(output_dir, output_filename)
+            logging.info(f'Moving resulting file from {full_output_filename} ')
+            logging.info(f'to {target_filename}.')
+            os.replace(full_output_filename, target_filename)
+            return target_filename
 

@@ -2,7 +2,6 @@ import os
 import sys
 import logging
 from docker_3duse import Docker3DUse
-import demo_configuration as demo
 
 
 class DockerExtractBuildingDates(Docker3DUse):

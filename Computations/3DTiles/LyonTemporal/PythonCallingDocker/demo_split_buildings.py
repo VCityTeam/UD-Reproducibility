@@ -1,8 +1,10 @@
 import os
 import sys
 import logging
+import shutil
 from docker_split_buildings import DockerSplitBuilding
 from demo import Demo
+import demo_full_workflow as workflow
 
 
 class DemoSplitBuildings(Demo):
@@ -20,21 +22,9 @@ class DemoSplitBuildings(Demo):
         input_no_extension = input_filename.rsplit('.', 1)[0]
         return input_no_extension + '_splited.gml'
 
-    def get_vintage_borough_input_file_basename(self, vintage, borough):
-        return Demo.get_vintage_borough_filename(vintage, borough)
-
     def get_vintage_borough_output_file_basename(self, vintage, borough):
-        input_filename = self.get_vintage_borough_input_file_basename(vintage, borough)
-        output_filename = DemoSplitBuildings.derive_output_file_basename_from_input(
-                    input_filename)
-        return output_filename
-
-    def get_vintage_borough_output_filename(self, vintage, borough):
-        input_directory = self.get_vintage_borough_initial_directory(vintage, borough)
-        input_filename = self.get_vintage_borough_input_file_basename(vintage, borough)
-        output_directory = input_directory
-        output_filename = self.get_vintage_borough_output_file_basename(vintage, borough)
-        return os.path.join(output_directory, output_filename)
+        input_filename = self.input_demo.get_vintage_borough_output_filename(vintage, borough)
+        return DemoSplitBuildings.derive_output_file_basename_from_input(input_filename)
 
     def get_resulting_filenames(self):
         """
@@ -49,21 +39,45 @@ class DemoSplitBuildings(Demo):
         return result
 
     def run(self):
+        input = self.get_input_demo()
+        if not input.assert_output_files_exist():
+            logging.error("Split misses some of its input files: exiting")
+            sys.exit(1)
+        self.get_output_dir(True)   # Create the output directory
+
         for borough in self.boroughs:
             for vintage in self.vintages:
-                input_directory = self.get_vintage_borough_initial_directory(vintage, borough)
-                input_filename = self.get_vintage_borough_input_file_basename(vintage, borough)
+                input_directory = input.get_vintage_borough_output_directory_name(vintage, borough)
+                input_filename = input.get_vintage_borough_output_file_basename(vintage, borough)
                 output_filename = self.get_vintage_borough_output_file_basename(vintage, borough)
-                logging.info(f'DemoSplitBuildings: spliting citygml file {input_filename}.')
                 DockerSplitBuilding.split(
                     input_directory,
                     input_filename,
                     output_filename)
+                logging.info(f'DemoSplitBuildings: citygml file {input_filename} was split.')
+                # Because the split method doesn't know how to specify an output directory
+                # (it this so hard?) by default it places its result side by side with the
+                # input file. We thus need to move the resulting file
+                output_dir = self.get_vintage_borough_output_directory_name(vintage,borough)
+                if not os.path.isdir(output_dir):
+                    os.mkdir(output_dir)
+                shutil.move(os.path.join(input_directory, output_filename),
+                            os.path.join(output_dir,output_filename))
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
+    split = workflow.demo_split
+
     logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-    split = DemoSplitBuildings()
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S',
+                        filename=os.path.join(split.get_output_dir(True),
+                                              'demo_split_buildings.log'),
+                        filemode='w')
+    logging.info("Starting to split files.")    
+
     split.run()
     split.assert_output_files_exist()
-    print("Resulting stripped files", split.get_resulting_filenames())
+    logging.info("Resulting split files:")
+    [ logging.info( "   " + file) for file in split.get_resulting_filenames() ]
+
