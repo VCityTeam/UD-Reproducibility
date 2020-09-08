@@ -19,7 +19,7 @@ class Demo3dCityDBServer(Demo):
         as files (persistence in the container being a little trickier)
         """
         postgres_output_path = os.path.join(os.getcwd(),
-                                            self.output_dir,
+                                            self.get_output_dir(),
                                             'postgres-data')
         if create and not os.path.isdir(postgres_output_path):
             logging.info(f'Creating local output dir {postgres_output_path} in order '
@@ -37,7 +37,7 @@ class Demo3dCityDBServer(Demo):
         #    attribute for the considered vintage
         #  - the start_single_database() function of docker_3dcitydb_server.py
         #    that calls Docker3DCityDBServer.set_mounted_output_directory()
-        data_base_container_name = 'citydb-container-' + str(self.vintage)
+        data_base_container_name = 'citydb-container-' + str(vintage)
         vintage_path_output_dir = os.path.join(self.get_databases_dir(),
                                                 data_base_container_name)
 
@@ -48,6 +48,7 @@ class Demo3dCityDBServer(Demo):
         return vintage_path_output_dir
 
     def run(self):
+        self.create_output_dir()   # Just making sure
         for vintage in self.vintages:
             db_config = self.databases[vintage]
         

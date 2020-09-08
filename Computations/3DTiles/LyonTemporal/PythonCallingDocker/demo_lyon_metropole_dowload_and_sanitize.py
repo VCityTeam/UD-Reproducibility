@@ -2,11 +2,11 @@ import os
 import sys
 import logging
 from city_gml_files_from_archive import CityGMLFileFromArchive
-from demo import Demo
+from demo import DemoWithFileOutput
 import demo_full_workflow as workflow
 
 
-class DemoLyonMetropoleDowloadAndSanitize(Demo):
+class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
     """
     Download some archives holding cityGML files
     """
@@ -14,7 +14,7 @@ class DemoLyonMetropoleDowloadAndSanitize(Demo):
     patches_directory = '../Docker/Collect-DockerContext/DataPatches'
 
     def __init__(self, pattern, results_dir=None):
-        Demo.__init__(self, results_dir)
+        super().__init__(results_dir)
         self.archives = dict()
 
         # Although the archive is spelled out the BATI string (which
@@ -75,6 +75,7 @@ class DemoLyonMetropoleDowloadAndSanitize(Demo):
             self.archives['LYON_7EME_2015']['old_name'] = 'LYON_7_BATI_2015.gml'
 
     def run(self):
+        self.create_output_dir()   # Just making sure
         self.define_archives()
         self.archives_to_sanitize()
         # We only extract the buildings (BATI is a short batiment in
@@ -112,13 +113,14 @@ class DemoLyonMetropoleDowloadAndSanitize(Demo):
 
 if __name__ == '__main__':
     download = workflow.demo_download
+    download.create_output_dir()
 
     logger = logging.getLogger(__name__)
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
                         filename=os.path.join(
-                            download.get_output_dir(True),
+                            download.get_output_dir(),
                             'demo_lyon_metropole_dowload_and_sanitize.log'),
                         filemode='w')
 

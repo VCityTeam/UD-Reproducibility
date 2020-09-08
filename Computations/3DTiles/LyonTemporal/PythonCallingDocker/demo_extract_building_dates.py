@@ -1,19 +1,19 @@
 import os
 import sys
 import logging
-from demo import Demo
-from demo_strip_attributes import DemoStrip
 from docker_extract_building_dates import DockerExtractBuildingDates
+from demo import DemoWithFileOutput
+import demo_full_workflow as workflow
 
 
-class DemoExtractBuildingDates(Demo):
+class DemoExtractBuildingDates(DemoWithFileOutput):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the extract building dates algorithm for designating its 
     input/output directories and filenames
     """
     def __init__(self):
-        Demo.__init__(self)
+        super().__init__()
 
     def get_vintages_result_dir(self, first_vintage, second_vintage, create=True):
         """
@@ -31,12 +31,15 @@ class DemoExtractBuildingDates(Demo):
             second_vintage = str(second_vintage)
 
         vintages_dir = first_vintage + '_' + second_vintage + '_' + 'Differences'
-        vintages_dir = os.path.join(self.output_dir, vintages_dir)
+        vintages_dir = os.path.join(self.get_output_dir(), vintages_dir)
         if create and not os.path.isdir(vintages_dir):
             logging.info(f'Creating extract building dates output directory'
                           '{vintages_dir}.')
             os.mkdir(vintages_dir)
         return vintages_dir
+    
+    def get_vintage_borough_output_file_basename(self, vintage, borough):
+        raise NotImplementedError()
 
     def get_borough_result_dir(self, borough, first_vintage, second_vintage, create=True):
         """
@@ -95,20 +98,23 @@ class DemoExtractBuildingDates(Demo):
         return result
 
     def run(self):
-        strip = DemoStrip()
+        input = self.get_input_demo()
+        if not input.assert_output_files_exist():
+            logging.error("ExtractBuildingDates misses some of its input files: exiting")
+            sys.exit(1)
+        self.create_output_dir()   # Just making sure
+
         for vintage_index in range(len(self.vintages) - 1):
             first_vintage = str(self.vintages[vintage_index])
             second_vintage = str(self.vintages[vintage_index + 1])
-            for borough in self.boroughs:
-                # Make sure the output directory exists:
-                output_dir = self.get_vintages_result_dir(first_vintage,
-                                                          second_vintage,
-                                                          create=True)
+            # Make sure the output directory exists:
+            self.get_vintages_result_dir(first_vintage, second_vintage, create=True)
 
-                first_file = strip.get_vintage_borough_resulting_filename(first_vintage,
-                                                                          borough)
-                second_file = strip.get_vintage_borough_resulting_filename(second_vintage,
-                                                                          borough)
+            for borough in self.boroughs:    
+                first_file = input.get_vintage_borough_output_filename(first_vintage,
+                                                                       borough)
+                second_file = input.get_vintage_borough_output_filename(second_vintage,
+                                                                        borough)
                 DockerExtractBuildingDates.single_extract(
                     first_vintage,
                     first_file,
@@ -116,13 +122,23 @@ class DemoExtractBuildingDates(Demo):
                     second_file,
                     self.get_borough_result_dir(borough, first_vintage, second_vintage))
 
-
 if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    extract = workflow.demo_extract
+    extract.create_output_dir()
 
-    extract = DemoExtractBuildingDates()
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S',
+                        filename=os.path.join(extract.get_output_dir(),
+                                              'demo_extract_building_dates.log'),
+                        filemode='w')
+    logging.info("Starting to extract building dates.")   
+
     extract.run()
-    extract.assert_output_files_exist()
-    print("Resulting extracted building dates files", 
-          extract.get_resulting_filenames())
+    if not extract.assert_output_files_exist():
+        logging.info("Some output is missing: exiting.")
+        sys.exit()
+    logging.info("Resulting extracted building dates files:")
+    [ logging.info( "   " + file) for file in extract.get_resulting_filenames() ]
+

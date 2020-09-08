@@ -4,8 +4,7 @@ import logging
 import demo_configuration
 from abc import ABC, abstractmethod
 
-
-class Demo(ABC):
+class Demo:
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the various derived demonstration classes in order to designate
@@ -28,7 +27,7 @@ class Demo(ABC):
         # When self.results_dir is set this Demo will outputs/results will be located in 
         # the "results_dir" sub-directory of self.all_demos_output_dir (refer to 
         # Demo.get_ouput_dir() method).
-        self.results_dir = results_dir
+        self.set_results_dir(results_dir)
         self.city = city
         self.vintages = vintages
         self.boroughs = boroughs
@@ -48,17 +47,19 @@ class Demo(ABC):
                             f'per vintage. Exiting')
                 sys.exit(1)
 
-    def set_results_dir(self, results_dir):
-        self.results_dir = results_dir
+    def create_output_dir(self):
+        output_dir = self.get_output_dir()
+        if not os.path.isdir(output_dir):
+            os.makedirs(output_dir)
 
-    def get_output_dir(self, create=False):
+    def get_output_dir(self):
         output_dir = self.all_demos_output_dir
         if self.results_dir:
             output_dir = os.path.join(self.all_demos_output_dir, self.results_dir)
-        if create and not os.path.isdir(output_dir):
-            logging.info(f'Creating demo output directory {output_dir}.')
-            os.mkdir(output_dir)
         return output_dir
+
+    def set_results_dir(self, results_dir):
+        self.results_dir = results_dir
 
     def set_input_demo(self, input_demo):
         """
@@ -73,6 +74,12 @@ class Demo(ABC):
             return sys.exit(1)
         return self.input_demo
 
+
+class DemoWithFileOutput(Demo, ABC):
+    """
+    Additionnal conventions for demos yielding outputs in the form of files
+    (as opposed to e.g. databases) 
+    """
     @abstractmethod
     def get_vintage_borough_output_file_basename(self, vintage, borough):
         raise NotImplementedError()
