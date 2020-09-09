@@ -6,11 +6,16 @@ import time
 
 from docker_load_3dcitydb import DockerLoad3DCityDB
 from demo_3dcitydb_server import Demo3dCityDBServer
-from demo_strip_attributes import DemoStrip
 from demo import Demo
+import demo_full_workflow as workflow
 
 
 class DemoLoad3DCityDB(Demo):
+    """
+    A utility class gathering the conventional names, relative to this demo,
+    used by the DockerLoad3DCityDB algorithms for designating its input
+    directories and filenames
+    """
     
     @staticmethod
     def __get_vintage_configuration_filename(vintage):
@@ -45,12 +50,17 @@ class DemoLoad3DCityDB(Demo):
                 DemoLoad3DCityDB.__get_vintage_configuration_filename(vintage))
 
     def run(self):
+        input = self.get_input_demo()
+        if not input.assert_output_files_exist():
+            logging.error("DemoLoad3DCityDB misses some of its input files: exiting")
+            sys.exit(1)
+        self.create_output_dir()   # Just making sure
+
         for vintage in self.vintages:
             logging.info(f'Importation for vintage {str(vintage)}: starting.')
             d = DockerLoad3DCityDB()
 
-            inputs = list(map(os.path.abspath, 
-                              DemoStrip().get_vintage_resulting_filenames(vintage)))
+            inputs = list(map(os.path.abspath, input.get_vintage_resulting_filenames(vintage)))
             d.set_files_to_import(inputs)
             logging.info(f'Files set for importation: {inputs}')
 
@@ -60,26 +70,31 @@ class DemoLoad3DCityDB(Demo):
             logging.info(f'Importation for vintage {str(vintage)}: done.')
 
 if __name__ == '__main__':
+    load = workflow.demo_load
+    load.create_output_dir()
 
     logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
-    # Note: there is probably something simpler to be done with
-    # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
-    # cannot access it in this context
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S',
+                        filename=os.path.join(load.get_output_dir(),
+                                              'demo_load_3dcitydb.log'),
+                        filemode='w')
 
     logging.info('Stage 1: starting databases.')
     demo_servers = Demo3dCityDBServer()
+    # FIXME: for some unknown reason the following line makes things go
+    # wrong. Inquire on this only if you wish to rename the output directory name.
+    # demo_servers.set_results_dir('data_bases')
     demo_servers.run()
     logging.info('Stage 1: waiting an extra 10 seconds for databases to spin off.')
     time.sleep(20)
     logging.info('Stage 1: done.')
 
     logging.info(f'Stage 2: importing files to databases.')
-    demo_load = DemoLoad3DCityDB()
-    demo_load.run()
+    load.run()
     logging.info('Stage 2: done')
 
     logging.info('Stage 3: halting containers.')
-    # demo_servers.halt()
+    demo_servers.halt()
     logging.info('Stage 3: done')
