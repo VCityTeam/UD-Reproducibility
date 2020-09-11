@@ -3,14 +3,14 @@ import sys
 import logging
 import time
 from docker_3dcitydb_server import Docker3DCityDBServer
-from demo import Demo
+from demo import DemoWithDataBases
 
 
-class Demo3dCityDBServer(Demo):
+class Demo3dCityDBServer(DemoWithDataBases):
 
     def __init__(self):
-        Demo.__init__(self)
-        Demo.__init_databases__(self)
+        super().__init__()
+        super().__init_databases__()
         self.active_databases = list()
 
     def get_databases_dir(self, create=True):
@@ -66,11 +66,17 @@ class Demo3dCityDBServer(Demo):
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-
     demo_servers = Demo3dCityDBServer()
+
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S',
+                        filename=os.path.join(demo_servers.get_output_dir(),
+                                              'demo_3dcitydb_server.log'),
+                        filemode='w')
+
     demo_servers.run()
-    logging.info('Enjoying the databases hum for 10 seconds.')
-    time.sleep(10)
+    logging.info('Enjoying the databases hum for 2 minutes.')
+    time.sleep(120)
     demo_servers.halt()

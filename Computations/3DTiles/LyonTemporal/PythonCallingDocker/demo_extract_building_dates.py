@@ -33,13 +33,18 @@ class DemoExtractBuildingDates(DemoWithFileOutput):
         vintages_dir = first_vintage + '_' + second_vintage + '_' + 'Differences'
         vintages_dir = os.path.join(self.get_output_dir(), vintages_dir)
         if create and not os.path.isdir(vintages_dir):
-            logging.info(f'Creating extract building dates output directory'
-                          '{vintages_dir}.')
-            os.mkdir(vintages_dir)
+            logging.info(f'Creating extract building dates output directory {vintages_dir}.')
+            os.makedirs(vintages_dir)
         return vintages_dir
     
     def get_vintage_borough_output_file_basename(self, vintage, borough):
         raise NotImplementedError()
+
+    def get_borough_vintages_output_file_basename(self, borough, first_vintage, second_vintage):
+        # We concatenate the result_dir to the file (base) name for tracability reasons
+        # (which allows at later stages to distinguish such files even if the directory
+        # layout was changed)
+        return borough + '_' + first_vintage + '_' + second_vintage + '-DifferencesAsGraph.json'
 
     def get_borough_result_dir(self, borough, first_vintage, second_vintage, create=True):
         """
@@ -58,7 +63,7 @@ class DemoExtractBuildingDates(DemoWithFileOutput):
             second_vintage = str(second_vintage)
 
         vintages_dir = self.get_vintages_result_dir(first_vintage, second_vintage, create)
-        borough_dir = borough + '_' + first_vintage + '-' + second_vintage
+        borough_dir = borough + '_' + first_vintage + '_' + second_vintage
         result_dir = os.path.join(vintages_dir, borough_dir)
         if create and not os.path.isdir(result_dir):
             logging.info(f'Creating extract building dates output directory {result_dir}.')
@@ -79,7 +84,9 @@ class DemoExtractBuildingDates(DemoWithFileOutput):
         for borough in self.boroughs:
             result_filename = os.path.join(
                 self.get_borough_result_dir(borough, first_vintage, second_vintage, create),
-                'DifferencesAsGraph.json')
+                self.get_borough_vintages_output_file_basename(borough, 
+                                                               first_vintage, 
+                                                               second_vintage))
             result.append(result_filename)
         return result
 
@@ -121,6 +128,20 @@ class DemoExtractBuildingDates(DemoWithFileOutput):
                     second_vintage,
                     second_file,
                     self.get_borough_result_dir(borough, first_vintage, second_vintage))
+                # We need to rename the default name to demo compatible choices
+                source_filename = os.path.join(
+                    self.get_borough_result_dir(borough, first_vintage, second_vintage),
+                    'DifferencesAsGraph.json')
+                target_filename = os.path.join(
+                    self.get_borough_result_dir(borough, first_vintage, second_vintage),
+                    self.get_borough_vintages_output_file_basename(borough, 
+                                                                   first_vintage, 
+                                                                   second_vintage))
+
+                os.rename(source_filename, target_filename)
+                logging.info(f'ExtractBuildingDates output {source_filename} renamed '
+                             f'to {target_filename}.')
+
 
 if __name__ == '__main__':
     extract = workflow.demo_extract

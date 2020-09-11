@@ -4,6 +4,7 @@ from demo_split_buildings import DemoSplitBuildings
 from demo_strip_attributes import DemoStrip
 from demo_extract_building_dates import DemoExtractBuildingDates
 from demo_load_3dcitydb import DemoLoad3DCityDB
+from demo_temporal_tiler import DemoTemporalTiler
 
 # Definition of the workflow by defining its nodes and connections
 demo_download = DemoLyonMetropoleDowloadAndSanitize('BATI', 'stage_1')
@@ -23,6 +24,10 @@ demo_extract.set_input_demo(demo_strip)
 demo_load = DemoLoad3DCityDB()
 demo_load.set_results_dir('stage_5') 
 demo_load.set_input_demo(demo_strip)
+
+demo_tiler = DemoTemporalTiler()
+demo_tiler.set_results_dir('stage_6') 
+demo_tiler.set_input_demo(demo_extract)
 
 
 if __name__ == '__main__':

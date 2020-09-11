@@ -33,20 +33,6 @@ class Demo:
         self.boroughs = boroughs
         self.input_demo = None
 
-    def __init_databases__(self):
-        if not demo_configuration.databases:
-            logging.info(f'Databases configurations not found. Exiting')
-            sys.exit(1)
-        
-        self.databases = demo_configuration.databases
-        
-        for vintage in self.vintages:
-            if not self.databases[vintage]:
-                logging.info(f'Database configuration for vintage {vintage} was not '
-                            f'found. You must specify one database configuration '
-                            f'per vintage. Exiting')
-                sys.exit(1)
-
     def create_output_dir(self):
         output_dir = self.get_output_dir()
         if not os.path.isdir(output_dir):
@@ -111,3 +97,20 @@ class DemoWithFileOutput(Demo, ABC):
                 logging.error(f'Output file {filename} not found.')
                 return False
         return True
+
+
+class DemoWithDataBases(Demo):
+
+    def __init_databases__(self):
+        if not demo_configuration.databases:
+            logging.info(f'Databases configurations not found. Exiting')
+            sys.exit(1)
+        
+        self.databases = demo_configuration.databases
+        
+        for vintage in self.vintages:
+            if not self.databases[vintage]:
+                logging.info(f'Database configuration for vintage {vintage} was not '
+                            f'found. You must specify one database configuration '
+                            f'per vintage. Exiting')
+                sys.exit(1)

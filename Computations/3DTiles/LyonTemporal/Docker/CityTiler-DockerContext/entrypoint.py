@@ -53,7 +53,13 @@ elif TilerMode == "TemporalTiler":
     # flag
     arg = kept_args.pop(0)
     while kept_args and arg != "--time_stamp":
-        DBConfigFile = 'Tilers/CityTiler/' + arg
+        DBConfigFile = arg
+        if '/Input/' not in arg:
+           # The configuration file was not given through the mounted directory
+           # and thus we assume it was copied in a "well-known" place (in the 
+           # same directory as the Tiler python script). We must thus prefix
+           # the configuration filename with the "well-known" path:
+           DBConfigFile = 'Tilers/CityTiler/' + DBConfigFile
         command.append(DBConfigFile)
         arg = kept_args.pop(0)
 

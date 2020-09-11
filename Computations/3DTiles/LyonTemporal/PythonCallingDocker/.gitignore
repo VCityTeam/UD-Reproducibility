@@ -1,6 +1,6 @@
 __pycache__
 pytest_outputs/
-3dCityDBImpExpConfig-*.xml
+3dCityDBImpExpConfig*.xml
 *.log
 venv
 .direnv
