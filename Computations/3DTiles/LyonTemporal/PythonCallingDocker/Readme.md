@@ -18,8 +18,9 @@ Notes:
 ## Installing dependencies
 
 ### The direnv method (recommendable)
+If you are a direnv user and you already configured you `.bashrc`
 ```
-$ git rev-parse --show-toplevel
+$ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
 $ ln -s .envrc.tpl .envrc
 $ direnv allow
@@ -29,7 +30,7 @@ $ direnv allow
 ### The hands on method
 Create a python virtual environment and activate it
 ```
-$ git rev-parse --show-toplevel
+$ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
 $ virtualenv -p python3 venv
 $ . venv/bin/activate
@@ -39,7 +40,7 @@ $ . venv/bin/activate
 ## Running the unit tests
 In order to test the containers:
 ```
-$ git rev-parse --show-toplevel
+$ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
 (venv)$ pip install pytest pytest-ordering pytest-dependency
 (venv)$ pytest
@@ -54,7 +55,7 @@ of `demo_configuration.py`, refer above).
 ### Running the full workflow
 ```
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
-(venv)$ python run_demo_full_worflow.py
+(venv)$ python demo_full_workflow.py
 ```
 
 ### Manual step by step run
@@ -78,6 +79,17 @@ $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
    ```
 
 ## Issues
+
+### Bug: DemoLoad3DCityDB hardwires a reference to a bourough
+`DemoLoad3DCityDB::check_log_result()` looks for strings of the form
+`LYON_9EME_BATI_2009_splited_stripped.gml` when this burough might not
+be configured in demo_configuration.py. Instead of looking for such
+string look for the basename of the last entry of the list 
+input.get_resulting_files()
+
+### Bug: DemoLoad3DCityDB missplaces its output
+demo_load places its output in `junk/postgres-data` directory instead of
+junk/stage_5/postgres-data. 
 
 ### Bug: extractBuildingDates stage fails on Villeurbanne data
 The following run fails
