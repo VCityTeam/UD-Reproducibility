@@ -54,21 +54,21 @@ of `demo_configuration.py`, refer above).
 ### Running the full workflow
 ```
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
-(venv)$ python demo_full_worflow.py
+(venv)$ python run_demo_full_worflow.py
 ```
 
 ### Manual step by step run
 The following manual steps should be applied in order:
 ```
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
-(venv)$ python demo_lyon_metropole_dowload_and_sanitize.py
-(venv)$ python demo_split_buildings.py
-(venv)$ python demo_strip_attributes.py
-(venv)$ python demo_extract_building_dates.py
-(venv)$ python demo_3dcitydb_server.py  # Just a test: produces no output
-(venv)$ python demo_load_3dcitydb.py
+(venv)$ python run_demo_lyon_metropole_dowload_and_sanitize.py   # result in junk/stage_1
+(venv)$ python run_demo_split_buildings.py                       # result in junk/stage_2
+(venv)$ python run_demo_strip_attributes.py                      # result in junk/stage_3 
+(venv)$ python run_demo_extract_building_dates.py                # result in junk/stage_4
+(venv)$ python run_demo_3dcitydb_server.py                       # Just a test: no output
+(venv)$ python run_demo_load_3dcitydb.py                         # result in junk/stage_5
+(venv)$ python run_demo_temporal_tiler.py                        # result in junk/stage_6
 ```
-
 
 ## Developers notes
  * Debugging of a container
@@ -175,3 +175,22 @@ This error seems related with postgis or gdal according to threads like:
        ... 17 more
        [12:33:57 ERROR] Aborting...
     ```
+
+### Debugging the Tiler
+The Tiler runs ok (parsing of difference files) until it requires access to the databases. The
+error message is then of the form:
+```
+File "Tilers/CityTiler/CityTemporalTiler.py", line 464, in <module> main()
+File "Tilers/CityTiler/CityTemporalTiler.py", line 439, in main
+     cursors = open_data_bases(cli_args.db_config_path)
+File "/py3dtiles.git/Tilers/CityTiler/database_accesses.py", line 78, in open_data_bases
+     cursors.append(open_data_base(file_path))
+File "/py3dtiles.git/Tilers/CityTiler/database_accesses.py", line 47, in open_data_base
+     keepalives_count=5
+File "/usr/local/lib/python3.7/site-packages/psycopg2/__init__.py", line 127, in connect
+     conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+     psycopg2.OperationalError: could not connect to server: Connection refused
+     Is the server running on host "134.214.143.170" and accepting
+     TCP/IP connections on port 5432?
+Exiting  TemporalTiler  with success.
+```

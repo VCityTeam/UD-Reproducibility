@@ -3,7 +3,6 @@ import sys
 import logging
 from docker_extract_building_dates import DockerExtractBuildingDates
 from demo import DemoWithFileOutput
-import demo_full_workflow as workflow
 
 
 class DemoExtractBuildingDates(DemoWithFileOutput):
@@ -141,25 +140,4 @@ class DemoExtractBuildingDates(DemoWithFileOutput):
                 os.rename(source_filename, target_filename)
                 logging.info(f'ExtractBuildingDates output {source_filename} renamed '
                              f'to {target_filename}.')
-
-
-if __name__ == '__main__':
-    extract = workflow.demo_extract
-    extract.create_output_dir()
-
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(extract.get_output_dir(),
-                                              'demo_extract_building_dates.log'),
-                        filemode='w')
-    logging.info("Starting to extract building dates.")   
-
-    extract.run()
-    if not extract.assert_output_files_exist():
-        logging.info("Some output is missing: exiting.")
-        sys.exit()
-    logging.info("Resulting extracted building dates files:")
-    [ logging.info( "   " + file) for file in extract.get_resulting_filenames() ]
 

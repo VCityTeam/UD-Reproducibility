@@ -1,12 +1,9 @@
 import os
 import sys
 import logging
-import time
 import shutil
 from docker_temporal_tiler import DockerTemporalTiler
-from demo_3dcitydb_server import Demo3dCityDBServer
 from demo import DemoWithDataBases
-import demo_full_workflow as workflow
 
 
 class DemoTemporalTiler(DemoWithDataBases):
@@ -60,33 +57,3 @@ class DemoTemporalTiler(DemoWithDataBases):
         container.set_mounted_output_directory(output_dir)
 
         container.run()
-
-
-if __name__ == '__main__':
-    temporal_tiler = workflow.demo_tiler
-    temporal_tiler.create_output_dir()
-
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(temporal_tiler.get_output_dir(),
-                                              'demo_temporal_tiler.log'),
-                        filemode='w')
-
-    logging.info('Stage 1: start databases wait.')
-    demo_servers = Demo3dCityDBServer()
-    demo_servers.run()
-    logging.info('Stage 1: wait for 2 minutes for databases to spin off.')
-    time.sleep(120)
-    logging.info('Stage 1: done.')
-
-    logging.info('Stage 2: computing the tiles.')
-    temporal_tiler.run()
-    logging.info('Stage 2: done.')
-
-    logging.info('Stage 3: halting containers.')
-    demo_servers.halt()
-    logging.info('Stage 3: done')
-
-

@@ -5,9 +5,7 @@ import jinja2
 import time
 
 from docker_load_3dcitydb import DockerLoad3DCityDB
-from demo_3dcitydb_server import Demo3dCityDBServer
 from demo import DemoWithDataBases
-import demo_full_workflow as workflow
 
 
 class DemoLoad3DCityDB(DemoWithDataBases):
@@ -75,47 +73,21 @@ class DemoLoad3DCityDB(DemoWithDataBases):
             d.run()
             logging.info(f'Importation for vintage {str(vintage)}: done.')
 
-if __name__ == '__main__':
-    load = workflow.demo_load
-    load.create_output_dir()
-
-    log_filename = os.path.join(load.get_output_dir(), 'demo_load_3dcitydb.log')
-
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=log_filename,
-                        filemode='w')
-
-    logging.info('Stage 1: starting databases.')
-    demo_servers = Demo3dCityDBServer()
-    # FIXME: for some unknown reason the following line makes things go
-    # wrong. Inquire on this only if you wish to rename the output directory name.
-    # demo_servers.set_results_dir('data_bases')
-    demo_servers.run()
-    logging.info('Stage 1: done.')
-
-    logging.info('Stage 2: waiting an extra 2 minutes for databases to spin off.')
-    time.sleep(120)
-    logging.info('Stage 2: done.')
-
-    logging.info(f'Stage 3: importing files to databases.')
-    load.run()
-    logging.info('Stage 3: done')
-
-    logging.info('Stage 4: halting containers.')
-    demo_servers.halt()
-    logging.info('Stage 4: done')
-
-    logging.info('Stage 5: trivial (out of logs) testing of results.')
-    with open(log_filename, 'r') as f:
-        for line in f.readlines():
-            if 'Database import successfully finished' in line:
-                if 'LYON_9EME_BATI_2009_splited_stripped.gml' in line:
-                    logging.info('Stage 5: 2009 vintage correctly imported.')
-                if 'LYON_9EME_BATI_2012_splited_stripped.gml' in line:
-                    logging.info('Stage 5: 2012 vintage correctly imported.')
-                if 'LYON_9EME_BATI_2015_splited_stripped.gml' in line:
-                    logging.info('Stage 5: 2015 vintage correctly imported.')
-    logging.info('Stage 5: done')
+    def check_log_result(self, log_filename):
+        assertions = 0
+        with open(log_filename, 'r') as f:
+            for line in f.readlines():
+                if 'Database import successfully finished' in line:
+                    if 'LYON_9EME_BATI_2009_splited_stripped.gml' in line:
+                        logging.info('Stage 5: 2009 vintage correctly imported.')
+                        assertions +=1
+                    if 'LYON_9EME_BATI_2012_splited_stripped.gml' in line:
+                        logging.info('Stage 5: 2012 vintage correctly imported.')
+                        assertions +=1
+                    if 'LYON_9EME_BATI_2015_splited_stripped.gml' in line:
+                        logging.info('Stage 5: 2015 vintage correctly imported.')
+                        assertions +=1
+        if assertions == 3:
+            return True
+        return False
+ 

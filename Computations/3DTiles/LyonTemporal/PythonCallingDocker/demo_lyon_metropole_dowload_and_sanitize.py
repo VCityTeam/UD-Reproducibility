@@ -3,7 +3,6 @@ import sys
 import logging
 from city_gml_files_from_archive import CityGMLFileFromArchive
 from demo import DemoWithFileOutput
-import demo_full_workflow as workflow
 
 
 class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
@@ -110,22 +109,3 @@ class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
             archive.assert_file_exists()    # Just making sure
             result.append(archive.get_full_filename())
         return result
-
-if __name__ == '__main__':
-    download = workflow.demo_download
-    download.create_output_dir()
-
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-8s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(
-                            download.get_output_dir(),
-                            'demo_lyon_metropole_dowload_and_sanitize.log'),
-                        filemode='w')
-
-    download.run()
-    download.assert_output_files_exist()
-    logging.info("Resulting files: ")
-    [ logging.info( "   " + file) for file in download.get_resulting_filenames() ]
-
