@@ -75,7 +75,24 @@ class CityGMLFileFromArchive(dict):
     def download_and_expand(self, pattern):
         self.assert_directory_is_set()
         with pushd(self.directory):
-            wget.download(self['url'])
+            # Because the server/network are sometimes flaky, giving many tries might
+            # robustify the process:
+            download_success = False
+            number_max_wget_trial = 5
+            seeked_url = self['url']
+            while not download_success:
+                try:
+                    wget.download(seeked_url)
+                    download_success = True
+                    logging.info(f'Download of {seeked_url} succeful.')
+                except:
+                    number_max_wget_trial -=1
+                    if number_max_wget_trial:
+                        logging.info(f'Download of {seeked_url} failed: retying.')
+                    else:
+                        logging.info(f'Download of {seeked_url} failed: exiting.')
+                        sys.exit(1)
+
             downloaded = os.path.basename(super().get('url'))
             with zipfile.ZipFile(downloaded, 'r') as zip_ref:
                 for file in zip_ref.namelist():
