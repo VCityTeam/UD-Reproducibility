@@ -87,13 +87,14 @@ class DemoLoad3DCityDB(DemoWithDataBases):
              sys.exit(1)
         logging.info('Looking for following files in importation logs:')
         for key, value in last_loaded_vintage_filename.items():
-            logging.info(f'   checking for vintage {key} and file {value}.')
+            logging.info(f'   checking logs for vintage {key} and file {value}.')
 
         checked_assertions = 0
         with open(log_filename, 'r') as f:
             for line in f.readlines():
                 if 'Database import successfully finished' in line:
                     for vintage in self.vintages:
+                        vintage = str(vintage)
                         if last_loaded_vintage_filename[vintage] in line:
                             logging.info(f'Vintage {vintage} correctly imported.')
                             checked_assertions +=1
