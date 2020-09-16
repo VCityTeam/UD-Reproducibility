@@ -74,20 +74,30 @@ class DemoLoad3DCityDB(DemoWithDataBases):
             logging.info(f'Importation for vintage {str(vintage)}: done.')
 
     def check_log_result(self, log_filename):
-        assertions = 0
+        input = self.get_input_demo()
+        last_loaded_vintage_filename = dict()
+        for filename in input.get_resulting_filenames():
+            file_basename = os.path.basename(filename)
+            for vintage in self.vintages:
+                vintage = str(vintage)
+                if vintage in file_basename:
+                    last_loaded_vintage_filename[vintage] = file_basename
+        if not last_loaded_vintage_filename:
+             logging.info('No filenames to look for in importation logs. Exiting')
+             sys.exit(1)
+        logging.info('Looking for following files in importation logs:')
+        for key, value in last_loaded_vintage_filename.items():
+            logging.info(f'   checking for vintage {key} and file {value}.')
+
+        checked_assertions = 0
         with open(log_filename, 'r') as f:
             for line in f.readlines():
                 if 'Database import successfully finished' in line:
-                    if 'LYON_9EME_BATI_2009_splited_stripped.gml' in line:
-                        logging.info('Stage 5: 2009 vintage correctly imported.')
-                        assertions +=1
-                    if 'LYON_9EME_BATI_2012_splited_stripped.gml' in line:
-                        logging.info('Stage 5: 2012 vintage correctly imported.')
-                        assertions +=1
-                    if 'LYON_9EME_BATI_2015_splited_stripped.gml' in line:
-                        logging.info('Stage 5: 2015 vintage correctly imported.')
-                        assertions +=1
-        if assertions == 3:
+                    for vintage in self.vintages:
+                        if last_loaded_vintage_filename[vintage] in line:
+                            logging.info(f'Vintage {vintage} correctly imported.')
+                            checked_assertions +=1
+        if checked_assertions == len(self.vintages):
             return True
         return False
  
