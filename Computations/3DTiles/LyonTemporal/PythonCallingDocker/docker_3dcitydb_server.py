@@ -1,10 +1,7 @@
 import os
 import sys
 import logging
-import time
-
 from docker_helper import DockerHelperPull, DockerHelperService
-import demo_configuration as demo
 
 
 class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
@@ -38,8 +35,6 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
 
         self.container_name = 'citydb-container-' + str(self.vintage)
 
-
-
     def get_command(self):
         # No command is declared here since the command is already set
         # by default in the Dockerfile
@@ -55,45 +50,18 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                         'rw')
         super().run()
 
-
-if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-
-    postgres_output_path = os.path.join(os.getcwd(),
-                                        demo.output_dir,
-                                        'postgres-data')
-    if not os.path.isdir(postgres_output_path):
-        logging.info(f'Creating local output dir {postgres_output_path} for '
-                     f'postgres data.')
-        os.mkdir(postgres_output_path)
-
-    active_databases = list()
-    for vintage in demo.vintages:
-        if not demo.databases:
-            logging.info(f'Databases configurations not found. Exiting')
-            sys.exit(1)
-        if not demo.databases[vintage]:
-            logging.info(f'Database configuration for vintage {vintage} not '
-                         f'found. You must specify one database configuration '
-                         f'per vintage. Exiting')
-            sys.exit(1)
-        data_base = Docker3DCityDBServer(vintage, demo.databases[vintage])
-        absolute_path_output_dir = os.path.join(postgres_output_path,
+    @staticmethod
+    def start_single_database(db_vintage, db_config, postgres_data_output_path):
+        data_base = Docker3DCityDBServer(db_vintage, db_config)
+        absolute_path_output_dir = os.path.join(postgres_data_output_path,
                                                 data_base.container_name)
         if not os.path.isdir(absolute_path_output_dir):
-            logging.info(f'Creating local output dir {absolute_path_output_dir}'
-                         f'.')
+            logging.info(f'Creating directory {absolute_path_output_dir} to '
+                        f'store postgres database content for vintage {db_vintage}.')
             os.mkdir(absolute_path_output_dir)
         data_base.set_mounted_output_directory(absolute_path_output_dir)
         data_base.run()
-        active_databases.append(data_base)
+        logging.info(f'3DCityDB server container of database {data_base.container_name} '
+                     f'(for vintage {db_vintage}) started.')
+        return data_base
 
-    logging.info('Enjoying the databases hum for 10 seconds.')
-    time.sleep(10)
-
-    logging.info(f'Halting containers: begining')
-    for server in active_databases:
-        logging.info(f'   Halting container {server.get_container().name}.')
-        server.halt_service()
-    logging.info(f'Halting containers: done')

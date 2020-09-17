@@ -2,8 +2,6 @@ import os
 import sys
 import logging
 from docker_helper import DockerHelperBuild, DockerHelperTask
-import demo_configuration as demo
-import demo_strip_attributes
 
 
 class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
@@ -68,29 +66,50 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
         super().run()
 
 
-if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+    @staticmethod
+    def strip_single_file(input_dir,
+                          input_filename,
+                          output_filename,
+                          output_dir=None):
+        """
+        A function to be used to manually handle the stripping of a single file
+        (basicallyt a wrap of the container invocation)
+        :param container: a DockerStripAttributes instance
+        :param input_dir: the directory where the input file is to be found
+        :param input_filename: the name of the input file
+        :param output_filename: the name of the output file
+        :param output_dir: the directory where the output file is to be placed.
+                        When invocation ommits the output_dir, this function
+                        places its result in the input_dir
+        :return: the resulting output filename
+        """
 
-    # The following vintage_inputs lists should merged into a single list
-    # of files to be returned by an upcoming SplitInputsOutputs.get_
-    # resulting_filenames() method...
-    strip = demo_strip_attributes.StripInputsOutputs()
-    for vintage in demo.vintages:
-        vintage_inputs = list()
-        for borough in demo.boroughs:
-            input_filename = os.path.join(
-                 demo.output_dir,
-                 borough + '_' + str(vintage),
-                 borough + '_BATI_' + str(vintage) + '_splited.gml')
-            vintage_inputs.append(input_filename)
+        # Docker only accepts absolute path names as argument for its volumes
+        # to be mounted:
+        absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+        container = DockerStripAttributes()
+        container.set_mounted_input_directory(absolute_path_input_dir)
+        container.set_mounted_output_directory(
+            container.get_mounted_input_directory())
+        container.set_input_filename(input_filename)
+        container.set_output_filename(output_filename)
+        container.run()
 
-        for filename in vintage_inputs:
-            strip.strip_single_file(
-                DockerStripAttributes(),
-                input_dir=os.path.dirname(filename),
-                input_filename=os.path.basename(filename),
-                output_dir=os.path.dirname(filename))
-            # FIXME: we should probably use strip.get_output_dir(vintage,
-            #  borough) for the output_dir.
+        full_output_filename = os.path.join(input_dir, output_filename)
+        logging.info(f'Striping to yield file {full_output_filename}.')
+        if not os.path.isfile(full_output_filename):
+            logging.error(
+                f'Output file {full_output_filename} not found. Exiting.')
+            sys.exit(1)
+
+        if not output_dir:
+            return full_output_filename
+        else:
+            # Since CityGML2Stripper does not allow to specify an output folder,
+            # we need to "manually" move the resulting file
+            target_filename = os.path.join(output_dir, output_filename)
+            logging.info(f'Moving resulting file from {full_output_filename} ')
+            logging.info(f'to {target_filename}.')
+            os.replace(full_output_filename, target_filename)
+            return target_filename
 

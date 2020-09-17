@@ -2,7 +2,6 @@ import os
 import sys
 import logging
 from docker_3duse import Docker3DUse
-import demo_configuration as demo
 
 
 class DockerSplitBuilding(Docker3DUse):
@@ -57,51 +56,34 @@ class DockerSplitBuilding(Docker3DUse):
             command += self.command_output_directory + ' '
         return command
 
+    @staticmethod
+    def split(input_dir, input_filename, output_filename):
+        d = DockerSplitBuilding()
+        # Docker only accepts absolute path names as argument for its volumes
+        # to be mounted:
+        absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
+        d.set_mounted_input_directory(absolute_path_input_dir)
 
-def split(input_dir, input_filename, output_filename):
-    d = DockerSplitBuilding()
-    # Docker only accepts absolute path names as argument for its volumes
-    # to be mounted:
-    absolute_path_input_dir = os.path.join(os.getcwd(), input_dir)
-    d.set_mounted_input_directory(absolute_path_input_dir)
-
-    # Setting up, the output directory:
-    #  1. side by side with input file: use
-    #     d.set_mounted_output_directory(d.get_mounted_input_directory())
-    #  2. in some arbitrary designated place: use e.g.
-    #     output_dir = os.path.join(os.getcwd(),'some_dir')
-    #     if not os.path.exists(output_dir):
-    #         os.makedir(output_dir)
-    #     d.set_mounted_output_directory(output_dir)
-    #  3. in the invocation directory: just leave the output directory unset
-    #
-    # Optionally one can define the output directory to be a sub-directory
-    # of the mounted output directory with
-    # d.set_command_output_directory('LYON_1ER')
-    #
-    # For this example we chose option 1.
-    d.set_mounted_output_directory(d.get_mounted_input_directory())
-    d.set_input_filename(input_filename)
-    d.set_output_filename(output_filename)
-
-    d.run()
-
-
-if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
-    # Note: there is probably something simpler to be done with
-    # LyonMetropoleDowloadAndSanitize.get_resulting_filenanes() but we
-    # cannot access it in this context
-    inputs = list()
-    for borough in demo.boroughs:
-        for vintage in demo.vintages:
-            inputs.append(
-                [os.path.join(demo.output_dir, borough + '_' + str(vintage)),
-                 borough + '_BATI_' + str(vintage) + '.gml',
-                 borough + '_BATI_' + str(vintage) + '_splited.gml'])
-
-    for f in inputs:
-        print("Now handling", f)
-        split(input_dir=f[0], input_filename=f[1], output_filename=f[2])
+        # Setting up, the output directory:
+        #  1. side by side with input file: use
+        #     d.set_mounted_output_directory(d.get_mounted_input_directory())
+        #  2. in some arbitrary designated place: use e.g.
+        #     output_dir = os.path.join(os.getcwd(),'some_dir')
+        #     if not os.path.exists(output_dir):
+        #         os.makedir(output_dir)
+        #     d.set_mounted_output_directory(output_dir)
+        #  3. in the invocation directory: just leave the output directory unset
+        #
+        # Optionally one can define the output directory to be a sub-directory
+        # of the mounted output directory with
+        # d.set_command_output_directory('LYON_1ER')
+        #
+        # For this example we chose option 1.
+        d.set_mounted_output_directory(d.get_mounted_input_directory())
+        d.set_input_filename(input_filename)
+        d.set_output_filename(output_filename)
+        logging.info(f'DockerSplitBuilding: spliting file '
+                     f'{os.path.join(absolute_path_input_dir, input_filename)} '
+                     f'to resulting file '
+                     f'{os.path.join(absolute_path_input_dir, output_filename)}')
+        d.run()
