@@ -3,7 +3,7 @@ import logging
 import time
 from demo_lyon_metropole_dowload_and_sanitize_static \
     import DemoLyonMetropoleDowloadAndSanitizeStatic
-# from demo_split_buildings import DemoSplitBuildings
+from demo_split_buildings_static import DemoSplitBuildingsStatic
 # from demo_strip_attributes import DemoStrip
 # from demo_extract_building_dates import DemoExtractBuildingDates
 # from demo_load_3dcitydb import DemoLoad3DCityDB
@@ -13,9 +13,9 @@ from demo_lyon_metropole_dowload_and_sanitize_static \
 # Definition of the workflow by defining its nodes and connections
 demo_download = DemoLyonMetropoleDowloadAndSanitizeStatic('BATI', 'stage_1')
 
-# demo_split = DemoSplitBuildings()
-# demo_split.set_results_dir('stage_2') 
-# demo_split.set_input_demo(demo_download)
+demo_split = DemoSplitBuildingsStatic()
+demo_split.set_results_dir('stage_2') 
+demo_split.set_input_demo(demo_download)
 
 # demo_strip = DemoStrip()
 # demo_strip.set_results_dir('stage_3') 

@@ -1,11 +1,9 @@
 import os
 import sys
 import logging
-import demo_workflow_temporal as workflow
 
 
-if __name__ == '__main__': 
-    split = workflow.demo_split
+def run_demo_split_buildings(split): 
     split.create_output_dir()
 
     logger = logging.getLogger(__name__)

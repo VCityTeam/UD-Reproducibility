@@ -29,7 +29,7 @@ class DemoWithFileOutputStatic(DemoStatic, DemoWithFileOutput, ABC):
         raise NotImplementedError()
 
     def get_borough_output_directory_name(self, borough):
-        return os.path.join(self.get_output_dir(), borough)
+        return os.path.join(self.get_output_dir(), borough + '_' + str(self.vintage))
 
     def get_borough_output_filename(self, borough):
         """
