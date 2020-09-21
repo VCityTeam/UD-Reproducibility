@@ -1,38 +1,10 @@
 import sys
 import logging
 import time
-from demo_lyon_metropole_dowload_and_sanitize import DemoLyonMetropoleDowloadAndSanitize
-from demo_split_buildings import DemoSplitBuildings
-from demo_strip_attributes import DemoStrip
-from demo_extract_building_dates import DemoExtractBuildingDates
-from demo_load_3dcitydb import DemoLoad3DCityDB
-from demo_temporal_tiler import DemoTemporalTiler
-from demo_3dcitydb_server import Demo3dCityDBServer
 
-# Definition of the workflow by defining its nodes and connections
-demo_download = DemoLyonMetropoleDowloadAndSanitize('BATI', 'stage_1')
-
-demo_split = DemoSplitBuildings()
-demo_split.set_results_dir('stage_2') 
-demo_split.set_input_demo(demo_download)
-
-demo_strip = DemoStrip()
-demo_strip.set_results_dir('stage_3') 
-demo_strip.set_input_demo(demo_split)
-
-demo_extract = DemoExtractBuildingDates()
-demo_extract.set_results_dir('stage_4') 
-demo_extract.set_input_demo(demo_strip)
-
-demo_db_server = Demo3dCityDBServer()
-
-demo_load = DemoLoad3DCityDB()
-demo_load.set_results_dir('stage_5') 
-demo_load.set_input_demo(demo_strip)
-
-demo_tiler = DemoTemporalTiler()
-demo_tiler.set_results_dir('stage_6') 
-demo_tiler.set_input_demo(demo_extract)
+from demo_workflow_temporal import demo_download, demo_split, demo_strip, demo_extract
+from demo_workflow_temporal import demo_db_server
+from demo_workflow_temporal import demo_load, demo_tiler
 
 
 if __name__ == '__main__':
@@ -86,8 +58,7 @@ if __name__ == '__main__':
     logging.info("##################DemoFullWorkflow##### 4: Done.")
 
     logging.info('##################DemoFullWorkflow##### 5: Starting databases.')
-    demo_servers = Demo3dCityDBServer()
-    demo_servers.run()
+    demo_db_server.run()
     time.sleep(120)
     logging.info('##################DemoFullWorkflow##### 5: Databases started')
     logging.info('##################DemoFullWorkflow##### 5: Importing files.')
@@ -101,5 +72,5 @@ if __name__ == '__main__':
     demo_tiler.run()
     logging.info('##################DemoFullWorkflow##### 6: Tiler done.')
     logging.info('##################DemoFullWorkflow##### 6: Databases halted.')
-    demo_servers.halt()
+    demo_db_server.halt()
     logging.info('##################DemoFullWorkflow##### 6: Workflow ended.')

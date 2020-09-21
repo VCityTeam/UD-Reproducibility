@@ -6,7 +6,8 @@ class DockerPy3dtiles(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
         super().__init__('liris', 'Py3dTilesTiler')
-        context_dir = os.path.join(os.getcwd(),
+        this_file_dir = os.path.dirname(os.path.realpath(__file__))
+        context_dir = os.path.join(this_file_dir,
                                    '..',
                                    'Docker',
                                    'CityTiler-DockerContext')

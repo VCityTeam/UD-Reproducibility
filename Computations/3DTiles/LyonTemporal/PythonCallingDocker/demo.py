@@ -1,8 +1,8 @@
 import os
 import sys
 import logging
-import demo_configuration
 from abc import ABC, abstractmethod
+
 
 class Demo:
     """
@@ -12,10 +12,9 @@ class Demo:
     """
     def __init__(self,
                  results_dir = None,
-                 all_demos_output_dir =demo_configuration.output_dir,
-                 city=demo_configuration.city,
-                 vintages=demo_configuration.vintages,
-                 boroughs=demo_configuration.boroughs):
+                 all_demos_output_dir = None,
+                 city = None,
+                 boroughs = None):
 
         # The all_demos_output_dir directory is the directory within which all the 
         # demos (i.e. demonstatrion classes inheriting from this Demo class) will 
@@ -29,7 +28,6 @@ class Demo:
         # Demo.get_ouput_dir() method).
         self.set_results_dir(results_dir)
         self.city = city
-        self.vintages = vintages
         self.boroughs = boroughs
         self.input_demo = None
 
@@ -60,28 +58,12 @@ class Demo:
             return sys.exit(1)
         return self.input_demo
 
-
-class DemoWithFileOutput(Demo, ABC):
+        
+class DemoWithFileOutput(ABC):
     """
     Additionnal conventions for demos yielding outputs in the form of files
     (as opposed to e.g. databases) 
     """
-    @abstractmethod
-    def get_vintage_borough_output_file_basename(self, vintage, borough):
-        raise NotImplementedError()
-
-    def get_vintage_borough_output_directory_name(self, vintage, borough):
-        return os.path.join(self.get_output_dir(), borough + '_' + str(vintage))
-
-    def get_vintage_borough_output_filename(self, vintage, borough):
-        """
-        :return: the filename for the given vintage and borough as layed out after the 
-                 download and patch. This function result DOES include the directory 
-                 name in which the output file lies.
-        """
-        return os.path.join(self.get_vintage_borough_output_directory_name(vintage, borough),
-                            self.get_vintage_borough_output_file_basename(vintage, borough))
-
     @abstractmethod
     def get_resulting_filenames(self):
         raise NotImplementedError()
@@ -97,20 +79,3 @@ class DemoWithFileOutput(Demo, ABC):
                 logging.error(f'Output file {filename} not found.')
                 return False
         return True
-
-
-class DemoWithDataBases(Demo):
-
-    def __init_databases__(self):
-        if not demo_configuration.databases:
-            logging.info(f'Databases configurations not found. Exiting')
-            sys.exit(1)
-        
-        self.databases = demo_configuration.databases
-        
-        for vintage in self.vintages:
-            if not self.databases[vintage]:
-                logging.info(f'Database configuration for vintage {vintage} was not '
-                            f'found. You must specify one database configuration '
-                            f'per vintage. Exiting')
-                sys.exit(1)

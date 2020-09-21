@@ -2,11 +2,14 @@ import os
 import sys
 import logging
 import shutil
+
+from demo_temporal import DemoWithFileOutputTemporal
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from docker_split_buildings import DockerSplitBuilding
-from demo import DemoWithFileOutput
 
 
-class DemoSplitBuildings(DemoWithFileOutput):
+class DemoSplitBuildings(DemoWithFileOutputTemporal):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the split buildings algorithm for designating its input/output 

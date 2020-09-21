@@ -1,11 +1,13 @@
 import os
 import sys
 import logging
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from city_gml_files_from_archive import CityGMLFileFromArchive
-from demo import DemoWithFileOutput
+from demo_temporal import DemoWithFileOutputTemporal
 
 
-class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
+class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutputTemporal):
     """
     Download some archives holding cityGML files
     """

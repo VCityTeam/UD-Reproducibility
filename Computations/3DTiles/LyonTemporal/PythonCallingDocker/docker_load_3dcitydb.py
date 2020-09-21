@@ -23,7 +23,8 @@ class DockerLoad3DCityDB(DockerHelperBuild, DockerHelperTask):
         #         "https://github.com/tum-gis/3dcitydb-importer-exporter-docker"
         #     git.Repo.clone_from(repository, extraction_dir)
 
-        context_dir = os.path.join(os.getcwd(),
+        this_file_dir = os.path.dirname(os.path.realpath(__file__))
+        context_dir = os.path.join(this_file_dir,
                                    '..',
                                    'Docker',
                                    '3DCityDBImpExp-DockerContext')

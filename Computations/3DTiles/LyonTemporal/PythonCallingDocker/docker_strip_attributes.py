@@ -8,7 +8,8 @@ class DockerStripAttributes(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
         super().__init__('liris', 'CityGML2Stripper')
-        context_dir = os.path.join(os.getcwd(),
+        this_file_dir = os.path.dirname(os.path.realpath(__file__))
+        context_dir = os.path.join(this_file_dir,
                                    '..',
                                    'Docker',
                                    'CityGML2Stripper-DockerContext')

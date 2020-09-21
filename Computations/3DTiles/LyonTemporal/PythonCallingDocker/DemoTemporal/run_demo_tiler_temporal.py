@@ -1,7 +1,7 @@
 import os
 import logging
 import time
-import demo_full_workflow as workflow
+import demo_workflow_temporal as workflow
 
 
 if __name__ == '__main__':
@@ -9,11 +9,12 @@ if __name__ == '__main__':
     temporal_tiler.create_output_dir()
 
     logger = logging.getLogger(__name__)
+    log_filename = os.path.join(temporal_tiler.get_output_dir(),
+                               'demo_tiler_temporal.log')
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(temporal_tiler.get_output_dir(),
-                                              'demo_temporal_tiler.log'),
+                        filename=log_filename,
                         filemode='w')
 
     logging.info('Stage 1: start databases wait.')

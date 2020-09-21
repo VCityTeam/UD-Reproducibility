@@ -2,16 +2,15 @@ import os
 import sys
 import logging
 import time
-import demo_full_workflow as workflow
+import demo_workflow_temporal as workflow
 
         
 if __name__ == '__main__':
     load = workflow.demo_load
     load.create_output_dir()
 
-    log_filename = os.path.join(load.get_output_dir(), 'demo_load_3dcitydb.log')
-
     logger = logging.getLogger(__name__)
+    log_filename = os.path.join(load.get_output_dir(), 'demo_load_3dcitydb.log')
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',

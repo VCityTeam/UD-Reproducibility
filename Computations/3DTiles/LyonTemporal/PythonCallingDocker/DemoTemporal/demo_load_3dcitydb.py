@@ -4,11 +4,14 @@ import logging
 import jinja2
 import time
 
+from demo_temporal import DemoWithDataBasesTemporal
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from docker_load_3dcitydb import DockerLoad3DCityDB
-from demo import DemoWithDataBases
+from demo_load_3dcitydb_base import DemoLoad3DCityDBBase
 
 
-class DemoLoad3DCityDB(DemoWithDataBases):
+class DemoLoad3DCityDB(DemoWithDataBasesTemporal, DemoLoad3DCityDBBase):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the DockerLoad3DCityDB algorithms for designating its input
@@ -19,37 +22,13 @@ class DemoLoad3DCityDB(DemoWithDataBases):
     def __get_vintage_configuration_filename(vintage):
         return '3dCityDBImpExpConfig' + str(vintage) + '.xml'
 
-    @staticmethod
-    def generate_configuration_file(db_config, output_filename):
-        """
-        The 3dCityDB-importer requires a configuration with an ad-hoc (xml format) 
-        file that must be generated out of the demo_configuration file.  
-        """
-        j2_template_file = '3dCityDBImpExpConfig.j2'
-        if not os.path.isfile(j2_template_file):
-            logging.info(f'Jinja2 template file {j2_template_file} '
-                        f'not found. Exiting')
-            sys.exit(1)
-        # Load template from file system
-        template_loader = jinja2.FileSystemLoader(searchpath="./")
-        template_env = jinja2.Environment(loader=template_loader)
-        template = template_env.get_template(j2_template_file)
-        # Create a TemplateStream object (that can be dumped into a file
-        # afterwards) and replace the variables with the values from db_config
-        template_stream = template.stream(PG_HOST=db_config['PG_HOST'],
-                                          PG_PORT=db_config['PG_PORT'],
-                                          PG_NAME=db_config['PG_NAME'],
-                                          PG_USER=db_config['PG_USER'],
-                                          PG_PASSWORD=db_config['PG_PASSWORD'])
-        template_stream.dump(output_filename)
-
     def __init__(self):
         super().__init__()
         super().__init_databases__()
         # Generate the 3dCityDB-importer ad-hoc configuration files that will be 
         # transmitted to the 
         for vintage in self.vintages:
-            DemoLoad3DCityDB.generate_configuration_file(
+            DemoLoad3DCityDBBase.generate_configuration_file(
                 self.databases[vintage],
                 DemoLoad3DCityDB.__get_vintage_configuration_filename(vintage))
 
@@ -74,6 +53,12 @@ class DemoLoad3DCityDB(DemoWithDataBases):
             logging.info(f'Importation for vintage {str(vintage)}: done.')
 
     def check_log_result(self, log_filename):
+        # Preconditions
+        if not os.path.isfile(log_filename):
+            logging.info(f'Log file {log_filename} not found. Exiting')
+            sys.exit(1)
+
+        # Establish what importations must be checked:
         input = self.get_input_demo()
         last_loaded_vintage_filename = dict()
         for filename in input.get_resulting_filenames():
@@ -89,6 +74,7 @@ class DemoLoad3DCityDB(DemoWithDataBases):
         for key, value in last_loaded_vintage_filename.items():
             logging.info(f'   checking logs for vintage {key} and file {value}.')
 
+        # Proceed with checks:
         checked_assertions = 0
         with open(log_filename, 'r') as f:
             for line in f.readlines():

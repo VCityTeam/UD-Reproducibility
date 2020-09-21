@@ -1,11 +1,14 @@
 import os
 import sys
 import logging
+
+from demo_temporal import DemoWithFileOutputTemporal
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from docker_extract_building_dates import DockerExtractBuildingDates
-from demo import DemoWithFileOutput
 
 
-class DemoExtractBuildingDates(DemoWithFileOutput):
+class DemoExtractBuildingDates(DemoWithFileOutputTemporal):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the extract building dates algorithm for designating its 

@@ -1,11 +1,15 @@
 import logging
 import os
 import sys
+
+from demo_temporal import DemoWithFileOutputTemporal
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from docker_strip_attributes import DockerStripAttributes
-from demo import DemoWithFileOutput
 
 
-class DemoStrip(DemoWithFileOutput):
+
+class DemoStrip(DemoWithFileOutputTemporal):
     """
     A utility class gathering the conventional names, relative to this demo,
     used by the strip algorithms for designating its input/output directories

@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-import demo_full_workflow as workflow
+import demo_workflow_temporal as workflow
 
 
 if __name__ == '__main__':
