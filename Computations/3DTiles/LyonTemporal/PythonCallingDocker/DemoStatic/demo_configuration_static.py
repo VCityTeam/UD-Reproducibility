@@ -1,6 +1,6 @@
 # This is an example of configuration file that must be customized to
 # suit your specific needs.
-output_dir = 'junk_static'
+output_dir = 'junk'
 vintage = 2009
 city = 'LYON'
 boroughs = [

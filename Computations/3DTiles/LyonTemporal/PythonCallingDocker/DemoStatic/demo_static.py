@@ -9,14 +9,15 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from demo import Demo, DemoWithFileOutput
 
 
-
 class DemoStatic(Demo):
     def __init__(self,
                 results_dir = None,
                 all_demos_output_dir = demo_configuration_static.output_dir,
                 city=demo_configuration_static.city,
+                vintage=demo_configuration_static.vintage,
                 boroughs=demo_configuration_static.boroughs):
         super().__init__(results_dir, all_demos_output_dir, city, boroughs)
+        self.vintage = vintage
 
 
 class DemoWithFileOutputStatic(DemoStatic, DemoWithFileOutput, ABC):
