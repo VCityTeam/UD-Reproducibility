@@ -4,7 +4,7 @@ import time
 from demo_lyon_metropole_dowload_and_sanitize_static \
     import DemoLyonMetropoleDowloadAndSanitizeStatic
 from demo_split_buildings_static import DemoSplitBuildingsStatic
-# from demo_strip_attributes import DemoStrip
+from demo_strip_attributes_static import DemoStripStatic
 # from demo_extract_building_dates import DemoExtractBuildingDates
 # from demo_load_3dcitydb import DemoLoad3DCityDB
 # from demo_tiler_temporal import DemoTilerTemporal
@@ -17,9 +17,9 @@ demo_split = DemoSplitBuildingsStatic()
 demo_split.set_results_dir('stage_2') 
 demo_split.set_input_demo(demo_download)
 
-# demo_strip = DemoStrip()
-# demo_strip.set_results_dir('stage_3') 
-# demo_strip.set_input_demo(demo_split)
+demo_strip = DemoStripStatic()
+demo_strip.set_results_dir('stage_3') 
+demo_strip.set_input_demo(demo_split)
 
 # demo_extract = DemoExtractBuildingDates()
 # demo_extract.set_results_dir('stage_4') 

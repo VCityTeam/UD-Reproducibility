@@ -5,24 +5,14 @@ import sys
 from demo_temporal import DemoWithFileOutputTemporal
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from demo_strip_attributes import DemoStrip
 from docker_strip_attributes import DockerStripAttributes
 
 
+class DemoStripTemporal(DemoStrip, DemoWithFileOutputTemporal):
 
-class DemoStrip(DemoWithFileOutputTemporal):
-    """
-    A utility class gathering the conventional names, relative to this demo,
-    used by the strip algorithms for designating its input/output directories
-    and filenames
-    """
     def __init__(self):
         super().__init__()
-    
-    @staticmethod
-    def derive_output_file_basename_from_input(input_filename):
-        input_filename = os.path.basename(input_filename)
-        input_no_extension = input_filename.rsplit('.', 1)[0]
-        return input_no_extension + '_stripped.gml'
 
     def get_vintage_result_dir(self, vintage, create=True):
         """
@@ -93,5 +83,5 @@ class DemoStrip(DemoWithFileOutputTemporal):
                     input_filename = \
                         input.get_vintage_borough_output_file_basename(vintage, borough),
                     output_filename = \
-                        self.get_vintage_borough_output_file_basename(vintage,borough),
+                        self.get_vintage_borough_output_file_basename(vintage, borough),
                     output_dir=self.get_vintage_result_dir(vintage))

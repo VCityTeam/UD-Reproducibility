@@ -1,11 +1,9 @@
 import logging
 import os
 import sys
-import demo_workflow_temporal as workflow
 
 
-if __name__ == '__main__':
-    strip = workflow.demo_strip
+def run_demo_strip_attributes(strip):
     strip.create_output_dir()
 
     logger = logging.getLogger(__name__)
