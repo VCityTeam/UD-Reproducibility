@@ -31,7 +31,7 @@ class DemoStripStatic(DemoStrip, DemoWithFileOutputStatic):
 
     def get_borough_output_directory_name(self, borough):
         # Borough names get flatened out and simply disregarded
-        return self.get_result_dir()
+        return self.get_result_dir(False)
 
     def get_borough_output_file_basename(self, borough):
         """

@@ -7,6 +7,7 @@ import demo_workflow_temporal as workflow
 
 if __name__ == '__main__':
     demo_servers = workflow.demo_db_server
+    demo_servers.create_output_dir()
 
     logger = logging.getLogger(__name__)
     log_filename = os.path.join(demo_servers.get_output_dir(),

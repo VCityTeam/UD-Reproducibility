@@ -1,12 +1,11 @@
 import os
 import sys
 import logging
-import time
 from docker_3dcitydb_server import Docker3DCityDBServer
 from demo_temporal import DemoWithDataBasesTemporal
 
 
-class Demo3dCityDBServer(DemoWithDataBasesTemporal):
+class Demo3dCityDBServerTemporal(DemoWithDataBasesTemporal):
 
     def __init__(self):
         super().__init__()
@@ -51,7 +50,6 @@ class Demo3dCityDBServer(DemoWithDataBasesTemporal):
         self.create_output_dir()   # Just making sure
         for vintage in self.vintages:
             db_config = self.databases[vintage]
-        
             vintaged_db = Docker3DCityDBServer.start_single_database(vintage,
                                                                     db_config, 
                                                                     self.get_databases_dir())

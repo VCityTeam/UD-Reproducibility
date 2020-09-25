@@ -17,8 +17,8 @@ boroughs = [
 
 database = {
   'PG_HOST': '134.214.143.170',
-  'PG_PORT': '5432',
-  'PG_NAME': 'citydb-full_lyon-2009',
+  'PG_PORT': '5435',
+  'PG_NAME': 'citydb-lyon-2009-for_static',
   'PG_USER': 'postgres',
   'PG_PASSWORD': 'postgres'
 }

@@ -6,9 +6,9 @@ from demo_lyon_metropole_dowload_and_sanitize_temporal \
 from demo_split_buildings_temporal import DemoSplitBuildingsTemporal
 from demo_strip_attributes_temporal import DemoStripTemporal
 from demo_extract_building_dates import DemoExtractBuildingDates
-from demo_load_3dcitydb import DemoLoad3DCityDB
+from demo_load_3dcitydb_temporal import DemoLoad3DCityDBTemporal
 from demo_tiler_temporal import DemoTilerTemporal
-from demo_3dcitydb_server import Demo3dCityDBServer
+from demo_3dcitydb_server_temporal import Demo3dCityDBServerTemporal
 
 # Definition of the workflow by defining its nodes and connections
 demo_download = DemoLyonMetropoleDowloadAndSanitizeTemporal('BATI', 'stage_1')
@@ -25,9 +25,9 @@ demo_extract = DemoExtractBuildingDates()
 demo_extract.set_results_dir('stage_4') 
 demo_extract.set_input_demo(demo_strip)
 
-demo_db_server = Demo3dCityDBServer()
+demo_db_servers = Demo3dCityDBServerTemporal()
 
-demo_load = DemoLoad3DCityDB()
+demo_load = DemoLoad3DCityDBTemporal()
 demo_load.set_results_dir('stage_5') 
 demo_load.set_input_demo(demo_strip)
 

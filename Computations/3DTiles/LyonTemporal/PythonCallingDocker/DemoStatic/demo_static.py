@@ -41,7 +41,7 @@ class DemoWithFileOutputStatic(DemoStatic, DemoWithFileOutput, ABC):
                             self.get_borough_output_file_basename(borough))
 
 
-class DemoWithDataBaseStatic:
+class DemoWithDataBaseStatic(DemoStatic):
 
     def __init_database__(self):
         if not demo_configuration_static.database:

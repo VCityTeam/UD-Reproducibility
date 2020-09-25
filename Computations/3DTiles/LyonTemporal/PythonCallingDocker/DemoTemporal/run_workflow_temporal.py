@@ -1,15 +1,19 @@
 import sys
+import os
 import logging
 import time
 
+from demo_temporal import DemoTemporal
 from demo_workflow_temporal import demo_download, demo_split, demo_strip, demo_extract
-from demo_workflow_temporal import demo_db_server
+from demo_workflow_temporal import demo_db_servers
 from demo_workflow_temporal import demo_load, demo_tiler
 
 
 if __name__ == '__main__':
-    # The full pipeline
-    log_filename = 'demo_full_workflow.log'
+    # Run all the stages of the full pipeline
+    DemoTemporal().create_output_dir()
+    log_filename = os.path.join(DemoTemporal().get_output_dir(),
+                                'demo_full_workflow.log')
 
     logger = logging.getLogger(__name__)
     logging.basicConfig(level=logging.DEBUG,
@@ -58,19 +62,22 @@ if __name__ == '__main__':
     logging.info("##################DemoFullWorkflow##### 4: Done.")
 
     logging.info('##################DemoFullWorkflow##### 5: Starting databases.')
-    demo_db_server.run()
+    demo_db_servers.run()
     time.sleep(120)
     logging.info('##################DemoFullWorkflow##### 5: Databases started')
     logging.info('##################DemoFullWorkflow##### 5: Importing files.')
-    demo_load.run()
-    if not demo_load.check_log_result(log_filename):
+    try:
+        demo_load.run(log_filename)
+        logging.info('##################DemoFullWorkflow##### 5: Done')
+    except:
         logging.info('##################DemoFullWorkflow##### 5: Failed.')
+        demo_db_servers.halt()
+        logging.info('##################DemoFullWorkflow##### Exiting.')
         sys.exit(1)
-    logging.info('##################DemoFullWorkflow##### 5: Done')
-
+    
     logging.info('##################DemoFullWorkflow##### 6: Tiler starting.')
     demo_tiler.run()
     logging.info('##################DemoFullWorkflow##### 6: Tiler done.')
     logging.info('##################DemoFullWorkflow##### 6: Databases halted.')
-    demo_db_server.halt()
+    demo_db_servers.halt()
     logging.info('##################DemoFullWorkflow##### 6: Workflow ended.')
