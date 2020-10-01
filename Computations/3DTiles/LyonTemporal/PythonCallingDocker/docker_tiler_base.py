@@ -15,18 +15,14 @@ class DockerTilerBase(DockerPy3dtiles):
                          'Please set up at least two of them.')
             sys.exit(1)
 
-    def add_db_config_file(self, db_config_file):
-        if not os.path.isfile(db_config_file):
-            logging.info(f'Database configuration file'
-                         f' {db_config_file} not found. Exiting')
-            sys.exit(1)
+    def add_db_config_filename(self, db_config_file):
         self.db_config_filenames.append(db_config_file)
 
     def generate_configuration_file(self, vintage, db_config, output_file_basename):
         """
         The Tiler requires a configuration file describing the database
         access it will use. This file has an ad-hoc xml format that this
-        method generates out .  
+        method generates out.  
         """
         target_file = os.path.join(self.get_mounted_input_directory(),
                                    output_file_basename)

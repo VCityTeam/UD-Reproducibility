@@ -8,7 +8,7 @@ from demo_lyon_metropole_dowload_and_sanitize_static \
 from demo_split_buildings_static import DemoSplitBuildingsStatic
 from demo_strip_attributes_static import DemoStripStatic
 from demo_load_3dcitydb_static import DemoLoad3DCityDBStatic
-# from demo_tiler_temporal import DemoTilerTemporal
+from demo_tiler_static import DemoTilerStatic
 from demo_3dcitydb_server_static import Demo3dCityDBServerStatic
 
 # Definition of the workflow by defining its nodes and connections
@@ -28,6 +28,6 @@ demo_load = DemoLoad3DCityDBStatic()
 demo_load.set_results_dir('stage_4') 
 demo_load.set_input_demo(demo_strip)
 
-# demo_tiler = DemoTilerTemporal()
-# demo_tiler.set_results_dir('stage_6') 
-# demo_tiler.set_input_demo(demo_extract)
+demo_tiler = DemoTilerStatic()
+demo_tiler.set_results_dir('stage_5') 
+demo_tiler.set_input_demo(demo_strip) # Hoping the load import was ok.

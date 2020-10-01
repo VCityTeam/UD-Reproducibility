@@ -7,5 +7,4 @@ from run import run_demo_split_buildings
 
 
 if __name__ == '__main__': 
-    split = workflow.demo_split
-    run_demo_split_buildings(split)
+    run_demo_split_buildings(workflow.demo_split)

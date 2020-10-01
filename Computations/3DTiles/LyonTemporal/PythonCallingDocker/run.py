@@ -61,6 +61,26 @@ def run_demo_strip_attributes(strip):
     logging.info("Resulting stripped files:")
     [ logging.info( "   " + file) for file in strip.get_resulting_filenames() ]
 
+
+def run_demo_server(server):
+    server.create_output_dir()
+
+    logger = logging.getLogger(__name__)
+    log_filename = os.path.join(server.get_output_dir(),
+                                'demo_3dcitydb_server.log')
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S',
+                        filename=log_filename,
+                        filemode='w')
+
+    server.run()
+    logging.info('Enjoying the databases hum for 1 minute.')
+    time.sleep(60)
+    # On why halting might/will take some time refer to Docker3DCityDBServer.run()
+    logging.info('Halting the database (can take up to 2 minutes).')
+    server.halt()
+
         
 def run_demo_load_3dcitydb(load, db_server):
     load.create_output_dir()
@@ -106,9 +126,9 @@ def run_demo_tiler(tiler, server):
                         filename=log_filename,
                         filemode='w')
 
-    logging.info('Stage 1: start databases wait.')
+    logging.info('Stage 1: start database(s).')
     server.run()
-    logging.info('Stage 1: wait for 2 minutes for databases to spin off.')
+    logging.info('Stage 1: wait for 2 minutes for database(s) to spin off.')
     time.sleep(120)
     logging.info('Stage 1: done.')
 
@@ -119,7 +139,7 @@ def run_demo_tiler(tiler, server):
     except:
         logging.info('Stage 3: tiler failed.')
 
-    logging.info('Stage 3: halting containers.')
+    logging.info('Stage 3: halting database(s) container(s).')
     server.halt()
     logging.info('Stage 3: done')
 

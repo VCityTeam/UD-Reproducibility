@@ -33,7 +33,7 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
                             'POSTGRES_USER': db_config['PG_USER'],
                             'POSTGRES_PASSWORD': db_config['PG_PASSWORD']}
 
-        self.container_name = 'citydb-container-' + str(self.vintage)
+        self.container_name = db_config['PG_NAME']
 
     def get_command(self):
         # No command is declared here since the command is already set
@@ -48,6 +48,9 @@ class Docker3DCityDBServer(DockerHelperPull, DockerHelperService):
         self.add_volume(self.get_mounted_output_directory(),
                         '/var/lib/postgresql/data',
                         'rw')
+        # The following trick is still under discussion and "documented"
+        # in Debug_notes-Connection_refused.md
+        self.add_stop_argument('timeout', 120)
         super().run()
 
     @staticmethod

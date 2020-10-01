@@ -40,7 +40,7 @@ class Demo3dCityDBServerStatic(DemoWithDataBaseStatic):
         if not self.active_database:
             logging.info('No active database. Exiting')
             sys.exit(1)
-        logging.info(f'Halting database container' 
+        logging.info(f'Halting database container ' 
                      f'{self.active_database.get_container().name}')
         self.active_database.halt_service()
         logging.info(f'Halting database container: done')

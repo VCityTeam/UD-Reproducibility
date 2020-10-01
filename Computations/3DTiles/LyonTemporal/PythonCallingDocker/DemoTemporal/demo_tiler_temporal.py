@@ -4,8 +4,6 @@ import logging
 import shutil
 
 from demo_temporal import DemoWithDataBasesTemporal
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from docker_tiler_temporal import DockerTilerTemporal
 
 

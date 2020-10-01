@@ -7,6 +7,5 @@ from run import run_demo_strip_attributes
 
 
 if __name__ == '__main__':
-    strip = workflow.demo_strip
-    run_demo_strip_attributes(strip)
+    run_demo_strip_attributes(workflow.demo_strip)
 
