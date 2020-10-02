@@ -254,5 +254,29 @@ issue as illustrated by
  * [this github issue](https://github.com/bitnami/bitnami-docker-postgresql/issues/79)
  * [this StackExchange thread](https://dba.stackexchange.com/questions/193301/macos-homebrew-database-system-was-not-properly-shut-down-automatic-recovery-i)
 
-The experts here seem to counsel looking into something like
-`docker exec <...> pg_ctl stop`...
+## Final analysis
+We cannot rely on the configuration realized by the packagers ("containerization")
+of the database service. In particular we don't know
+ * what will be sent to the database server when the container receives a 'stop'
+   signal (if any signal is sent at all),
+ * if the container will expect long enough for the database to realize its
+   snapshot.
+
+We thus need, at the application level, to explictly require the database to
+realize its snapshot.
+
+## Implementend solution
+Prior to shuting down a container that wraps a database, one must explictly
+require the database to 
+ * first close the possibly active sessions (might be usefull if some monitoring
+   tools are probing the database on debugging purposes)
+ * then to immediatly realize a snapshot (push the remaining commits to the tables
+   and write to disks).
+
+With docker exec and on the CLI such a request goes
+`docker exec <container-id> pg_ctl stop -m fast`...
+
+## Technical notes
+Along the road it was mentionned that instead of using a `pg_ctl stop` one can
+also (without closing the database) explictly trigger a push to the tables by
+triggering a [`CHECKPOINT`](https://www.postgresql.org/docs/12/sql-checkpoint.html).  

@@ -75,10 +75,9 @@ def run_demo_server(server):
                         filemode='w')
 
     server.run()
-    logging.info('Enjoying the databases hum for 1 minute.')
+    logging.info('Enjoying the database(s) hum for 1 minute.')
     time.sleep(60)
-    # On why halting might/will take some time refer to Docker3DCityDBServer.run()
-    logging.info('Halting the database (can take up to 2 minutes).')
+    logging.info('Halting the database(s).')
     server.halt()
 
         
@@ -96,22 +95,20 @@ def run_demo_load_3dcitydb(load, db_server):
 
     logging.info('Stage 1: starting database(s).')
     db_server.run()
+    logging.info('Stage 1: wait some 10 seconds for database(s) to spin off.')
+    time.sleep(10)
     logging.info('Stage 1: done.')
 
-    logging.info('Stage 2: waiting an extra 2 minutes for database(s) to spin off.')
-    time.sleep(120)
-    logging.info('Stage 2: done.')
-
-    logging.info('Stage 3: importing files to database(s).')
+    logging.info('Stage 2: importing files to database(s).')
     try:
         load.run(log_filename)
-        logging.info('Stage 3: done')
+        logging.info('Stage 2: done')
     except:
-        logging.info('Stage 3: importation failed')
+        logging.info('Stage 2: importation failed')
 
-    logging.info('Stage 4: halting database container(s).')
+    logging.info('Stage 3: halting database container(s).')
     db_server.halt()
-    logging.info('Stage 4: done')
+    logging.info('Stage 3: done')
 
 
 def run_demo_tiler(tiler, server):
@@ -128,8 +125,8 @@ def run_demo_tiler(tiler, server):
 
     logging.info('Stage 1: start database(s).')
     server.run()
-    logging.info('Stage 1: wait for 2 minutes for database(s) to spin off.')
-    time.sleep(120)
+    logging.info('Stage 1: wait 10 seconds for database(s) to spin off.')
+    time.sleep(10)
     logging.info('Stage 1: done.')
 
     logging.info('Stage 2: computing the tiles.')
