@@ -191,11 +191,11 @@ Hence the process goes:
  * it restores it integrity and thus 
  * only accepts connections after some delay (at `14:45:18.513`).
 
-### Restarting a 1Tb database container (after above clean shutdown)
+### Restarting a 1Gb database container (after above clean shutdown)
 Now the above integrity restauration delay is "quite" short (less that a second of 
 elapsed time) because the database what empty.
 But with some bigger contents then this process can be lengthier. The log below
-illustrates what happens for a Tb of data (a single vintage of all Lyon bouroughs):
+illustrates what happens for a Gb of data (a single vintage of all Lyon bouroughs):
 ```
 14:51:16.004 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
 14:51:16.117 UTC [28] LOG:  database system was interrupted; last known up at 14:43:58 UTC
