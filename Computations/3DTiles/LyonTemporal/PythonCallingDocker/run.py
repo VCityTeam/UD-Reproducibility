@@ -95,8 +95,8 @@ def run_demo_load_3dcitydb(load, db_server):
 
     logging.info('Stage 1: starting database(s).')
     db_server.run()
-    logging.info('Stage 1: wait some 10 seconds for database(s) to spin off.')
-    time.sleep(10)
+    logging.info('Stage 1: wait a minute for database(s) to initialize.')
+    time.sleep(60)
     logging.info('Stage 1: done.')
 
     logging.info('Stage 2: importing files to database(s).')

@@ -7,7 +7,7 @@ from demo_static import DemoStatic
 from demo_workflow_static import demo_download, demo_split, demo_strip
 from demo_workflow_static import demo_db_server
 from demo_workflow_static import demo_load
-#from demo_workflow_static import demo_tiler
+from demo_workflow_static import demo_tiler
 
 
 if __name__ == '__main__':
@@ -54,8 +54,9 @@ if __name__ == '__main__':
 
 
     logging.info('##################DemoFullWorkflow##### 4: Starting databases.')
-    demo_db_servers.run()
-    time.sleep(120)
+    demo_db_server.run()
+    logging.info('Stage 1: wait some 60 seconds for database(s) to initialize.')
+    time.sleep(60)
     logging.info('##################DemoFullWorkflow##### 4: Databases started')
     logging.info('##################DemoFullWorkflow##### 4: Importing files.')
     try:
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     
     logging.info('##################DemoFullWorkflow##### 5: Tiler starting.')
     try:
-        #demo_tiler.run()
+        demo_tiler.run()
         logging.info('##################DemoFullWorkflow##### 5: Tiler done.')
     except:
         logging.error('##################DemoFullWorkflow##### 5: Tiler FAILED.')
