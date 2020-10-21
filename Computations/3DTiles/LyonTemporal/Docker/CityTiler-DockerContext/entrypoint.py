@@ -20,8 +20,8 @@ if len(kept_args) == 0:
     print("  1. the Tiler to be applied: either Tiler or TemporalTiler")
     print("  2. the database server configuration file")
     print("When requesting the TemporalTiler ")
-    print("  3-n additionnal database server configuration files ")
-    print("  n+1-2n+1 time stamps ")
+    print("  third to nth args: additionnal database servers configuration files,")
+    print("  from n+1 to 2n+1 args: a time stamp (vintage) for each database.")
     print("Exiting.")
     sys.exit()
 
@@ -38,7 +38,17 @@ else:
 kept_args = kept_args[1:]
 
 if TilerMode == "Tiler":
-    DBConfigFile = 'Tilers/CityTiler/' + kept_args[0]
+    DBConfigFile = kept_args.pop(0)
+    if '/Input/' not in DBConfigFile:
+       # The configuration file was not given through the mounted directory
+       # and thus we assume it was copied in a "well-known" place (in the 
+       # same directory as the Tiler python script). We must thus prefix
+       # the configuration filename with the "well-known" path:
+       DBConfigFile = 'Tilers/CityTiler/' + DBConfigFile
+    else:
+       # The configuration file was passed within a mounted directory and
+       # its path should be already properly set (thus nothing to do): 
+       print("Database configuration file passed through mounted /Input")
     command.append(DBConfigFile)
 elif TilerMode == "TemporalTiler":
     # Deal with the database configuration files

@@ -2,11 +2,12 @@ import os
 import sys
 import logging
 import shutil
-from docker_temporal_tiler import DockerTemporalTiler
-from demo import DemoWithDataBases
+
+from demo_temporal import DemoWithDataBasesTemporal
+from docker_tiler_temporal import DockerTilerTemporal
 
 
-class DemoTemporalTiler(DemoWithDataBases):
+class DemoTilerTemporal(DemoWithDataBasesTemporal):
 
     def __init__(self):
         super().__init__()
@@ -18,12 +19,12 @@ class DemoTemporalTiler(DemoWithDataBases):
             logging.error("DemoTemporalTiler misses some of its input files: exiting")
             sys.exit(1)
         
-        container = DockerTemporalTiler()
+        container = DockerTilerTemporal()
         container.set_vintages(self.vintages)
 
         # ### Prepare the input directory and its content (the inputs should be located
         # into a single directory that the container will mount).
-        # FIXME: this copy logic belongs to the DockerTemporalTiler class and not here.
+        # FIXME: this copy logic belongs to the DockerTilerTemporal class and not here.
         # FIXME: the container can only mount absolute pathname directories. But do we
         #        need to propagate this container constraint to the caller's invocation ?
         input_dir = os.path.abspath(os.path.join(self.get_output_dir(), 'InputFiles'))

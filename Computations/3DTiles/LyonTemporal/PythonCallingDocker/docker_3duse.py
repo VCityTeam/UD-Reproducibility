@@ -6,7 +6,8 @@ class Docker3DUse(DockerHelperBuild, DockerHelperTask):
 
     def __init__(self):
         super().__init__('liris', '3DUse')
-        context_dir = os.path.join(os.getcwd(),
+        this_file_dir = os.path.dirname(os.path.realpath(__file__))
+        context_dir = os.path.join(this_file_dir,
                                    '..',
                                    'Docker',
                                    '3DUse-DockerContext')

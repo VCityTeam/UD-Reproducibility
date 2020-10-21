@@ -28,7 +28,7 @@ class CityGMLFileFromArchive(dict):
         # The directory where the cityGML file ends up located
         self.directory = None
         # Weather of not we should remove un-required/temporary files
-        # (like the original archive) in the sake of disk space.a
+        # (like the original archive) in the sake of disk space.
         self.tidy_up = False
 
     def __setitem__(self, key, val):

@@ -1,19 +1,30 @@
 import os
 import sys
 import logging
+from abc import ABC, abstractmethod
 from city_gml_files_from_archive import CityGMLFileFromArchive
-from demo import DemoWithFileOutput
 
 
-class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
+class DemoLyonMetropoleDowloadAndSanitize(ABC):
     """
     Download some archives holding cityGML files
     """
     # FIXME: The following hard-wiring is a weakness
-    patches_directory = '../Docker/Collect-DockerContext/DataPatches'
+    patches_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                     '..',
+                                     'Docker',
+                                     'Collect-DockerContext',
+                                     'DataPatches')
 
-    def __init__(self, pattern, results_dir=None):
-        super().__init__(results_dir)
+    @abstractmethod
+    def define_archives(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create_output_dir(self):
+        raise NotImplementedError()
+
+    def __init__(self, pattern):
         self.archives = dict()
 
         # Although the archive is spelled out the BATI string (which
@@ -26,23 +37,17 @@ class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
             logging.info(f'Unknown pattern {pattern}. Exiting')
             sys.exit(1)
 
-    def define_archives(self):
-        for year in self.vintages:
-            for borough in self.boroughs:
-                repository = 'https://download.data.grandlyon.com/files/' \
-                             'grandlyon/localisation/bati3d/'
-                url = repository + borough + '_' + str(year) + '.zip'
-                key_name = borough + '_' + str(year)
-                # "BATI" refers here to the name of the archive as opposed
-                # to building (refer to self.pattern variable documentation)
-                # FIXME: 
-                #   1. this is limited to BATI
-                #   2. we should be using self.get_vintage_borough_output_filename()
-                filename = os.path.join(key_name,
-                                        borough + '_BATI_' + str(year) + '.gml')
-                self.archives[key_name] = CityGMLFileFromArchive(url=url,
-                                                                 name=filename,
-                                                                 year=year)
+    def define_vintage_borough_archive(self, vintage, borough):
+        repository = 'https://download.data.grandlyon.com/files/grandlyon/' \
+                     'localisation/bati3d/'
+        url = repository + borough + '_' + str(vintage) + '.zip'
+        key_name = borough + '_' + str(vintage)
+        filename = os.path.join(
+            key_name,
+            self.get_vintage_borough_output_file_basename(vintage, borough))
+        self.archives[key_name] = CityGMLFileFromArchive(url=url,
+                                                        name=filename,
+                                                        year=vintage)
 
     def archives_to_sanitize(self):
         """Sanitizing files is the exception"""
@@ -100,8 +105,7 @@ class DemoLyonMetropoleDowloadAndSanitize(DemoWithFileOutput):
             archive.assert_file_exists()
 
     def get_vintage_borough_output_file_basename(self, vintage, borough):
-        # FIXME: this is only valid for BUILDING (BATI) !!!
-        return borough + '_BATI_' + str(vintage) + '.gml'
+        return borough + '_' + self.pattern + '_' + str(vintage) + '.gml'
 
     def get_resulting_filenames(self):
         result = list()

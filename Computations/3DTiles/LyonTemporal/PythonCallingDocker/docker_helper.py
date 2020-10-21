@@ -105,8 +105,8 @@ class DockerHelperContainer(DockerHelperBase):
         # variable of the Dockerfile)
         self.working_dir = None
         self.volumes = dict()
-        self.environment = None   # Docker run environment variables
-        self.run_arguments = None  # The arguments handled over to the run()
+        self.environment = None      # Docker run environment variables
+        self.run_arguments = dict()  # The arguments handled over to the run()
 
         self.__container = None
 
@@ -158,8 +158,8 @@ class DockerHelperContainer(DockerHelperBase):
 
     @abstractmethod
     def get_command(self):
-        print("WTF")
-
+        raise NotImplementedError()
+    
     def set_run_arguments(self):
         """
         Sets common arguments passed to the run method of the docker SDK lib.
@@ -181,8 +181,12 @@ class DockerHelperContainer(DockerHelperBase):
             containers = self.client.containers.list(
                 filters={'name': self.container_name})
             if containers:
-                logging.error(f'A container named {self.container_name} '
-                              'already exists. Exiting.')
+                logging.error(f'A container named {self.container_name} already exists.')
+                logging.error('With some understanding of docker and in despair '
+                              'you might try this command:')
+                logging.error(f'   docker stop {self.container_name} && '
+                              f'docker rm {self.container_name}')
+                logging.error('Exiting.')
                 sys.exit(1)
             self.run_arguments['name'] = self.container_name
 
@@ -212,16 +216,24 @@ class DockerHelperContainer(DockerHelperBase):
 
 
 class DockerHelperService(DockerHelperContainer):
-    def __init__(self, image_name, tag):
-        super().__init__(image_name, tag)
-        self.ports = None
-
     """
     Have the container run a server and serve until explicit termination
     is required.
     """
+    def __init__(self, image_name, tag):
+        super().__init__(image_name, tag)
+        self.ports = None
+        self.stop_arguments = dict()
+
+    def add_stop_argument(self, key, value):
+        self.stop_arguments[key] = value
+
     def halt_service(self):
-        self.get_container().stop()
+        try:
+            self.get_container().stop(**self.stop_arguments)
+        except docker.errors.APIError:
+            logging.error('Container stop failed '
+                          f'(arguments used: {self.stop_arguments}).')
         self.retrieve_output_and_errors()
         self.get_container().remove()
 
