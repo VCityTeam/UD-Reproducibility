@@ -39,14 +39,31 @@ $ virtualenv -p python3 venv
 $ . venv/bin/activate
 (venv)$ pip install -r requirements.txt
 ```
+## Running the (static) tiler workflow
+Be it with the single run of the full workflow or with the manual 
+steps (refer bellow) the resulting file hierarchies will be located
+in the `junk` sub-directory (as configured by the `output_dir` variable
+of `demo_configuration.py`, refer above). 
+Within that output directory you should also find a `demo_full_workflow.log`
+log file for troubleshooting.
 
-## Running the unit tests
-In order to test the containers:
+### Running the tiler full workflow
 ```
 $ cd `git rev-parse --show-toplevel`
-$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
-(venv)$ pip install pytest pytest-ordering pytest-dependency
-(venv)$ pytest
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
+(venv)$ python run_workflow_static.py
+```
+
+### Manual step by step run of the temporal-tiler
+The following manual steps should be applied in order:
+```
+$ cd `git rev-parse --show-toplevel`
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
+(venv)$ python run_lyon_metropole_dowload_and_sanitize_static.py   # result in junk/stage_1
+(venv)$ python run_split_buildings_static.py                       # result in junk/stage_2
+(venv)$ python run_strip_attributes_static.py                      # result in junk/stage_3 
+(venv)$ python run_load_3dcitydb_static.py                         # result in postgres-data-static/
+(venv)$ python run_tiler_static.py
 ```
 
 ## Running the temporal-tiler workflow
@@ -54,6 +71,8 @@ Be it with the single run of the full workflow or with the manual
 steps (refer bellow) the resulting file hierarchies will be located
 in the `junk` sub-directory (as configured by the `output_dir` variable
 of `demo_configuration.py`, refer above).
+Within that output directory you should also find a `demo_full_workflow.log`
+log file for troubleshooting.
 
 ### Running the temporal-tiler full workflow
 ```
@@ -77,6 +96,15 @@ $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoTemporal
 ```
 
 ## Developers notes
+
+## Running the unit tests
+In order to test the containers:
+```
+$ cd `git rev-parse --show-toplevel`
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker
+(venv)$ pip install pytest pytest-ordering pytest-dependency
+(venv)$ pytest
+```
 
 ### Debugging of a docker container notes:
 Step in a containter (i.e. activate a launch a shill within) wiht e.g.
