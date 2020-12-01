@@ -22,9 +22,10 @@ listen to the `8080` port
 
 ### Using docker
 Use the [Dockerfile](Dockerfile) provided within this directory e.g. with
-the command
+the commands
 ```
-   docker build github.com/VCityTeam/UD-Reproducibility#master:ExternalComponents/3DTilesSamples
+   docker build github.com/VCityTeam/UD-Reproducibility#master:ExternalComponents/3DTilesSamples cesium-gs/3d-tiles-samples
+   docker run cesium-gs/3d-tiles-samples
 ```
 
 
