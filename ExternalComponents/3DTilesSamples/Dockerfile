@@ -4,7 +4,6 @@ RUN apt-get update
 RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 RUN apt-get install -y git
-RUN apt-get install -y wget
 
 RUN git clone https://github.com/AnalyticalGraphicsInc/3d-tiles-samples
 WORKDIR /3d-tiles-samples/
