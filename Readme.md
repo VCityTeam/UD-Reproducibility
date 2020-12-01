@@ -1,27 +1,12 @@
 # UD-Repoducibility general description
 ```
 UD-Repoducibility
-├── Articles
-├── Computations
-├── Demos
-└── ExternalCompents
+├── Articles         # reproducibility oriented articles (based on UD computed results)
+├── Computations     # concrete means (scripts...) for reproducing UD computations
+├── Demos            # docker based deployment tools for some demos
+└── ExternalCompents # specific installation instructions for external components
 ```
 
-## Articles
-The Articles sub-directory gathers the reproducibility oriented articles
-using the results of the computations (based on UD).
-
-## Computations
-The Computations sub-directory gathers the concrete means (scripts...) enabling
-the reproduction of of computations based on UD.
-
-## Demos
-The a docker based deployment tools for some demos.
-
-## ExternalCompents
-The installation usage of some external components might require some specific
-or additionnal information. This sub-directory collects such documentation/instructions.
- 
 ## On going
  - **General logic** (to be placed within UD-Doc): 
     * The notion of "Usage Context" (UC) of UD-Viz: using UD-Viz de facto requires
