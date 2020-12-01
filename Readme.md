@@ -3,46 +3,24 @@
 UD-Repoducibility
 ├── Articles
 ├── Computations
-└── Demos
+├── Demos
+└── ExternalCompents
 ```
-
-## Computations
-The Computations sub-directory gathers the concrete means (scripts...) enabling the reproduction of of computations based on UD.
 
 ## Articles
-The Articles sub-directory gathers the reproducibility oriented articles using the results of the computations (based on UD).
+The Articles sub-directory gathers the reproducibility oriented articles
+using the results of the computations (based on UD).
 
-## Demos: a docker based deployment tool
-The above shell-script way of doing things:
- - lacks modularity: all the demos share an http server or and UD-Viz component which doesn't accomodate to demos depending on conflicting versions such shared component (think of two versions)
- - impacts the considered hosts (in DEV or PROD) since it installs at the system level
- - can be quite cumbersome to deploy (even with the help of shell-scripts doing a part of the job)
- 
-We are thus moving to a docker compose deployment method
-```
-Demos
-├── 3DTiles-Document-CityA-Demo
-│   └── ...
-└── Temporal-CityB-Demo
-    ├── Component1            # E.g. UD-Viz
-    │   ├── DockerContext
-    │   │   ├── Dockerfile    # Pulling SHA1 designated versions of UD-Viz
-    │   │   ├── Patches
-    │   │   ├── SomeSpecificConfiguration.html
-    │   │   └── ...
-    │   ├── Docs
-    │   └── docker-build.sh
-    ├── Component2
-    │   ├── DockerContext     # E.g. 3d-tiles-samples server
-    │   ├── Data
-    │   │   ├── pull-tileset-one.sh   # Pull from e.g. Zenodo
-    │   │   └── recompute-tileset-two.sh
-    │   └── docker-build.sh   # might call Data/pull-tileset-*.sh
-    ├── DockerCompose.yml
-    └── install.sh            # Might call Component[1|2]/docker-build.sh  
-```
+## Computations
+The Computations sub-directory gathers the concrete means (scripts...) enabling
+the reproduction of of computations based on UD.
 
-`install.sh` generaly endups with a `docker-compose up` and is launched with `nohup install.sh &`
+## Demos
+The a docker based deployment tools for some demos.
+
+## ExternalCompents
+The installation usage of some external components might require some specific
+or additionnal information. This sub-directory collects such documentation/instructions.
  
 ## On going
  - **General logic** (to be placed within UD-Doc): 
