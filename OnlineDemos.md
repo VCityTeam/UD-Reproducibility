@@ -59,7 +59,7 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
  
  ## Improve this page
  * Terminologie pour les noms de demos:
-    - <projet>-<fonctionalité>[-<territoire>]  e.g. Carl-temporal, 
+    - `<projet>-<fonctionalité>[-<territoire>]`  e.g. Carl-temporal, 
       Carl-temporal-limonest ou Vcity-main (par défaut sur 
       grand_lyon et contient un maximum de features effectives),
       VCity-temporal...
