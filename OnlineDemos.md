@@ -66,3 +66,6 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
  * Concernant la demo-temporel-limonest:
    - actuellement cassée
    - AI CCO: faut-il la pereniser et si oui "juste fait le" (avec le support d'EBO)
+ * Concernant la demoBron:
+   - en faire la base d'un tutorial pour les demos
+   - exciser toute reference a cette démo dans UD-Viz
