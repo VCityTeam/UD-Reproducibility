@@ -68,7 +68,7 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
    - Retrouver la demo temporel de VJA sur la presqu'ile confluence
    - si l'une des deux est sauvegardée alors on peut supprimer la demo
      Bron temporel (actuellement active sur rict2)
- * Concernant la demo-temporel-limonest:
+ * Concernant la demo-temporal et demo-temporel-limonest:
    - actuellement cassée
    - AI CCO: faut-il la pereniser et si oui "juste fait le" (avec le support d'EBO)
  * Concernant la demoBron:
