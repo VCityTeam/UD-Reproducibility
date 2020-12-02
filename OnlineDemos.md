@@ -20,6 +20,7 @@
 
   * [City wide 3dTiles tileset visualization](http://rict.liris.cnrs.fr/Demo_LyonFull_Villeurbanne_Bron_2015/UDV/UDV-Core/examples/DemoFull/Demo.html):
      * Status: [public](https://github.com/MEPP-team/UD-SV/new/master/UD-Doc/OnlineDemos.md#demo-online-3dtiles-lyon-villeurbanne)
+     * DataSet: [rict:LyonFull_Villeurbanne_Bron_2015/tiles/](http://rict.liris.cnrs.fr/DataStore/TileSet_LyonFull_Villeurbanne_Bron_2015/tiles/)
 
   * [3DTiles at the city level with 3 timestamps](http://rict.liris.cnrs.fr/iTownsPlanar3DTiles/itowns/examples/planar_3dtiles.html)
 
