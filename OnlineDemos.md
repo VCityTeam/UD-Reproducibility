@@ -86,13 +86,10 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
               the vilo3D documents (that are required in the guided tour
  * Dream list of GGE:
     - place a view source button for each demo of UD-Viz
- * Concernant guided-tour:
-   - faire une demo vilo3d-guided_tour avec l'UD-Viz du jour en
-     utilisant les données de l'ancienne démo 
-     [Vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
-     que l'on peut passer en public 
-     [Vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
-   - supprimer l'ancienne demo 
+ * Dockeriser l'ancienne (avec l'UD-Viz de l'eopque) 
+   [demo vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
+   Note: on peut passer en public les data et le code !
+    - supprimer l'ancienne demo 
  * Concernant les demos temporel:
    - Retrouver la demo temporel de VJA sur tous les arrondissement
    - Retrouver la demo temporel de VJA sur la presqu'ile confluence
