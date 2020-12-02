@@ -64,6 +64,18 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
       Carl-temporal-limonest ou Vcity-main (par défaut sur 
       grand_lyon et contient un maximum de features effectives),
       VCity-temporal...
+    - The demos we must have:
+       * the standard `vcity-*[-lyon_villeubanne]` (illustration of UD-Viz):
+          * vcity-main (ancien full/all feature)
+          * each of the vcity-feature (individual)
+             - Note: guided is broken ? (and requires vilo3d data, see below)
+          * Note: on drop la notion de stable car pour le dev on aura e.g.
+            vcity-main-dev
+          * DataSets:
+            - Those demos all share the same 3dtiles dataset: lyon and villeurbanne
+            - Documents: all (16) the documents of the actual stable version AND
+              the vilo3D documents (that are required in the guided tour)
+          
  * Concernant guided-tour:
    - faire une demo vilo3d-guided_tour avec l'UD-Viz du jour en
      utilisant les données de l'ancienne démo 
