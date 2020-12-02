@@ -49,7 +49,7 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
 
 ### Private demos<a name="private-demos"></a>
   * [Vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
-     * Working with a freezed (and tagged) [version of UDV](https://github.com/MEPP-team/UDV/tree/Vilo3D-Demo-1.0) last modified on the Sep 12, 2017.  
+      Working with a freezed (and tagged) [version of UDV](https://github.com/MEPP-team/UDV/tree/Vilo3D-Demo-1.0) last modified on the Sep 12, 2017.  
      * Restarting Vilo3D building server service on rict.liris.cnrs.fr after a shutdown:
        ```
        cd Demos/Vilo3D/building-server.git
@@ -59,7 +59,10 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
  
  ## Improve this page
  * Concernant les demos temporel:
-  - Retrouver la demo temporel de VJA sur tous les arrondissement
-  - Retrouver la demo temporel de VJA sur la presqu'ile confluence
-  - si l'une des deux est sauvegardée alors on peut supprimer la demo
-    Bron temporel (actuellement active sur rict2)
+   - Retrouver la demo temporel de VJA sur tous les arrondissement
+   - Retrouver la demo temporel de VJA sur la presqu'ile confluence
+   - si l'une des deux est sauvegardée alors on peut supprimer la demo
+     Bron temporel (actuellement active sur rict2)
+ * Concernant la demo-temporel-limonest:
+   - actuellement cassée
+   - AI CCO: faut-il la pereniser et si oui "juste fait le" (avec le support d'EBO)
