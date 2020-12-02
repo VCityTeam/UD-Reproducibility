@@ -56,3 +56,10 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
        source venv/bin/activate
        ./venv/bin/uwsgi --yml conf/building.uwsgi.yml --http-socket :1521 &
        ```
+ 
+ ## Improve this page
+ * Concernant les demos temporel:
+  - Retrouver la demo temporel de VJA sur tous les arrondissement
+  - Retrouver la demo temporel de VJA sur la presqu'ile confluence
+  - si l'une des deux est sauvegardée alors on peut supprimer la demo
+    Bron temporel (actuellement active sur rict2)
