@@ -68,14 +68,24 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
        * the standard `vcity-*[-lyon_villeubanne]` (illustration of UD-Viz):
           * vcity-main (ancien full/all feature)
           * each of the vcity-feature (individual)
-             - Note: guided is broken ? (and requires vilo3d data, see below)
+             - vcity-multi_tileset: back port of 
+               [Yann multi-layer's](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/examples/DemoMultiLayer/Demo.html) 
+             - vcity-temporal: the current one [being here](3DTiles at the city level with 3 timestamps).
+               WARNING: refer to note (on this page) to PR (accepted) on itowns when
+               the demo with the temporal-slider does NOT appear in itows. 
+             - Note: guided tout is broken ? (and requires vilo3d data, see below)
           * Note: on drop la notion de stable car pour le dev on aura e.g.
             vcity-main-dev
           * DataSets:
             - Those demos all share the same 3dtiles dataset: lyon and villeurbanne
+              <br>
+              WARNING: the current tilesets are brain damaged (buildings are
+              floating).
+            - multi_tileset: requires three different tilesets (water, building, terrain)
             - Documents: all (16) the documents of the actual stable version AND
-              the vilo3D documents (that are required in the guided tour)
-          
+              the vilo3D documents (that are required in the guided tour
+ * Dream list of GGE:
+    - place a view source button for each demo of UD-Viz
  * Concernant guided-tour:
    - faire une demo vilo3d-guided_tour avec l'UD-Viz du jour en
      utilisant les données de l'ancienne démo 
