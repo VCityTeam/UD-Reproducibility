@@ -1,7 +1,7 @@
 ## Technical/admin elements on [public online demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) and [private online demos](#private-demos)
 
 ### [Public demos](https://github.com/MEPP-team/UD-SV/blob/master/UD-Doc/OnlineDemos.md) on rict
-  * [UD-Viz Demos](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/) (front-end)
+  * TECHNICAL ELEMENTS OF [UD-Viz Demos](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/) (front-end)
     * Although the following sub-demos (of this section) distinguish themselves from one another by the usage of specific directories (or sub-servers?), they do share 
        - some GrandLyon data servers
        - the Tileset server
