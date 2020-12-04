@@ -59,7 +59,23 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
        ```
  
  ## Improve this page
- * Terminologie pour les noms de demos:
+  * **General logic for a demo** (to be placed within UD-Doc): 
+    * The notion of "Usage Context" (UC) of UD-Viz: using UD-Viz de facto requires
+       - a set of modules, 
+       - a set of data servers,
+       - a scene description (position of the camera, pre-selected objects...)
+    * There are many Usage Contexts (corresponding to demos) e.g. Bron-temporel, Lyon-Villeurbane-Doc_module.
+    * There are two types of UD-Viz Usage Contexts:
+       - the ones that can default the server side to some canonical data server set (think of rict2): for example
+          * the standard UD-Viz demo (Usage Context) for which the user wishing to install and try out the UD-Viz client side can accept to use some pre-installed (VCityTeam managed) remote data servers
+          * a UD-Viz client side developer that can also accept such a dependency towards pre-installed remote data servers
+          * a module specific UDV-Viz demo
+       - the ones requiring the installation of some set of data servers (in order to develop the server side or to install rict2 itself)<br>
+    * Adopted principle: a considered UC should have an implementation for each of the above categories. For example the Demo-Bron UC should exist 
+       1. within the UD-Viz repositor and using the canonical data server (think of rict2)
+       2. within `UD-Reproductibility/Demos` where it re-deploys the data server set and pactches the scene description to point to the newly installed data servers (as opposed to the canonical ones).
+ * **Data related good practice**: place all demo data on a [zenodo](https://zenodo.org/) like site and have the UD-Reproductibility demo pull them (note that Zenod allows for 50G maximum per data repository, and no number of repository limite)
+ * GGE said: terminologie pour les noms de demos:
     - `<projet>-<fonctionalité>[-<territoire>][-dev]`  e.g. Carl-temporal, 
       Carl-temporal-limonest ou Vcity-main (par défaut sur 
       grand_lyon et contient un maximum de features effectives),
@@ -84,20 +100,36 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
             - multi_tileset: requires three different tilesets (water, building, terrain)
             - Documents: all (16) the documents of the actual stable version AND
               the vilo3D documents (that are required in the guided tour
- * Dream list of GGE:
-    - place a view source button for each demo of UD-Viz
- * Dockeriser l'ancienne (avec l'UD-Viz de l'eopque) 
-   [demo vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
-   Note: on peut passer en public les data et le code !
-    - supprimer l'ancienne demo 
- * Concernant les demos temporel:
-   - Retrouver la demo temporel de VJA sur tous les arrondissement
-   - Retrouver la demo temporel de VJA sur la presqu'ile confluence
-   - si l'une des deux est sauvegardée alors on peut supprimer la demo
-     Bron temporel (actuellement active sur rict2)
- * Concernant la demo-temporal et demo-temporel-limonest:
-   - actuellement cassée
-   - AI CCO: faut-il la pereniser et si oui "juste fait le" (avec le support d'EBO)
- * Concernant la demoBron:
-   - en faire la base d'un tutorial pour les demos
-   - exciser toute reference a cette démo dans UD-Viz
+ * GGE said: demos to be realized/cleaned-up
+   * Dockeriser l'ancienne (avec l'UD-Viz de l'eopque) 
+     [demo vilo3d](http://rict.liris.cnrs.fr/Vilo3D/UDV/Vilo3D/index.html)
+     Note: on peut passer en public les data et le code !
+      - supprimer l'ancienne demo 
+   * Concernant les demos temporel:
+     - Retrouver la demo temporel de VJA sur tous les arrondissement
+     - Retrouver la demo temporel de VJA sur la presqu'ile confluence
+     - si l'une des deux est sauvegardée alors on peut supprimer la demo
+       Bron temporel (actuellement active sur rict2)
+   * Concernant la demo-temporal et demo-temporel-limonest:
+     - actuellement cassée
+     - AI CCO: faut-il la pereniser et si oui "juste fait le" (avec le support d'EBO)
+   * Concernant la demoBron:
+     - en faire la base d'un tutorial pour les demos
+     - exciser toute reference a cette démo dans UD-Viz
+   * Wish list (someday): place a view source button for each demo of UD-Viz
+ 
+ * TO BE CHECKED AND CLEANED-UP. The following demo related actions 
+   (belonging to one or several issues to be created) were established
+   by VJA/EBO prior to the above decisions of GGE
+    * the UD-Viz [FullDemo](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo might be renamed AllModulesDemo
+    * the UD-Viz [DemoStable/](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoFull) demo should be renamed LyonDocuments (and corresponds to the FabPat project)
+    * [DemoWindow](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoWindow) that technically illustrate some `Utils` feature (as opposed to a module) and that should be moved to [UD-Viz/UD-Viz-Core/src/Utils/GUI/examples](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/src/Utils/GUI/) (the examples sub-directory having to be created)
+    * All the UD-Viz UCs must be cloned and adapted for their data server side to `UD-Reproductibility/Demos`
+    * Update the [main index.html descritpion](https://github.com/VCityTeam/UD-Viz/blob/master/UD-Viz-Core/index.html) and provide an UC oriented description (module, data, scene descritpion) of what each demo is
+      - [UD-Viz/DemoBron](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoBron): make a description of what Bron is and what data is used... 
+      - [UD-Viz/DemoLimonest](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoLimonest): ditto mutatis mutandis.
+      - [UD-Viz/DemoMultiLayer](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoMultiLayer): just a specific 3dTiles), 
+      - [UD-Viz/DemoPC](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoPC): which specific Point Cloud set is this about, 
+      - [UD-Viz/DemoStable](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoStable): a subset of modules, together with specific data server e.g. Lyon documents: this demo was called stable to illustrate enhanced data servers) to `UD-Reproductibility/Demos` 
+   * make a [`MAM` tag](https://github.com/VCityTeam/UD-Viz/tags) of the current version and remove the [UD-Viz/UD-Viz-Core/examples/MAM](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/MAM) directory that is not up-todate.
+   * Once temporal related code gets moved to the UD-Viz master create the UD-Viz version of the [Temporal-LyonMetropole](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Demos/Temporal-LyonMetropole) UD-Reproductibility UC. 
