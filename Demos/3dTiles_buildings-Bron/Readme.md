@@ -13,7 +13,7 @@ A demo displaying 3dTiles of the building of the city of
 For installation (requires docker) run
 ```
 ./install.sh
-docker-compose run -d
+docker-compose up -d
 ```
 Use your we browser to open 
 `http://localhost:8090/examples/DemoBron/Demo.html`
