@@ -132,4 +132,13 @@ Apache2 server: refer to /etc/apache2/sites-enabled/rict2.liris.cnrs.fr.conf tha
       - [UD-Viz/DemoPC](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoPC): which specific Point Cloud set is this about, 
       - [UD-Viz/DemoStable](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/DemoStable): a subset of modules, together with specific data server e.g. Lyon documents: this demo was called stable to illustrate enhanced data servers) to `UD-Reproductibility/Demos` 
    * make a [`MAM` tag](https://github.com/VCityTeam/UD-Viz/tags) of the current version and remove the [UD-Viz/UD-Viz-Core/examples/MAM](https://github.com/VCityTeam/UD-Viz/tree/master/UD-Viz-Core/examples/MAM) directory that is not up-todate.
-   * Once temporal related code gets moved to the UD-Viz master create the UD-Viz version of the [Temporal-LyonMetropole](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Demos/Temporal-LyonMetropole) UD-Reproductibility UC. 
+   * Once temporal related code gets moved to the UD-Viz master create the UD-Viz version of the [Temporal-LyonMetropole](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Demos/Temporal-LyonMetropole) UD-Reproductibility UC.
+
+## Admin notes
+On rict2, after a VM reboot, one needs to 
+[restart the docker deamon](https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04)
+with
+```
+sudo systemctl start docker
+sudo systemctl enable docker
+```
