@@ -47,14 +47,14 @@ of `demo_configuration.py`, refer above).
 Within that output directory you should also find a `demo_full_workflow.log`
 log file for troubleshooting.
 
-### Running the tiler full workflow
+### Running the (static) tiler full workflow
 ```
 $ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
 (venv)$ python run_workflow_static.py
 ```
 
-### Manual step by step run of the temporal-tiler
+### Manual step by step run of the (static) tiler
 The following manual steps should be applied in order:
 ```
 $ cd `git rev-parse --show-toplevel`
