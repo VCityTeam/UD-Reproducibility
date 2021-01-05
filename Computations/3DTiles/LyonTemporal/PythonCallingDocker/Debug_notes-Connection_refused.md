@@ -7,7 +7,7 @@ When the container is stoped and then restarted the database is temporarily
 (and sometimes definitively) not available.
 
 ### Some wrong clues
-This unavailibility manifests itself in various forms dependending on the client
+This unavailability manifests itself in various forms depending on the client
 that tries to access the database.
 For example the error message will sometimes be (refer below) 
 ```
@@ -233,7 +233,7 @@ After the client died the main script requires the database to shut down
 
 
 ## The analysis
-The above mentionned docker "timeout trick" (suggested by this 
+The above mentioned docker "timeout trick" (suggested by this 
 [github](https://github.com/docker-library/postgres/issues/544#issuecomment-455738848))
 was not of much help.
 The database running in its container displays a nice
@@ -262,21 +262,21 @@ of the database service. In particular we don't know
  * if the container will expect long enough for the database to realize its
    snapshot.
 
-We thus need, at the application level, to explictly require the database to
+We thus need, at the application level, to explicitly require the database to
 realize its snapshot.
 
-## Implementend solution
-Prior to shuting down a container that wraps a database, one must explictly
+## Implemented solution
+Prior to shuting down a container that wraps a database, one must explicitly
 require the database to 
- * first close the possibly active sessions (might be usefull if some monitoring
+ * first close the possibly active sessions (might be useful if some monitoring
    tools are probing the database on debugging purposes)
- * then to immediatly realize a snapshot (push the remaining commits to the tables
+ * then to immediately realize a snapshot (push the remaining commits to the tables
    and write to disks).
 
 With docker exec and on the CLI such a request goes
 `docker exec <container-id> pg_ctl stop -m fast`...
 
 ## Technical notes
-Along the road it was mentionned that instead of using a `pg_ctl stop` one can
-also (without closing the database) explictly trigger a push to the tables by
+Along the road it was mentioned that instead of using a `pg_ctl stop` one can
+also (without closing the database) explicitly trigger a push to the tables by
 triggering a [`CHECKPOINT`](https://www.postgresql.org/docs/12/sql-checkpoint.html).  

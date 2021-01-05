@@ -181,7 +181,7 @@ Suggestions:
  - Check whether the double slash (`/Input//Data/`) could be the
    source of the  issue.
 
-### Bug: DemoLoad3DCityDB missplaces its output
+### Bug: DemoLoad3DCityDB misplaces its output
 demo_load places its output in `<output_dir>/postgres-data` directory instead of
 `<output_dir>/stage_5/postgres-data`. 
 
