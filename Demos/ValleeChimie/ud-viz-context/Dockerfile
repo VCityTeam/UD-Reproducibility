@@ -18,6 +18,7 @@ WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
 # FIXME: the should be a single configuration file for this demo !
 COPY generalDemoConfig.json examples/data/config/generalDemoConfig.json
 COPY index.html ./index.html
+COPY Demo.js examples/DemoFull/Demo.js
 RUN npm install
 RUN npm run build 
 
