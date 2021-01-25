@@ -42,7 +42,7 @@
     }
   },
   "extents": {
-    "lyon_villeurbanne_bron": {
+    "vallee_chimie": {
       "min_x": "1832891.32",
       "max_x": "1846735.29",
       "min_y": "5150253.55",
@@ -50,7 +50,7 @@
     }
   },
   "camera": {
-    "lyon_villeurbanne_bron": {
+    "vallee_chimie": {
       "position": {
         "range": "3000",
         "heading": "-49.6",
