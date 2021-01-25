@@ -16,7 +16,8 @@ WORKDIR /WebDemos
 RUN git clone https://github.com/VCityTeam/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
 # FIXME: the should be a single configuration file for this demo !
-COPY generalDemoConfig.json /examples/data/config/generalDemoConfig.json
+COPY generalDemoConfig.json examples/data/config/generalDemoConfig.json
+COPY index.html ./index.html
 RUN npm install
 RUN npm run build 
 
