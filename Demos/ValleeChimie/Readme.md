@@ -3,13 +3,18 @@ A kludgy and temporary attempt at packaging the IFC demo.
 Try running with
 ```
 cd ud-viz-context/
-docker build -t vallee-chimie .
-docker run -t vallee-chimie
+docker build -t vallee-chimie ud-viz-context
 ```
-Use your we browser to open 
-`http://localhost:8090/examples/DemoLimonest/Demo.html`
 
-Halting the service is obtained with
+Retrieve your Fully Qualified Domain Name (FQDN). For example
+ * on OSX using dhcp (and with a misconfigured/hardwired
+   hostname) one can first use `ifconfig | grep -i inet` to
+   retrieve the host IP number and then `host <host_IP_number>`
+   to retrieve the FQDN.
+
+Then run the container with
 ```
-docker-compose down
+docker run -d -h <FQDN> -p 8080:80/tcp -t ud-viz:2.25.0 
 ```
+and open a web browser on URL http://localhost:8080/
+
