@@ -1,15 +1,16 @@
-A kludgy and temporary attempt at packaging the IFC demo.
+A demo of 3DTiles based buildings accross so called 
+[Lyon's chemistry valley](https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_la_chimie).
 
 Try running with
 ```
 docker build -t vallee-chimie ud-viz-context
 ```
 
-Retrieve your Fully Qualified Domain Name (FQDN). For example
- * on OSX using dhcp (and with a misconfigured/hardwired
-   hostname) one can first use `ifconfig | grep -i inet` to
-   retrieve the host IP number and then `host <host_IP_number>`
-   to retrieve the FQDN.
+Retrieve your Fully Qualified Domain Name (FQDN):
+ 1. First retrieve your deploying host IP address. If ifconfig is
+    available for you (Ubun tu, OSX) try using `ifconfig | grep -i inet`
+ 2. Then out of this IP adress retrieve the FQDN of your host with
+    the `host <host_IP_number>` command.
 
 Then run the container with
 ```
