@@ -1,7 +1,8 @@
 FROM ubuntu:focal
 
 LABEL maintainer "VCityTeam"
-LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker"
+#FIX ME
+LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker/"
 
 RUN apt-get update
 
@@ -12,11 +13,10 @@ RUN apt-get install -y git
 
 RUN mkdir -p WebDemos
 WORKDIR /WebDemos
-RUN git clone -b ifc https://github.com/clementcolin/UD-Viz.git
+RUN git clone https://github.com/VCityTeam/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
 # FIXME: the should be a single configuration file for this demo !
-COPY BaseDemo.js src/Utils/BaseDemo/js/BaseDemo.js
-COPY IfcAttributeWindow.js src/Modules/CityObjects/View/IfcAttributeWindow.js
+COPY generalDemoConfig.json /examples/data/config/generalDemoConfig.json
 RUN npm install
 RUN npm run build 
 

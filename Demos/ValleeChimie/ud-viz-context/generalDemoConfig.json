@@ -134,7 +134,7 @@
   "3DTilesLayer":{
     "building":{
       "id":"3d-tiles-layer-building",
-      "url":"http://localhost:8003/tilesets/ValleeChimie/tileset.json",
+      "url":"http://rict2.liris.cnrs.fr/DataStore/ValleeChimie/tileset.json",
       "color": "0xFFFFFF",
       "initTilesManager": "true"
     },
