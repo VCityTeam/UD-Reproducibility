@@ -2,7 +2,6 @@ A kludgy and temporary attempt at packaging the IFC demo.
 
 Try running with
 ```
-cd ud-viz-context/
 docker build -t vallee-chimie ud-viz-context
 ```
 
@@ -14,7 +13,7 @@ Retrieve your Fully Qualified Domain Name (FQDN). For example
 
 Then run the container with
 ```
-docker run -d -h <FQDN> -p 8080:80/tcp -t ud-viz:2.25.0 
+docker run -d -h <FQDN> -p 8080:80/tcp -t vallee-chimie
 ```
 and open a web browser on URL http://localhost:8080/
 
