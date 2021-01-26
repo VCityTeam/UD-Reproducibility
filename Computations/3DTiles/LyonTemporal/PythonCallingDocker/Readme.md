@@ -206,6 +206,28 @@ ERROR 1: TopologyException: found non-noded intersection between LINESTRING (1.8
 This error seems related with postgis or gdal according to threads like:
  * [R wrapping of gdal](https://stackoverflow.com/questions/13662448/what-does-the-following-error-mean-topologyexception-found-non-nonded-intersec)
  * [r-spatial/sf issue](https://github.com/r-spatial/sf/issues/860)
+ 
+ ### Bug: run_strip_attributes_static.py
+ The following run fails
+ ```
+ sudo python run_strip_attributes_static.py
+ ```
+ With the message
+ ```
+Traceback (most recent call last):
+  File "run_strip_attributes_static.py", line 3, in <module>
+    import demo_workflow_static as workflow
+  File "/home/vcity/Desktop/DemoValleeChimie/UD-Reproducibility/Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic/demo_workflow_static.py", line 6, in <module>
+    from demo_lyon_metropole_dowload_and_sanitize_static \
+  File "/home/vcity/Desktop/DemoValleeChimie/UD-Reproducibility/Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic/demo_lyon_metropole_dowload_and_sanitize_static.py", line 4, in <module>
+    from demo_static import DemoStatic, DemoWithFileOutputStatic
+  File "/home/vcity/Desktop/DemoValleeChimie/UD-Reproducibility/Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic/demo_static.py", line 48
+    logging.info(f'Database configuration not found. Exiting')
+ ```
+ Can be resolved by this
+ ```
+ sudo venv/bin/python3 run_strip_attributes_static.py
+ ```
 
 ### Concerning the "slow starting postgresql startup"
 Refer to the [Debug_notes-Connection_refused.md](Debug_notes-Connection_refused.md).
