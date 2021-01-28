@@ -1,4 +1,4 @@
-A demo of 3DTiles based buildings accross so called 
+A demo of 3DTiles based buildings accross  
 [Lyon's chemistry valley](https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_la_chimie).
 
 Try running with
