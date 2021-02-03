@@ -12,7 +12,7 @@ in the form of JSON schemas is however
 
 * Download the dataset, [registered and available here](https://doi.org/10.5281/zenodo.3596861),
   that is to be visualized. Detailed notes on how to compute this dataset can also be found
-  [here](../../Computations/ComputeLyon3DTilesTemporal/Readme.md).
+  [here](../../Computations/3DTiles/LyonTemporal/PythonCallingDocker/Readme.md).
 
 * Unzip this dataset
 
