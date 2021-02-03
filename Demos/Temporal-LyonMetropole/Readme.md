@@ -30,7 +30,7 @@ the following URL:
 
 ````
 git clone https://github.com/jailln/UDV.git
-git checkout UDV-temporal
+git checkout UDV-temporal-rebase-2
 cd UDV-Core
 ./install.sh
 ````
