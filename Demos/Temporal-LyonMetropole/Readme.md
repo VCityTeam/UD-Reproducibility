@@ -31,12 +31,13 @@ the following URL:
 ````
 git clone https://github.com/jailln/UDV.git
 git checkout UDV-temporal-rebase-2
-cd UDV-Core
-./install.sh
+cd UD-Viz-Core
+npm install
+npm start
 ````
 
 * Replace the URL of the configuration file of UD-Viz
-([this line](https://github.com/jailln/UDV/blob/UDV-temporal/UDV-Core/examples/data/config/generalDemoConfig.json#L20)) with the URL to your tileset, which should be: `http://localhost:8003/tilesets/Lyon_2009-2015_Without_Remarkable_32_Tiles/tileset.json`
+([this line](https://github.com/jailln/UDV/blob/master/UD-Viz-Core/examples/data/config/generalDemoConfig.json#L20)) with the URL to your tileset, which should be: `http://localhost:8003/tilesets/Lyon_2009-2015_Without_Remarkable_32_Tiles/tileset.json`
 
 * Run UD-Viz: `npm start`
 
