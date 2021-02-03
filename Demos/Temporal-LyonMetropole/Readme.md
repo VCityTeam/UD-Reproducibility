@@ -12,13 +12,13 @@ in the form of JSON schemas is however
 
 * Download the dataset, [registered and available here](https://doi.org/10.5281/zenodo.3596861),
   that is to be visualized. Detailed notes on how to compute this dataset can also be found
-  [here](../../Computations/ComputeLyon3DTilesTemporal/Readme.md).
+  [here](../../Computations/3DTiles/LyonTemporal/PythonCallingDocker/Readme.md).
 
 * Unzip this dataset
 
 * Install a 3DTiles web server: depending on your context proceed with one of
 the following install guides:
-  * [3dtiles web server: DESKTOP developing context](../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md)
+  * [3dtiles web server: DESKTOP developing context](https://github.com/VCityTeam/UD-Reproducibility/blob/master/ExternalComponents/3DTilesSamples/Readme.md)
    * [3dtiles web server: OPERATIONS (stable server) context](../../ExternalComponents/ApacheServer/InstallDebianApacheServer.md)
 
 * Move the unzipped dataset you downloaded previously to
@@ -30,7 +30,7 @@ the following URL:
 
 ````
 git clone https://github.com/jailln/UDV.git
-git checkout UDV-temporal
+git checkout UDV-temporal-rebase-2
 cd UDV-Core
 ./install.sh
 ````
