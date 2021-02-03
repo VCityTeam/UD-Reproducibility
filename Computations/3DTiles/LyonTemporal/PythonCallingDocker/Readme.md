@@ -86,13 +86,13 @@ The following manual steps should be applied in order:
 ```
 $ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoTemporal
-(venv)$ python run_demo_lyon_metropole_dowload_and_sanitize.py   # result in junk/stage_1
-(venv)$ python run_demo_split_buildings.py                       # result in junk/stage_2
-(venv)$ python run_demo_strip_attributes.py                      # result in junk/stage_3 
+(venv)$ python run_lyon_metropole_dowload_and_sanitize.py   # result in junk/stage_1
+(venv)$ python run_split_buildings.py                       # result in junk/stage_2
+(venv)$ python run_strip_attributes.py                      # result in junk/stage_3 
 (venv)$ python run_demo_extract_building_dates.py                # result in junk/stage_4
-(venv)$ python run_demo_3dcitydb_server.py                       # Just a test: no output
-(venv)$ python run_demo_load_3dcitydb.py                         # result in junk/stage_5
-(venv)$ python run_demo_tiler_temporal.py                        # result in junk/stage_6
+(venv)$ python run_3dcitydb_server.py                       # Just a test: no output
+(venv)$ python run_load_3dcitydb.py                         # result in junk/stage_5
+(venv)$ python run_tiler_temporal.py                        # result in junk/stage_6
 ```
 
 ## Developers notes
