@@ -15,5 +15,5 @@ Then run the container with
 ```
 docker run -d -h <FQDN> -p 8282:80/tcp -t vallee-chimie
 ```
-and open a web browser on URL http://localhost:8080/
+and open a web browser on URL http://localhost:8282/
 
