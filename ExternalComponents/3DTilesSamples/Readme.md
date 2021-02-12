@@ -17,7 +17,7 @@ Run
 ```
    npm start -- help
 ```
-for further server options e.g. `npm start -- -port 8080` will have the server
+for further server options e.g. `npm start -- --port 8080` will have the server
 listen to the `8080` port
 
 ### Using docker
