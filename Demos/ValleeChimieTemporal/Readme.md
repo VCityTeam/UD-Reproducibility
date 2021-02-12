@@ -13,7 +13,7 @@ Retrieve your Fully Qualified Domain Name (FQDN):
 
 Then run the container with
 ```
-docker run -d -h <FQDN> -p 8080:80/tcp -t vallee-chimie
+docker run -d -h <FQDN> -p 8081:80/tcp -t vallee-chimie
 ```
 and open a web browser on URL http://localhost:8080/
 
