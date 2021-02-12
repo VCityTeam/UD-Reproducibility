@@ -15,6 +15,7 @@ RUN mkdir -p WebDemos
 WORKDIR /WebDemos
 RUN git clone https://github.com/VCityTeam/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
+RUN git reset --hard de87c4d72938df83f9a1785b95d01839565162d3
 # FIXME: the should be a single configuration file for this demo !
 COPY generalDemoConfig.json examples/data/config/generalDemoConfig.json
 COPY index.html ./index.html

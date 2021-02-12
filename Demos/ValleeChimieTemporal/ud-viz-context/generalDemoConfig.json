@@ -43,10 +43,10 @@
   },
   "extents": {
     "lyon2009-2015": {
-      "min_x": "1837860.980127206",
-      "max_x": "1847648.6685636174",
-      "min_y": "5169347.42659997",
-      "max_y": "5180280.0400808845"
+      "min_x": "1832891.32",
+      "max_x": "1846735.29",
+      "min_y": "5150253.55",
+      "max_y": "5174952.52"
     }
   },
   "camera": {
@@ -61,7 +61,7 @@
   "3DTilesLayer":{
     "lyon2009-2015":{
       "id": "3d-tiles-layer-temporal",
-      "url":"http://localhost:8003/tilesets/TilesetWithTemporal/tileset.json",
+      "url":"http://rict2.liris.cnrs.fr/DataStore/ValleeChimieTemporal/vallee/tileset.json",
       "color": "0xFFFFFF",
       "initTilesManager": "true",
       "extensions":["3DTILES_temporal"]
