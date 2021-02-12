@@ -15,12 +15,13 @@ RUN mkdir -p WebDemos
 WORKDIR /WebDemos
 RUN git clone https://github.com/VCityTeam/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
+RUN git reset --hard de87c4d72938df83f9a1785b95d01839565162d3
 # FIXME: the should be a single configuration file for this demo !
 COPY generalDemoConfig.json examples/data/config/generalDemoConfig.json
 COPY index.html ./index.html
 COPY Demo.js examples/DemoFull/Demo.js
 RUN npm install
-RUN npm run build 
+RUN npm run build
 
 ######### Install apache2
 # Although serving the site can be done by running `npm start` when on
@@ -30,8 +31,8 @@ RUN npm run build
 # using a command of the form `CMD [ "npm", "start", "--", "--host=0.0.0.0" ]`)
 # does _not_ seem to be effective in this context.
 # The current workaround, that might be a little overkill, consists in
-# using an independent httpd server to serve the JS/html code that was 
-# build (refer above) with npm. 
+# using an independent httpd server to serve the JS/html code that was
+# build (refer above) with npm.
 
 # tzdata is an apache2 package dependency that requires some interactive
 # configuration. The following is a non interactive workaround, refer to
@@ -50,14 +51,14 @@ RUN apt-get install -y apache2
 COPY dockerized_udv_demo.conf /etc/apache2/sites-available/
 
 # Remove the default server (which is a symlink anyhow) to avoid collisions:
-RUN rm -f /etc/apache2/sites-enabled/000-default.conf 
+RUN rm -f /etc/apache2/sites-enabled/000-default.conf
 
 # Enable the virtual site
 RUN a2ensite dockerized_udv_demo.conf
 
 ######### Expose (through http) the Tilesets required by UD-Viz demos
 # Appache2 configuration defines DocumentRoot as being
-# /WebDemos/UD-Viz/UD-Viz-Core. We thus copy content in 
+# /WebDemos/UD-Viz/UD-Viz-Core. We thus copy content in
 # sub-directory of Document Root.
 #
 # References concerning the wget ad-hoc flags
