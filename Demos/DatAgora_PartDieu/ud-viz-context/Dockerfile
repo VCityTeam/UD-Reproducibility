@@ -27,5 +27,4 @@ RUN npm run build
 EXPOSE 8999
 
 CMD ["npm","start","--","--host=0.0.0.0","--port=8999"] 
-#-h 172.18.46.65 -p 8999:8999/tcp 
 

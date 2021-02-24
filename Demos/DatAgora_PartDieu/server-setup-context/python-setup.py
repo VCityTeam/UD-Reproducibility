@@ -5,7 +5,7 @@ import socket
 from geoserver.catalog import Catalog
 
 def main():
-  cat = Catalog("http://geoserver:8080/geoserver/rest",username = os.getenv('GEOSERVER_ADMIN_USER'),password = os.getenv('GEOSERVER_ADMIN_PASSWORD')) # add port with env var (os.getenv())
+  cat = Catalog("http://geoserver:"+str(os.getenv('GEOSERVER_PORT'))+"/geoserver/rest",username = os.getenv('GEOSERVER_ADMIN_USER'),password = os.getenv('GEOSERVER_ADMIN_PASSWORD')) # add port with env var (os.getenv())
   s = socket.socket()
 
   connectionAttempts = 0
@@ -21,7 +21,7 @@ def main():
 
   while connectionAttempts < maxConnectionAttempts : 
     try:
-      s.connect((socket.gethostbyname('geoserver'),8080))
+      s.connect((socket.gethostbyname('geoserver'),int(os.getenv('GEOSERVER_PORT'))))
     except socket.error :
       connectionAttempts += 1
       print("Geoserver not yet online, "+str(maxConnectionAttempts-connectionAttempts)+" connection attempts remaining")
