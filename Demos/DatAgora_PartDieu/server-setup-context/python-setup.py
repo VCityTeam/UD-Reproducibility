@@ -5,7 +5,7 @@ import socket
 from geoserver.catalog import Catalog
 
 def main():
-  cat = Catalog("http://geoserver:8080/geoserver/rest") # add port with env var (os.getenv())
+  cat = Catalog("http://geoserver:8080/geoserver/rest",username = os.getenv('GEOSERVER_ADMIN_USER'),password = os.getenv('GEOSERVER_ADMIN_PASSWORD')) # add port with env var (os.getenv())
   s = socket.socket()
 
   connectionAttempts = 0
