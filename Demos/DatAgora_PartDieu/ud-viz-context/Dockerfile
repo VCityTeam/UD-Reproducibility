@@ -20,7 +20,6 @@ COPY Demo.js examples/DemoFull/Demo.js
 COPY Demo.html examples/DemoFull/Demo.html
 COPY img examples/DemoFull/img
 
-
 RUN npm install
 RUN npm run build 
 

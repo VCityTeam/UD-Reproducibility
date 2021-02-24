@@ -9,7 +9,7 @@ services:
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
 
     ports: 
-      - ${GEOSERVER_PORT}:${GEOSERVER_PORT}
+      - ${GEOSERVER_PORT}:8080
 
 
   geoserver-setup:
@@ -21,14 +21,10 @@ services:
       - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
-      - GEOSERVER_PORT=${GEOSERVER_PORT}
-
 
 
   udviz:
     build : ./ud-viz-context
     command : npm start -- --host=0.0.0.0 --port=${UD_VIZ_PORT} 
-    # environment :
-    #   - UD_VIZ_PORT=${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
