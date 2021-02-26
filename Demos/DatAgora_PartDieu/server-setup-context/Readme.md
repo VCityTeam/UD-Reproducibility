@@ -9,7 +9,7 @@ $ source venv/bin/activate
 ```
 The manual application of pylint is done with
 ```
-(venv) pylint
+(venv) pylint python_setup.py
 ```
 
 ### For direnv users
