@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  geoserver:
+    image : kartoza/geoserver:2.18.0
+    environment :
+      - SAMPLE_DATA=true
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+
+    ports: 
+      - ${GEOSERVER_PORT}:8080
+
+
+  geoserver-setup:
+    build : ./server-setup-context
+    environment :
+      - DATA_IMPORT_DIR=${GEOSERVER_DATA_IMPORT_DIR}
+      - WORKSPACE=${GEOSERVER_WORKSPACE}
+      - MAX_CONNECTION_ATTEMPTS=${GEOSERVER_MAX_CONNECTION_ATTEMPTS}
+      - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+
+
+  udviz:
+    build : ./ud-viz-context
+    command : npm start -- --host=0.0.0.0 --port=${UD_VIZ_PORT} 
+    ports:
+      - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
