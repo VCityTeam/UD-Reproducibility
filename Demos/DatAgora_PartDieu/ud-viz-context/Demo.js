@@ -11,6 +11,7 @@ baseDemo.appendTo(document.body);
 baseDemo.loadConfigFile('./DemoConfigData.json').then(() => {
     // Initialize iTowns 3D view
     baseDemo.addLogos();
+    baseDemo.config.server = baseDemo.config.servers["lyon"];   
     baseDemo.init3DView('lyon_part_dieu');
     baseDemo.addBaseMapLayer();
     baseDemo.addElevationLayer();
@@ -48,7 +49,7 @@ baseDemo.loadConfigFile('./DemoConfigData.json').then(() => {
     }
 
     function colorEVAArtif(properties) {
-        return color.set(0x0000ff);
+        return color.set(0xffffff);
     }
 
     function colorEVAVegetation(properties) {
@@ -284,6 +285,40 @@ baseDemo.loadConfigFile('./DemoConfigData.json').then(() => {
     const cameraPosition = new udvcore.CameraPositionerView(baseDemo.view,
         baseDemo.controls);
     baseDemo.addModuleView('cameraPositioner', cameraPosition);
+
+    ////// AUTHENTICATION MODULE
+    const authenticationService =
+    new udvcore.AuthenticationService(requestService, baseDemo.config);
+    const authenticationView =
+        new udvcore.AuthenticationView(authenticationService);
+    baseDemo.addModuleView('authentication', authenticationView,
+        {type: BaseDemo.AUTHENTICATION_MODULE});
+
+    ////// DOCUMENTS MODULE
+    const documentModule = new udvcore.DocumentModule(requestService,
+        baseDemo.config)
+    baseDemo.addModuleView('documents', documentModule.view);
+
+    ////// DOCUMENTS VISUALIZER (to orient the document)
+    const imageOrienter = new udvcore.DocumentVisualizerWindow(documentModule,
+        baseDemo.view, baseDemo.controls);
+
+    ////// CONTRIBUTE EXTENSION
+    const contribute = new udvcore.ContributeModule(documentModule, imageOrienter,
+        requestService, baseDemo.view, baseDemo.controls, baseDemo.config);
+
+    ////// VALIDATION EXTENSION
+    const validation = new udvcore.DocumentValidationModule(documentModule, requestService,
+        baseDemo.config);
+    
+    ////// DOCUMENT COMMENTS
+    const documentComments = new udvcore.DocumentCommentsModule(documentModule,
+        requestService, baseDemo.config);
+
+    ////// GUIDED TOURS MODULE
+    const guidedtour = new udvcore.GuidedTourController(documentModule,
+        requestService, baseDemo.config);
+    baseDemo.addModuleView('guidedTour', guidedtour, {name: 'Guided Tours'});
 
     ////// LAYER CHOICE
     const layerChoice = new udvcore.LayerChoice(baseDemo.layerManager);

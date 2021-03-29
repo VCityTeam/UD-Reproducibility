@@ -14,6 +14,7 @@ RUN mkdir -p WebDemos
 WORKDIR /WebDemos
 RUN git clone https://github.com/VCityTeam/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
+RUN git reset --hard 59dd26a43d061af4e9a8b907060e0f601b4f05e9
 COPY DemoConfigData.json examples/DemoFull/DemoConfigData.json
 COPY index.html ./index.html
 COPY Demo.js examples/DemoFull/Demo.js
