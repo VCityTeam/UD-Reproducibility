@@ -37,10 +37,15 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
             logging.info(f'Unknown pattern {pattern}. Exiting')
             sys.exit(1)
 
-    def define_vintage_borough_archive(self, vintage, borough):
+    def define_vintage_borough_url(self, vintage, borough):
         repository = 'https://download.data.grandlyon.com/files/grandlyon/' \
-                     'localisation/bati3d/'
-        url = repository + borough + '_' + str(vintage) + '.zip'
+                     'imagerie/'
+        url = repository + str(vintage) + '/maquette/' + \
+              borough + '_' + str(vintage) + '.zip'
+        return url
+
+    def define_vintage_borough_archive(self, vintage, borough):
+        url = self.define_vintage_borough_url(vintage, borough)
         key_name = borough + '_' + str(vintage)
         filename = os.path.join(
             key_name,
@@ -73,6 +78,9 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
             self.archives['LYON_8EME_2012']['patch_filename'] = \
               os.path.join(DemoLyonMetropoleDowloadAndSanitize.patches_directory,
                            'LYON_8EME_BATI_2012.gml.patch')
+        if 'ST_FONS_2012' in self.archives:
+            self.archives['ST_FONS_2012']['url'] = \
+                self.define_vintage_borough_url(2012, 'SAINT_FONS')
 
         # Vintage 2015
         if 'LYON_7EME_2015' in self.archives:
