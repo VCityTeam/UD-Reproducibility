@@ -34,7 +34,7 @@ You first need to configure three things:
    command : npm start -- --host=<host-IP-address> --port=${UD_VIZ_PORT} 
    ```
 
-In order to launching the demo (from a terminal) clone this repository and
+In order to launch the demo (from a terminal) clone this repository and
 change the directory to be the one holding this Readme.md file and run the
 following command :
 ```
