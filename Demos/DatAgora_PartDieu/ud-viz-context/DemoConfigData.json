@@ -15,6 +15,9 @@
       "link": "link"
     }
   },
+
+  "geoserver":"http://localhost:8282/geoserver/cite/ows?",
+
   "extents": {
     "lyon_part_dieu": {
       "min_x": "1843460",
