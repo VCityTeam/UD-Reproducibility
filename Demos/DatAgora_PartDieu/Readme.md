@@ -15,6 +15,25 @@ within DatAgora.
 The only pre-requisite is to have a host with 
 [docker compose](https://docs.docker.com/compose/) installed.
 
+You first need to configure three things:
+ - Edit the [`.env`](.env) file to suit your needs (e.g. change the
+   services port numbers)
+ - within the `ud-viz-context/DemoConfigData.json` file adapt the 
+   `localhost:8999` string of the `geoserver` entry to become 
+   the fully qualified domain name of the server that will host
+   the demo together with the port number that you configured in 
+   the `.env`. This `geoserver` entry should be of the form
+   ```
+   geoserver":"http://<fully-qualified-domain-name-of-server>:<chosen-port>/geoserver/cite/ows?",
+   ```
+   Note that the geoserver hostname and the port number should match the
+   choices you made in the `.env` file.
+ - within the `docker-compose.yml` file, and within the `udviz` service
+   section, edit the command in order to provide the IP address of the host
+   ```
+   command : npm start -- --host=<host-IP-address> --port=${UD_VIZ_PORT} 
+   ```
+
 In order to launching the demo (from a terminal) clone this repository and
 change the directory to be the one holding this Readme.md file and run the
 following command :
