@@ -1,7 +1,22 @@
 A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_la_chimie).
 
 ## 1. Compute correct data for your demo
-TODO
+- Go on this folder [here](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker)
+- Edit the ``` demo_configuration.py``` configuration file in order to setup. For this demo we have compute cities in the Lyon's chemistry valley :
+
+```
+boroughs = [
+           'FEYZIN',
+           'GIVORS',
+           'GRIGNY',
+           'IRIGNY',
+           'PIERRE_BENITE',
+           'SOLAIZE',
+           'LYON_7EME',
+           'VERNAISON'
+]
+```
+Then follow this [istrucions](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker#readme)
 
 ## 2. Build ud-viz context
 
