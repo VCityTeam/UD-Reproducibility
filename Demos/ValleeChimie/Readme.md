@@ -16,7 +16,7 @@ boroughs = [
            'VERNAISON'
 ]
 ```
-Then follow this [istrucions](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker#readme)
+- Then follow this [instrucions](https://github.com/VCityTeam/UD-Reproducibility/tree/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker#readme)
 
 ## 2. Build ud-viz context
 
