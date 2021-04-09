@@ -16,7 +16,7 @@ A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.w
       "min_y": "5150253.55",
       "max_y": "5174952.52"
     }
-    ```
+  ```
 
 ### 2. Build your demo
  - Run this command line to build your context
