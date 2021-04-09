@@ -6,6 +6,17 @@ A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.w
 ## 2. Build ud-viz context
 
 ### 1. Configure your demo
+- Go on the generaldemoConfig.json file in the ud-viz-contest folder
+- Change value of your extend position to visualize the correct map of your data, here:
+ ```
+   "extents": {
+    "vallee_chimie": {
+      "min_x": "1832891.32",
+      "max_x": "1846735.29",
+      "min_y": "5150253.55",
+      "max_y": "5174952.52"
+    }
+    ```
 
 ### 2. Build your demo
  - Run this command line to build your context
