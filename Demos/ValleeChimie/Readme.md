@@ -23,6 +23,7 @@ boroughs = [
 ### 1. Configure your demo
 - Go on the generaldemoConfig.json file in the ud-viz-contest folder
 - Change value of your extend position to visualize the correct map of your data, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/generalDemoConfig.json#L44) :
+- TO DO : explain how to calculte this coordinates
  ```
    "extents": {
     "vallee_chimie": {
