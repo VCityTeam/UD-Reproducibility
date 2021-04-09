@@ -1,7 +1,7 @@
 A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_la_chimie).
 
 ## 1. Compute correct data for your demo
-
+TODO
 
 ## 2. Build ud-viz context
 
@@ -17,7 +17,16 @@ A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.w
       "max_y": "5174952.52"
     }
   ```
-
+- Place the correct url which aim on the your data compute in the previous step
+```
+  "3DTilesLayer":{
+    "building":{
+      "id":"3d-tiles-layer-building",
+      "url":"http://rict2.liris.cnrs.fr/DataStore/ValleeChimie/tileset.json",
+      "color": "0xFFFFFF",
+      "initTilesManager": "true"
+    }
+ ```
 ### 2. Build your demo
  - Run this command line to build your context
 ```
