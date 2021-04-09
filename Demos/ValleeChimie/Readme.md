@@ -17,7 +17,7 @@ TODO
       "max_y": "5174952.52"
     }
   ```
-- Place the correct url which aim on the your data compute in the previous step
+- Place the correct url which aim on your data compute in the previous step
 ```
   "3DTilesLayer":{
     "building":{
