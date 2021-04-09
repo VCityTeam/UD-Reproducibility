@@ -8,7 +8,7 @@ A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.w
 ### 1. Configure your demo
 
 ### 2. Build your demo
-Try running with
+ Run this command line to build your context
 ```
 docker build -t vallee-chimie ud-viz-context
 ```
