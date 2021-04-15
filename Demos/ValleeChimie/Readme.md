@@ -13,8 +13,8 @@ boroughs = [
            'GRIGNY',
            'IRIGNY',
            'PIERRE_BENITE',
+           'SOLAIZE',
            'ST_FONS',
-          'SOLAIZE',
            'LYON_7EME',
            'VERNAISON'
 ]
