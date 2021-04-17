@@ -11,3 +11,8 @@ jobs:
       - |
         cd Demos/ValleeChimie
         docker build -t vallee-chimie ud-viz-context 
+    - stage: DatAgora_PartDieu build
+      script:
+      - |
+        cd Demos/DatAgora_PartDieu
+        docker-compose build
