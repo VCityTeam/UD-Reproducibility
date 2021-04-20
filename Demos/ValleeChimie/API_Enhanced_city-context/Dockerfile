@@ -15,6 +15,7 @@ RUN git clone https://github.com/VCityTeam/UD-Serv.git
 WORKDIR $APIENHANCED
 
 COPY .env .env
+COPY web_api.py $APIENHANCED/api/web_api.py
 RUN pip install -r requirements.txt
 
 # COPY . ./

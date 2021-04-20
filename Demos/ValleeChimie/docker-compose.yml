@@ -28,7 +28,7 @@ services:
 
   udviz:
     build : ./ud-viz-context
-    command : node ./index.js ../UD-Viz-Scaffold ${UD_VIZ_PORT} 
+    command : node ./index.js ../ChemistryValley ${UD_VIZ_PORT} 
     # command : npm run debug -- --port=${UD_VIZ_PORT} 
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}

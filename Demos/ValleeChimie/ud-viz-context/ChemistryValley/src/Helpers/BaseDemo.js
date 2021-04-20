@@ -199,7 +199,7 @@ export class BaseDemo {
        // add it to the standard (WebGL) scene
        planeMesh.updateMatrixWorld();
        //this.view.scene.add(planeMesh);
-
+      /*
        // create a new scene to hold CSS
        let cssScene = new THREE.Scene();
        // create the iframe to contain webpage
@@ -233,7 +233,7 @@ export class BaseDemo {
        rendererCSS.domElement.style.margin	  = 0;
        rendererCSS.domElement.style.padding  = 0;
        rendererCSS.domElement.id = "C'est moi";
-       document.body.appendChild( rendererCSS.domElement );
+       //document.body.appendChild( rendererCSS.domElement );
        // when window resizes, also resize this renderer
        //THREEx.WindowResize(rendererCSS, this.view.camera);
 
@@ -255,7 +255,7 @@ export class BaseDemo {
          rendererCSS.render(cssScene,camera)
          }
        tick()
-
+      */
        this.update3DView();
 
      }
