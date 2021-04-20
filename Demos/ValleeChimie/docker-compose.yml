@@ -1,0 +1,34 @@
+version: "3.3"
+
+services:
+  postgres:
+    restart: unless-stopped
+    image: postgres:10
+    container_name: enhanced_city_db
+    environment:
+      - POSTGRES_USER=${user}
+      - POSTGRES_PASSWORD=${password}
+      - POSTGRES_DB=${dbname}
+    volumes:
+      - ./postgres-data/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+
+  enhanced_city_api:
+    build: API_Enhanced_city-context/
+    container_name: enhanced_city_api
+    ports:
+      - 1525:5000
+    volumes:
+      - .:/api
+    depends_on:
+      - postgres
+
+
+  udviz:
+    build : ./ud-viz-context
+    command : node ./index.js ../UD-Viz-Scaffold ${UD_VIZ_PORT} 
+    # command : npm run debug -- --port=${UD_VIZ_PORT} 
+    ports:
+      - ${UD_VIZ_PORT}:${UD_VIZ_PORT}

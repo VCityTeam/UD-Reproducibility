@@ -22,7 +22,7 @@
     "LayerChoice": true
   },
   "server": {
-    "url": "http://rict.liris.cnrs.fr:1525/",
+    "url": "http://enhanced_city_api:1525/",
     "login": "login",
     "user": "user",
     "userMe": "user/me",
