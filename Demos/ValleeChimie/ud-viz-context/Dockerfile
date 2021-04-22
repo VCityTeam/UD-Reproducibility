@@ -16,8 +16,8 @@ RUN apt-get update
 # The tilesets are required by the demo.
 # References concerning the wget ad-hoc flags
 # https://askubuntu.com/questions/719410/wget-web-crawler-retrieves-unwanted-index-html-index-files
-RUN mkdir -p /DataStore
-WORKDIR /DataStore
+RUN mkdir -p /ChemistryValley/DataStore
+WORKDIR /ChemistryValley/DataStore
 RUN apt-get install -y wget
 RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Chemistry-Valley_2015_TileSet/
 

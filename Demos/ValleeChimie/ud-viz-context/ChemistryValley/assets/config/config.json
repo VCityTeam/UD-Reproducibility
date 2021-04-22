@@ -22,7 +22,7 @@
     "LayerChoice": true
   },
   "server": {
-    "url": "http://enhanced_city_api:1525/",
+    "url": "http://localhost:1525/",
     "login": "login",
     "user": "user",
     "userMe": "user/me",
@@ -64,7 +64,7 @@
   },
   "3DTilesLayer": {
     "id": "3d-tiles-layer-building",
-    "url": "http://rict2.liris.cnrs.fr/DataStore/ValleeChimie/tileset.json",
+    "url": "http://localhost:8999/DataStore/Chemistry-Valley_2015_TileSet/tileset.json",
     "color": "0xFFFFFF",
     "initTilesManager": "true"
   },
