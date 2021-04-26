@@ -52,7 +52,6 @@ boroughs = [
 ```
 - docker-compose build
 - docker-compose up
-
 ```
 
 - and open a web browser on URL http://localhost:8999/
