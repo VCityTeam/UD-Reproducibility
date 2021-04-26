@@ -1,3 +1,10 @@
+## Install demo on local
+
+```
+- docker-compose build
+- docker-compose up
+```
+
 A demo of 3DTiles based buildings accross [Lyon's chemistry valley](https://fr.wikipedia.org/wiki/Vall%C3%A9e_de_la_chimie).
 
 ## 1. Compute correct data for your demo
