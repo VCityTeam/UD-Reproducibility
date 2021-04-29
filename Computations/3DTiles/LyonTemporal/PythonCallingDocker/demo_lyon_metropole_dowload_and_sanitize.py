@@ -38,9 +38,8 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
             sys.exit(1)
 
     def define_vintage_borough_archive(self, vintage, borough):
-        repository = 'https://download.data.grandlyon.com/files/grandlyon/' \
-                     'localisation/bati3d/'
-        url = repository + borough + '_' + str(vintage) + '.zip'
+        repository = 'https://download.data.grandlyon.com/files/grandlyon/imagerie/'
+        url = repository + str(vintage)+ '/maquette/' + borough + '_' + str(vintage) + '.zip'
         key_name = borough + '_' + str(vintage)
         filename = os.path.join(
             key_name,

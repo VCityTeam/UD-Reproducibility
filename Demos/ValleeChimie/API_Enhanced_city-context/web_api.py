@@ -24,9 +24,10 @@ app = Flask(__name__)
 app.json_encoder = JsonCustomEncoder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
+# CORS(app, resources={r"/api/": {"origins": "", "allow_headers": ["Authorization", "Content-Type"], "expose_headers": "", "methods": ["OPTIONS", "GET", "POST"]}})
+
 
 @app.route('/')
-@cross_origin()
 def index():
     return '''
     <!doctype html>
@@ -46,7 +47,6 @@ def index():
 
 
 @app.route('/login', methods=['POST'])
-@cross_origin()
 @format_response
 def login():
     token = UserController.login(
@@ -59,7 +59,6 @@ def login():
 
 
 @app.route('/user', methods=['POST'])
-@cross_origin()
 @format_response
 def create_user():
     created_user = UserController.create_user(
@@ -69,7 +68,6 @@ def create_user():
 
 
 @app.route('/user/me', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication()
 def get_connected_user(auth_info):
@@ -78,7 +76,6 @@ def get_connected_user(auth_info):
 
 
 @app.route('/user/<int:user_id>', methods=['GET'])
-@cross_origin()
 @format_response
 def get_user(user_id):
     user = UserController.get_user_by_id(user_id)
@@ -86,7 +83,6 @@ def get_user(user_id):
 
 
 @app.route('/user/grant', methods=['POST'])
-@cross_origin()
 @format_response
 @use_authentication()
 def add_privileged_user(auth_info):
@@ -100,7 +96,6 @@ def add_privileged_user(auth_info):
 
 
 @app.route('/document', methods=['POST'])
-@cross_origin()
 @format_response
 @use_authentication()
 def create_document(auth_info):
@@ -124,7 +119,6 @@ def create_document(auth_info):
 
 
 @app.route('/document', methods=['GET'])
-@cross_origin()
 @format_response
 def get_documents():
     documents = DocController.get_documents(
@@ -134,7 +128,6 @@ def get_documents():
 
 
 @app.route('/document/<int:doc_id>', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication(required=False)
 def get_document(doc_id, auth_info):
@@ -143,7 +136,6 @@ def get_document(doc_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>', methods=['PUT'])
-@cross_origin()
 @format_response
 @use_authentication()
 def update_document(doc_id, auth_info):
@@ -154,7 +146,6 @@ def update_document(doc_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>', methods=['DELETE'])
-@cross_origin()
 @format_response
 @use_authentication()
 def delete_document(doc_id, auth_info):
@@ -166,7 +157,6 @@ def delete_document(doc_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>/comment', methods=['POST'])
-@cross_origin()
 @format_response
 @use_authentication()
 def create_comment(doc_id, auth_info):
@@ -179,7 +169,6 @@ def create_comment(doc_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>/comment', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication(required=False)
 def get_comment(doc_id, auth_info):
@@ -189,7 +178,6 @@ def get_comment(doc_id, auth_info):
 
 
 @app.route('/comment/<int:comment_id>', methods=['GET'])
-@cross_origin()
 @format_response
 def get_comment_by_id(comment_id):
     comment = CommentController.get_comment(comment_id)
@@ -197,7 +185,6 @@ def get_comment_by_id(comment_id):
 
 
 @app.route('/comment/<int:comment_id>', methods=['PUT'])
-@cross_origin()
 @format_response
 @use_authentication()
 def update_comment(comment_id, auth_info):
@@ -210,7 +197,6 @@ def update_comment(comment_id, auth_info):
 
 
 @app.route('/comment/<int:comment_id>', methods=['DELETE'])
-@cross_origin()
 @format_response
 @use_authentication()
 def delete_comment(comment_id, auth_info):
@@ -222,7 +208,6 @@ def delete_comment(comment_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>/archive', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication(required=False)
 def get_archive(doc_id, auth_info):
@@ -238,7 +223,6 @@ def get_archive(doc_id, auth_info):
 
 
 @app.route('/document/validate', methods=['POST'])
-@cross_origin()
 @format_response
 @use_authentication()
 def validate_document(auth_info):
@@ -248,7 +232,6 @@ def validate_document(auth_info):
 
 
 @app.route('/document/in_validation', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication()
 def get_documents_to_validate(auth_info):
@@ -263,7 +246,6 @@ def get_documents_to_validate(auth_info):
 # `send_from_directory` flask method (hence neither `format_response` nor
 # a `Response` object are present).
 @app.route('/document/<int:doc_id>/file', methods=['GET'])
-@cross_origin()
 @format_response
 @use_authentication(required=False)
 def get_document_file(doc_id, auth_info):
@@ -272,7 +254,6 @@ def get_document_file(doc_id, auth_info):
 
 
 @app.route('/document/<int:doc_id>/file', methods=['POST'])
-@cross_origin()
 @format_response
 @use_authentication()
 def upload_file(doc_id, auth_info):
@@ -288,7 +269,6 @@ def upload_file(doc_id, auth_info):
 
 
 @app.route('/document/<doc_id>/file', methods=['DELETE'])
-@cross_origin()
 @format_response
 @use_authentication()
 def delete_member_image(doc_id, auth_info):
@@ -302,7 +282,6 @@ def delete_member_image(doc_id, auth_info):
 
 
 @app.route('/guidedTour', methods=['POST'])
-@cross_origin()
 @format_response
 def create_guided_tour():
     name = request.form.get('name')
@@ -315,7 +294,6 @@ def create_guided_tour():
 
 
 @app.route('/guidedTour', methods=['GET'])
-@cross_origin()
 @format_response
 def get_all_guided_tours():
     guided_tours = TourController.get_tours()
@@ -323,7 +301,6 @@ def get_all_guided_tours():
 
 
 @app.route('/guidedTour/<int:tour_id>', methods=['GET'])
-@cross_origin()
 @format_response
 def get_guided_tour(tour_id):
     guided_tour = TourController.get_tour_by_id(tour_id)
@@ -331,7 +308,6 @@ def get_guided_tour(tour_id):
 
 
 @app.route('/guidedTour/<int:tour_id>', methods=['PUT'])
-@cross_origin()
 @format_response
 def update_guided_tour(tour_id):
     updated_tour = TourController.update(tour_id, request.form)
@@ -339,7 +315,6 @@ def update_guided_tour(tour_id):
 
 
 @app.route('/guidedTour/<int:doc_id>', methods=['DELETE'])
-@cross_origin()
 @format_response
 def delete_tour(doc_id):
     deleted_tour = TourController.delete_tour(doc_id)
@@ -350,7 +325,6 @@ def delete_tour(doc_id):
 
 
 @app.route('/guidedTour/<int:tour_id>/document', methods=['POST'])
-@cross_origin()
 @format_response
 def add_document_to_guided_tour(tour_id):
     doc_id = request.form.get('doc_id')
@@ -363,7 +337,6 @@ def add_document_to_guided_tour(tour_id):
 
 @app.route('/guidedTour/<int:tour_id>/document/<int:doc_position>',
            methods=['POST'])
-           @cross_origin()
 @format_response
 def update_guided_tour_document(tour_id, doc_position):
     updated_tour = TourController.update_document(tour_id, doc_position, request.form)
@@ -372,7 +345,6 @@ def update_guided_tour_document(tour_id, doc_position):
 
 @app.route('/guidedTour/<int:tour_id>/document/<int:doc_position>',
            methods=['DELETE'])
-           @cross_origin()
 @format_response
 def delete_guided_tour_document(tour_id, doc_position):
     updated_tour = TourController.remove_document(tour_id, doc_position)
@@ -382,7 +354,6 @@ def delete_guided_tour_document(tour_id, doc_position):
 
 
 @app.route('/link', methods=['GET'])
-@cross_origin()
 @format_response
 def get_link_target_types():
     """
@@ -394,7 +365,6 @@ def get_link_target_types():
 
 
 @app.route('/link/<target_type_name>', methods=['GET'])
-@cross_origin()
 @format_response
 def get_links(target_type_name):
     """
@@ -412,7 +382,6 @@ def get_links(target_type_name):
 
 
 @app.route('/link/<target_type_name>', methods=['POST'])
-@cross_origin()
 @format_response
 def create_link(target_type_name):
     """
@@ -432,7 +401,6 @@ def create_link(target_type_name):
 
 
 @app.route('/link/<target_type_name>/<int:link_id>', methods=['DELETE'])
-@cross_origin()
 @format_response
 def delete_link(target_type_name, link_id):
     """
