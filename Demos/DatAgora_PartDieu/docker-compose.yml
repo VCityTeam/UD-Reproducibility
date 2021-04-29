@@ -25,6 +25,6 @@ services:
 
   udviz:
     build : ./ud-viz-context
-    command : npm start -- --host=0.0.0.0 --port=${UD_VIZ_PORT} 
+    command : node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
