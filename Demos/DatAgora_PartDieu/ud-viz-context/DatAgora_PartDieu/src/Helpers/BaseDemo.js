@@ -215,6 +215,9 @@ export class BaseDemo {
           name: 'layerChoice',
         });
       }
+
+      _this.addAdditionnalDatalayers();
+
     });
   }
 
@@ -547,7 +550,7 @@ export class BaseDemo {
       name: this.config['background_image_layer']['name'],
       url: this.config['background_image_layer']['url'],
       version: this.config['background_image_layer']['version'],
-      projection: this.config['projection'],
+      crs: this.config['projection'],
       format: this.config['background_image_layer']['format'],
     });
     // Add a WMS imagery layer
@@ -571,7 +574,7 @@ export class BaseDemo {
       extent: this.extent,
       url: this.config['elevation_layer']['url'],
       name: this.config['elevation_layer']['name'],
-      projection: this.config['projection'],
+      crs: this.config['projection'],
       heightMapWidth: 256,
       format: this.config['elevation_layer']['format'],
     });
@@ -596,6 +599,257 @@ export class BaseDemo {
    * UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json
    * config file).
    */
+
+  addAdditionnalDatalayers(){
+    let wmsPolutedGroundSource = new itowns.WMSSource({
+      extent: this.extent,
+      name: 'SSP_CLASSIFICATION',
+      url: ' https://www.georisques.gouv.fr/services',
+      version: '1.3.0',
+      crs: 'EPSG:4326',
+      format: 'image/png',
+    });
+
+    let wmsPolutedGroundLayer = new itowns.ColorLayer('wms_Ground_Polution', {
+        updateStrategy: {
+            type: itowns.STRATEGY_DICHOTOMY,
+            options: {},
+            altitude: 1,
+
+        },
+        source: wmsPolutedGroundSource,
+    });
+
+    this.view.addLayer(wmsPolutedGroundLayer);
+
+    var color = new itowns.THREE.Color();
+
+    function colorLineRoads() {
+        return color.set(0xffff00);
+    }
+
+    function colorLineRails() {
+        return color.set(0xff0000);
+    }
+
+    function colorEVAArtif(properties) {
+        return color.set(0x0000ff);
+    }
+
+    function colorEVAVegetation(properties) {
+        if (properties.strate == 1 ) 
+        {
+            return color.set(0x005500);
+        }
+        else
+        if(properties.strate == 2 )
+        {
+            return color.set(0x00b000);
+        }
+        else
+        return color.set(0x00ff00);
+    }
+
+    function colorSurfaceBatiments() {
+        return color.set(0x00ffff);
+    }
+
+    ////---DataGrandLyon Layers---////
+
+    var BatimentsSource = new itowns.WFSSource({
+        url: 'https://download.data.grandlyon.com/wfs/grandlyon?',
+        protocol: 'wfs',
+        version: '2.0.0',
+        id: 'batiments',
+        typeName: 'cad_cadastre.cadbatiment',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'geojson',
+    });
+    
+    var BatimentsLayer = new itowns.GeometryLayer('Batiments', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert({
+            altitude: 170.1,
+            color: colorSurfaceBatiments,
+        }),
+        source: BatimentsSource,
+    });
+
+    this.view.addLayer(BatimentsLayer);
+
+    ////---GeoServer layers---////
+
+    let wfsRoadsSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'Roads',
+        typeName: 'cite:Voirie_Extent',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsRoadsLayer = new itowns.GeometryLayer('Chaussee_Trottoirs', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170.1,
+                color: colorLineRoads,
+            }
+        ),
+        source: wfsRoadsSource,
+    });
+
+    this.view.addLayer(wfsRoadsLayer);
+
+    let wfsRailsSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'Rails',
+        typeName: '	cite:fpcvoieferree_Extent',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsRailsLayer = new itowns.GeometryLayer('Voies_Ferrées', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170.4,
+                color: colorLineRails,
+            }
+        ),
+        source: wfsRailsSource,
+    });
+
+    this.view.addLayer(wfsRailsLayer);
+
+    let wfsEVA_STRSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'wfs_EVA_STR',
+        typeName: '	cite:EVA2015_Vegetation3STR_Extent',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsEVA_STRLayer = new itowns.GeometryLayer('EVA_Vegetation', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170.2,
+                color: colorEVAVegetation,
+            }
+        ),
+        source: wfsEVA_STRSource,
+    });
+
+    this.view.addLayer(wfsEVA_STRLayer);
+    
+    let wfsEVA_ArtifSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'wfs_EVA_Artif',
+        typeName: 'cite:EVA2015_Artif_Sols_Extent',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsEVA_ArtifLayer = new itowns.GeometryLayer('EVA_Artif_Sols_Nus', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170,
+                color: colorEVAArtif,
+            }
+        ),
+        source: wfsEVA_ArtifSource,
+    });
+
+    this.view.addLayer(wfsEVA_ArtifLayer);
+
+    ////---Masks---////
+    let wfsMaskASource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'MaskA',
+        typeName: 'cite:A=Difference_EVA_Artificialise-Routes',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsMaskALayer = new itowns.GeometryLayer('MaskA', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170,
+                color: colorEVAArtif,
+            }
+        ),
+        source: wfsMaskASource,
+    });
+
+    this.view.addLayer(wfsMaskALayer);
+
+    let wfsMaskBSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'MaskB',
+        typeName: 'cite:B=A-Voies_ferree',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsMaskBLayer = new itowns.GeometryLayer('MaskB', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170,
+                color: colorEVAArtif,
+            }
+        ),
+        source: wfsMaskBSource,
+    });
+
+    this.view.addLayer(wfsMaskBLayer);
+
+    let wfsMaskCSource = new itowns.WFSSource({
+        url: 'http://localhost:8998/geoserver/cite/ows?',
+        protocol: 'wfs',
+        version: '1.0.0',
+        id: 'MaskC',
+        typeName: 'cite:C=B-Batiments',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'application/json',
+    });
+
+    var wfsMaskCLayer = new itowns.GeometryLayer('MaskC', new itowns.THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(
+            {
+                altitude : 170,
+                color: colorEVAArtif,
+            }
+        ),
+        source: wfsMaskCSource,
+    });
+
+    this.view.addLayer(wfsMaskCLayer);
+  }
+
   setup3DTilesLayer() {
     //  ADD 3D Tiles Layer
 

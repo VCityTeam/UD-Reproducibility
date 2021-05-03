@@ -15,7 +15,7 @@ RUN apt-get install -y git
 
 COPY SimpleServer /SimpleServer
 COPY DatAgora_PartDieu /DatAgora_PartDieu
-COPY img/ /ChemistryValley/assets/img/
+COPY img/ /DatAgora_PartDieu/assets/img/
 WORKDIR /DatAgora_PartDieu
 RUN npm install
 RUN npm run build
@@ -25,5 +25,5 @@ WORKDIR /SimpleServer
 RUN npm install
 RUN npm run build
 
-EXPOSE 80
-CMD [ "node", "./index.js", "../DatAgora_PartDieu", "80" ]
+EXPOSE 8999
+CMD [ "node", "./index.js", "../DatAgora_PartDieu", "8999" ]
