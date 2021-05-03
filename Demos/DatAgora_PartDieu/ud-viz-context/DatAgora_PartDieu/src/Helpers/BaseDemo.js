@@ -601,6 +601,9 @@ export class BaseDemo {
    */
 
   addAdditionnalDatalayers(){
+
+    let geoserverAdress = this.config["geoserver"];
+
     let wmsPolutedGroundSource = new itowns.WMSSource({
       extent: this.extent,
       name: 'SSP_CLASSIFICATION',
@@ -622,7 +625,7 @@ export class BaseDemo {
 
     this.view.addLayer(wmsPolutedGroundLayer);
 
-    var color = new itowns.THREE.Color();
+    var color = new THREE.Color();
 
     function colorLineRoads() {
         return color.set(0xffff00);
@@ -667,7 +670,7 @@ export class BaseDemo {
         format: 'geojson',
     });
     
-    var BatimentsLayer = new itowns.GeometryLayer('Batiments', new itowns.THREE.Group(), {
+    var BatimentsLayer = new itowns.GeometryLayer('Batiments', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert({
             altitude: 170.1,
@@ -681,7 +684,7 @@ export class BaseDemo {
     ////---GeoServer layers---////
 
     let wfsRoadsSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'Roads',
@@ -691,7 +694,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsRoadsLayer = new itowns.GeometryLayer('Chaussee_Trottoirs', new itowns.THREE.Group(), {
+    var wfsRoadsLayer = new itowns.GeometryLayer('Chaussee_Trottoirs', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -705,7 +708,7 @@ export class BaseDemo {
     this.view.addLayer(wfsRoadsLayer);
 
     let wfsRailsSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'Rails',
@@ -715,7 +718,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsRailsLayer = new itowns.GeometryLayer('Voies_Ferrées', new itowns.THREE.Group(), {
+    var wfsRailsLayer = new itowns.GeometryLayer('Voies_Ferrées', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -729,7 +732,7 @@ export class BaseDemo {
     this.view.addLayer(wfsRailsLayer);
 
     let wfsEVA_STRSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'wfs_EVA_STR',
@@ -739,7 +742,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsEVA_STRLayer = new itowns.GeometryLayer('EVA_Vegetation', new itowns.THREE.Group(), {
+    var wfsEVA_STRLayer = new itowns.GeometryLayer('EVA_Vegetation', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -753,7 +756,7 @@ export class BaseDemo {
     this.view.addLayer(wfsEVA_STRLayer);
     
     let wfsEVA_ArtifSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'wfs_EVA_Artif',
@@ -763,7 +766,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsEVA_ArtifLayer = new itowns.GeometryLayer('EVA_Artif_Sols_Nus', new itowns.THREE.Group(), {
+    var wfsEVA_ArtifLayer = new itowns.GeometryLayer('EVA_Artif_Sols_Nus', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -778,7 +781,7 @@ export class BaseDemo {
 
     ////---Masks---////
     let wfsMaskASource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'MaskA',
@@ -788,7 +791,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsMaskALayer = new itowns.GeometryLayer('MaskA', new itowns.THREE.Group(), {
+    var wfsMaskALayer = new itowns.GeometryLayer('MaskA', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -802,7 +805,7 @@ export class BaseDemo {
     this.view.addLayer(wfsMaskALayer);
 
     let wfsMaskBSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'MaskB',
@@ -812,7 +815,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsMaskBLayer = new itowns.GeometryLayer('MaskB', new itowns.THREE.Group(), {
+    var wfsMaskBLayer = new itowns.GeometryLayer('MaskB', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {
@@ -826,7 +829,7 @@ export class BaseDemo {
     this.view.addLayer(wfsMaskBLayer);
 
     let wfsMaskCSource = new itowns.WFSSource({
-        url: 'http://localhost:8998/geoserver/cite/ows?',
+        url: geoserverAdress,
         protocol: 'wfs',
         version: '1.0.0',
         id: 'MaskC',
@@ -836,7 +839,7 @@ export class BaseDemo {
         format: 'application/json',
     });
 
-    var wfsMaskCLayer = new itowns.GeometryLayer('MaskC', new itowns.THREE.Group(), {
+    var wfsMaskCLayer = new itowns.GeometryLayer('MaskC', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(
             {

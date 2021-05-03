@@ -34,6 +34,9 @@
     "guidedTour": "guidedTour",
     "link": "link"
   },
+
+  "geoserver":"http://localhost:8998/geoserver/cite/ows?",
+
   "extents": {
     "lyon_part_dieu": {
       "min_x": "1843460.0",
