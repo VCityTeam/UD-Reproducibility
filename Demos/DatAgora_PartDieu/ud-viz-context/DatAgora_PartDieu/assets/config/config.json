@@ -19,7 +19,7 @@
     "linkModule": false,
     "debug3DTilesWindow": false,
     "cameraPositionerView": true,
-    "LayerChoice": true
+    "layerChoice": true
   },
   "server": {
     "url": "http://rict.liris.cnrs.fr:1525/",
@@ -38,15 +38,14 @@
   "geoserver":"http://localhost:8998/geoserver/cite/ows?",
 
   "extents": {
-    "lyon_part_dieu": {
       "min_x": "1843460.0",
       "max_x": "1845448.0",
       "min_y": "5173997.0",
       "max_y": "5175850.0"
-    }
   },
   
   "projection":"EPSG:3946",
+
   "background_image_layer":
   {
     "url":"https://download.data.grandlyon.com/wms/grandlyon",
@@ -56,6 +55,7 @@
     "layer_name":"Base_Map",
     "transparent":true
   },
+
   "elevation_layer":
   {
     "url":"https://download.data.grandlyon.com/wms/grandlyon",
@@ -63,6 +63,7 @@
     "format":"image/jpeg",
     "layer_name":"wms_elevation_test"
   },
+
   "camera": {
     "position": {
       "range": "800",
@@ -70,6 +71,7 @@
       "tilt": "90"
     }
   },
+
   "3DTilesLayer": {
     "id": "3d-tiles-layer-building",
     "url": "http://rict2.liris.cnrs.fr/DataStore/Lyon-2015-gltf-repaired/tileset.json",

@@ -52,6 +52,7 @@ export class BaseDemo {
       _this.init3DView();
       _this.addBaseMapLayer();
       _this.addElevationLayer();
+      _this.addAdditionnalDatalayers();
       _this.setupAndAdd3DTilesLayer();
       _this.update3DView();
 
@@ -199,6 +200,14 @@ export class BaseDemo {
         });
       }
 
+      ////// LAYER CHOICE
+      if (_this.config.widgets.layerChoice) {
+        const layerChoice = new Widgets.LayerChoice(_this.layerManager);
+        _this.addModuleView('layerChoice', layerChoice, {
+          name: 'layerChoice',
+        });
+      }
+
       ////// CAMERA POSITIONER
       if (_this.config.widgets.cameraPositionerView) {
         const cameraPosition = new Widgets.CameraPositionerView(
@@ -207,17 +216,6 @@ export class BaseDemo {
         );
         _this.addModuleView('cameraPositioner', cameraPosition);
       }
-
-      ////// LAYER CHOICE
-      if (_this.config.widgets.layerChoice) {
-        const layerChoice = new Widgets.LayerChoice(baseDemo.layerManager);
-        baseDemo.addModuleView('layerChoice', layerChoice, {
-          name: 'layerChoice',
-        });
-      }
-
-      _this.addAdditionnalDatalayers();
-
     });
   }
 
@@ -591,15 +589,6 @@ export class BaseDemo {
     this.view.addLayer(wmsElevationLayer);
   }
 
-  /**
-   * Create an iTowns 3D Tiles layer based on the specified layerConfig.
-   * @param {string} layerConfig The name of the layer to setup from the
-   * generalDemoConfig.json config file (should be one of the properties
-   * of the 3DTilesLayer object in
-   * UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json
-   * config file).
-   */
-
   addAdditionnalDatalayers(){
 
     let geoserverAdress = this.config["geoserver"];
@@ -853,6 +842,15 @@ export class BaseDemo {
     this.view.addLayer(wfsMaskCLayer);
   }
 
+  /**
+   * Create an iTowns 3D Tiles layer based on the specified layerConfig.
+   * @param {string} layerConfig The name of the layer to setup from the
+   * generalDemoConfig.json config file (should be one of the properties
+   * of the 3DTilesLayer object in
+   * UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json
+   * config file).
+   */
+  
   setup3DTilesLayer() {
     //  ADD 3D Tiles Layer
 
