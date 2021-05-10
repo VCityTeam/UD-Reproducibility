@@ -120,7 +120,7 @@ baseDemo.loadConfigFile('./DemoConfigData.json').then(() => {
     baseDemo.view.addLayer(wfsRoadsLayer);
 
     let wfsRailsSource = new itowns.WFSSource({
-        url: 'http://localhost:8080/geoserver/cite/ows?',
+        url: 'http://localhost:8998/geoserver/cite/ows?',
         protocol: 'wfs',
         version: '1.0.0',
         id: 'Rails',

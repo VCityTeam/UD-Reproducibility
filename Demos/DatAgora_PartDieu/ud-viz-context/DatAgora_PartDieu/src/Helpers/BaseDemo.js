@@ -2,19 +2,19 @@
 
 //Components
 import { Widgets, Components } from 'ud-viz';
-const ModuleView = Components.ModuleView;
-const TilesManager = Components.TilesManager;
-const LayerManager = Components.LayerManager;
-const $3DTemporalBatchTable = Widgets.$3DTemporalBatchTable;
-const $3DTemporalBoundingVolume = Widgets.$3DTemporalBoundingVolume;
-const $3DTemporalTileset = Widgets.$3DTemporalTileset;
-
 import * as itowns from 'itowns';
 import * as THREE from 'three';
 import proj4 from 'proj4';
+import './BaseDemo.css';
+
 const jquery = require('jquery');
 
-import './BaseDemo.css';
+const { ModuleView } = Components;
+const { TilesManager } = Components;
+const { LayerManager } = Components;
+const { $3DTemporalBatchTable } = Widgets;
+const { $3DTemporalBoundingVolume } = Widgets;
+const { $3DTemporalTileset } = Widgets;
 
 /**
  * Represents the base HTML content of a demo for UD-Viz and provides methods to
@@ -45,6 +45,7 @@ export class BaseDemo {
     const _this = this;
     this.appendTo(document.body);
     this.loadConfigFile(path).then(() => {
+      this.reconfigureConfigurationUrls();
       // Use the stable server
       _this.addLogos();
 
@@ -218,6 +219,22 @@ export class BaseDemo {
       }
     });
   }
+
+  /**
+   * Reconfigure the url requiring it. Such dynamic reconfigurations allows
+   * the definition of server independent deployments.
+   */
+   reconfigureConfigurationUrls() {
+    // FIXME Although this regroups the code sharing the same concern
+    // it should also repeat the tests for the existence of those properties...
+    this.config['3DTilesLayer'].url = BaseDemo.ReconfigureUrlWithPort(
+      this.config['3DTilesLayer'].url,
+    );
+    this.config.server.url = BaseDemo.ReconfigureUrlWithoutPort(
+      this.config.server.url,
+    );
+  }
+
 
   /**
    * Returns the basic html content of the demo
@@ -851,6 +868,55 @@ export class BaseDemo {
    * config file).
    */
   
+  /**
+   * The configuration file of demo defines URL of resources. At the time
+   * of the writing of the configuration of the demo the Fully Qualified Domain 
+   * Name (FQDN) of the server hosting the demo is not yet known (and will
+   * only be known at deployment time). It is thus configured with the 
+   * 'DEMO_SERVER' keyword (in the configuration file) that is replaced (at 
+   * run time) through the usage of this function.
+   * This version (as opposed to ReconfigureUrlWithPort) does NOT include
+   * the port number.
+   * @param  {string} ConfigUrl The url of the resource as read in the 
+   *                            configuration file
+   * @return {string}           The reconfigured URL.
+   * This is a private method (hard to express in JS!?).
+   */
+   static ReconfigureUrlWithoutPort(ConfigUrl) {
+    // The url of the 3DTiles layer as read in the configuration file
+    if (!ConfigUrl.includes('DEMO_SERVER')) {
+      // Nothing to fix, return the original url
+      return ConfigUrl;
+    }
+
+    // The url of the server that served this javascript source
+    const ServerUrl = `${window.location.protocol}//${window.location.hostname}`;
+    // The actual URL of the layer as hosted on the (same) server that
+    // delivered this javascript source
+    return ConfigUrl.replace('DEMO_SERVER', ServerUrl);
+  }
+
+  /**
+   * Refer to the documentation of ReconfigureUrlWithoutPort(ConfigUrl)
+   * for the role, parameter and return value.
+   * This version (as opposed to ReconfigureUrlWithoutPort) DOES include
+   * the port number.
+   */
+  static ReconfigureUrlWithPort(ConfigUrl) {
+    // The url of the 3DTiles layer as read in the configuration file
+    if (!ConfigUrl.includes('DEMO_SERVER')) {
+      // Nothing to fix, return the original url
+      return ConfigUrl;
+    }
+
+    // The url of the server that served this javascript source
+    let ServerUrl = `${window.location.protocol}//${window.location.hostname}`;
+    ServerUrl += (window.location.port ? ':' + window.location.port : '');
+    // The actual URL of the layer as hosted on the (same) server that
+    // delivered this javascript source
+    return ConfigUrl.replace('DEMO_SERVER', ServerUrl);
+  }
+
   setup3DTilesLayer() {
     //  ADD 3D Tiles Layer
 

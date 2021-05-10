@@ -21,8 +21,9 @@
     "cameraPositionerView": true,
     "layerChoice": true
   },
+
   "server": {
-    "url": "http://rict.liris.cnrs.fr:1525/",
+    "url": "DEMO_SERVER:8997/",
     "login": "login",
     "user": "user",
     "userMe": "user/me",
