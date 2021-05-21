@@ -1,6 +1,6 @@
 # UD-Reproducibility general description
 ```
-UD-Repoducibility
+UD-Reproducibility
 ├── Articles         # reproducibility oriented articles (based on UD computed results)
 ├── Computations     # concrete means (scripts...) for reproducing UD computations
 ├── Demos            # docker based deployment tools for some demos
