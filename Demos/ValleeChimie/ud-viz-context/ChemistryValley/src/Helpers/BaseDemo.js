@@ -6,8 +6,7 @@
 import { Widgets, Components, Game } from 'ud-viz';
 import * as itowns from 'itowns';
 import * as THREE from 'three';
-// FIXME import THREEx from 'threex';
-// FIXME import { CSS3DObject, CSS3DRenderer } from 'three-css3drenderer';
+import { CSS3DObject, CSS3DRenderer } from 'three-css3drenderer';
 import proj4 from 'proj4';
 import './BaseDemo.css';
 import { BillBoard } from './Billboard';
@@ -148,7 +147,7 @@ export class BaseDemo {
         }
 
         // //// BillBoard
-        const billboard = new BillBoard();
+        /*const billboard = new BillBoard();
 
         // Chimney
         const sprite = billboard.CreateBillBoard('./assets/img/web_Source0.jpg', new THREE.Vector3(1843419.7372375734, 5164761.581669409, 275.0925693228869),
@@ -156,110 +155,76 @@ export class BaseDemo {
         sprite.updateMatrixWorld();
         this.view.scene.add(sprite);
 
-        // Canal
-        const spriteCanal = billboard.CreateBillBoard('./assets/img/[Sud_de_Lyon._Le_canal_du_Rhône_à_Feyzin_(Rhône)].jpg', new THREE.Vector3(1842814.086029717, 5163268.371244811, 180.56181248585187),
-          new THREE.Vector3(240, 190, 1.0));
-        spriteCanal.updateMatrixWorld();
-        this.view.scene.add(spriteCanal);
-
-        // Canal 2
-        const spriteCanal2 = billboard.CreateBillBoard('./assets/img/[Sud_de_Lyon._Le_canal_du_Rhône_à_Feyzin_(Rhône)] (1).jpg', new THREE.Vector3(1843180.3326289866, 5165917.396963038, 164.72365689804417),
-          new THREE.Vector3(240, 190, 1.0));
-        spriteCanal2.updateMatrixWorld();
-        this.view.scene.add(spriteCanal2);
-
-        // Vue Vallée
-        const spriteVallee = billboard.CreateBillBoard('./assets/img/[Raffinerie_de_Feyzin_(Rhône)].jpg', new THREE.Vector3(1843447.37271422, 5161800.607342795, 441.8042123911853),
-          new THREE.Vector3(300, 210, 1.0));
-        spriteVallee.updateMatrixWorld();
-        this.view.scene.add(spriteVallee);
-
-        // Vue Vallée2
-        const spriteVallee2 = billboard.CreateBillBoard('./assets/img/[Cultures_de_grande_plaine_à_Feyzin_(Rhône)].jpg', new THREE.Vector3(1841059.5141856165, 5163883.561529171, 333.6820035963699),
-          new THREE.Vector3(240, 190, 1.0));
-        spriteVallee2.updateMatrixWorld();
-        // this.view.scene.add(spriteVallee2);
-
-        // Episode
-        const spriteEpisode = billboard.CreateBillBoard('./assets/img/episode.png', new THREE.Vector3(1839934.1010365202, 5157732.570768333, 190.13472357267722),
-          new THREE.Vector3(240, 190, 1.0));
-        spriteEpisode.updateMatrixWorld();
-        // this.view.scene.add(spriteEpisode);
-
-        // CSS3D----------------------------------------------------------------
-        const planeMaterial = new THREE.MeshBasicMaterial(
-          { color: 0x000000, opacity: 0.1, side: THREE.DoubleSide },
-        );
-        const planeWidth = 360;
-        const planeHeight = 200;
-        const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
-        const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-        planeMesh.position.y += planeHeight / 2;
-        // FIXME planeMesh.position.set(1839934.1010365202,5157732.570768333, 190.13472357267722);
-        planeMesh.position.set(0, 0, 0);
-
-        planeMesh.rotation.set(0, 90, 0);
-        // add it to the standard (WebGL) scene
-        planeMesh.updateMatrixWorld();
-        // this.view.scene.add(planeMesh);
-        /*
-         // create a new scene to hold CSS
-         let cssScene = new THREE.Scene();
-         // create the iframe to contain webpage
-         let element = document.createElement('iframe');
-         // webpage to be loaded into iframe
-         element.src = "src/Helpers/mapage.html";
-         // width of iframe in pixels
-         let elementWidth = 1880;
-         // force iframe to have same relative dimensions as planeGeometry
-         let aspectRatio = planeHeight / planeWidth;
-         let elementHeight = elementWidth * aspectRatio;
-         element.style.width  = elementWidth + "px";
-         element.style.height = elementHeight + "px";
-
-         // create a CSS3DObject to display element
-         let cssObject = new CSS3DObject( element );
-         // synchronize cssObject position/rotation with planeMesh position/rotation
-         cssObject.position.set(planeMesh.position);
-         cssObject.rotation.set(planeMesh.rotation);
-         // resize cssObject to same size as planeMesh (plus a border)
-         let percentBorder = 0.05;
-         cssObject.scale.x /= (20 + percentBorder) * (elementWidth / planeWidth);
-         cssObject.scale.y /= (1 + percentBorder) * (elementWidth / planeWidth);
-         cssScene.add(cssObject);
-
-         // create a renderer for CSS
-         let rendererCSS = new CSS3DRenderer();
-         rendererCSS.setSize( window.innerWidth, window.innerHeight );
-         rendererCSS.domElement.style.position = 'absolute';
-         rendererCSS.domElement.style.top = 0;
-         rendererCSS.domElement.style.margin = 0;
-         rendererCSS.domElement.style.padding  = 0;
-         rendererCSS.domElement.id = "C'est moi";
-         //document.body.appendChild( rendererCSS.domElement );
-         // when window resizes, also resize this renderer
-         //THREEx.WindowResize(rendererCSS, this.view.camera);
-
-         this.view.mainLoop.gfxEngine.renderer.domElement.style.position = 'absolute';
-         this.view.mainLoop.gfxEngine.renderer.domElement.style.top      = 0;
-         // make sure original renderer appears on top of CSS renderer
-         this.view.mainLoop.gfxEngine.renderer.domElement.style.zIndex   = 1;
-         rendererCSS.domElement.appendChild( this.view.mainLoop.gfxEngine.renderer.domElement );
-
-         //DEBUG
-         const camera = new THREE.PerspectiveCamera(
-           75, window.innerWidth / window.innerHeight, 1, 5000 );
-         camera.position.set( 600, 400, 1500 );
-         camera.lookAt( 0, 0, 0 );
-
-         const view = this.view;
-         const tick = function(){
-           requestAnimationFrame(tick)
-           rendererCSS.render(cssScene,camera)
-           }
-         tick()
         */
-        this.update3DView();
+        // CSS3D----------------------------------------------------------------
+        var scene2, renderer2;
+
+        scene2 = new THREE.Scene();
+
+        // create the iframe to contain webpage
+        let planeWidth = 360;
+        let planeHeight = 200;
+        let element	= document.createElement('iframe');
+        // webpage to be loaded into iframe
+        //element.src	= "src/Helpers/mapage.html";
+        element.src	= "http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/examples/DemoFull/Demo.html";
+        // width of iframe in pixels
+        let elementWidth = 1280;
+        // force iframe to have same relative dimensions as planeGeometry
+        let aspectRatio = planeHeight / planeWidth;
+        let elementHeight = elementWidth * aspectRatio;
+        element.style.width  = elementWidth + "px";
+        element.style.height = elementHeight + "px";
+
+        let domObject = new CSS3DObject( element );
+        domObject.position.x = 1843419.7372375734;
+        domObject.position.y = 5164761.581669409;
+        domObject.position.z = 275.0925693228869;
+        domObject.rotation.x = -4.7;
+        domObject.rotation.y = 0;
+        domObject.rotation.z = 0;
+        //scene2.add( domObject );
+
+
+        // Second iframe
+        let planeWidth2 = 360;
+        let planeHeight2 = 200;
+        let element2	= document.createElement('iframe');
+        // webpage to be loaded into iframe
+        //element.src	= "src/Helpers/mapage.html";
+        element2.src	= "src/Helpers/VIDEO360 IFPEN Lyon.mp4";
+        // width of iframe in pixels
+        let elementWidth2 = 1280;
+        // force iframe to have same relative dimensions as planeGeometry
+        let aspectRatio2 = planeHeight2 / planeWidth2;
+        let elementHeight2 = elementWidth2 * aspectRatio2;
+        element2.style.width  = elementWidth2 + "px";
+        element2.style.height = elementHeight2 + "px";
+
+        let domObject2 = new CSS3DObject( element2 );
+        domObject2.position.x = 1840600.6829996328;
+        domObject2.position.y = 5167231.67695955;
+        domObject2.position.z = 733.8620692362946;
+        domObject2.rotation.x = -4.7;
+        domObject2.rotation.y = 0;
+        domObject2.rotation.z = 0;
+        scene2.add( domObject2 );
+
+        //CSS3DRenderer
+        renderer2 = new CSS3DRenderer();
+        renderer2.setSize( window.innerWidth, window.innerHeight );
+        renderer2.domElement.style.position = 'absolute';
+        renderer2.domElement.style.top = 0;
+        renderer2.domElement.style.zIndex = 2;
+        renderer2.domElement.id = "CSS3DRenderer";
+        this.viewerDivElement.appendChild( renderer2.domElement );
+
+        const camera = this.view.camera.camera3D;
+        const tick = function(){
+          requestAnimationFrame(tick)
+          renderer2.render(scene2,camera)
+          }
+        tick()
       }
     });
   }
