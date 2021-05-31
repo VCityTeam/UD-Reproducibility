@@ -11,6 +11,17 @@ This demo was developed for the
 [place of vegetation in cities project](https://github.com/VCityTeam/DatAgora/wiki/Vegetalization-Project)
 within DatAgora.
 
+## Temporary instructions (31/05/2021)
+* Clone `https://github.com/VCityTeam/UD-Reproducibility` and switch to this branch `datagora_udviz_refacto`.
+* Go to subdir `UD-Reproducibility/Demos/DatAgora_PartDieu`.
+* Deploy and start containers : `docker-compose up`
+* There is currently a bug with the UD-Viz container, to work around it, build and run UD-Viz manually:
+  ```bash
+  cd ud-viz-context/DatAgora_PartDieu/
+  npm i
+  npm run debug
+  ```
+
 ## Running the demo
 The only pre-requisite is to have a host with 
 [docker compose](https://docs.docker.com/compose/) installed.
