@@ -1,7 +1,7 @@
 This directory holds different ways of computing a 3D Tiles tileset with the
 [temporal extension](https://doi.org/10.5281/zenodo.3596881) representing the
 city of Lyon from 2009 to 2015. The full pipeline of this computation is
-described by the following UML activity diagram:
+described by the following [UML activity diagram](https://www.uml-diagrams.org/activity-diagrams.html):
 
 ![Tiler Activity Diagram](./Images/TilerActivityDiagramWithoutRendering.png)
 
