@@ -41,14 +41,11 @@ def main():
   # Definition of the filenames (radicals) to be imported:
   imp_dir = os.getenv('DATA_IMPORT_DIR')
   workspace = cat.get_workspace(os.getenv('WORKSPACE'))
-  files_to_import = [
-    "A=Difference_EVA_Artificialise-Routes",
-    "B=A-Voies_ferree",
-    "C=B-Batiments",
-    "EVA2015_Artif_Sols_Extent",
-    "EVA2015_Vegetation3STR_Extent",
-    "fpcvoieferree_Extent",
-    "Voirie_Extent"]
+  files_to_import = []
+
+  for f in os.listdir(imp_dir) :
+    if os.path.splitext(f)[0] not in files_to_import :
+      files_to_import.append(os.path.splitext(f)[0])
 
   # Importation per se:
   for file_name in files_to_import:
