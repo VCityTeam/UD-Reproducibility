@@ -16,24 +16,24 @@ RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
-
+RUN echo `GEOSERVER_FQDN: ` ${GEOSERVER_FQDN} `,` > input.json
+RUN echo `GEOSERVER_PORT: ` ${GEOSERVER_PORT}    >> input.json
 COPY SimpleServer /SimpleServer
 COPY DatAgora_PartDieu /DatAgora_PartDieu
 RUN npm i -D nunjucks-cli
-RUN echo `GEOSERVER_FQDN: ` ${GEOSERVER_FQDN} `,` > input.json
-RUN echo `GEOSERVER_PORT: ` ${GEOSERVER_PORT}    >> input.json
-#RUN node_modules/.bin/nunjucks DatAgora_PartDieu/assets/config/config.tpl input.json
-#RUN mv config.hmtl DatAgora_PartDieu/assets/config/config.json
 
-# COPY img/ /DatAgora_PartDieu/assets/img/
-# WORKDIR /DatAgora_PartDieu
-# RUN npm install
-# RUN npm run build
+RUN node_modules/.bin/nunjucks DatAgora_PartDieu/assets/config/config.tpl input.json
+RUN mv config.hmtl DatAgora_PartDieu/assets/config/config.json
 
-######### Install the ExpressJS server
-# WORKDIR /SimpleServer
-# RUN npm install
-# RUN npm run build
-# 
-# EXPOSE 8999
-# CMD [ "node", "./index.js", "../DatAgora_PartDieu", "8999" ]
+COPY img/ /DatAgora_PartDieu/assets/img/
+WORKDIR /DatAgora_PartDieu
+RUN npm install
+RUN npm run build
+
+######## Install the ExpressJS server
+WORKDIR /SimpleServer
+RUN npm install
+RUN npm run build
+
+EXPOSE 8999
+CMD [ "node", "./index.js", "../DatAgora_PartDieu", "8999" ]
