@@ -678,11 +678,14 @@ export class BaseDemo {
     
     var BatimentsLayer = new itowns.GeometryLayer('Batiments', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert({
-            altitude: 170.1,
-            color: colorSurfaceBatiments,
-        }),
+        convert: itowns.Feature2Mesh.convert(),
         source: BatimentsSource,
+        style: new itowns.Style({
+          stroke:{
+            base_altitude: 170.1,
+            color: colorSurfaceBatiments,
+          }
+      })
     });
 
     this.view.addLayer(BatimentsLayer);
@@ -702,13 +705,14 @@ export class BaseDemo {
 
     var wfsRoadsLayer = new itowns.GeometryLayer('Chaussee_Trottoirs', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170.1,
-                color: colorLineRoads,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsRoadsSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorLineRoads,
+            base_altitude : 170.1,
+          }
+      })
     });
 
     this.view.addLayer(wfsRoadsLayer);
@@ -726,13 +730,14 @@ export class BaseDemo {
 
     var wfsRailsLayer = new itowns.GeometryLayer('Voies_Ferrées', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170.4,
-                color: colorLineRails,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsRailsSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorLineRails,
+            base_altitude : 170.4,
+          }
+      })
     });
 
     this.view.addLayer(wfsRailsLayer);
@@ -750,13 +755,14 @@ export class BaseDemo {
 
     var wfsEVA_STRLayer = new itowns.GeometryLayer('EVA_Vegetation', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170.2,
-                color: colorEVAVegetation,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsEVA_STRSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorEVAVegetation,
+            base_altitude : 170.2,
+          }
+      })
     });
 
     this.view.addLayer(wfsEVA_STRLayer);
@@ -774,13 +780,14 @@ export class BaseDemo {
 
     var wfsEVA_ArtifLayer = new itowns.GeometryLayer('EVA_Artif_Sols_Nus', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170,
-                color: colorEVAArtif,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsEVA_ArtifSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorEVAArtif,
+            base_altitude : 170,
+          }
+      })
     });
 
     this.view.addLayer(wfsEVA_ArtifLayer);
@@ -799,13 +806,14 @@ export class BaseDemo {
 
     var wfsMaskALayer = new itowns.GeometryLayer('MaskA', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170,
-                color: colorEVAArtif,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsMaskASource,
+        style: new itowns.Style({
+          fill:{
+            color: colorEVAArtif,
+            base_altitude : 170,
+          }
+      })
     });
 
     this.view.addLayer(wfsMaskALayer);
@@ -823,13 +831,14 @@ export class BaseDemo {
 
     var wfsMaskBLayer = new itowns.GeometryLayer('MaskB', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170,
-                color: colorEVAArtif,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsMaskBSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorEVAArtif,
+            base_altitude : 170,
+          }
+      })
     });
 
     this.view.addLayer(wfsMaskBLayer);
@@ -847,13 +856,14 @@ export class BaseDemo {
 
     var wfsMaskCLayer = new itowns.GeometryLayer('MaskC', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
-        convert: itowns.Feature2Mesh.convert(
-            {
-                altitude : 170,
-                color: colorEVAArtif,
-            }
-        ),
+        convert: itowns.Feature2Mesh.convert(),
         source: wfsMaskCSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorEVAArtif,
+            base_altitude : 170,
+          }
+      })
     });
 
     this.view.addLayer(wfsMaskCLayer);
