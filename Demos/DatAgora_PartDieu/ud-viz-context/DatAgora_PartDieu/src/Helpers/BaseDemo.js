@@ -681,7 +681,7 @@ export class BaseDemo {
         convert: itowns.Feature2Mesh.convert(),
         source: BatimentsSource,
         style: new itowns.Style({
-          stroke:{
+          fill:{
             base_altitude: 170.1,
             color: colorSurfaceBatiments,
           }

@@ -16,16 +16,20 @@ RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
-RUN echo `GEOSERVER_FQDN: ` ${GEOSERVER_FQDN} `,` > input.json
-RUN echo `GEOSERVER_PORT: ` ${GEOSERVER_PORT}    >> input.json
+
+
 COPY SimpleServer /SimpleServer
 COPY DatAgora_PartDieu /DatAgora_PartDieu
-RUN npm i -D nunjucks-cli
-
-RUN node_modules/.bin/nunjucks DatAgora_PartDieu/assets/config/config.tpl input.json
-RUN mv config.hmtl DatAgora_PartDieu/assets/config/config.json
-
 COPY img/ /DatAgora_PartDieu/assets/img/
+
+
+RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" }" > data.json
+RUN npm i -D nunjucks-cli
+RUN node_modules/.bin/nunjucks config.njk data.json -p DatAgora_PartDieu/
+RUN mv -b config.html config.json
+RUN mv -f config.json DatAgora_PartDieu/assets/config/config.json
+
+
 WORKDIR /DatAgora_PartDieu
 RUN npm install
 RUN npm run build
@@ -35,5 +39,5 @@ WORKDIR /SimpleServer
 RUN npm install
 RUN npm run build
 
-EXPOSE 8999
-CMD [ "node", "./index.js", "../DatAgora_PartDieu", "8999" ]
+EXPOSE ${GEOSERVER_PORT}
+CMD [ "node", "./index.js", "../DatAgora_PartDieu", "${GEOSERVER_PORT}" ]
