@@ -2,8 +2,8 @@ version: "3.3"
 
 services:
   geoserver:
-    image : kartoza/geoserver:2.18.0
-    environment :
+    image: kartoza/geoserver:2.18.0
+    environment:
       - SAMPLE_DATA=true
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
@@ -13,8 +13,8 @@ services:
 
 
   geoserver-setup:
-    build : ./server-setup-context
-    environment :
+    build: ./server-setup-context
+    environment:
       - DATA_IMPORT_DIR=${GEOSERVER_DATA_IMPORT_DIR}
       - WORKSPACE=${GEOSERVER_WORKSPACE}
       - MAX_CONNECTION_ATTEMPTS=${GEOSERVER_MAX_CONNECTION_ATTEMPTS}
@@ -47,10 +47,11 @@ services:
       - postgres
 
   udviz:
-    build : ./ud-viz-context
-    environment:
-      - GEOSERVER_FQDN=${GEOSERVER_FQDN}
-      - GEOSERVER_PORT=${GEOSERVER_PORT}
-    command : node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
+    build: 
+      context: ./ud-viz-context
+      args:
+        GEOSERVER_FQDN: ${GEOSERVER_FQDN}
+        GEOSERVER_PORT: ${GEOSERVER_PORT}
+    command: node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
