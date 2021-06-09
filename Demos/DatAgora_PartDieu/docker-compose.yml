@@ -13,9 +13,11 @@ services:
 
 
   geoserver-setup:
-    build: ./server-setup-context
+    build: 
+      context: ./server-setup-context
+      args:
+        GEOSERVER_DATA_IMPORT_DIR: ${GEOSERVER_DATA_IMPORT_DIR}
     environment:
-      - DATA_IMPORT_DIR=${GEOSERVER_DATA_IMPORT_DIR}
       - WORKSPACE=${GEOSERVER_WORKSPACE}
       - MAX_CONNECTION_ATTEMPTS=${GEOSERVER_MAX_CONNECTION_ATTEMPTS}
       - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
