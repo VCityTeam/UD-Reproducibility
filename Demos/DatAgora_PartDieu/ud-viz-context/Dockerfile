@@ -8,8 +8,8 @@ ARG GEOSERVER_FQDN
 ENV GEOSERVER_FQDN=${GEOSERVER_FQDN}
 ARG GEOSERVER_PORT
 ENV GEOSERVER_PORT=${GEOSERVER_PORT}
-ARG TILESSET_SOURCE
-ENV TILESSET_SOURCE=${TILESSET_SOURCE}
+ARG TILESET_CUSTOM_SERVER
+ENV TILESET_CUSTOM_SERVER=${TILESET_CUSTOM_SERVER}
 
 ######### Install the UD-Viz demo per se (client code) and build it
 # Node version 14 is required. For its installation (on focal) refer to e.g.
@@ -25,7 +25,7 @@ COPY DatAgora_PartDieu /DatAgora_PartDieu
 COPY img/ /DatAgora_PartDieu/assets/img/
 
 
-RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" ,\n\"TILESSET_SOURCE\": \"${TILESSET_SOURCE}\" }" > data.json
+RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" ,\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" }" > data.json
 RUN npm i -D nunjucks-cli
 RUN node_modules/.bin/nunjucks config.njk data.json -p DatAgora_PartDieu/
 RUN mv -b config.html config.json
