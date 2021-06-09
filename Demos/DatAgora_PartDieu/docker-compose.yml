@@ -54,6 +54,7 @@ services:
       args:
         GEOSERVER_FQDN: ${GEOSERVER_FQDN}
         GEOSERVER_PORT: ${GEOSERVER_PORT}
+        TILESSET_SOURCE: ${TILESSET_SOURCE}
     command: node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}

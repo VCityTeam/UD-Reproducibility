@@ -61,7 +61,7 @@ def main():
                               data=shapefile_plus_sidecars)
       print(file_name + " successfully uploaded to geoserver.")
     except ConflictingDataError:
-      print(file_name + " was already present within the geoserver.")
+      print(file_name + " was already stored within the geoserver.")
 
   print("Geoserver-setup exiting with success.")
 
