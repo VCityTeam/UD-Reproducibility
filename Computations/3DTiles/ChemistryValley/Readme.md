@@ -1,5 +1,5 @@
 ## Things to fix
- - find so means to provide an IP-adress (to the `demo_configuration_static.py.` configuration file)
+ - find some means to provide an IP-adress (to the `demo_configuration_static.py.` configuration file)
    that is compatible with the DooD way of doing things. That is what IP-address should we provide
    so that e.g. the DB container can be accessed by the Tiler container...
  - entrypoint.sh misses the exportation of the result.
