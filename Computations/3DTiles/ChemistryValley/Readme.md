@@ -1,6 +1,7 @@
 ## Things to fix
  - find some means to provide an IP-adress (to the `demo_configuration_static.py.` configuration file)
-   that is compatible with the DooD way of doing things. That is what IP-address should we provide
+   that is compatible with the [DooD](https://rusingh.com/2021/01/29/docker-outside-of-docker/) way of 
+   doing things. That is what IP-address should we provide
    so that e.g. the DB container can be accessed by the Tiler container...
  - entrypoint.sh misses the exportation of the result.
 
