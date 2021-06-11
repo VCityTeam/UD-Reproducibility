@@ -9,11 +9,16 @@ jobs:
     - stage: ChemistryValley build
       script:
       - |
+        docker --version
+        docker-compose --version
+        docker compose up
         cd Demos/ValleeChimie
         docker build -t vallee-chimie ud-viz-context 
     - stage: DatAgora_PartDieu build
       script:
       - |
         cd Demos/DatAgora_PartDieu
+        docker --version
         docker-compose --version
-        docker-compose build
+        docker compose up
+        # docker-compose build
