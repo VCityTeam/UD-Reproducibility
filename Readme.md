@@ -8,6 +8,7 @@ UD-Reproducibility
 └── Docker           # docker contexts shared by Demos and/or Computations
 ```
 This repository gathers information and software dedicated to the numerical reproduction
-of computations (e.g. data treatments) or software demos. The `Articles` directory specifically
-gathers the material used for submitted or published articles and aiming at providing all
-the technical means for reproducing the numerical results of the considered publicaitons.
+of (numerical) `Computations` (e.g. data treatments) or software `Demos`. The `Articles` 
+directory specifically gathers the material used for submitted or published articles and
+aims at providing all the technical means allowing for reproducing the numerical results
+of the considered publicaitons.
