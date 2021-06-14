@@ -7,8 +7,18 @@ RUN apt-get update
 
 ### Command dependencies
 RUN apt-get install -y git
-RUN apt-get install -y patch
 RUN apt-get install -y curl
+
+ARG POSTGRES_HOST
+ENV PG_HOST=$POSTGRES_HOST
+ARG POSTGRES_PORT
+ENV PG_PORT=$POSTGRES_PORT
+ARG POSTGRES_DB
+ENV PG_NAME=$POSTGRES_DB
+ARG POSTGRES_USER
+ENV PG_USER=$POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ENV PG_PASSWORD=$POSTGRES_PASSWORD
 
 # The installation of add-apt-repository depends itself on tzdata that requires
 # some interactive configuration. The following is a non interactive workaround,
@@ -50,10 +60,23 @@ WORKDIR Computations/3DTiles/LyonTemporal/PythonCallingDocker
 RUN pip3 install -r requirements.txt
 
 WORKDIR DemoStatic
-COPY demo_configuration_static.py.2015.patchfile demo_configuration_static.py.2015.patchfile
-RUN patch -E < demo_configuration_static.py.2015.patchfile
+
+SHELL ["/bin/bash", "-c"]
+RUN printf "output_dir = 'junk' \n\
+vintage = 2015\n\
+city = 'CHEMISTRY_VALLEY'\n\
+boroughs = [\n\
+           'LYON_1ER',\n\
+]\n\
+ \n\
+database = {\n\
+  'PG_HOST': '${PG_HOST}',\n\
+  'PG_PORT': '${PG_PORT}',\n\
+  'PG_NAME': '${PG_DB}',\n\
+  'PG_USER': '${PG_USER}',\n\
+  'PG_PASSWORD': '${PG_PASSWORD}'\n\
+}" > demo_configuration_static.py
 
 COPY entrypoint.sh entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"] 
-
