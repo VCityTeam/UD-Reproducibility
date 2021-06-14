@@ -8,6 +8,8 @@ RUN apt-get install -y wget
 
 ARG TILESET_SOURCE
 ENV TILESET_SOURCE=${TILESET_SOURCE}
+ARG TILESET_SERVER_PORT
+ENV TILESET_SERVER_PORT=${TILESET_SERVER_PORT}
 
 RUN git clone https://github.com/AnalyticalGraphicsInc/3d-tiles-samples
 
@@ -19,5 +21,5 @@ RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.ht
 
 WORKDIR /3d-tiles-samples/
 RUN npm install
-EXPOSE 8003
-CMD [ "npm", "start", "--", "--public" ]
+EXPOSE ${TILESET_SERVER_PORT}
+CMD [ "npm", "start", "--", "--public", "--port=${TILESET_SERVER_PORT}"]

@@ -10,6 +10,8 @@ ARG GEOSERVER_PORT
 ENV GEOSERVER_PORT=${GEOSERVER_PORT}
 ARG TILESET_CUSTOM_SERVER
 ENV TILESET_CUSTOM_SERVER=${TILESET_CUSTOM_SERVER}
+ARG UD_VIZ_PORT
+ENV UD_VIZ_PORT=${UD_VIZ_PORT}
 
 ######### Install the UD-Viz demo per se (client code) and build it
 # Node version 14 is required. For its installation (on focal) refer to e.g.
@@ -41,5 +43,5 @@ WORKDIR /SimpleServer
 RUN npm install
 RUN npm run build
 
-EXPOSE ${GEOSERVER_PORT}
-CMD [ "node", "./index.js", "../DatAgora_PartDieu", "${GEOSERVER_PORT}" ]
+EXPOSE ${UD_VIZ_PORT}
+CMD [ "node", "./index.js", "../DatAgora_PartDieu", "--port=${UD_VIZ_PORT}" ]
