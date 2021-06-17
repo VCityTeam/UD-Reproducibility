@@ -22,7 +22,6 @@ RUN apt-get install -y git
 
 COPY SimpleServer /SimpleServer
 COPY DatAgora_PartDieu /DatAgora_PartDieu
-COPY img/ /DatAgora_PartDieu/assets/img/
 
 
 RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" ,\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" }" > data.json
