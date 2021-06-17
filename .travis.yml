@@ -6,13 +6,17 @@ services:
 
 jobs:
   include:
+    - stage: DatAgora_PartDieu build
+      script:
+      - |
+        cd Demos/DatAgora_PartDieu
+        docker --version
+        docker-compose --version
+        # Validate the docker-compose.yml
+        docker-compose config
+        docker-compose build
     - stage: ChemistryValley build
       script:
       - |
         cd Demos/ValleeChimie
         docker build -t vallee-chimie ud-viz-context 
-    - stage: DatAgora_PartDieu build
-      script:
-      - |
-        cd Demos/DatAgora_PartDieu
-        docker-compose build

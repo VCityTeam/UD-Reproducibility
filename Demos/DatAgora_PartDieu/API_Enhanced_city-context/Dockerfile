@@ -1,7 +1,7 @@
 FROM python:3.6
 
 LABEL maintainer "VCityTeam"
-LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker/"
+LABEL source.repo "https://github.com/VCityTeam/UD-Serv.git"
 
 RUN apt-get update
 

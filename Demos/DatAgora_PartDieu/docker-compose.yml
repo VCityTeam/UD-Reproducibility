@@ -53,8 +53,9 @@ services:
       context: ./3dtiles-server-context
       args:
         TILESET_SOURCE: ${TILESET_SOURCE}
+        TILESET_SERVER_PORT: ${TILESET_SERVER_PORT}
     ports:
-      - ${TILESET_SERVER_PORT}:8003
+      - ${TILESET_SERVER_PORT}:${TILESET_SERVER_PORT}
 
   udviz:
     build:
@@ -63,6 +64,7 @@ services:
         GEOSERVER_FQDN: ${GEOSERVER_FQDN}
         GEOSERVER_PORT: ${GEOSERVER_PORT}
         TILESET_CUSTOM_SERVER: ${TILESET_CUSTOM_SERVER}
+        UD_VIZ_PORT: ${UD_VIZ_PORT}
     command: node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
