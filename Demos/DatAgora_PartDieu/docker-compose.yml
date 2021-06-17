@@ -7,10 +7,8 @@ services:
       - SAMPLE_DATA=true
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
-
     ports:
       - ${GEOSERVER_PORT}:8080
-
 
   geoserver-setup:
     build:
@@ -34,8 +32,11 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ./postgres-data/postgres:/var/lib/postgresql/data
+    expose:
+      - ${POSTGRES_PORT}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    command: -p ${POSTGRES_PORT}
 
   enhanced_city_api:
     build: API_Enhanced_city-context/
