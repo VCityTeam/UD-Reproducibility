@@ -24,6 +24,10 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
     def create_output_dir(self):
         raise NotImplementedError()
 
+    @abstractmethod
+    def get_output_dir(self):
+        raise NotImplementedError()
+
     def __init__(self, pattern):
         self.archives = dict()
 
@@ -86,7 +90,7 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
         # french which stands for buildings):
         for key_name, archive in self.archives.items():
             # Specify the target directory
-            archive.set_directory(self.get_output_dir())
+            archive.set_output_directory(self.get_output_dir())
             archive.set_tidy_up()     # Comment out for debugging
             archive.download_and_expand(self.pattern)
             # It just happens that for the Grand Lyon zip files are expanded
@@ -98,7 +102,8 @@ class DemoLyonMetropoleDowloadAndSanitize(ABC):
             # information out of the zip file). Nevertheless this renaming
             # is (awkwardly) placed in here in order to promote it to a higher
             # level in the class nesting on clarity purposes.
-            archive.set_directory(os.path.join(archive.directory, key_name))
+            archive.set_output_directory(
+              os.path.join(archive.get_output_directory(), key_name))
             archive.set_filename(os.path.basename(archive.get_filename()))
             archive.rename_when_needed()
             archive.patch_when_needed()
