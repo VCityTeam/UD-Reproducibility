@@ -42,15 +42,16 @@ services:
     command: -p ${POSTGRES_PORT}
 
   enhanced_city_api:
-    build: API_Enhanced_city-context/
+    build:
+      context: ./API_Enhanced_city-context/
+      args:
+        ordbms: ${ordbms}
+        user: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+        host: ${host}
+        port: ${POSTGRES_PORT}
+        dbname: ${POSTGRES_DB}
     container_name: enhanced_city_api
-    environment:
-      - ordbms=${ordbms}
-      - user=${POSTGRES_USER}
-      - password=${POSTGRES_PASSWORD}
-      - host=${host}
-      - port=${POSTGRES_PORT}
-      - dbname=${POSTGRES_DB}
     ports:
       - 8997:5000
     volumes:
