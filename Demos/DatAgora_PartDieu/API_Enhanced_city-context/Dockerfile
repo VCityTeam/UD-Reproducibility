@@ -11,14 +11,13 @@ RUN apt-get install -y git
 
 RUN git clone https://github.com/VCityTeam/UD-Serv.git
 
-# RUN mkdir -p $APIENHANCED/api
 WORKDIR $APIENHANCED
 
+#.env probably used elsewhere and needs to be copied for now
 COPY .env .env
-COPY web_api.py $APIENHANCED/api/web_api.py
+
 RUN pip install -r requirements.txt
 
-# COPY . ./
 ENV PYTHONPATH $APIENHANCED
 
 CMD ["python", "api/web_api.py"]

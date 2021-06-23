@@ -21,6 +21,9 @@ services:
       - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+      - GEOSERVER_CATALOG_ADRESS=${GEOSERVER_CATALOG_ADRESS}
+      - GEOSERVER_SOCKET_HOST=${GEOSERVER_SOCKET_HOST}
+      - GEOSERVER_SOCKET_PORT=${GEOSERVER_SOCKET_PORT}
 
   postgres:
     restart: unless-stopped
@@ -41,6 +44,13 @@ services:
   enhanced_city_api:
     build: API_Enhanced_city-context/
     container_name: enhanced_city_api
+    environment:
+      - ordbms=${ordbms}
+      - user=${POSTGRES_USER}
+      - password=${POSTGRES_PASSWORD}
+      - host=${host}
+      - port=${POSTGRES_PORT}
+      - dbname=${POSTGRES_DB}
     ports:
       - 8997:5000
     volumes:

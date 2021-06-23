@@ -17,7 +17,7 @@ def main():
 
   while connection_attempts < max_connection_attempts:
     try:
-      socket.socket().connect((socket.gethostbyname('geoserver'),8080))
+      socket.socket().connect((socket.gethostbyname(os.getenv('GEOSERVER_SOCKET_HOST')),int(os.getenv('GEOSERVER_SOCKET_PORT'))))
     except socket.error:
       connection_attempts += 1
       print("Geoserver not yet online. Number of remaining attempts: " +
@@ -34,7 +34,7 @@ def main():
   print("Geoserver connection established")
 
   # ## Proceeding with the data upload
-  cat = Catalog("http://geoserver:8080/geoserver/rest",
+  cat = Catalog(os.getenv('GEOSERVER_CATALOG_ADRESS'),
                 username = os.getenv('GEOSERVER_ADMIN_USER'),
                 password = os.getenv('GEOSERVER_ADMIN_PASSWORD'))
 
