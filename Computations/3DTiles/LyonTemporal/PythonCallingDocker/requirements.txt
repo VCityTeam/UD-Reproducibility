@@ -1,6 +1,9 @@
 jinja2
-docker
+# As of 2021 June 16th Docker 5.0.0 is still buggy. Refer to
+#  https://github.com/docker/docker-py/issues/2807
+#  and https://github.com/docker/docker-py/pull/2844
+docker==4.4.4
 wget
 patch
 gitpython
-
+pylint

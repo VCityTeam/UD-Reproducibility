@@ -25,8 +25,8 @@ class CityGMLFileFromArchive(dict):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # The directory where the cityGML file ends up located
-        self.directory = None
+        # The directory where the extracted cityGML file ends up located
+        self.output_directory = None
         # Weather of not we should remove un-required/temporary files
         # (like the original archive) in the sake of disk space.
         self.tidy_up = False
@@ -37,13 +37,13 @@ class CityGMLFileFromArchive(dict):
             raise KeyError
         dict.__setitem__(self, key, val)
 
-    def set_directory(self, directory):
-        self.directory = directory
-        if not os.path.isdir(self.directory):
-            os.makedirs(self.directory)
+    def set_output_directory(self, directory):
+        self.output_directory = directory
+        if not os.path.isdir(self.output_directory):
+            os.makedirs(self.output_directory)
 
-    def get_directory(self):
-        return self.directory
+    def get_output_directory(self):
+        return self.output_directory
 
     def set_tidy_up(self):
         self.tidy_up = True
@@ -56,10 +56,10 @@ class CityGMLFileFromArchive(dict):
 
     def get_full_filename(self):
         """Fully qualified pathname for the file"""
-        return os.path.join(self.directory, self['name'])
+        return os.path.join(self.get_output_directory(), self['name'])
 
     def assert_directory_is_set(self):
-        if not self.directory:
+        if not self.get_output_directory():
             logging.info('CityGMLFileFromArchive: unset directory. Exiting.')
             sys.exit(1)
 
@@ -74,7 +74,7 @@ class CityGMLFileFromArchive(dict):
 
     def download_and_expand(self, pattern):
         self.assert_directory_is_set()
-        with pushd(self.directory):
+        with pushd(self.get_output_directory()):
             # Because the server/network are sometimes flaky, giving many tries might
             # robustify the process:
             download_success = False
@@ -110,7 +110,7 @@ class CityGMLFileFromArchive(dict):
         if 'name' not in self:
             logging.info('CityGMLFileFromArchive: unset name. Exiting.')
             sys.exit(1)
-        old = os.path.join(self.directory, self['old_name'])
+        old = os.path.join(self.get_output_directory(), self['old_name'])
         if not os.path.isfile(old):
             logging.info(f'File to rename {old} not found. Exiting')
             sys.exit(1)
@@ -129,10 +129,10 @@ class CityGMLFileFromArchive(dict):
             logging.info(f'Patch file {source_patch} not found. Exiting')
             sys.exit(1)
         target_patch_file = os.path.join(
-            self.directory, os.path.basename(self['patch_filename']))
+            self.get_output_directory(), os.path.basename(self['patch_filename']))
         shutil.copyfile(source_patch, target_patch_file)
         patch_file = os.path.basename(source_patch)
-        with pushd(self.directory):
+        with pushd(self.get_output_directory()):
             try:
                 success = patch.fromfile(patch_file).apply()
             except:

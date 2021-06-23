@@ -47,6 +47,7 @@ class DockerHelperBuild(DockerHelperBase):
         """
         Provision the docker image by building it.
         """
+        logging.info(f'Starting docker build of image: {self.full_image_name}')
         if not os.path.exists(context_dir):
             logging.error(f'Unfound context directory: {context_dir} ')
             sys.exit(1)
@@ -58,7 +59,7 @@ class DockerHelperBuild(DockerHelperBase):
             result = self.client.images.build(
                 path=context_dir,
                 tag=self.full_image_name)
-            logging.info(f'Docker building image: {self.full_image_name}')
+            logging.info(f'Docker build of image {self.full_image_name} triggered.')
             for line in result:
                 logging.info(f'    {line}')
             logging.info(f'Docker building image done.')

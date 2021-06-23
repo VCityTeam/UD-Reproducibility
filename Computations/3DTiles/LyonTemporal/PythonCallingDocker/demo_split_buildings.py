@@ -33,6 +33,7 @@ class DemoSplitBuildings:
             # hence we simply copy them to the output
             shutil.copy(os.path.join(input_directory, input_filename),
                         os.path.join(output_directory,output_filename))
+            logging.info(f'DemoSplitBuildings: citygml file {input_filename} was already cleanly split.')
         else:
             # For other vintages (2009, 2012) we need to get the job done:
             DockerSplitBuilding.split(
