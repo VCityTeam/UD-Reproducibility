@@ -25,7 +25,6 @@ RUN git clone https://github.com/VCityTeam/UD-Viz-demo.git
 RUN cp -r UD-Viz-demo/DemoFull DatAgora_PartDieu
 RUN cp -r UD-Viz-demo/SimpleServer SimpleServer
 RUN rm -fr UD-Viz-demo
-COPY config.json DatAgora_PartDieu/assets/config/config.json
 COPY BaseDemo.js DatAgora_PartDieu/src/Helpers/BaseDemo.js
 COPY config.njk DatAgora_PartDieu/config.njk
 

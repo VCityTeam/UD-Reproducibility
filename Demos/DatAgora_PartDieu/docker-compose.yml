@@ -23,9 +23,11 @@ services:
       - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
-      - GEOSERVER_CATALOG_ADRESS=${GEOSERVER_CATALOG_ADRESS}
+      - GEOSERVER_CATALOG_ADDRESS=${GEOSERVER_CATALOG_ADDRESS}
       - GEOSERVER_SOCKET_HOST=${GEOSERVER_SOCKET_HOST}
       - GEOSERVER_SOCKET_PORT=${GEOSERVER_SOCKET_PORT}
+    depends_on: 
+      - geoserver
 
   postgres:
     restart: unless-stopped
@@ -43,7 +45,7 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     command: -p ${POSTGRES_PORT}
 
-  enhanced_city_api:
+  spatial-multimedia-db:
     build:
       context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB
       args:

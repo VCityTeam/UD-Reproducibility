@@ -17,7 +17,9 @@ def main():
 
   while connection_attempts < max_connection_attempts:
     try:
-      socket.socket().connect((socket.gethostbyname(os.getenv('GEOSERVER_SOCKET_HOST')),int(os.getenv('GEOSERVER_SOCKET_PORT'))))
+      socket.socket().connect((
+        socket.gethostbyname(os.getenv('GEOSERVER_SOCKET_HOST')),
+                            int(os.getenv('GEOSERVER_SOCKET_PORT'))))
     except socket.error:
       connection_attempts += 1
       print("Geoserver not yet online. Number of remaining attempts: " +
@@ -34,7 +36,7 @@ def main():
   print("Geoserver connection established")
 
   # ## Proceeding with the data upload
-  cat = Catalog(os.getenv('GEOSERVER_CATALOG_ADRESS'),
+  cat = Catalog(os.getenv('GEOSERVER_CATALOG_ADDRESS'),
                 username = os.getenv('GEOSERVER_ADMIN_USER'),
                 password = os.getenv('GEOSERVER_ADMIN_PASSWORD'))
 
@@ -43,9 +45,9 @@ def main():
   workspace = cat.get_workspace(os.getenv('WORKSPACE'))
   files_to_import = []
 
-  for f in os.listdir(imp_dir) :
-    if os.path.splitext(f)[0] not in files_to_import :
-      files_to_import.append(os.path.splitext(f)[0])
+  for file in os.listdir(imp_dir) :
+    if os.path.splitext(file)[0] not in files_to_import :
+      files_to_import.append(os.path.splitext(file)[0])
 
   # Importation per se:
   for file_name in files_to_import:
