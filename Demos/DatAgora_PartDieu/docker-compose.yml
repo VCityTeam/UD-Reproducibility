@@ -12,8 +12,10 @@ services:
 
   geoserver-setup:
     build:
-      context: ./server-setup-context
+      context: ../../Docker/GeoserverSetup/geoserver-setup-context
       args:
+        GEOSERVER_DATA_GITHUB_REPOSITORY: ${GEOSERVER_DATA_GITHUB_REPOSITORY}
+        GEOSERVER_DATA_GITHUB_REPOSITORY_NAME: ${GEOSERVER_DATA_GITHUB_REPOSITORY_NAME}
         GEOSERVER_DATA_IMPORT_DIR: ${GEOSERVER_DATA_IMPORT_DIR}
     environment:
       - WORKSPACE=${GEOSERVER_WORKSPACE}
@@ -43,7 +45,7 @@ services:
 
   enhanced_city_api:
     build:
-      context: ./API_Enhanced_city-context/
+      context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB
       args:
         ordbms: ${ordbms}
         user: ${POSTGRES_USER}
@@ -51,7 +53,6 @@ services:
         host: ${host}
         port: ${POSTGRES_PORT}
         dbname: ${POSTGRES_DB}
-    container_name: enhanced_city_api
     ports:
       - 8997:5000
     volumes:
@@ -61,7 +62,7 @@ services:
 
   3dtiles-server:
     build:
-      context: ./3dtiles-server-context
+      context: ../../Docker/3DTilesSamples/3dtiles-server-context
       args:
         TILESET_SOURCE: ${TILESET_SOURCE}
         TILESET_SERVER_PORT: ${TILESET_SERVER_PORT}
