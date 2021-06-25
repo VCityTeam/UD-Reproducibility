@@ -19,7 +19,6 @@ in the form of JSON schemas is however
 * Install a 3DTiles web server: depending on your context proceed with one of
 the following install guides:
   * [3dtiles web server: DESKTOP developing context](https://github.com/VCityTeam/UD-Reproducibility/blob/master/ExternalComponents/3DTilesSamples/Readme.md)
-   * [3dtiles web server: OPERATIONS (stable server) context](../../ExternalComponents/ApacheServer/InstallDebianApacheServer.md)
 
 * Move the unzipped dataset you downloaded previously to
 `3d-tiles-samples/tilesets/` and test that it is accessible by openning
