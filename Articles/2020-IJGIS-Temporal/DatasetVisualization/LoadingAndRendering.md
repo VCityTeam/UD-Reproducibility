@@ -20,7 +20,7 @@ and rendering DS-3DTiles and DS-3DTiles-Tmp, measured on 10 samples:
 
 * Unzip these datasets
 
-* Install a 3DTiles web server: [3dtiles web server: DESKTOP developing context](../../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md)
+* Install a 3DTiles web server: [3dtiles web server: DESKTOP developing context]() `../../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md`
 
 * Move the unzipped datasets you downloaded previously to
 `3d-tiles-samples/tilesets/` and test that they are accessible by opening
