@@ -16,10 +16,6 @@ in the form of JSON schemas is however
 
 * Unzip this dataset
 
-* Install a 3DTiles web server: depending on your context proceed with one of
-the following install guides:
-  * [3dtiles web server: DESKTOP developing context](https://github.com/VCityTeam/UD-Reproducibility/blob/master/ExternalComponents/3DTilesSamples/Readme.md)
-
 * Move the unzipped dataset you downloaded previously to
 `3d-tiles-samples/tilesets/` and test that it is accessible by openning
 the following URL:
