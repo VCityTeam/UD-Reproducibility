@@ -38,7 +38,7 @@ Figure 2 presents the navigation time between two timestamps.
 
 * Unzip this dataset
 
-* Install a 3DTiles web server: [3dtiles web server: DESKTOP developing context](../../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md)
+* Install a 3DTiles web server: [3dtiles web server: DESKTOP developing context]()
 
 * Move the unzipped dataset you downloaded previously to `3d-tiles-samples/tilesets/` and test that it are accessible by opening the following URL:
 `http://localhost:8003/tilesets/Lyon_2009-2015_Without_Remarkable_2_Tiles/tileset.json`
