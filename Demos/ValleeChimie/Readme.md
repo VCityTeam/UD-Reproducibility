@@ -37,7 +37,7 @@ boroughs = [
       "max_y": "5174952.52"
     }
   ```
-- Place the correct url which aim on your data compute in the previous step, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/ChemistryValley/assets/config/config.json#L61) :
+- Place the correct url which aim on your data compute in the previous step, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/ChemistryValley/assets/config/config.json#L67) :
 ```
   "3DTilesLayer":{
     "building":{
