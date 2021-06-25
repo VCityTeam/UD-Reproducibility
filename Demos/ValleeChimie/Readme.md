@@ -26,7 +26,7 @@ boroughs = [
 
 ### 2.1 Configure your demo
 - Go on the generaldemoConfig.json file in the ud-viz-contest folder
-- (Optional) Change value of your extend position to visualize the correct map of your data, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/generalDemoConfig.json#L44) :
+
 - (Optional) To calculate this coordinates read this [doc](https://github.com/VCityTeam/VCity/wiki/Adapt_extent): 
  ```
    "extents": {
@@ -37,7 +37,7 @@ boroughs = [
       "max_y": "5174952.52"
     }
   ```
-- Place the correct url which aim on your data compute in the previous step, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/generalDemoConfig.json#L61) :
+- Place the correct url which aim on your data compute in the previous step, [here](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Demos/ValleeChimie/ud-viz-context/ChemistryValley/assets/config/config.json#L61) :
 ```
   "3DTilesLayer":{
     "building":{
