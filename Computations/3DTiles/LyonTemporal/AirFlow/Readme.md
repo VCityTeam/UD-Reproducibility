@@ -113,11 +113,6 @@ docker run -i \
     --output-dir \
     junk-dir
 ```
-Note that
- * The are no concrete example of [using 'tmp_dir' parameter of DockerOperator](https://www.google.com/search?q=dockeroperator+tmp_dir+filetype:py)
- * There is a [single example of DockerOperator using `volumes`](https://www.google.com/search?q=dockeroperator+volumes+filetype%3Apy)
-    - it is sample that provides a [`docker_copy_data` script](https://github.com/apache/airflow/blob/master/airflow/example_dags/docker_copy_data.py)
-    - [here is the usage of volumes](https://github.com/apache/airflow/blob/master/airflow/example_dags/docker_copy_data.py#L81)
 
 ### DockerOperator Open problem 3: provide a file server WITHIN the airflow script
 We have the freedom to choose some file server technology. For example we could consider a [dockerized sftp server](https://github.com/atmoz/sftp). Yet there is the additional difficulty that such a file server must exist across the execution of all the operators of the pipeline (requiring some file input/output). In other terms this file server (DockerOperator) should be a parallel task to the rest of the pipeline and we must guarantee that it starts before all the other ones and ends after them.
