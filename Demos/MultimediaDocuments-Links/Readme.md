@@ -21,11 +21,6 @@ This demo is [accessible online](http://rict.liris.cnrs.fr/UDVDemo/UDV/UDV-Core/
 
 * Unzip this dataset
 
-* Install a 3DTiles web server: depending on your context proceed with one of
-the following install guides:
-  * [3dtiles web server: DESKTOP developing context](../../ExternalComponents/3DTilesSamples/Install3dTilesNodeBasedWebServer.md)
-   * [3dtiles web server: OPERATIONS (stable server) context](../../ExternalComponents/ApacheServer/InstallDebianApacheServer.md)
-
 #### Multimedia documents and links server
 
 * Install the API_Enhanced_City of  [UD-Serv](https://github.com/VCityTeam/UD-Serv): `https://github.com/VCityTeam/UD-Serv.git`
