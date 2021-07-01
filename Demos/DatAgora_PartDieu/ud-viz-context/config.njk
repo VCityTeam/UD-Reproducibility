@@ -23,7 +23,7 @@
   },
 
   "server": {
-    "url": "DEMO_SERVER:8997/",
+    "url": "{{ SPATIAL_MULTIMEDIA_DB_FQDN }}:{{ SPATIAL_MULTIMEDIA_DB_PORT }}/",
     "login": "login",
     "user": "user",
     "userMe": "user/me",
@@ -36,7 +36,7 @@
     "link": "link"
   },
 
-  "geoserver":"http://{{ GEOSERVER_FQDN }}:{{ GEOSERVER_PORT }}/geoserver/cite/ows?",
+  "geoserver":"{{ GEOSERVER_FQDN }}:{{ GEOSERVER_PORT }}/geoserver/cite/ows?",
 
   "extents": {
       "min_x": "1843460.0",
