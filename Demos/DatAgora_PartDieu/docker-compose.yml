@@ -56,7 +56,7 @@ services:
         port: ${POSTGRES_PORT}
         dbname: ${POSTGRES_DB}
     ports:
-      - 8997:5000
+      - ${SPATIAL_MULTIMEDIA_DB_PORT}:5000
     volumes:
       - .:/api
     depends_on:
