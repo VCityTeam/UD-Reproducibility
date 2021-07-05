@@ -28,33 +28,28 @@ listen to the `8080` port
 Use the [Dockerfile](Dockerfile) provided within the 3dtiles-server-context directory e.g. with
 the commands
 ```
-   docker build github.com/VCityTeam/UD-Reproducibility#master:ExternalComponents/3DTilesSamples \
-                -t cesium-gs/3d-tiles-samples
-   docker run cesium-gs/3d-tiles-samples
+   docker build 3dtiles-server-context -t 3dtiles-server
+   docker run 3dtiles-server
 ```
+The server content will then be available at the `http://localhost:8996/tilesets/` address.
+
+If you need to configure the tileset you want to upload or the port where the server will be available, you have 2 options :
+ - You can modify the dockerfile directly to change the default ARG variables content to suit your needs. you will not need to add anything to the initial command line shown above.
+ - You can add parameters to the docker build command line as shown below :
+ ```
+   docker build 3dtiles-server-context -t 3dtiles-server --build-arg TILESET_SOURCE=<Your_Tileset_Source>
+ ```
+See [this page](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) for further instructions.
+
+Please refer to the [example .env file](./Example/.env) for the complete list of environment variables available and what they are used for.
+
 
 ### Using docker-compose
 
  - Copy the context folder provided in this directory in your compose folder.
- - Create a .env file in your compose folder (if one already exists, do not create another)
- - Add the following code to your .env file :
- ```
- # The adress/directory where the tileset you want to upload to your server is located 
- TILESET_SOURCE=https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Lyon_2015-gltf-repaired_TileSet/
- # The port used to access your server data (8996 by default)
- TILESET_SERVER_PORT=8996
- ```
- - Configure the variables to suit your needs.
- - Add the following code to your docker-compose.yml file as a service (if you need an example, see [this file](./Example/docker-compose.yml) for reference):
- ```
- 3dtiles-server:
-     build:
-     context: ./3dtiles-server-context
-     args:
-         TILESET_SOURCE: ${TILESET_SOURCE}
-         TILESET_SERVER_PORT: ${TILESET_SERVER_PORT}
-     ports:
-     - ${TILESET_SERVER_PORT}:${TILESET_SERVER_PORT}
- ```
+ - Create a .env file in your compose folder (if one already exists, do not create another).
+ - Add the code located in this [example .env file](./Example/.env) to your own .env file.
+ - Configure the variables to suit your needs. A brief description is located above each variable to describe its role in the .env file.
+ - Add the located in this [example docker compose file](./Example/docker-compose.yml) code to your docker-compose.yml file as a service
  - Build and launch your docker-compose.
- - Your tileset should now be available at the following adress : localhost:<YOUR_SERVER_PORT>/tilesets/<YOUR_TILESET_NAME>
+ - Your tileset should now be available at the following address : localhost:<YOUR_SERVER_PORT>/tilesets/<YOUR_TILESET_NAME>

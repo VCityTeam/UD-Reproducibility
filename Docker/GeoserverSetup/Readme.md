@@ -10,8 +10,32 @@ This docker is used to upload data to your geoserver. It takes all the shapefile
 
 ### using docker
 
-### Using docker-compose
+Use the [Dockerfile](Dockerfile) provided within the geoserver-setup-context directory e.g. with
+the following commands :
+```
+docker build geoserver-setup-context -t geoserver-setup 
+--build-arg GEOSERVER_DATA_GITHUB_REPOSITORY=<Your_Github_Data_Repo>
+--build-arg GEOSERVER_DATA_GITHUB_REPOSITORY_NAME=<Your_Github_Data_Repo_Name>
+--build-arg GEOSERVER_DATA_IMPORT_DIR=<Your_Data_Path>
 
+docker run --env-file ./Example/.env geoserver-setup
+```
+
+For the setup to function properly, you will need to configure several variables to access your geoserver.
+Please refer to the [Geoserver setup section of the example .env file](./Example/.env) for the complete list of environment variables available and what they are used for.
+To modify the content of these variables, you first need to modify the --build-arg variables content in the build command line. See the example below :
+```
+docker build geoserver-setup-context -t geoserver-setup 
+--build-arg GEOSERVER_DATA_GITHUB_REPOSITORY=https://github.com/VCityTeam/UD-Reproducibility 
+--build-arg GEOSERVER_DATA_GITHUB_REPOSITORY_NAME=UD-Reproducibility 
+--build-arg GEOSERVER_DATA_IMPORT_DIR=Demos/DatAgora_PartDieu/server-setup-context/data_import
+```
+See [this page](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) for further instructions.
+
+For all the other variables shown in the geoserver setup section, you can directly change their value in the .env file.
+
+
+### Using docker-compose
 
 - Copy the context folder provided in this directory in your compose folder.
 - Create a .env file in your compose folder (if one already exists, do not create another)

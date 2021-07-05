@@ -6,9 +6,9 @@ RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y wget
 
-ARG TILESET_SOURCE
+ARG TILESET_SOURCE=https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Lyon_2015-gltf-repaired_TileSet/
 ENV TILESET_SOURCE=${TILESET_SOURCE}
-ARG TILESET_SERVER_PORT
+ARG TILESET_SERVER_PORT=8996
 ENV TILESET_SERVER_PORT=${TILESET_SERVER_PORT}
 
 RUN git clone https://github.com/AnalyticalGraphicsInc/3d-tiles-samples
