@@ -877,55 +877,6 @@ export class BaseDemo {
    * UD-Viz/UD-Viz-Core/examples/data/config/generalDemoConfig.json
    * config file).
    */
-  
-  /**
-   * The configuration file of demo defines URL of resources. At the time
-   * of the writing of the configuration of the demo the Fully Qualified Domain 
-   * Name (FQDN) of the server hosting the demo is not yet known (and will
-   * only be known at deployment time). It is thus configured with the 
-   * 'DEMO_SERVER' keyword (in the configuration file) that is replaced (at 
-   * run time) through the usage of this function.
-   * This version (as opposed to ReconfigureUrlWithPort) does NOT include
-   * the port number.
-   * @param  {string} ConfigUrl The url of the resource as read in the 
-   *                            configuration file
-   * @return {string}           The reconfigured URL.
-   * This is a private method (hard to express in JS!?).
-   */
-   static ReconfigureUrlWithoutPort(ConfigUrl) {
-    // The url of the 3DTiles layer as read in the configuration file
-    if (!ConfigUrl.includes('DEMO_SERVER')) {
-      // Nothing to fix, return the original url
-      return ConfigUrl;
-    }
-
-    // The url of the server that served this javascript source
-    const ServerUrl = `${window.location.protocol}//${window.location.hostname}`;
-    // The actual URL of the layer as hosted on the (same) server that
-    // delivered this javascript source
-    return ConfigUrl.replace('DEMO_SERVER', ServerUrl);
-  }
-
-  /**
-   * Refer to the documentation of ReconfigureUrlWithoutPort(ConfigUrl)
-   * for the role, parameter and return value.
-   * This version (as opposed to ReconfigureUrlWithoutPort) DOES include
-   * the port number.
-   */
-  static ReconfigureUrlWithPort(ConfigUrl) {
-    // The url of the 3DTiles layer as read in the configuration file
-    if (!ConfigUrl.includes('DEMO_SERVER')) {
-      // Nothing to fix, return the original url
-      return ConfigUrl;
-    }
-
-    // The url of the server that served this javascript source
-    let ServerUrl = `${window.location.protocol}//${window.location.hostname}`;
-    ServerUrl += (window.location.port ? ':' + window.location.port : '');
-    // The actual URL of the layer as hosted on the (same) server that
-    // delivered this javascript source
-    return ConfigUrl.replace('DEMO_SERVER', ServerUrl);
-  }
 
   setup3DTilesLayer() {
     //  ADD 3D Tiles Layer
