@@ -47,7 +47,7 @@ services:
 
   spatial-multimedia-db:
     build:
-      context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB
+      context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB-context
       args:
         ordbms: ${ordbms}
         user: ${POSTGRES_USER}
