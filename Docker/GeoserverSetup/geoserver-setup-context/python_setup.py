@@ -17,7 +17,9 @@ def main():
 
   while connection_attempts < max_connection_attempts:
     try:
-      socket.socket().connect((socket.gethostbyname('geoserver'),8080))
+      socket.socket().connect((
+        socket.gethostbyname(os.getenv('GEOSERVER_SOCKET_HOST')),
+                            int(os.getenv('GEOSERVER_SOCKET_PORT'))))
     except socket.error:
       connection_attempts += 1
       print("Geoserver not yet online. Number of remaining attempts: " +
@@ -34,21 +36,18 @@ def main():
   print("Geoserver connection established")
 
   # ## Proceeding with the data upload
-  cat = Catalog("http://geoserver:8080/geoserver/rest",
+  cat = Catalog(os.getenv('GEOSERVER_CATALOG_ADDRESS'),
                 username = os.getenv('GEOSERVER_ADMIN_USER'),
                 password = os.getenv('GEOSERVER_ADMIN_PASSWORD'))
 
   # Definition of the filenames (radicals) to be imported:
   imp_dir = os.getenv('DATA_IMPORT_DIR')
   workspace = cat.get_workspace(os.getenv('WORKSPACE'))
-  files_to_import = [
-    "A=Difference_EVA_Artificialise-Routes",
-    "B=A-Voies_ferree",
-    "C=B-Batiments",
-    "EVA2015_Artif_Sols_Extent",
-    "EVA2015_Vegetation3STR_Extent",
-    "fpcvoieferree_Extent",
-    "Voirie_Extent"]
+  files_to_import = []
+
+  for file in os.listdir(imp_dir) :
+    if os.path.splitext(file)[0] not in files_to_import :
+      files_to_import.append(os.path.splitext(file)[0])
 
   # Importation per se:
   for file_name in files_to_import:
@@ -64,7 +63,7 @@ def main():
                               data=shapefile_plus_sidecars)
       print(file_name + " successfully uploaded to geoserver.")
     except ConflictingDataError:
-      print(file_name + " was already present within the geoserver.")
+      print(file_name + " was already stored within the geoserver.")
 
   print("Geoserver-setup exiting with success.")
 

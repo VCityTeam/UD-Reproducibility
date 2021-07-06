@@ -4,26 +4,47 @@ LABEL maintainer "VCityTeam"
 LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker/"
 
 RUN apt-get update
+ARG GEOSERVER_FQDN
+ENV GEOSERVER_FQDN=${GEOSERVER_FQDN}
+ARG GEOSERVER_PORT
+ENV GEOSERVER_PORT=${GEOSERVER_PORT}
+ARG SPATIAL_MULTIMEDIA_DB_FQDN
+ENV SPATIAL_MULTIMEDIA_DB_FQDN=${SPATIAL_MULTIMEDIA_DB_FQDN}
+ARG SPATIAL_MULTIMEDIA_DB_PORT
+ENV SPATIAL_MULTIMEDIA_DB_PORT=${SPATIAL_MULTIMEDIA_DB_PORT}
+ARG TILESET_CUSTOM_SERVER
+ENV TILESET_CUSTOM_SERVER=${TILESET_CUSTOM_SERVER}
+ARG UD_VIZ_PORT
+ENV UD_VIZ_PORT=${UD_VIZ_PORT}
 
-######### Install UD-Viz and build it with npm
+######### Install the UD-Viz demo per se (client code) and build it
+# Node version 14 is required. For its installation (on focal) refer to e.g.
+#  https://computingforgeeks.com/install-node-js-14-on-ubuntu-debian-linux/
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
-RUN apt-get install -y npm
 RUN apt-get install -y git
 
-RUN mkdir -p WebDemos
-WORKDIR /WebDemos
-RUN git clone https://github.com/VCityTeam/UD-Viz.git
-WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
-COPY DemoConfigData.json examples/DemoFull/DemoConfigData.json
-COPY index.html ./index.html
-COPY Demo.js examples/DemoFull/Demo.js
-COPY Demo.html examples/DemoFull/Demo.html
-COPY img examples/DemoFull/img
+RUN git clone https://github.com/VCityTeam/UD-Viz-demo.git
+RUN cp -r UD-Viz-demo/DemoFull DatAgora_PartDieu
+RUN cp -r UD-Viz-demo/SimpleServer SimpleServer
+RUN rm -fr UD-Viz-demo
+COPY BaseDemo.js DatAgora_PartDieu/src/Helpers/BaseDemo.js
+COPY config.njk DatAgora_PartDieu/config.njk
 
+RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" ,\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" ,\n\"SPATIAL_MULTIMEDIA_DB_FQDN\": \"${SPATIAL_MULTIMEDIA_DB_FQDN}\" ,\n\"SPATIAL_MULTIMEDIA_DB_PORT\": \"${SPATIAL_MULTIMEDIA_DB_PORT}\" }" > data.json
+RUN npm i -D nunjucks-cli
+RUN node_modules/.bin/nunjucks config.njk data.json -p DatAgora_PartDieu/
+RUN mv -b config.html config.json
+RUN mv -f config.json DatAgora_PartDieu/assets/config/config.json
+
+WORKDIR /DatAgora_PartDieu
 RUN npm install
-RUN npm run build 
+RUN npm run build
 
-EXPOSE 8999
+WORKDIR /SimpleServer
+RUN npm install
+RUN npm run build
 
-CMD ["npm","start","--","--host=0.0.0.0","--port=8999"] 
-
+EXPOSE ${UD_VIZ_PORT}
+CMD [ "node", "./index.js", "../DatAgora_PartDieu", "--port=${UD_VIZ_PORT}" ]
