@@ -1013,12 +1013,14 @@ export class BaseDemo {
     let coordinates = this.extent.center();
     if (
       this.config['camera']['position']['x'] &&
-      this.config['camera']['position']['y']
+      this.config['camera']['position']['y'] &&
+      this.config['camera']['position']['z']
     ) {
       coordinates = new itowns.Coordinates(
         'EPSG:3946',
         parseInt(this.config['camera']['position']['x']),
-        parseInt(this.config['camera']['position']['y'])
+        parseInt(this.config['camera']['position']['y']),
+        parseInt(this.config['camera']['position']['z'])
       );
     }
     let heading = parseFloat(this.config['camera']['position']['heading']);
