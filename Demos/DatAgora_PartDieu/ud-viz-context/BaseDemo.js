@@ -45,7 +45,6 @@ export class BaseDemo {
     const _this = this;
     this.appendTo(document.body);
     this.loadConfigFile(path).then(() => {
-      this.reconfigureConfigurationUrls();
       // Use the stable server
       _this.addLogos();
 
@@ -218,21 +217,6 @@ export class BaseDemo {
         _this.addModuleView('cameraPositioner', cameraPosition);
       }
     });
-  }
-
-  /**
-   * Reconfigure the url requiring it. Such dynamic reconfigurations allows
-   * the definition of server independent deployments.
-   */
-   reconfigureConfigurationUrls() {
-    // FIXME Although this regroups the code sharing the same concern
-    // it should also repeat the tests for the existence of those properties...
-    this.config['3DTilesLayer'].url = BaseDemo.ReconfigureUrlWithPort(
-      this.config['3DTilesLayer'].url,
-    );
-    this.config.server.url = BaseDemo.ReconfigureUrlWithoutPort(
-      this.config.server.url,
-    );
   }
 
 
