@@ -625,6 +625,10 @@ export class BaseDemo {
         return color.set(0xff0000);
     }
 
+    function colorLineMetro() {
+      return color.set(0xff00ff);
+    }
+
     function colorEVAArtif(properties) {
         return color.set(0x0000ff);
     }
@@ -675,6 +679,31 @@ export class BaseDemo {
     this.view.addLayer(BatimentsLayer);
 
     ////---GeoServer layers---////
+
+    let wfsMetroSource = new itowns.WFSSource({
+      url: geoserverAdress,
+      protocol: 'wfs',
+      version: '1.0.0',
+      id: 'Metro',
+      typeName: 'cite:metro_lines_buffer',
+      crs: 'EPSG:3946',
+      extent: this.extent,
+      format: 'application/json',
+    });
+
+    var wfsMetroLayer = new itowns.GeometryLayer('Metro', new THREE.Group(), {
+        update: itowns.FeatureProcessing.update,
+        convert: itowns.Feature2Mesh.convert(),
+        source: wfsMetroSource,
+        style: new itowns.Style({
+          fill:{
+            color: colorLineMetro,
+            base_altitude : 170.1,
+          }
+      })
+    });
+
+    this.view.addLayer(wfsMetroLayer);
 
     let wfsRoadsSource = new itowns.WFSSource({
         url: geoserverAdress,
