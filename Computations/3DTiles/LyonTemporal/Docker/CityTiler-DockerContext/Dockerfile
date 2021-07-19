@@ -7,6 +7,7 @@ FROM python:3.7-buster
 
 RUN set -ex \
     && git clone https://github.com/VCityTeam/py3dtiles.git \
+    && git reset --hard a5a134e5bfbf4bacdd45200b2069e4f2ac3a5fce \
     && mv py3dtiles/ py3dtiles.git \
     && cd py3dtiles.git \
     && git checkout Tiler \
