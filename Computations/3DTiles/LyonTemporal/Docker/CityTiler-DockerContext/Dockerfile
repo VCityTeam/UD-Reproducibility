@@ -9,7 +9,7 @@ RUN set -ex \
     && git clone https://github.com/VCityTeam/py3dtiles.git \
     && mv py3dtiles/ py3dtiles.git \
     && cd py3dtiles.git \
-    && git reset --hard a5a134e5bfbf4bacdd45200b2069e4f2ac3a5fce \
+    && git reset --hard 77774d0e9c199a46ba9508f702c3653957c9fe51 \
     && pip install -e . \
     && pip install pyyaml \
     && python setup.py install
