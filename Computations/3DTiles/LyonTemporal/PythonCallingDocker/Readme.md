@@ -69,7 +69,7 @@ The following manual steps should be applied in order:
 ```bash
 $ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
-(venv)$ python run_lyon_metropole_dowload_and_sanitize_static.py   # result in junk/stage_1
+(venv)$ python run_lyon_metropole_dowload_and_sanitize_temporal.py   # result in junk/stage_1
 (venv)$ python run_split_buildings_static.py                       # result in junk/stage_2
 (venv)$ python run_strip_attributes_static.py                      # result in junk/stage_3 
 (venv)$ python run_load_3dcitydb_static.py                         # result in postgres-data-static/
@@ -109,14 +109,14 @@ The following manual steps should be applied in order:
 
 ```bash
 $ cd `git rev-parse --show-toplevel`
-$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoTemporal
-(venv)$ python run_lyon_metropole_dowload_and_sanitize.py   # result in junk/stage_1
-(venv)$ python run_split_buildings.py                       # result in junk/stage_2
-(venv)$ python run_strip_attributes.py                      # result in junk/stage_3 
-(venv)$ python run_demo_extract_building_dates.py           # result in junk/stage_4
-(venv)$ python run_3dcitydb_server.py                       # Just a test: no output
-(venv)$ python run_load_3dcitydb.py                         # result in junk/stage_5
-(venv)$ python run_tiler_temporal.py                        # result in junk/stage_6
+$ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/
+(venv)$ python DemoTemporal/run_lyon_metropole_dowload_and_sanitize_temporal.py   # result in junk/stage_1
+(venv)$ python DemoTemporal/run_split_buildings_temporal.py                       # result in junk/stage_2
+(venv)$ python DemoTemporal/run_strip_attributes.py                               # result in junk/stage_3 
+(venv)$ python DemoTemporal/run_demo_extract_building_dates.py                    # result in junk/stage_4
+(venv)$ python DemoTemporal/run_3dcitydb_server.py                                # Just a test: no output
+(venv)$ python DemoTemporal/run_load_3dcitydb.py                                  # result in junk/stage_5
+(venv)$ python DemoTemporal/run_tiler_temporal.py                                 # result in junk/stage_6
 ```
 
 ## Developers notes
@@ -256,15 +256,22 @@ This error seems related with postgis or gdal according to threads like:
 - [R wrapping of gdal](https://stackoverflow.com/questions/13662448/what-does-the-following-error-mean-topologyexception-found-non-nonded-intersec)
 - [r-spatial/sf issue](https://github.com/r-spatial/sf/issues/860)
 
-### Bug: run_strip_attributes_static.py
+### Running the workflow on Ubuntu with sudo docker 
 
-The following run fails
+<a name="UbuntuWithSudo"></a>
+
+On an **Ubuntu platform** the default configuration of docker requires
+any user to `sudo` (try running the `docker ps` command and refer to this
+[Aks Ubuntu question](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo)).
+Because the workflow uses docker under the hood, running it, or running any
+of its steps, also requires a common user to use the sudo command.
+Yet when running a workflow step (refer above) with sudo
 
 ```bash
-sudo python run_strip_attributes_static.py
+(venv)$ sudo python run_strip_attributes_static.py
 ```
 
-With the message
+one gets the following error message
 
 ```bash
 Traceback (most recent call last):
@@ -278,10 +285,82 @@ Traceback (most recent call last):
     logging.info(f'Database configuration not found. Exiting')
 ```
 
-This can be resolved with this invocation
+that after some inquiry is due to the fact that the **python command that gets
+used when running in sudo mode is NOT the python of the virtual environment**
+(you can assert this by running `sudo which python3` that does NOT return
+the path to `venv/bin/python3`).
+
+In this Ubuntu context where `sudoing` is required for using docker, you thus
+need to workaround the sudo `PATH` shell environment to explicitly state that
+it is the virtual environment version of python that must be used.
+The command is thus
 
 ```bash
 sudo venv/bin/python3 run_strip_attributes_static.py
+```
+
+### Working around Ubuntu docker access without sudo
+
+On an **Ubuntu platform** the running of the workflow, or any of its steps, 
+fails due to docker access rights limitations. For example when running 
+(refer above)
+
+```bash
+python run_strip_attributes_static.py
+```
+
+one gets the following error message
+
+```bash
+File "<some-path>/venv/lib/python3.8/site-packages/urllib3/connectionpool.py", line 699, in urlopen
+    httplib_response = self._make_request(
+  File "<some-path>/venv/lib/python3.8/site-packages/urllib3/connectionpool.py", line 394, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+[...]
+    sock.connect(self.unix_socket)
+PermissionError: [Errno 13] Permission denied
+[...]
+    raise DockerException(
+docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', PermissionError(13, 'Permission denied'))
+```
+
+indicating that you cannot access/connect the Docker daemon because of
+insufficient permissions (access rights).
+You can asses this is the right diagnostic, by running
+
+```bash
+$ docker version
+```
+
+that should yield something similar to
+
+```bash
+[...]
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.24/version: dial unix /var/run/docker.sock: connect: permission denied
+```
+
+A straightforward workaround, that we do NOT recommend, would be to pre-prend 
+the running script command with a `sudo` i.e. to use 
+
+```bash
+sudo python3 run_strip_attributes_static.py
+```
+
+Yet this cannot be recommend for two reasons
+
+- using `sudo python3 ...` does 
+  [NOT use the python interpreter that you would would think of](#UbuntuWithSudo)
+
+- some portions of the resulting data directory will belong to root, and
+  accessing them or deleting will also require you to used `sudo`
+
+Instead what we advise is to configure your Ubuntu to allow for `docker` usage
+without having to `sudo`, [that boils down to](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) e.g.
+
+```bash
+$ sudo groupadd docker 
+$ sudo gpasswd -a $USER docker
+$ newgrp docker
 ```
 
 ### Concerning the "slow starting postgresql startup"
