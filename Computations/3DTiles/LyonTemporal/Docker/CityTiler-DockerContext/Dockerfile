@@ -22,7 +22,7 @@ RUN set -ex \
 WORKDIR py3dtiles.git/
 
 # Copy the configuration files that are encountered the context
-COPY ./CityTilerDBConfig*.yml Tilers/CityTiler/
+COPY ./CityTilerDBConfigDummy.yml Tilers/CityTiler/CityTilerDBConfigDummy.yml
 COPY ./entrypoint.py ./
 
 ENTRYPOINT ["./entrypoint.py"] 
