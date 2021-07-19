@@ -28,7 +28,7 @@ To modify the content of these variables, you first need to modify the --build-a
 docker build geoserver-setup-context -t geoserver-setup 
 --build-arg GEOSERVER_DATA_GITHUB_REPOSITORY=https://github.com/VCityTeam/UD-Reproducibility 
 --build-arg GEOSERVER_DATA_GITHUB_REPOSITORY_NAME=UD-Reproducibility 
---build-arg GEOSERVER_DATA_IMPORT_DIR=Demos/DatAgora_PartDieu/server-setup-context/data_import
+--build-arg GEOSERVER_DATA_IMPORT_DIR=Demos/DatAgora_PartDieu/data_import
 ```
 See [this page](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) for further instructions.
 
