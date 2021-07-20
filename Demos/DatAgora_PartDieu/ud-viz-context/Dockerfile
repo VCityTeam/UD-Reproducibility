@@ -25,10 +25,15 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get install -y git
 
-RUN git clone https://github.com/VCityTeam/UD-Viz-demo.git
-RUN cp -r UD-Viz-demo/DemoFull DatAgora_PartDieu
-RUN cp -r UD-Viz-demo/SimpleServer SimpleServer
-RUN rm -fr UD-Viz-demo
+RUN git clone https://github.com/VCityTeam/UD-Viz-Template.git
+
+WORKDIR /UD-Viz-Template
+RUN git reset --hard 3cf254e5044542054be6d96be07f80c9e2a158d0
+
+WORKDIR /
+RUN cp -r UD-Viz-Template/DemoFull DatAgora_PartDieu
+RUN cp -r UD-Viz-Template/SimpleServer SimpleServer
+RUN rm -fr UD-Viz-Template
 COPY BaseDemo.js DatAgora_PartDieu/src/Helpers/BaseDemo.js
 COPY config.njk DatAgora_PartDieu/config.njk
 
