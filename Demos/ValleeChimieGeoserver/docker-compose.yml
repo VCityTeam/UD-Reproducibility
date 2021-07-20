@@ -1,0 +1,86 @@
+version: "3.3"
+
+services:
+  geoserver:
+    image: kartoza/geoserver:2.18.0
+    environment:
+      - SAMPLE_DATA=true
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+    ports:
+      - ${GEOSERVER_PORT}:8080
+
+  geoserver-setup:
+    build:
+      context: ../../Docker/GeoserverSetup/geoserver-setup-context
+      args:
+        GEOSERVER_DATA_GITHUB_REPOSITORY: ${GEOSERVER_DATA_GITHUB_REPOSITORY}
+        GEOSERVER_DATA_GITHUB_REPOSITORY_NAME: ${GEOSERVER_DATA_GITHUB_REPOSITORY_NAME}
+        GEOSERVER_DATA_IMPORT_DIR: ${GEOSERVER_DATA_IMPORT_DIR}
+    environment:
+      - WORKSPACE=${GEOSERVER_WORKSPACE}
+      - MAX_CONNECTION_ATTEMPTS=${GEOSERVER_MAX_CONNECTION_ATTEMPTS}
+      - TIME_CONNECTION_ATTEMPTS=${GEOSERVER_TIME_CONNECTION_ATTEMPTS}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+      - GEOSERVER_CATALOG_ADDRESS=${GEOSERVER_CATALOG_ADDRESS}
+      - GEOSERVER_SOCKET_HOST=${GEOSERVER_SOCKET_HOST}
+      - GEOSERVER_SOCKET_PORT=${GEOSERVER_SOCKET_PORT}
+    depends_on: 
+      - geoserver
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:10
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./postgres-data/postgres:/var/lib/postgresql/data
+    expose:
+      - ${POSTGRES_PORT}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    command: -p ${POSTGRES_PORT}
+
+  spatial-multimedia-db:
+    build:
+      context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB-context
+      args:
+        ordbms: ${ordbms}
+        user: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+        host: ${host}
+        port: ${POSTGRES_PORT}
+        dbname: ${POSTGRES_DB}
+    ports:
+      - ${SPATIAL_MULTIMEDIA_DB_PORT}:5000
+    volumes:
+      - .:/api
+    depends_on:
+      - postgres
+
+  3dtiles-server:
+    build:
+      context: ../../Docker/3DTilesServer/3dtiles-server-context
+      args:
+        TILESET_SOURCE: ${TILESET_SOURCE}
+        TILESET_SERVER_PORT: ${TILESET_SERVER_PORT}
+    ports:
+      - ${TILESET_SERVER_PORT}:${TILESET_SERVER_PORT}
+
+  udviz:
+    build:
+      context: ./ud-viz-context
+      args:
+        GEOSERVER_FQDN: ${GEOSERVER_FQDN}
+        GEOSERVER_PORT: ${GEOSERVER_PORT}
+        SPATIAL_MULTIMEDIA_DB_FQDN: ${SPATIAL_MULTIMEDIA_DB_FQDN}
+        SPATIAL_MULTIMEDIA_DB_PORT: ${SPATIAL_MULTIMEDIA_DB_PORT}
+        TILESET_CUSTOM_SERVER: ${TILESET_CUSTOM_SERVER}
+        UD_VIZ_PORT: ${UD_VIZ_PORT}
+    command: node ./index.js ../ValleeChimieGeoserver ${UD_VIZ_PORT}
+    ports:
+      - ${UD_VIZ_PORT}:${UD_VIZ_PORT}
