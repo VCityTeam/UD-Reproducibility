@@ -9,7 +9,7 @@ RUN set -ex \
     && git clone https://github.com/VCityTeam/py3dtiles.git \
     && mv py3dtiles/ py3dtiles.git \
     && cd py3dtiles.git \
-    && git checkout Tiler \
+    && git checkout 444b50086c2ba64289c4694144988610ff6acce0 \
     && pip install -e . \
     && pip install pyyaml \
     && python setup.py install

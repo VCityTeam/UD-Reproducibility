@@ -11,6 +11,7 @@ This demo was developed for the
 [place of vegetation in cities project](https://github.com/VCityTeam/DatAgora/wiki/Vegetalization-Project)
 within DatAgora.
 
+The dockers used in this demo are either located in this folder or in the [Docker folder](../../Docker) located in this repository.
 
 ## Running the demo
 The only pre-requisite is to have a host with 
@@ -33,3 +34,10 @@ By default, this demo uses ports between 8995 and 8999 included. These ports are
 [docker-compose .env file](https://docs.docker.com/compose/env-file/)
 located in the [same directory](.env). Refer to the comments within that file
 for a documentation of the roles of the respective variables.
+
+
+## Setup
+
+To setup this demo you can use the .env file available to configure several parameters for each of the six dockers used. To configure the UD-Viz view, you may need to configure the extent and camera settings directly in the config file. These parameters should be the same for each install of the demo and you won't need to change them for a standard install, but they can easily be modified if you need it.
+
+If you need to reinstall the demo with different parameters, be sure to fully remove all the previous containers, images and volumes used by the previous demo to ensure no information remains cached.
