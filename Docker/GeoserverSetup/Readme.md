@@ -4,13 +4,22 @@
 
 - IMPORTANT : This docker requires a [Geoserver](http://geoserver.org/) to run properly. You should have one currently installed and running, possibly in another docker or setup in your docker-compose for example. If you don't have one currently up and running, you can use this [docker](https://hub.docker.com/r/kartoza/geoserver/) to set one up.
 
-This docker is used to upload data to your geoserver. It takes all the shapefile data stored in a directory and uploads it to the selected workspace of your geoserver. You can launch this docker simultaneously with your geoserver, and it will upload the data once the server is available.
+This docker is used to upload data to your geoserver. It takes all the shapefile data stored in a directory and uploads it to the selected workspace of your geoserver. You can launch this docker simultaneously with your geoserver, and it will upload the data once the server is available. The Geoserver is mainly used to serve data not already available online (private data or data you have modified). The data you wish to upload on your geoserver should be uploaded in a git repository.
 
 ## How to use it
 
-### using docker
+### Using docker-compose (recommended if you do not have a geoserver yet or if you want an easier deployment)
 
-Use the [Dockerfile](Dockerfile) provided within the geoserver-setup-context directory e.g. with
+- Copy the context folder provided in this directory in your compose folder.
+- Create a .env file in your compose folder (if one already exists, do not create another)
+- Add the environment variables located in the "Geoserver-setup related section" located in [this file](Example/.env) to your own .env file.
+- Configure the variables to suit your needs
+- Build and launch your docker-compose.
+- Access your geoserver, you should now be able to see the newly added layers.
+
+### using docker (if you already havea geoserver installed)
+
+Use the [Dockerfile](geoserver-setup-context/Dockerfile) provided within the geoserver-setup-context directory e.g. with
 the following commands :
 ```
 docker build geoserver-setup-context -t geoserver-setup 
@@ -33,16 +42,6 @@ docker build geoserver-setup-context -t geoserver-setup
 See [this page](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables---build-arg) for further instructions.
 
 For all the other variables shown in the geoserver setup section, you can directly change their value in the .env file.
-
-
-### Using docker-compose
-
-- Copy the context folder provided in this directory in your compose folder.
-- Create a .env file in your compose folder (if one already exists, do not create another)
-- Add the environment variables located in the "Geoserver-setup related section" located in [this file](Example/.env) to your own .env file.
-- Configure the variables to suit your needs
-- Build and launch your docker-compose.
-- Access your geoserver, you should now be able to see the newly added layers.
 
 ## Developers
 
