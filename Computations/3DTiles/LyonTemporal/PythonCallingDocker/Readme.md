@@ -103,8 +103,6 @@ $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoTemporal
 
 ### Manual step by step run of the temporal-tiler
 
-**THIS SECTION IS PROBABLY OUTDATED !!!**
-
 The following manual steps should be applied in order:
 
 ```bash
@@ -112,10 +110,10 @@ $ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/
 (venv)$ python DemoTemporal/run_lyon_metropole_dowload_and_sanitize_temporal.py   # result in junk/stage_1
 (venv)$ python DemoTemporal/run_split_buildings_temporal.py                       # result in junk/stage_2
-(venv)$ python DemoTemporal/run_strip_attributes.py                               # result in junk/stage_3 
+(venv)$ python DemoTemporal/run_strip_attributes_temporal.py                               # result in junk/stage_3 
 (venv)$ python DemoTemporal/run_demo_extract_building_dates.py                    # result in junk/stage_4
-(venv)$ python DemoTemporal/run_3dcitydb_server.py                                # Just a test: no output
-(venv)$ python DemoTemporal/run_load_3dcitydb.py                                  # result in junk/stage_5
+(venv)$ python DemoTemporal/run_3dcitydb_server_temporal.py                       # just a test: no output
+(venv)$ python DemoTemporal/run_load_3dcitydb_temporal.py                         # result in postgres-data/ (not a junk/ subdir)
 (venv)$ python DemoTemporal/run_tiler_temporal.py                                 # result in junk/stage_6
 ```
 
