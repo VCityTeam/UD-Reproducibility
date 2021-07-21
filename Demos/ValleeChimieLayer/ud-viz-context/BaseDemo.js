@@ -596,13 +596,9 @@ export class BaseDemo {
 
     var color = new THREE.Color();
 
-    function colorLineMetro() {
-      return color.set(0xff00ff);
-    }
-
     function colorSurfaceBatiments() {
-      return color.set(0x00ffff);
-  }
+        return color.set(0x00ffff);
+    }
 
     var tile;
     function altitudeLine(properties, contour) {
@@ -622,61 +618,59 @@ export class BaseDemo {
         }
     }
 
-
     ////---DataGrandLyon Layers---////
 
     /// Bus 
     var BusSource = new itowns.WFSSource({
-      url: 'https://download.data.grandlyon.com/wfs/rdata?',
-      protocol: 'wfs',
-      version: '2.0.0',
-      id: 'Bus',
-      typeName: 'tcl_sytral.tcllignebus_2_0_0',
-      crs: 'EPSG:3946',
-      extent: this.extent,
-      format: 'geojson',
-  });
-  
-  var BusLayer = new itowns.GeometryLayer('Bus', new THREE.Group(), {
-      update: itowns.FeatureProcessing.update,
-      convert: itowns.Feature2Mesh.convert(),
-      source: BusSource,
-      style: new itowns.Style({
-        stroke:{
-          color: colorSurfaceBatiments,
-          base_altitude: altitudeLine,
-        }
-    })
-  });
-
-  this.view.addLayer(BusLayer);
-
-    ////---GeoServer layers---////
-
-    let wfsBusSource = new itowns.WFSSource({
-      url: geoserverAdress,
-      protocol: 'wfs',
-      version: '1.0.0',
-      id: 'LigneBus',
-      typeName: 'cite:LigneBus',
-      crs: 'EPSG:3946',
-      extent: this.extent,
-      format: 'application/json',
+        url: 'https://download.data.grandlyon.com/wfs/rdata?',
+        protocol: 'wfs',
+        version: '2.0.0',
+        id: 'Bus',
+        typeName: 'tcl_sytral.tcllignebus_2_0_0',
+        crs: 'EPSG:3946',
+        extent: this.extent,
+        format: 'geojson',
     });
-
-    var wfsBusLayer = new itowns.GeometryLayer('LigneBus', new THREE.Group(), {
+    
+    var BusLayer = new itowns.GeometryLayer('Bus', new THREE.Group(), {
         update: itowns.FeatureProcessing.update,
         convert: itowns.Feature2Mesh.convert(),
-        source: wfsBusSource,
+        source: BusSource,
         style: new itowns.Style({
-          fill:{
-            color: colorLineMetro,
-            base_altitude : 170.1,
+          stroke:{
+            color: colorSurfaceBatiments,
+            base_altitude: altitudeLine,
           }
       })
     });
 
-    this.view.addLayer(wfsBusLayer);
+    this.view.addLayer(BusLayer);
+
+    //// Bruit
+    var BruitSource = new itowns.WFSSource({
+      url: 'https://download.data.grandlyon.com/wms/grandlyon?',
+      protocol: 'wms',
+      version: '1.3.0',
+      id: 'Bus',
+      typeName: 'ind_ln_p',
+      crs: 'EPSG:3946',
+      extent: this.extent,
+      format: 'PNG',
+  });
+  
+  var BruitLayer = new itowns.GeometryLayer('bruit', new THREE.Group(), {
+      update: itowns.FeatureProcessing.update,
+      convert: itowns.Feature2Mesh.convert(),
+      source: BruitSource,
+      style: new itowns.Style({
+        stroke:{
+          base_altitude: 171,
+        }
+    })
+  });
+
+  this.view.addLayer(BruitLayer);
+
   }
 
   /**

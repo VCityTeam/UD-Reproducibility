@@ -16,7 +16,7 @@ COPY python_setup.py ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN git clone $GEOSERVER_DATA_GITHUB_REPOSITORY
+RUN git clone -b ChemistryValleyGeoserver $GEOSERVER_DATA_GITHUB_REPOSITORY
 
 RUN mv $GEOSERVER_DATA_GITHUB_REPOSITORY_NAME/$GEOSERVER_DATA_IMPORT_DIR $DATA_IMPORT_DIR
 
