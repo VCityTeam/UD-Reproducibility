@@ -25,8 +25,6 @@ class DemoLoad3DCityDBTemporal(DemoWithDataBasesTemporal):
         self.create_output_dir()   # Just making sure
 
         for vintage in self.vintages:
-            
-            
             logging.info(f'Importation for vintage {str(vintage)}: starting.')
             d = DockerLoad3DCityDB(self.databases[vintage])
             

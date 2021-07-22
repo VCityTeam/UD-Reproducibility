@@ -22,8 +22,7 @@ class DockerLoad3DCityDB(DockerHelperPull, DockerHelperTask):
 
     def __init__comand__line(self, db_config):
         """
-        The 3dCityDB-importer requires a configuration with an ad-hoc (xml format) 
-        file that must be generated out of the demo_configuration file.  
+        The 3dCityDB-importer need a specific command line to import data in 3dcitydb.  
         """
         
          # Check that db configuration is well defined

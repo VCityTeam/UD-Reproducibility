@@ -202,8 +202,6 @@ class DockerHelperContainer(DockerHelperBase):
         Prepare the information required to launch the container and run it
         (always in a detached mode, for technical reasons).
         """
-        
-        
         self.__container = self.client.containers.run(
             self.full_image_name,
             **self.run_arguments)
