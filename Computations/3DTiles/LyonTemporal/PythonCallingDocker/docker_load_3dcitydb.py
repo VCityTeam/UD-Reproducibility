@@ -70,12 +70,11 @@ class DockerLoad3DCityDB(DockerHelperPull, DockerHelperTask):
 
     def get_command(self):
         if not self.command:
-            logging.error('Importer/exporter : Imorter command line is NULL ')
+            logging.error('Importer/exporter : Importer command line is NULL ')
             sys.exit(1)
-
         for file in self.files_to_import:
             self.command += ' /InputFiles/' + file + ' '
-        
+        logging.info('Command launch : ' + self.command)
         return self.command
 
     def check_log_result(self, log_filename):
