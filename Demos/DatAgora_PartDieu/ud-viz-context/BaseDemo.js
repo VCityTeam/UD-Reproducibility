@@ -698,7 +698,7 @@ export class BaseDemo {
         style: new itowns.Style({
           fill:{
             color: colorLineMetro,
-            base_altitude : 170.1,
+            base_altitude : 170.2,
           }
       })
     });
@@ -723,7 +723,7 @@ export class BaseDemo {
         style: new itowns.Style({
           fill:{
             color: colorLineRoads,
-            base_altitude : 170.1,
+            base_altitude : 170.3,
           }
       })
     });
@@ -773,7 +773,7 @@ export class BaseDemo {
         style: new itowns.Style({
           fill:{
             color: colorEVAVegetation,
-            base_altitude : 170.2,
+            base_altitude : 170.5,
           }
       })
     });

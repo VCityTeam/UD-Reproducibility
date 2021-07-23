@@ -37,7 +37,7 @@ RUN rm -fr UD-Viz-Template
 COPY BaseDemo.js DatAgora_PartDieu/src/Helpers/BaseDemo.js
 COPY config.njk DatAgora_PartDieu/config.njk
 
-RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\" ,\n\"GEOSERVER_PORT\": \"${GEOSERVER_PORT}\" ,\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" ,\n\"SPATIAL_MULTIMEDIA_DB_FQDN\": \"${SPATIAL_MULTIMEDIA_DB_FQDN}\" ,\n\"SPATIAL_MULTIMEDIA_DB_PORT\": \"${SPATIAL_MULTIMEDIA_DB_PORT}\" }" > data.json
+RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\",\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" ,\n\"SPATIAL_MULTIMEDIA_DB_FQDN\": \"${SPATIAL_MULTIMEDIA_DB_FQDN}\"}" > data.json
 RUN npm i -D nunjucks-cli
 RUN node_modules/.bin/nunjucks config.njk data.json -p DatAgora_PartDieu/
 RUN mv -b config.html config.json
