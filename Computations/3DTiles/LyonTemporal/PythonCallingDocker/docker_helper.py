@@ -14,7 +14,7 @@ class DockerHelperBase(ABC):
     def __init__(self, image_name, tag):
         """
         :param image_name: image name (e.g. "3DCityDB")
-        :param tag: tag of the image (e.g. "v4.0.2")
+        :param tag: tag of the image (e.g. "v4.3.0")
         """
         # Some methods of docker SDK need the image_name and/or the tag_name
         # independently while others need the full image name which is a
@@ -167,8 +167,9 @@ class DockerHelperContainer(DockerHelperBase):
         Other arguments can be set by child classes, e.g. the
         DockerHelperService class sets the 'ports' argument.
         """
+
         self.run_arguments = dict(
-            # command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
+            #command=["/bin/sh", "-c", "ls /Input /Output"],      # for debug
             command=self.get_command(),
             volumes=self.volumes,
             working_dir=self.working_dir,

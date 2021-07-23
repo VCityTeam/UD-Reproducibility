@@ -27,11 +27,11 @@ class DemoLoad3DCityDBTemporal(DemoWithDataBasesTemporal):
         for vintage in self.vintages:
             logging.info(f'Importation for vintage {str(vintage)}: starting.')
             d = DockerLoad3DCityDB(self.databases[vintage])
-
+            
             inputs = list(map(os.path.abspath, input.get_vintage_resulting_filenames(vintage)))
             d.set_files_to_import(inputs)
             logging.info(f'Files set for importation: {inputs}')
-
+            
             d.run()
             d.check_log_result(log_filename)
             logging.info(f'Importation for vintage {str(vintage)}: done.')
