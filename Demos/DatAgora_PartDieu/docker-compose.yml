@@ -81,6 +81,7 @@ services:
         SPATIAL_MULTIMEDIA_DB_PORT: ${SPATIAL_MULTIMEDIA_DB_PORT}
         TILESET_CUSTOM_SERVER: ${TILESET_CUSTOM_SERVER}
         UD_VIZ_PORT: ${UD_VIZ_PORT}
+        UD_VIZ_DEMO_FOLDER: ${UD_VIZ_DEMO_FOLDER}
     command: node ./index.js ../DatAgora_PartDieu ${UD_VIZ_PORT}
     ports:
       - ${UD_VIZ_PORT}:${UD_VIZ_PORT}

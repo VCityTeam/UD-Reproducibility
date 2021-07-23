@@ -16,6 +16,8 @@ ARG TILESET_CUSTOM_SERVER
 ENV TILESET_CUSTOM_SERVER=${TILESET_CUSTOM_SERVER}
 ARG UD_VIZ_PORT
 ENV UD_VIZ_PORT=${UD_VIZ_PORT}
+ARG UD_VIZ_DEMO_FOLDER
+ENV UD_VIZ_DEMO_FOLDER=${UD_VIZ_DEMO_FOLDER}
 
 ######### Install the UD-Viz demo per se (client code) and build it
 # Node version 14 is required. For its installation (on focal) refer to e.g.
@@ -31,19 +33,19 @@ WORKDIR /UD-Viz-Template
 RUN git reset --hard 3cf254e5044542054be6d96be07f80c9e2a158d0
 
 WORKDIR /
-RUN cp -r UD-Viz-Template/DemoFull DatAgora_PartDieu
+RUN cp -r UD-Viz-Template/DemoFull ${UD_VIZ_DEMO_FOLDER}
 RUN cp -r UD-Viz-Template/SimpleServer SimpleServer
 RUN rm -fr UD-Viz-Template
-COPY BaseDemo.js DatAgora_PartDieu/src/Helpers/BaseDemo.js
-COPY config.njk DatAgora_PartDieu/config.njk
+COPY BaseDemo.js ${UD_VIZ_DEMO_FOLDER}/src/Helpers/BaseDemo.js
+COPY config.njk ${UD_VIZ_DEMO_FOLDER}/config.njk
 
 RUN echo "{\n\"GEOSERVER_FQDN\": \"${GEOSERVER_FQDN}\",\n\"TILESET_CUSTOM_SERVER\": \"${TILESET_CUSTOM_SERVER}\" ,\n\"SPATIAL_MULTIMEDIA_DB_FQDN\": \"${SPATIAL_MULTIMEDIA_DB_FQDN}\"}" > data.json
 RUN npm i -D nunjucks-cli
-RUN node_modules/.bin/nunjucks config.njk data.json -p DatAgora_PartDieu/
+RUN node_modules/.bin/nunjucks config.njk data.json -p ${UD_VIZ_DEMO_FOLDER}/
 RUN mv -b config.html config.json
-RUN mv -f config.json DatAgora_PartDieu/assets/config/config.json
+RUN mv -f config.json ${UD_VIZ_DEMO_FOLDER}/assets/config/config.json
 
-WORKDIR /DatAgora_PartDieu
+WORKDIR /${UD_VIZ_DEMO_FOLDER}
 RUN npm install
 RUN npm run build
 
@@ -52,4 +54,4 @@ RUN npm install
 RUN npm run build
 
 EXPOSE ${UD_VIZ_PORT}
-CMD [ "node", "./index.js", "../DatAgora_PartDieu", "--port=${UD_VIZ_PORT}" ]
+CMD [ "node", "./index.js", "../${UD_VIZ_DEMO_FOLDER}", "--port=${UD_VIZ_PORT}" ]
