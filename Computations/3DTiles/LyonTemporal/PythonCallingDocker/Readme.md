@@ -62,8 +62,6 @@ $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
 
 ### Manual step by step run of the (static) tiler
 
-**THIS SECTION IS PROBABLY OUTDATED !!!**
-
 The following manual steps should be applied in order:
 
 ```bash
@@ -98,7 +96,7 @@ log file for troubleshooting.
 ```bash
 $ cd `git rev-parse --show-toplevel`
 $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoTemporal
-(venv)$ python demo_full_workflow.py
+(venv)$ python run_workflow_temporal.py 
 ```
 
 ### Manual step by step run of the temporal-tiler
