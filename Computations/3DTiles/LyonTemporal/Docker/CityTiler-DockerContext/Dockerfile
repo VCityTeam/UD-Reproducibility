@@ -25,4 +25,4 @@ WORKDIR py3dtiles.git/
 COPY ./CityTilerDBConfig*.yml Tilers/CityTiler/
 COPY ./entrypoint.py ./
 
-ENTRYPOINT ["./entrypoint.py"] 
+ENTRYPOINT ["python3", "./entrypoint.py"] 

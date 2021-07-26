@@ -20,4 +20,5 @@ class DockerTilerStatic(DockerTilerBase):
         command = 'Tiler '
         db_config = self.db_config_filenames[0]
         command += '/Input/' + db_config + ' '
+        logging.info('Command launch : ' + command)
         return command
