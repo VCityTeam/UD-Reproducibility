@@ -64,7 +64,8 @@ services:
 
   3dtiles-server:
     build:
-      context: ../../Docker/3DTilesServer/3dtiles-server-context
+      context: https://github.com/VCityTeam/3DTiles-Server-docker.git
+      dockerfile: 3dtiles-server-context/Dockerfile
       args:
         TILESET_SOURCE: ${TILESET_SOURCE}
         TILESET_SERVER_PORT: ${TILESET_SERVER_PORT}
