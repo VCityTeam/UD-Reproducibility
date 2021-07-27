@@ -1,6 +1,6 @@
 ## Installing the requirements:
 1. Build the ad-hoc docker image<br>
-   Refer to [this installation section of the Docker/Readme.md](../../../../Docker/3DTilesSamples/Readme.md#Installation)<br>
+   Install a [3DTiles-Server](https://github.com/VCityTeam/3DTiles-Server-docker)<br>
    Note: refer below on why cwltool can't do it for us !
 2. Build the python environment 
    ```bash
