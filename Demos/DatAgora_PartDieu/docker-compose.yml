@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 
 services:
   geoserver:
@@ -12,7 +12,8 @@ services:
 
   geoserver-setup:
     build:
-      context: ../../Docker/GeoserverSetup/geoserver-setup-context
+      context: https://github.com/VCityTeam/Geoserver-Setup-docker.git
+      dockerfile: geoserver-setup-context/Dockerfile
       args:
         GEOSERVER_DATA_GITHUB_REPOSITORY: ${GEOSERVER_DATA_GITHUB_REPOSITORY}
         GEOSERVER_DATA_GITHUB_REPOSITORY_NAME: ${GEOSERVER_DATA_GITHUB_REPOSITORY_NAME}
@@ -32,11 +33,11 @@ services:
   postgres:
     restart: unless-stopped
     image: postgres:10
-    container_name: postgres
+    container_name: Spatial-Multimedia-postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
     volumes:
       - ./postgres-data/postgres:/var/lib/postgresql/data
     expose:
@@ -47,14 +48,21 @@ services:
 
   spatial-multimedia-db:
     build:
-      context: ../../Docker/SpatialMultimediaDB/SpatialMultimediaDB-context
+      context: https://github.com/VCityTeam/Spatial-Multimedia-DB-docker.git
+      dockerfile: Spatial-Multimedia-DB-context/Dockerfile
       args:
-        ordbms: ${ordbms}
-        user: ${POSTGRES_USER}
-        password: ${POSTGRES_PASSWORD}
-        host: ${host}
-        port: ${POSTGRES_PORT}
-        dbname: ${POSTGRES_DB}
+        POSTGRES_ORDBMS: ${POSTGRES_ORDBMS}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_PORT: ${POSTGRES_PORT}
+        POSTGRES_DB_NAME: ${POSTGRES_DB_NAME}
+        SPATIAL_MULTIMEDIA_DB_PORT: ${SPATIAL_MULTIMEDIA_DB_PORT}
+        SPATIAL_MULTIMEDIA_DB_ADMIN_EMAIL: ${SPATIAL_MULTIMEDIA_DB_ADMIN_EMAIL}
+        SPATIAL_MULTIMEDIA_DB_ADMIN_FIRST_NAME: ${SPATIAL_MULTIMEDIA_DB_ADMIN_FIRST_NAME}
+        SPATIAL_MULTIMEDIA_DB_ADMIN_LAST_NAME: ${SPATIAL_MULTIMEDIA_DB_ADMIN_LAST_NAME}
+        SPATIAL_MULTIMEDIA_DB_ADMIN_PASSWORD: ${SPATIAL_MULTIMEDIA_DB_ADMIN_PASSWORD}
+        SPATIAL_MULTIMEDIA_DB_ADMIN_USERNAME: ${SPATIAL_MULTIMEDIA_DB_ADMIN_USERNAME}
     ports:
       - ${SPATIAL_MULTIMEDIA_DB_PORT}:5000
     volumes:
