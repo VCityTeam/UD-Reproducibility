@@ -70,8 +70,9 @@ $ cd Computations/3DTiles/LyonTemporal/PythonCallingDocker/DemoStatic
 (venv)$ python run_lyon_metropole_dowload_and_sanitize_temporal.py   # result in junk/stage_1
 (venv)$ python run_split_buildings_static.py                       # result in junk/stage_2
 (venv)$ python run_strip_attributes_static.py                      # result in junk/stage_3 
-(venv)$ python run_load_3dcitydb_static.py                         # result in postgres-data-static/
+(venv)$ python run_load_3dcitydb_static.py                         # result in junk/postgres-data-static/
 (venv)$ python run_tiler_static.py
+# final result in junk/stage_5/BuildingsTileset
 ```
 
 ## Running the temporal-tiler workflow
