@@ -11,7 +11,15 @@ This demo was developed for the
 [place of vegetation in cities project](https://github.com/VCityTeam/DatAgora/wiki/Vegetalization-Project)
 within DatAgora.
 
-The dockers used in this demo are either located in this folder or in the [Docker folder](../../Docker) located in this repository.
+## Used dockers
+The dockers used in this demo are :
+- A [Geoserver docker](https://hub.docker.com/r/kartoza/geoserver/)
+- A [Geoserver setup docker](https://github.com/VCityTeam/Geoserver-Setup-docker)
+- A [3DTiles server docker](https://github.com/VCityTeam/3DTiles-Server-docker)
+- A [Postgres docker](https://hub.docker.com/_/postgres)
+- A [Spatial Multimedia DB docker](https://github.com/VCityTeam/Spatial-Multimedia-DB-docker)
+- A [UD-Viz docker](https://github.com/VCityTeam/UD-Viz) located in this folder
+
 
 ## Running the demo for the first time
 The only pre-requisite is to have a host with 
@@ -81,7 +89,7 @@ If you need to reinstall the demo with different parameters, be sure to fully re
 
 ### Dockers not awaiting each other
 
-Some dockers need a docker to be up running so they can run and complete their task properly. In normal circumstances they do so. However, it has been observed on occasion that the SpatialMultimediaDB will start running while the postgres docker has not finished its setup, resulting in the SpatialMultimediaDB being unable to connect to the database.
+Some dockers need to wait for another docker to be up and running so they can complete their task properly. In normal circumstances they do so. However, it has been observed on occasion that the SpatialMultimediaDB will start running while the postgres docker has not finished its setup, resulting in the SpatialMultimediaDB being unable to connect to the database.
 If that occurs, relaunching the demo should solve the issue.
 
 ### Geoserver crashing when refreshing UD-Viz
