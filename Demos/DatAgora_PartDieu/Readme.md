@@ -90,7 +90,18 @@ If you need to reinstall the demo with different parameters, be sure to fully re
 ### Dockers not awaiting each other
 
 Some dockers need to wait for another docker to be up and running so they can complete their task properly. In normal circumstances they do so. However, it has been observed on occasion that the SpatialMultimediaDB will start running while the postgres docker has not finished its setup, resulting in the SpatialMultimediaDB being unable to connect to the database.
-If that occurs, relaunching the demo should solve the issue.
+ If a message similar to the one shown below shows up, relaunching the demo should solve the issue. 
+   ```
+   extended_doc_api | /api
+   extended_doc_api | Trying to connect to Database...
+   extended_doc_api | Config :  postgresql://postgres:password@postgres:5432/extendedDoc
+   extended_doc_api | Connection failed (psycopg2.OperationalError) could not connect to server: Connection refused
+   extended_doc_api |      Is the server running on host "postgres" (172.22.0.2) and accepting
+   extended_doc_api |      TCP/IP connections on port 5432?
+   extended_doc_api | 
+   extended_doc_api | (Background on this error at: http://sqlalche.me/e/e3q8)
+   ```
+If it doesn't, check that your .env file is properly configured.
 
 ### Geoserver crashing when refreshing UD-Viz
 
