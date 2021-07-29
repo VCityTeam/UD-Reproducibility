@@ -1,9 +1,5 @@
 ## Installing the requirements:
 
-### Build the ad-hoc docker images
-Refer to [this installation section of the Docker/Readme.md](https://github.com/VCityTeam/UD-Reproducibility/blob/master/Docker/3DTilesSamples/Readme.md)
-
-Note: too bad AirFlow won't do it for us
 ###
 ```bash
 cd <this-repository>/Tools/ComputeLyon3DTilesTemporal/Workflow/AirFlow
