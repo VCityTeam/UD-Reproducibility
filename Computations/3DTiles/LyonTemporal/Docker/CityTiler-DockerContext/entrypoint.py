@@ -9,7 +9,7 @@ import glob
 # and to move them to the /Output dir (that is by convention a
 # docker mounted directory/volume).
 
-command = ['python3']
+command = ['']
 kept_args = sys.argv[1:]  # The leading element is 'entrypoint.sh'
 
 if len(kept_args) == 0:
@@ -25,9 +25,9 @@ if len(kept_args) == 0:
 
 TilerMode = kept_args[0]
 if TilerMode == "Tiler":
-    command.append("Tilers/CityTiler/CityTiler.py")
+    command = ['citygml-tiler']
 elif TilerMode == "TemporalTiler":
-    command.append("Tilers/CityTiler/CityTemporalTiler.py")
+    command.append("py3dtilers/CityTiler/CityTemporalTiler.py")
 else:
     print("Tiler argument must either be Tiler or TemporalTiler but got: ",
           TilerMode)
@@ -42,7 +42,7 @@ if TilerMode == "Tiler":
        # and thus we assume it was copied in a "well-known" place (in the 
        # same directory as the Tiler python script). We must thus prefix
        # the configuration filename with the "well-known" path:
-       DBConfigFile = 'Tilers/CityTiler/' + DBConfigFile
+       DBConfigFile = 'py3dtilers/CityTiler/' + DBConfigFile
     else:
        # The configuration file was passed within a mounted directory and
        # its path should be already properly set (thus nothing to do): 
@@ -67,7 +67,7 @@ elif TilerMode == "TemporalTiler":
            # and thus we assume it was copied in a "well-known" place (in the 
            # same directory as the Tiler python script). We must thus prefix
            # the configuration filename with the "well-known" path:
-           DBConfigFile = 'Tilers/CityTiler/' + DBConfigFile
+           DBConfigFile = 'py3dtilers/CityTiler/' + DBConfigFile
         command.append(DBConfigFile)
         arg = kept_args.pop(0)
 
