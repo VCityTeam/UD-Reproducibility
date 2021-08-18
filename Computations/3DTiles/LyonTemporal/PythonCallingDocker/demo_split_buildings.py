@@ -28,7 +28,7 @@ class DemoSplitBuildings:
         if not os.path.isdir(output_directory):
             os.makedirs(output_directory)
 
-        if vintage == '2015':
+        if vintage != '2009' and vintage != '2012' :
             # It happens that 2015 citygml files are already properly split and
             # hence we simply copy them to the output
             shutil.copy(os.path.join(input_directory, input_filename),
