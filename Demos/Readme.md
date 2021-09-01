@@ -1,3 +1,7 @@
+
+**CAVEAT EMPTOR**: before conducing any work in the directory please refer to [this issue](https://github.com/VCityTeam/VCity/issues/220)
+
+
 This directory gathers docker based deployment tools for the demos.
 The general sub-directory structure is as follows:
 ```
