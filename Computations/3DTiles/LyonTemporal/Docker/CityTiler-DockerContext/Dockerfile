@@ -9,7 +9,6 @@ RUN set -ex \
     && git clone https://github.com/VCityTeam/py3dtilers.git \
     && mv py3dtilers/ py3dtilers.git \
     && cd py3dtilers.git \
-    && git checkout CityTiler_with_LodTree \
     && apt-get update \
     && apt-get install -y liblas-c3 libopenblas-base \
     && apt-get install -y libpq-dev \ 
