@@ -25,7 +25,7 @@ boroughs = [
 ## 2. Build ud-viz context
 
 ### 2.1 Configure your demo
-- Go on the generaldemoConfig.json file in the ud-viz-contest folder
+- Go on the [config.json file](https://github.com/VCityTeam/UD-Viz-Template/blob/master/assets/config/config.json) to configure the location of your data and the set the 3D tiles path.
 
 - (Optional) To calculate this coordinates read this [doc](https://github.com/VCityTeam/VCity/wiki/Adapt_extent): 
  ```
