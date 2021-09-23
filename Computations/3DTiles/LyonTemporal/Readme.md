@@ -1,3 +1,15 @@
+
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+
+:no_entry: :no_entry: :no_entry: :no_entry: :no_entry: :no_entry: :no_entry: :no_entry: :no_entry: :underage:
+
+If you are looking for the PythonCallingDocker code, the maintained/current version it is now placed in the [cityGMLto3DTiles repository](https://github.com/VCityTeam/cityGMLto3DTiles) 
+
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+
+---
+---
+---
 This directory holds different ways of computing a 3D Tiles tileset with the
 [temporal extension](https://doi.org/10.5281/zenodo.3596881) representing the
 city of Lyon from 2009 to 2015. The full pipeline of this computation is
