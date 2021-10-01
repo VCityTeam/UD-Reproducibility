@@ -5,12 +5,6 @@ services:
   - docker
 
 jobs:
-  include:
-    - stage: ChemistryValley build
-      script:
-      - |
-        cd Demos/ValleeChimie
-        docker build -t vallee-chimie ud-viz-context 
     - stage: "Markdown link checks"
       language: node_js
       node_js: 12
