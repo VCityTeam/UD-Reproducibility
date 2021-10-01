@@ -1,8 +1,6 @@
 os: linux
 dist: focal
 language: generic
-services:
-  - docker
 
 jobs:
     - stage: "Markdown link checks"
