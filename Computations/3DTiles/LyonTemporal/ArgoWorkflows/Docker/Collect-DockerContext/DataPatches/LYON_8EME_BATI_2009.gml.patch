@@ -1,0 +1,64 @@
+--- LYON_8EME_BATI_2009.gml	2020-01-20 13:35:16.000000000 +0100
++++ LYON_8EME_BATI_2009.gml.patched	2020-01-20 13:33:14.000000000 +0100
+@@ -1202760,61 +1202760,7 @@
+     </bldg:Building>
+   </cityObjectMember>
+ 
+-  <cityObjectMember>
+-    <bldg:Building gml:id="LYON_8_00166">
+-      <gen:doubleAttribute name="Volume">
+-        <gen:value>0.000</gen:value>
+-      </gen:doubleAttribute>
+-      <bldg:boundedBy>
+-        <bldg:RoofSurface gml:id="UUID_cedb86d1-6098-4e34-b819-6dfc11be7b27">
+-          <gen:doubleAttribute name="Area">
+-            <gen:value>0.000</gen:value>
+-          </gen:doubleAttribute>
+-          <bldg:lod2MultiSurface>
+-            <gml:MultiSurface srsDimension="3"/>
+-          </bldg:lod2MultiSurface>
+-        </bldg:RoofSurface>
+-      </bldg:boundedBy>
+-      <bldg:boundedBy>
+-        <bldg:WallSurface gml:id="UUID_4003308e-ddc5-48a7-89e0-b201a9c375d8">
+-          <gen:doubleAttribute name="Area">
+-            <gen:value>0.000</gen:value>
+-          </gen:doubleAttribute>
+-          <bldg:lod2MultiSurface>
+-            <gml:MultiSurface srsDimension="3"/>
+-          </bldg:lod2MultiSurface>
+-        </bldg:WallSurface>
+-      </bldg:boundedBy>
+-    </bldg:Building>
+-  </cityObjectMember>
+ 
+-  <cityObjectMember>
+-    <bldg:Building gml:id="LYON_8_00177">
+-      <gen:doubleAttribute name="Volume">
+-        <gen:value>0.000</gen:value>
+-      </gen:doubleAttribute>
+-      <bldg:boundedBy>
+-        <bldg:RoofSurface gml:id="UUID_5c3fb356-d9be-49da-85ed-d6ccb1ba9de5">
+-          <gen:doubleAttribute name="Area">
+-            <gen:value>0.000</gen:value>
+-          </gen:doubleAttribute>
+-          <bldg:lod2MultiSurface>
+-            <gml:MultiSurface srsDimension="3"/>
+-          </bldg:lod2MultiSurface>
+-        </bldg:RoofSurface>
+-      </bldg:boundedBy>
+-      <bldg:boundedBy>
+-        <bldg:WallSurface gml:id="UUID_b5e6004d-d515-412b-a764-7bee3a7d053c">
+-          <gen:doubleAttribute name="Area">
+-            <gen:value>0.000</gen:value>
+-          </gen:doubleAttribute>
+-          <bldg:lod2MultiSurface>
+-            <gml:MultiSurface srsDimension="3"/>
+-          </bldg:lod2MultiSurface>
+-        </bldg:WallSurface>
+-      </bldg:boundedBy>
+-    </bldg:Building>
+-  </cityObjectMember>
+ 
+   <cityObjectMember>
+     <bldg:Building gml:id="LYON_8_00092">
