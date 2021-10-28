@@ -9,18 +9,24 @@ spec:
   entrypoint: collect-lyon-data
   arguments:
     parameters:
-    - name: message
-      value: hello world
+    # To override the configuration value, run `argo submit` with the -p option:
+    # argo submit parameter.yaml -p config="`cat <path-to-config-file>`"
+    - name: config
+      value: dummy config value
+    - name: pattern
+      value: BATI
+    - name: results_dir
+      value: stage_1
 
   templates:
   - name: collect-lyon-data
     inputs:
       parameters:
-      - name: message       # parameter declaration
+      - name: config       # parameter declaration
     container:
       # FIXME run cowsay with that message input parameter as args
       image: vcity:collect_lyon_data
       imagePullPolicy: Never
       # command: []
-      args: ["python3", "./entrypoint.py", "{{inputs.parameters.message}}"]
+      args: ["python3", "./entrypoint.py", "{{inputs.parameters.config}}"]
 

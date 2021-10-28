@@ -5,9 +5,14 @@ from demo import Demo, DemoWithFileOutput
 
 # CLEANME import demo_configuration_static
 class DemoStatic(Demo):
-    def __init__(self, vintage, results_dir, all_demos_output_dir, city, boroughs):
-        super().__init__(results_dir, all_demos_output_dir, city, boroughs)
-        self.vintage = vintage
+    def __init__(self, config):
+        super().__init__(
+            config.results_dir,
+            config.all_demos_output_dir,
+            config.city,
+            config.boroughs,
+        )
+        self.vintage = config.vintage
 
 
 class DemoWithFileOutputStatic(DemoStatic, DemoWithFileOutput, ABC):

@@ -2,19 +2,24 @@ import os.path
 import sys
 import shutil
 import logging
+import yaml
 from demo_static import DemoStatic
 from demo_lyon_metropole_dowload_and_sanitize_static import (
     DemoLyonMetropoleDowloadAndSanitizeStatic,
 )
 
-# demo_download = DemoLyonMetropoleDowloadAndSanitizeStatic("BATI", "stage_1")
-
 kept_args = sys.argv[1:]  # The leading element is 'entrypoint.py'
-print("Container arguments: ", kept_args)
-sys.exit(0)
+# print("Container arguments: ", kept_args)
+try:
+    config = yaml.safe_load(kept_args[0])
+    print(config)
+except yaml.YAMLError as e:
+    print(e)
 
-DemoStatic().create_output_dir()
-log_filename = os.path.join(DemoStatic().get_output_dir(), "demo_full_workflow.log")
+DemoStatic(config).create_output_dir()
+log_filename = os.path.join(
+    DemoStatic(config).get_output_dir(), "demo_full_workflow.log"
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -24,6 +29,8 @@ logging.basicConfig(
     filename=log_filename,
     filemode="w",
 )
+demo_download = DemoLyonMetropoleDowloadAndSanitizeStatic("BATI", "stage_1")
+sys.exit(0)
 
 logging.info("##################DemoFullWorkflow##### 1: Starting download.")
 demo_download.run()
