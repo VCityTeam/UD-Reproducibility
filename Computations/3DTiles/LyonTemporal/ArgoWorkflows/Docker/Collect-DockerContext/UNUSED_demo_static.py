@@ -2,18 +2,7 @@ import os
 from abc import ABC, abstractmethod
 from demo import Demo, DemoWithFileOutput
 
-
-# CLEANME import demo_configuration_static
-class DemoStatic(Demo):
-    def __init__(self, config):
-        super().__init__(
-            config.results_dir,
-            config.all_demos_output_dir,
-            config.city,
-            config.boroughs,
-        )
-        self.vintage = config.vintage
-
+THIS FILE SHOULD BE UNUSED
 
 class DemoWithFileOutputStatic(DemoStatic, DemoWithFileOutput, ABC):
     """

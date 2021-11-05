@@ -7,26 +7,46 @@ spec:
   # "hello world" as the argument
   # to the message parameter
   entrypoint: collect-lyon-data
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
   arguments:
     parameters:
     # To override the configuration value, run `argo submit` with the -p option:
     # argo submit parameter.yaml -p config="`cat <path-to-config-file>`"
-    - name: config
-      value: dummy config value
-    - name: pattern
-      value: BATI
-    - name: results_dir
-      value: stage_1
+    # FIXME
+    # Instead of defining those values here use the  -parameter-file argument
+    #    argo submit <...> --parameter-file params.yaml
+    - name: persistedVolume   # Must be define here because volume defined here
+      # This is not DRY because of the volumes section
+      value: /data/host
 
   templates:
   - name: collect-lyon-data
     inputs:
       parameters:
-      - name: config       # parameter declaration
+      - name: borough
+        value: LYON_1ER
+      - name: pattern
+      - name: results_dir
+        value: stage_1
+      - name: vintage
+      - name: persistedVolume
+
     container:
       # FIXME run cowsay with that message input parameter as args
       image: vcity:collect_lyon_data
       imagePullPolicy: Never
       # command: []
-      args: ["python3", "./entrypoint.py", "{{inputs.parameters.config}}"]
-
+      args: ["python3", "entrypoint.py",
+            "--borough",     "{{inputs.parameters.borough}}",
+            "--pattern",     "{{workflow.parameters.pattern}}",
+            "--results_dir", "{{workflow.parameters.experiment_output_dir}}/{{inputs.parameters.results_dir}}",
+            #"--results_dir", "{{inputs.parameters.results_dir}}",
+            "--vintage",     "{{workflow.parameters.vintage}}",
+            "--volume",      "{{inputs.parameters.persistedVolume}}"]
+      volumeMounts:                     # same syntax as k8s Pod spec
+       # Mount workdir volume at /host before invoking contained
+       - name: workdir
+         mountPath: /data/host

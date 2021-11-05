@@ -4,7 +4,10 @@
 
 # The output directory where all the results of the computational pipeline
 # will be placed.
-output_dir: 'junk'
+experiment_output_dir: 'junk'
+
+# The CityGML type of data that should be extracted
+pattern: 'BATI'
 
 # The considered vintage year among the Lyon Open data available ones
 vintage: 2015

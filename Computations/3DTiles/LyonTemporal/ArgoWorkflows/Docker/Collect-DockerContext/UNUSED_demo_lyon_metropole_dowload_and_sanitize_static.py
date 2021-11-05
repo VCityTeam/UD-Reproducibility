@@ -1,5 +1,6 @@
 import os
 import sys
+THIS FILE SHOULD NOT BE USED ANYMORE
 from demo_static import DemoStatic, DemoWithFileOutputStatic
 
 from demo_lyon_metropole_dowload_and_sanitize import DemoLyonMetropoleDowloadAndSanitize

@@ -6,14 +6,11 @@
 FROM python:3.7-buster
 
 COPY city_gml_files_from_archive.py ./
-COPY demo_lyon_metropole_dowload_and_sanitize.py ./
-COPY demo_lyon_metropole_dowload_and_sanitize_static.py ./
-COPY demo_static.py ./
-COPY demo.py ./
+COPY lyon_metropole_dowload_and_sanitize.py ./
 COPY entrypoint.py ./
 COPY pushd.py ./
 
 COPY requirements.txt ./
 RUN pip3 install -r requirements.txt
 
-CMD ["python3", "./entrypoint.py"]
+CMD ["python3", "entrypoint.py"]

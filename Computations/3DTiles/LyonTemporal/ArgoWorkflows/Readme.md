@@ -26,6 +26,26 @@ k get pod | grep workflow-controller
 k -n argo port-forward deployment/argo-server 2746:2746 &
 ```
 
+### Mount the current working directory as k8s volume
+
+```bash
+minikube mount `pwd`:/host &       # Note this is process (hence the ampersand)
+```
+
+A workflow can now use this as a volume (refer to 
+[this example](https://minikube.sigs.k8s.io/docs/handbook/mount/)) as
+
+```bash
+"volumes": [
+  {
+    "name": "host-mount",
+    "hostPath": {
+      "path": "/host"
+    }
+  }
+]
+```
+
 ### Build the required containers
 
 ```bash
@@ -38,7 +58,9 @@ docker build -t vcity:collect_lyon_data Docker/Collect-DockerContext/
 ### Run the pipeline
 
 ```bash
-argo submit --watch --log parameter.yml
+argo submit --watch --log parameter.yml \
+   -p pattern=BATI  \
+   -p config="`cat demo_configuration_static.yaml`"
 # Post run log re-read (when logs got cleaned up from terminal by argo)
 argo list logs | grep -i ^parameters-
 argo logs parameters-<generated_string>
@@ -47,18 +69,19 @@ argo logs parameters-<generated_string>
 ## Developers
 
 ### Install utils
+
 ```bash
 # Install kub eval refer to https://www.kubeval.com/installation/
 brew install kubeval
 ```
 
-
-## The process of adapating PythonCallingDocker
+## The process of adapting PythonCallingDocker
 
 ### Creation of ArgoWorflows/Docker/Collect-DockerContext
+
 Oddly enough the PythonCallingDocker version of the pipeline does not use the
-containere defined by LyonTemporal/Docker/Collect-DockerContext/. Instead it
-chose to re-implement, in Python, the downloading process. The reason for
+container defined by LyonTemporal/Docker/Collect-DockerContext/. Instead it
+choses to re-implement, in Python, the downloading process. The reason for
 doing so was to be able to extend the downloading process feature with the
 application of patches as well as being able to handle the directory tree
 that this Python based version of the pipeline is able to propagate (or deal
