@@ -117,7 +117,7 @@ def ReconstructInputParameters():
 parameters = ReconstructInputParameters()
 print("Entrypoint parameters: ", vars(parameters))
 
-log_filename = os.path.join(parameters.results_dir, "Dowload_And_Sanitize.log")
+log_filename = os.path.join(parameters.results_dir, "Download_And_Sanitize.log")
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.DEBUG,

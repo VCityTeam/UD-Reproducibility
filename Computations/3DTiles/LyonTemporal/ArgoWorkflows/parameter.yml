@@ -6,7 +6,7 @@ spec:
   # invoke the whalesay template with
   # "hello world" as the argument
   # to the message parameter
-  entrypoint: collect-lyon-data
+  entrypoint: loop-on-boroughs
   volumes:
   - name: workdir
     hostPath:
@@ -23,16 +23,41 @@ spec:
       value: /data/host
 
   templates:
+#   - name: loop-on-boroughs
+#     steps:
+#     # On debugging purposes
+#     - - name: debug-boroughs
+#         template: whalesay
+#         arguments:
+#           parameters:
+#           - name: message
+#             value: "{{item}} ///// {{workflow.parameters.pattern}} //// {{workflow.parameters.experiment_output_dir}}/stage_1 ////// {{workflow.parameters.vintage}}"
+#         withParam: "{{workflow.parameters.boroughs}}"
+  - name: loop-on-boroughs
+    steps:
+    - - name: collect-boroughs
+        template: collect-lyon-data
+        arguments:
+          parameters:
+          - name: borough
+            value: "{{item}}"
+          - name: pattern
+            value: "{{workflow.parameters.pattern}}"
+          - name: results_dir
+            value: "{{workflow.parameters.experiment_output_dir}}/stage_1"
+          - name: vintage
+            value: "{{workflow.parameters.vintage}}"
+          - name: persistedVolume
+            value: "{{workflow.parameters.persistedVolume}}"
+        withParam: "{{workflow.parameters.boroughs}}"
+
   - name: collect-lyon-data
     inputs:
       parameters:
       - name: borough
-        value: LYON_1ER
       - name: pattern
       - name: results_dir
-        value: stage_1
       - name: vintage
-      - name: persistedVolume
 
     container:
       # FIXME run cowsay with that message input parameter as args
@@ -41,12 +66,20 @@ spec:
       # command: []
       args: ["python3", "entrypoint.py",
             "--borough",     "{{inputs.parameters.borough}}",
-            "--pattern",     "{{workflow.parameters.pattern}}",
-            "--results_dir", "{{workflow.parameters.experiment_output_dir}}/{{inputs.parameters.results_dir}}",
-            #"--results_dir", "{{inputs.parameters.results_dir}}",
-            "--vintage",     "{{workflow.parameters.vintage}}",
-            "--volume",      "{{inputs.parameters.persistedVolume}}"]
+            "--pattern",     "{{inputs.parameters.pattern}}",
+            "--results_dir", "{{inputs.parameters.results_dir}}",
+            "--vintage",     "{{inputs.parameters.vintage}}",
+            "--volume",      "{{workflow.parameters.persistedVolume}}"]
       volumeMounts:                     # same syntax as k8s Pod spec
        # Mount workdir volume at /host before invoking contained
        - name: workdir
          mountPath: /data/host
+  # On debugging purposes
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]
