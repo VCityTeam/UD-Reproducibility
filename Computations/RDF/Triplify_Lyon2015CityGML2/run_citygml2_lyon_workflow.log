@@ -1,0 +1,35 @@
+Tue, 09 Nov 2021 14:47:34 DEBUG    Starting new HTTP connection (1): www.opengis.net:80
+Tue, 09 Nov 2021 14:47:34 DEBUG    http://www.opengis.net:80 "GET /ont/geosparql HTTP/1.1" 302 225
+Tue, 09 Nov 2021 14:47:34 DEBUG    Starting new HTTP connection (1): schemas.opengis.net:80
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://schemas.opengis.net:80 "GET /geosparql/1.0/geosparql_vocab_all.rdf HTTP/1.1" 200 3859
+Tue, 09 Nov 2021 14:47:35 INFO     http download status code: 200
+Tue, 09 Nov 2021 14:47:35 DEBUG    Starting new HTTP connection (1): www.opengis.net:80
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://www.opengis.net:80 "GET /ont/gml HTTP/1.1" 302 225
+Tue, 09 Nov 2021 14:47:35 DEBUG    Starting new HTTP connection (1): schemas.opengis.net:80
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://schemas.opengis.net:80 "GET /gml/3.2.1/gml_32_geometries.rdf HTTP/1.1" 200 1471
+Tue, 09 Nov 2021 14:47:35 INFO     http download status code: 200
+Tue, 09 Nov 2021 14:47:35 DEBUG    Trying paths: ['C:\\Users\\Diego Vinasco\\.docker\\config.json', 'C:\\Users\\Diego Vinasco\\.dockercfg']
+Tue, 09 Nov 2021 14:47:35 DEBUG    Found file at path: C:\Users\Diego Vinasco\.docker\config.json
+Tue, 09 Nov 2021 14:47:35 DEBUG    Found 'credsStore' section
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://localhost:None "GET /version HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://localhost:None "GET /v1.41/_ping HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:47:35 DEBUG    Looking for auth config
+Tue, 09 Nov 2021 14:47:35 DEBUG    Sending auth config ()
+Tue, 09 Nov 2021 14:47:35 DEBUG    http://localhost:None "POST /v1.41/build?t=liris%2Fud-graph%3Alatest&q=False&nocache=False&rm=False&forcerm=False&pull=False HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:34 DEBUG    http://localhost:None "GET /v1.41/images/edcfbb0f225a/json HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:34 INFO     Docker building image: liris/ud-graph:latest
+Tue, 09 Nov 2021 14:49:34 INFO         <Image: 'liris/ud-graph:latest'>
+Tue, 09 Nov 2021 14:49:34 INFO         <itertools._tee object at 0x0000028131703C00>
+Tue, 09 Nov 2021 14:49:34 INFO     Docker building image done.
+Tue, 09 Nov 2021 14:49:41 DEBUG    http://localhost:None "POST /v1.41/containers/create HTTP/1.1" 201 None
+Tue, 09 Nov 2021 14:49:41 DEBUG    http://localhost:None "GET /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/json HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "POST /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/start HTTP/1.1" 204 0
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "POST /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/wait HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "GET /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/logs?stderr=0&stdout=1&timestamps=0&follow=0&tail=all HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "GET /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/json HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 INFO     Docker run standard output follows:
+Tue, 09 Nov 2021 14:49:42 INFO     docker-stdout> b"usage: entrypoint.py\r\n       [-h]\r\n       {shapechange,xml2rdf,xsd2owl}\r\n       ...\r\nentrypoint.py: error: argument transformation: invalid choice: 'uml2owl' (choose from 'shapechange', 'xml2rdf', 'xsd2owl')\r\n"
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "GET /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/logs?stderr=1&stdout=0&timestamps=0&follow=0&tail=all HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "GET /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b/json HTTP/1.1" 200 None
+Tue, 09 Nov 2021 14:49:42 DEBUG    http://localhost:None "DELETE /v1.41/containers/7134a1148bfb4583da2de58eab633c8150522fdbcf84b9fd15530410f37e1e3b?v=False&link=False&force=False HTTP/1.1" 204 0
+Tue, 09 Nov 2021 14:49:52 ERROR    Transformation output directory CityGML_2.0_Ontology not found. Exiting

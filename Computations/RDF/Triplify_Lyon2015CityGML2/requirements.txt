@@ -1,0 +1,2 @@
+git+https://github.com/VCityTeam/docker-helper-py.git
+gitpython
