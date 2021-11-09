@@ -13,12 +13,8 @@ class DemoSetupCityGML2Lyon():
         self.data_dir = 'demo_data/'
         # shapechange stage
         self.stage1_dir = f'{self.data_dir}stage1/'
-        # ontology linking stage
-        self.stage2_dir = f'{self.data_dir}stage2/'
         # gml to graph transformation stage
-        self.stage3_dir = f'{self.data_dir}stage3/'
-        # final output directory
-        self.demo_output_dir = f'{self.data_dir}output/'
+        self.stage2_dir = f'{self.data_dir}stage2/'
         # ud-graph docker context directory
         self.context_dir = 'UD-Graph-DockerContext'
 
@@ -32,7 +28,7 @@ class DemoSetupCityGML2Lyon():
         self.gml_owl_filename = 'gml_32_geometries.rdf'
         self.gml_owl_uri = 'http://www.opengis.net/ont/gml#'
         self.citygml_data_filename = 'LYON_1ER_BATI_2015-1_bldg-patched.gml'
-        self.iso19136_dir = 'iso19136'
+        self.xml2rdf_config = 'citygml_2_mappings.json'
 
     def create_dir(self, dir):
         full_dir_path = os.path.join(os.getcwd(), dir)
@@ -47,8 +43,6 @@ class DemoSetupCityGML2Lyon():
         # create input/output folders
         self.create_dir(self.stage1_dir)
         self.create_dir(self.stage2_dir)
-        self.create_dir(self.stage3_dir)
-        self.create_dir(self.demo_output_dir)
         if not os.path.isdir(self.context_dir):
             self.create_docker_context()
         # prepare stage 1 - shapechange
@@ -67,10 +61,8 @@ class DemoSetupCityGML2Lyon():
                                            self.stage1_dir,
                                            self.citygml_uml_filename)
         shutil.copyfile(full_local_filename, full_input_filename)
-        # prepare stage 2 - ontology linking
-        # TODO: add ontology linking stage to calculation
-        # prepare stage 3 - gml to graph transformation
-        downloader.set_output_dir(self.stage3_dir)
+        # prepare stage 2 - gml to graph transformation
+        downloader.set_output_dir(self.stage2_dir)
         downloader.set_output_filename(self.geosparql_owl_filename)
         downloader.download_file(self.geosparql_owl_uri)
         downloader.set_output_filename(self.gml_owl_filename)
@@ -79,16 +71,16 @@ class DemoSetupCityGML2Lyon():
                                            self.local_files_dir,
                                            self.citygml_data_filename)
         full_input_filename = os.path.join(os.getcwd(),
-                                           self.stage3_dir,
+                                           self.stage2_dir,
                                            self.citygml_data_filename)
         shutil.copyfile(full_local_filename, full_input_filename)
-        full_local_dir = os.path.join(os.getcwd(),
-                                      self.local_files_dir,
-                                      self.iso19136_dir)
-        full_input_dir = os.path.join(os.getcwd(),
-                                      self.stage3_dir,
-                                      self.iso19136_dir)
-        shutil.copytree(full_local_dir, full_input_dir)
+        full_local_filename = os.path.join(os.getcwd(),
+                                           self.local_files_dir,
+                                           self.xml2rdf_config)
+        full_input_filename = os.path.join(os.getcwd(),
+                                           self.stage2_dir,
+                                           self.xml2rdf_config)
+        shutil.copyfile(full_local_filename, full_input_filename)
 
     def clean(self):
         full_data_dir_path = os.path.join(os.getcwd(), self.data_dir)
@@ -118,25 +110,20 @@ class DemoSetupCityGML2Lyon():
         if not os.path.isdir(full_dir_path):
             logging.error(f'Directory {full_dir_path} not found. Exiting.')
             sys.exit(1)
-        ### verify stage 3 ###
-        full_dir_path = os.path.join(os.getcwd(), self.stage3_dir)
-        if not os.path.isdir(full_dir_path):
-            logging.error(f'Directory {full_dir_path} not found. Exiting.')
-            sys.exit(1)
         full_file_path = os.path.join(os.getcwd(),
-                                      self.stage3_dir,
+                                      self.stage2_dir,
                                       self.geosparql_owl_filename)
         if not os.path.isfile(full_file_path):
             logging.error(f'File {full_file_path} not found. Exiting.')
             sys.exit(1)
         full_file_path = os.path.join(os.getcwd(),
-                                      self.stage3_dir,
+                                      self.stage2_dir,
                                       self.gml_owl_filename)
         if not os.path.isfile(full_file_path):
             logging.error(f'File {full_file_path} not found. Exiting.')
             sys.exit(1)
-        ### verify output ###
-        full_dir_path = os.path.join(os.getcwd(), self.demo_output_dir)
+        ### verify docker context ###
+        full_dir_path = os.path.join(os.getcwd(), self.context_dir)
         if not os.path.isdir(full_dir_path):
-            logging.error(f'Directory {full_dir_path} not found. Exiting.')
+            logging.error(f'Directory {context_dir} not found. Exiting.')
             sys.exit(1)

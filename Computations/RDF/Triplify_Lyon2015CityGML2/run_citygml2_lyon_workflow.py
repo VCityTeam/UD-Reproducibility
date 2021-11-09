@@ -28,21 +28,18 @@ if __name__ == "__main__":
     ### Stage 1: Transform CityGML 2.0 conceptual model to OWL ###
     print('Demo setup complete. Begin Stage 1...')
     DockerShapechange.transform_single_file(demo.stage1_dir,
-                                            demo.stage2_dir,
                                             demo.citygml_uml_filename,
                                             demo.citygml_owl_dir,
                                             demo.shapechange_config_filename)
 
-    ### Stage 2: Link CityGML ontologies ###
+    ### Stage 2: Transform CityGML dataset into RDF ###
     print('Stage 1 complete. Begin Stage 2...')
-    # TODO: add ontology linking stage
-    stage2_semantic_model_output = os.path.join(demo.stage2_dir, demo.citygml_owl_dir)
-    stage3_semantic_model_input = os.path.join(demo.stage3_dir, demo.citygml_owl_dir)
-    shutil.copytree(stage2_semantic_model_output, stage3_semantic_model_input)
+    stage1_output = os.path.join(demo.stage1_dir, demo.citygml_owl_dir)
+    stage2_input = os.path.join(demo.stage2_dir, demo.citygml_owl_dir)
+    shutil.copytree(stage1_output, stage2_input)
 
-    ### Transform CityGML dataset into RDF ###
-    print('Stage 2 complete. Begin Stage 3...')
-    DockerXML2RDF.transform_single_file(demo.stage3_dir,
-                                        demo.demo_output_dir,
-                                        demo.citygml_data_filename)
-    print('Stage 3 complete. Workflow complete!')
+    DockerXML2RDF.transform_single_file(demo.stage2_dir,
+                                        demo.citygml_data_filename,
+                                        demo.citygml_owl_dir,
+                                        demo.xml2rdf_config)
+    print('Stage 2 complete. Workflow complete!')
