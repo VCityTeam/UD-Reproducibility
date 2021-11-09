@@ -55,6 +55,15 @@ eval $(minikube docker-env)
 docker build -t vcity:collect_lyon_data Docker/Collect-DockerContext/
 ```
 
+```bash
+# Because docker build can NOT use the url of sub-directory of git repository
+# (refer e.g. to  
+# https://stackoverflow.com/questions/25509828/can-a-docker-build-use-the-url-of-a-git-branch#27295336 )
+# we designate the Dockerfile through a relative path notation (which creates
+# an implicit dependency within this repository):
+docker  -t vcity:3DUse ../Docker/3DUse-DockerContext/
+```
+
 ### Run the pipeline
 
 ```bash
@@ -64,6 +73,30 @@ argo submit --watch --log parameter.yml \
 # Post run log re-read (when logs got cleaned up from terminal by argo)
 argo list logs | grep -i ^parameters-
 argo logs parameters-<generated_string>
+```
+
+### Troubleshooting
+
+### Storage backend is full
+
+When running the pipeline (with `argo submit`) you might get the following
+error message
+
+```
+Error (exit code 1): failed to put file: Storage backend has reached its 
+minimum free disk threshold. Please delete a few objects to proceed
+```
+
+According to
+[this ansible issue](https://github.com/ansible/awx-operator/issues/609)
+(with some clues from 
+[this minio issue](https://github.com/minio/minio/issues/6795))
+this indicates that the minikube file system is probably full. In order to free
+some disk space
+
+```bash
+minikube ssh
+$ docker system prune   # and hit y for yes
 ```
 
 ## Developers

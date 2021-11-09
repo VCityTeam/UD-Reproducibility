@@ -1,0 +1,141 @@
+# This workflow runs nicely BUT the whalesay message goes
+#       / {{main.steps.call-loop-on-boroughs.outputs.parameters}} /
+# indicating that go couldn't find that variable. This behavior has
+# some similarity with:
+#     https://stackoverflow.com/questions/60569353/dynamic-fan-in-in-argo-workflows
+# that nevertheless states that 
+#   Aggregated step output parameters are accessible via
+#   steps.STEP-NAME.outputs.parameters
+# :-(
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    # This workflow choses to define the parameter values in two locations
+    #  -  -parameter-file argument
+    #    argo submit <...> --parameter-file params.yaml
+    #, run `argo submit` with the -p option:
+    # argo submit parameter.yaml -p persistedVolume="/tmp"
+    # FIXME
+    # Instead of defining those values here use the  -parameter-file argument
+    #    argo submit <...> --parameter-file params.yaml
+    - name: persistedVolume   # Must be define here because volume defined here
+      # This is not DRY because of the volumes section
+      value: /data/host
+
+  templates:
+  - name: main
+    steps:
+    - - name: call-loop-on-boroughs
+        template: loop-on-boroughs
+    - - name: print-file-names
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # value: bozo
+            value: "{{main.steps.call-loop-on-boroughs.outputs.parameters}}"
+            # value: "{{steps.call-loop-on-boroughs.outputs.parameters.resulting-filenames}}"
+
+  - name: loop-on-boroughs
+    steps:
+    - - name: collect-boroughs
+        template: collect-lyon-data
+        arguments:
+          parameters:
+          - name: borough
+            value: "{{item}}"
+          - name: pattern
+            value: "{{workflow.parameters.pattern}}"
+          - name: results_dir
+            value: "{{workflow.parameters.experiment_output_dir}}/stage_1"
+          - name: vintage
+            value: "{{workflow.parameters.vintage}}"
+          - name: persistedVolume
+            value: "{{workflow.parameters.persistedVolume}}"
+        withParam: "{{workflow.parameters.boroughs}}"
+    # - - name: print-file-names
+    #    template: whalesay
+    #    arguments:
+    #      parameters:
+    #      - name: message
+    #        # value: bozo
+    #        value: "{{steps.collect-boroughs.outputs.parameters}}"
+    #        # value: "{{steps.call-loop-on-boroughs.outputs.parameters.resulting-filenames}}"
+    # outputs:
+    #  parameters:
+    #  - name: resulting-filenames
+        # Because a single run appends its resulting filenames to its
+        # possibly non empty results file, this output parameter can hold
+        # this container run results as well as previous run results.
+        # FIXME: the above feels like flaky and error prone
+        # value: junk
+    #    valueFrom:
+          # Set the value of this output parameter to the contents of the
+          # file designated by this path
+    #      path: "{{workflow.parameters.persistedVolume}}/{{workflow.parameters.experiment_output_dir}}/stage_1/Resulting_Filenames.txt"
+
+  - name: collect-lyon-data
+    inputs:
+      parameters:
+      - name: borough
+      - name: pattern
+      - name: results_dir
+      - name: vintage
+    container:
+      # FIXME run cowsay with that message input parameter as args
+      image: vcity:collect_lyon_data
+      imagePullPolicy: Never
+      # command: []
+      args: ["python3", "entrypoint.py",
+            "--borough",     "{{inputs.parameters.borough}}",
+            "--pattern",     "{{inputs.parameters.pattern}}",
+            "--results_dir", "{{inputs.parameters.results_dir}}",
+            "--vintage",     "{{inputs.parameters.vintage}}",
+            "--volume",      "{{workflow.parameters.persistedVolume}}"]
+      volumeMounts:                     # same syntax as k8s Pod spec
+       # Mount workdir volume at /host before invoking contained
+       - name: workdir
+         mountPath: /data/host
+    outputs:
+      parameters:
+      - name: resulting-filenames
+        # Because a single run appends its resulting filenames to its
+        # possibly non empty results file, this output parameter can hold
+        # this container run results as well as previous run results.
+        # FIXME: the above feels like flaky and error prone
+        valueFrom:
+          # Set the value of this output parameter to the contents of the
+          # file designated by this path
+          path: "{{workflow.parameters.persistedVolume}}/{{inputs.parameters.results_dir}}/Resulting_Filenames.txt"
+            
+  - name: split-buildings
+    inputs:
+      parameters:
+      - name: input_filename
+      - name: input_dir
+      - name: outpur_dir
+    container:
+      image: vcity:3Duse
+      workingDir: /root/3DUSE/Build/src/utils/cmdline/
+      # https://github.com/VCityTeam/UD-Reproducibility/blob/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker/docker_split_buildings.py
+      args: ["splitCityGMLBuildings",
+             "--input-file", "/Input/+ self.input_filename"]
+  
+  # On debugging purposes
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]

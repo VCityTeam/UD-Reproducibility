@@ -10,6 +10,11 @@ LABEL vendor="UD-SV project"
 #   "debconf: unable to initialize frontend: <...>"
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Workaround to https://stackoverflow.com/questions/63526272/release-file-is-not-valid-yet-docker
+# that itself points to a close enough topic (clock discrepancies)
+# https://unix.stackexchange.com/questions/2544/how-to-work-around-release-file-expired-problem-on-a-local-mirror
+RUN echo "Acquire::Check-Valid-Until \"false\";\nAcquire::Check-Date \"false\";" | cat > /etc/apt/apt.conf.d/10no--check-valid-until
+
 # Core dependencies
 RUN apt-get update
 RUN apt-get -y install sudo

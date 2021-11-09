@@ -136,6 +136,8 @@ if not download.assert_output_files_exist():
     sys.exit(1)
 logging.info("##################DemoFullWorkflow##### 1: Resulting files: ")
 [logging.info("   " + file) for file in download.get_resulting_filenames()]
+with open(os.path.join(parameters.results_dir, "Resulting_Filenames.txt"), "a+") as f:
+    [f.write(file + "\n") for file in download.get_resulting_filenames()]
 logging.info("##################DemoFullWorkflow##### 1: Done.")
 
 print("Exiting with success.")
