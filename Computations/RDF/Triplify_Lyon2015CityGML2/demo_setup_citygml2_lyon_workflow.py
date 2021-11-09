@@ -20,9 +20,7 @@ class DemoSetupCityGML2Lyon():
         # final output directory
         self.demo_output_dir = f'{self.data_dir}output/'
         # ud-graph docker context directory
-        self.context_dir = 'UD-Graph-docker'
-        if not os.path.isdir(self.context_dir):
-            self.create_docker_context()
+        self.context_dir = 'UD-Graph-DockerContext'
 
         # filenames and directories
         self.local_files_dir = 'DemoCityGML2Lyon2015'
@@ -51,6 +49,8 @@ class DemoSetupCityGML2Lyon():
         self.create_dir(self.stage2_dir)
         self.create_dir(self.stage3_dir)
         self.create_dir(self.demo_output_dir)
+        if not os.path.isdir(self.context_dir):
+            self.create_docker_context()
         # prepare stage 1 - shapechange
         full_local_filename = os.path.join(os.getcwd(),
                                            self.local_files_dir,
