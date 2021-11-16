@@ -1,3 +1,16 @@
+# Because the following was in a dead end (on trying to re-use the list
+# of output filenames as variables of the workflow) two debugging workflows
+# (working with a simpler context) where realized
+#   sprig-usage-issue.yml
+#   sprig-on-flaky-json-issue.yml
+# each one proposed for discussion on arg-worflows github repository, 
+# respectively refer to
+#   https://github.com/argoproj/argo-workflows/discussions/7218
+#   https://github.com/argoproj/argo-workflows/discussions/7220
+#
+# This workflow is kept here for resuming work when low level problems
+# get answered.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -67,14 +80,44 @@ spec:
         #  - [this StackOverflow](https://stackoverflow.com/questions/63581823/what-is-the-output-of-loop-task-in-argo)
         #  - [that issue](https://github.com/argoproj/argo-workflows/issues/861)
         #  - [this issue](https://github.com/argoproj/argo-workflows/issues/2393)
+
+    - - name: loop-on-simple-lists
+        template: print-python
+        arguments:
+          parameters:
+          - name: message
+            value: "{{=sprig.last( [34, 27, 15, 57, 46] ) }}"
+
+    - - name: simpler-print-file-names
+        template: print-python
+        arguments:
+          parameters:
+          - name: message
+            #
+            # List of fails:
+            #
+            # value: "{{=sprig.last(steps.collect-boroughs.outputs.parameters) }}"
+            # python prints (well this is embarassing)
+            #     {{=sprig.last(steps.collect-boroughs.outputs.parameters) }}
+            #
+            # value: "{{=sprig.last( [34, 27, 15, 57, 46] ) }}"
+            # python prints
+            #    46
+            value: "{{=sprig.last(steps.collect-boroughs.outputs.parameters) }}"
             
     - - name: print-file-names
-        # On debugging purposes
         template: whalesay
         arguments:
           parameters:
           - name: message
-            
+            # value: "{{steps.collect-boroughs.outputs.parameters}}"
+            # returns:
+            #  [
+            #    {"resulting-filenames":"/data/host/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml"},
+            #    {"resulting-filenames":"/data/host/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml\n/data/host/junk/stage_1/LYON_2EME_2015/LYON_2EME_BATI_2015.gml"}
+            #  ]   
+            value: "{{steps.collect-boroughs.outputs.parameters}}"
+  
     - - name: loop-on-split-buildings
         template: split-buildings
         arguments:
@@ -82,7 +125,7 @@ spec:
           - name: input_filename
             value: "{{item}}"
           - name: output_dir
-            # LIMITATION: writting "expressions" at workflow level is not straightforward
+            # LIMITATION
             #
             # For the above value of the output directory name (output_dir) we
             # would here need to build that name by doing string manipulations 
@@ -94,46 +137,65 @@ spec:
             # where stage_2 is locally (defined and) given i.e. we need to
             #   extract /data/host/junk/ out of input_filename ...
             #
-            # We here thus need to realize some string manipulations for which
-            # Argo Workflows offers so called "expreessions that are defined 
-            # with the "expr"micro language. According to 
+            # List of fails when in the context of a
+            #     withParam:"{{steps.collect-boroughs.outputs.parameters}}"
+            #
+            # value: "{{=filepath.Dir(item)}}"
+            # Above line fails with message
+            #    failed to evaluate expression: reflect: call of 
+            #    reflect.Value.NumMethod on zero Value (1:10)
+            #
+            # value: "{{=filepath.Dir(filepath.Dir(item))}}/stage_2"
+            # Above line fails with message
+            #    failed to evaluate expression: reflect: call of 
+            #    reflect.Value.NumMethod on zero Value (1:23)
+            #
+            # ANALYSIS OF LIMITATION: 
+            # the expressions of Argo Workflows are defined with the "expr"
+            # micro language (that according to 
             #    https://github.com/antonmedv/expr 
             # "seamlessly integrates with Go".
-            # 
             # Yet, expressions don't seem to allow for importing Go(lang) 
-            # packages thus preventing e.g. to import packages from the standard
+            # packages thus preventing fo import packages from the standard
             # library like filepath ( https://pkg.go.dev/path/filepath#Base )
             # and only the following subsets of expressions seems to be 
             # currently accepted by expr
             # https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md
             # 
-            # Still, as indicated 
+            # value: "{{=sprig.dir(sprig.dir(a/b/bozo))}}/stage_2"
+            # As indicated by 
             # [here in the documentation](https://github.com/argoproj/argo-workflows/blob/master/docs/conditional-artifacts-parameters.md#built-in-functions),
-            # or 
-            # [in the expression documentation](https://github.com/argoproj/argo-workflows/blob/master/docs/variables.md#expression)
+            # or [in the expression documentation](https://github.com/argoproj/argo-workflows/blob/master/docs/variables.md#expression)
             # (look for the "Sprig functions" string) and/or illustrated by e.g.
             # [this example](https://github.com/argoproj/argo-workflows/blob/master/examples/expression-reusing-verbose-snippets.yaml)
             # it seems that workflow expressions can use the
             # [sprig Go template library](https://masterminds.github.io/sprig/).
-            # 
-            # Yet, when in the context of a loop expressed with
-            #     withParam:"{{steps.collect-boroughs.outputs.parameters}}"
-            # expressions like the following seem to all fail
-            #    value: "{{=sprig.dir(sprig.dir(a/b/bozo))}}/stage_2"
-            #    value: "{{=filepath.Dir(item)}}"
-            #    value: "{{=filepath.Dir(filepath.Dir(item))}}/stage_2"
-            #    value: "{{=sprig.dir({{item}})}}"
-            #    value: "{{=sprig.dir(=item)}}"
-            # although simpler expressions like the following ones are effective
+            # Yet the above trial fails with
+            #      failed to evaluate expression: invalid operation: 
+            #      <nil> / <nil> (1:22)
+            #
+            # value: "{{=sprig.dir({{item}})}}"
+            # Fails with
+            #      failed to evaluate expression: a map key must be a quoted
+            #      string, a number, a identifier, or an expression enclosed
+            #      in parentheses (unexpected token Bracket("{")) (1:12)
+            #
+            # "{{=sprig.dir(item)}}"
+            #      failed to evaluate expression: reflect: Call using 
+            #      map[string]interface {} as type string (1:7)
+            #
+            # "{{=sprig.dir(=item)}}"
+            #      failed to evaluate expression: unexpected token 
+            #      Operator("=") (1:11)
+            #
+            # Expressions that are OK
             #   value: "{{=sprig.dir('a/b/bozo')}}"
             #
-            # Eventually, because the true needs of this workflow) would need the following
-            # expression (or something similar) to work 
-            #    value: "{{workflow.parameters.experiment_output_dir}}/stage_2"
-            # we temporarily use the following semantically wrong "default" value
+            # As a kludge (for the true needs of this workflow) we temporarily 
+            # use the following "default" value
+            # value: "{{workflow.parameters.experiment_output_dir}}/stage_2"
             value: "{{item}}"
           - name: output_filename
-            #
             # LIMITATION
             #
             # We here need to express the equivalent of method
@@ -154,12 +216,9 @@ spec:
             # for the same reasons as documented for the above output_dir needs:
             # the expr language does not seem to have acceess to the Golang
             # standard library
+            #
             # value: "{{=strings.TrimSuffix(filepath.Base(item), path.Ext(filepath.Base(item)))}}_splited.gml}"
-            # 
-            # Because the above fails we here stick with the following dummy
             value: "{{item}}"
-        #
-        # 
         # [This example](https://github.com/argoproj/argo-workflows/blob/master/examples/expression-tag-template-workflow.yaml#L22)
         # mentions that "withParam must be a JSON list encoded as a string".
         # We thus need to split the string representing the filenames with
@@ -247,6 +306,7 @@ spec:
             "--output-filename", "{{inputs.parameters.output_filename}}",
             "--output-dir",      "{{inputs.parameters.output_dir}}"]
   
+  # On debugging purposes
   - name: whalesay
     inputs:
       parameters:
@@ -256,7 +316,6 @@ spec:
       command: [cowsay]
       args: ["{{inputs.parameters.message}}"]
 
-  # Sometimes whalesay will fail and we need alternative debugging means
   - name: print-message
     inputs:
       parameters:

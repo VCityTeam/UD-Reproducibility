@@ -1,0 +1,129 @@
+# Some ditch attempt to get sprig.last() (for a start) to work on some 
+# json expressions stored in as workflow parameters.
+#
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    - name: persistedVolume   
+      value: /data/host
+    - name: json
+      # Note that the following value definition uses a surounding double 
+      # quote. Otherwise whalesay won't work at all: that is whalesay won't 
+      # show anything when trying to use
+      #       value: ['one', 'two', 'three']
+      value: "['one', 'two', 'three']"
+    - name: json-with-returns
+      # Well stictly speaking these are not returns (since \n is here a two
+      # characters string as opposed to the single return character)
+      value: "['one', 'one\ntwo', 'one\ntwo\nthree']"
+    - name: json-with-double-quotes
+      # Seems to be a valid JSON according to some online validators e.g.
+      # https://jsonlint.com/ or https://jsononline.net/json-validator
+      value: '["one","one\ntwo","one\ntwo\nthree"]'
+
+  templates:
+  - name: main
+    steps:
+    - - name: print-sprig-of-in-place-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # The whale will say
+            #       _______ 
+            #      < three >
+            #       -------
+            # sprig does the job and there is thus some hope to make 
+            # something of it.  
+            value: "{{=sprig.last( ['one', 'two', 'three'] ) }}"
+
+    - - name: print-some-json-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # The whale will say
+            #      _____________________________________ 
+            #     < ['one', 'two', 'three'] >
+            #      ------------------------------------- 
+            value: "{{ workflow.parameters.json }}"
+
+    - - name: print-sprig-of-that-json-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But here the whale will say
+            #     _________________________________________ 
+            #    / {{=sprig.last( workflow.parameters.json \
+            #    \ ) }                                     /
+            #     ----------------------------------------- 
+            value: "{{=sprig.last( workflow.parameters.json ) }}"
+
+    - - name: print-some-json-with-return-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # Here the whale will say
+            #      _____________________________________ 
+            #     < ['one', 'one two', 'one two three'] >
+            #      ------------------------------------- 
+            value: "{{ workflow.parameters.json-with-returns }}"
+
+    - - name: print-sprig-of-that-json-with-return-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But here the whale will say
+            #     _________________________________________ 
+            #    / {{=sprig.last(                          \
+            #    | workflow.parameters.json-with-returns ) |
+            #    \ }}                                      /
+            value: "{{=sprig.last( workflow.parameters.json-with-returns ) }}"
+    
+    - - name: print-some-json-with-double-quotes-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # Here I got pretty despaired and tried inverting the usage of
+            # simple quotes (') and double quotes (single character ") for the
+            # definition of workflow parameter
+            #  
+            # And in this case the whale will say
+            #      ________________________________________ 
+            #     < ['one', 'one\ntwo', 'one\ntwo\nthree'] >
+            #      ---------------------------------------- 
+            value: "{{ workflow.parameters.json-with-double-quotes }}"
+
+    - - name: print-sprig-of-that-json-with-double-quotes-string
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But still the whale will persist on saying
+            #     _________________________________________ 
+            #    / {{=sprig.last(                          \
+            #    | workflow.parameters.json-with-double-qu |
+            #    \ otes ) }}                               /
+            value: "{{=sprig.last( workflow.parameters.json-with-double-quotes ) }}"
+    
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]
