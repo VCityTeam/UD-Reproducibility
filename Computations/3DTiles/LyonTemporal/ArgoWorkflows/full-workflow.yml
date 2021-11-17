@@ -28,7 +28,7 @@ spec:
       # sections (refer below): try using 
       # {{workflow.parameters.persistedVolume}}
       # within the respective volumeMounts entries of the containers ?
-      value: /data/host
+      value: /within-container-mount-point/
 
   templates:
   - name: main
@@ -88,11 +88,11 @@ spec:
             # would here need to build that name by doing string manipulations 
             # out of the input_filename (that is "{{item}}")
             # For example when the input_filename is
-            #    /data/host/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml
+            #    /<mnt-point>/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml
             # we would need output_dir to be
-            #    /data/host/junk/stage_2
+            #    /<mnt-point>/junk/stage_2
             # where stage_2 is locally (defined and) given i.e. we need to
-            #   extract /data/host/junk/ out of input_filename ...
+            #   extract /<mnt-point>/junk/ out of input_filename ...
             #
             # We here thus need to realize some string manipulations for which
             # Argo Workflows offers so called "expreessions that are defined 
@@ -142,7 +142,7 @@ spec:
             #   https://github.com/VCityTeam/UD-Reproducibility/blob/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker/demo_split_buildings.py#L16            
             #
             # Thas is, out of the input_filename value
-            #    /data/host/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml
+            #    /<mnt-point>/junk/stage_1/LYON_1ER_2015/LYON_1ER_BATI_2015.gml
             # we would need to construct
             #    LYON_1ER_BATI_2015_splited.gml
             # that is first extract the basename of the filename i.e.
@@ -207,9 +207,9 @@ spec:
             "--vintage",     "{{inputs.parameters.vintage}}",
             "--volume",      "{{workflow.parameters.persistedVolume}}"]
       volumeMounts:                     # same syntax as k8s Pod spec
-       # Mount workdir volume at /data/host before invoking contained
+       # Mount workdir volume within the container
        - name: workdir
-         mountPath: /data/host
+         mountPath: "{{workflow.parameters.persistedVolume}}"
     outputs:
       parameters:
       - name: resulting-filenames
@@ -247,6 +247,7 @@ spec:
             "--output-filename", "{{inputs.parameters.output_filename}}",
             "--output-dir",      "{{inputs.parameters.output_dir}}"]
   
+  # On debugging purposes
   - name: whalesay
     inputs:
       parameters:

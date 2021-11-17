@@ -29,7 +29,7 @@ k -n argo port-forward deployment/argo-server 2746:2746 &
 ### Mount the current working directory as k8s volume
 
 ```bash
-minikube mount `pwd`:/host &       # Note this is process (hence the ampersand)
+minikube mount `pwd`:/data/host &   # Note this is process (hence the ampersand)
 ```
 
 A workflow can now use this as a volume (refer to 
@@ -40,11 +40,14 @@ A workflow can now use this as a volume (refer to
   {
     "name": "host-mount",
     "hostPath": {
-      "path": "/host"
+      "path": "/data/host"
     }
   }
 ]
 ```
+
+Hence the `minikube mount` target argument (i.e. `/data/host`) has to be
+aligned with the workflow volume definition.
 
 ### Build the required containers
 
@@ -67,12 +70,24 @@ docker  -t vcity:3DUse ../Docker/3DUse-DockerContext/
 ### Run the pipeline
 
 ```bash
-argo submit --watch --log parameter.yml \
-   -p pattern=BATI  \
-   -p config="`cat demo_configuration_static.yaml`"
-# Post run log re-read (when logs got cleaned up from terminal by argo)
+argo submit --watch --log full-workflow.yml \
+            --parameter-file demo_configuration_static.yaml
+```
+
+In addition to the outputs printed at execution time, you can access to
+the execution logs with
+
+```bash
 argo list logs | grep -i ^parameters-
 argo logs parameters-<generated_string>
+```
+
+Notice that you can overload any of the parameters at invocation stage with
+
+```bash
+argo submit --watch --log full-workflow.yml \
+   --parameter-file demo_configuration_static.yaml \
+   -p pattern=BATI
 ```
 
 ### Troubleshooting

@@ -1,7 +1,6 @@
-# Try using `argo lint parameter-good-luck-with-linting-this.yml` in order
-# to debug the mistakes looming around this workflow.
-# Note: some mistakes are annotated with the BUG comment but try finding
-# them with the linter...
+# Try finding them with the indications that the "argo lint" linter 
+# provides you...
+# If you get stuck read the last line of this file
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -19,11 +18,6 @@ spec:
     #    e.g. `argo submit argo submit <...> --parameter-file params.yaml`
     #, - within this workflow: refer below to the persistedVolume parameter
     #    definition
-    # 
-    # For both cases the run `argo submit` with the -p option:
-    # argo submit parameter.yaml -p persistedVolume="/tmp"
-    # FIXME
-
     - name: persistedVolume   # Must be define here because volume defined here
       # This is not DRY because of the volumes section
       value: /data/host
@@ -47,7 +41,9 @@ spec:
             value: "{{workflow.parameters.persistedVolume}}"
         withParam: "{{workflow.parameters.boroughs}}"
     - - name: print-file-names
-       # BUG the indention in the following block is wrong (missing one space)
+       # This is a lousy comment to disguise the fact that the next line
+       # is bugged. Indeed the indentation in the following block is wrong: 
+       # it misses a single space.
        template: whalesay
        arguments:
          parameters:
@@ -93,15 +89,7 @@ spec:
       parameters:
       - name: resulting-filenames
         # A single run appends its resulting filenames to the possibly already 
-        # existing results file. The results file can already exist for two
-        # different reasons:
-        #  1/ this is not the first template within the loop (on boroughs) of
-        #     this workflow
-        #  2/ a previous workflow was run and no clean-up was done.
-        #     In other terms this output parameter can hold this container run 
-        #     results as well as previous run results (of this container or even
-        #     this workflow.
-        # FIXME: the above feels like flaky and error prone
+        # existing results file.
         valueFrom:
           # Set the value of this output parameter to the contents of the
           # file designated by this path
@@ -113,13 +101,14 @@ spec:
       - name: input_filename   # Absolute file path
       - name: output_dir       # Absolute directory path 
       - name: output_filename  # Filename (relative to output_dir)
-     # BUG container is here misaligned: should be dedented of two spaces
-     # (note that in this case `argo lint` can be of some help)
+     # The container is bugged because it is misaligned: it should be dedented
+     # of two spaces. Note that, to be faire, in this case `argo lint` can be
+     # of some help
       container:
       image: vcity:3Duse
       workingDir: /root/3DUSE/Build/src/utils/cmdline/
-      # https://github.com/VCityTeam/UD-Reproducibility/blob/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker/docker_split_buildings.py
-      # BUG: the third line of the args definition misses a trailing coma (,)
+      # The third line is bugged because of the args definition that misses 
+      # a trailing coma (,)
       args: ["splitCityGMLBuildings",
              "--input-file", "{{inputs.parameters.input_filename}}",
              "--output-filename", "{{inputs.parameters.output_filename}}"
@@ -134,3 +123,8 @@ spec:
       image: docker/whalesay:latest
       command: [cowsay]
       args: ["{{inputs.parameters.message}}"]
+
+# Hint for finding the errors: some mistakes are annotated with the "bugged" 
+# string embedded in some comments. But try playing the game without this
+# help at first.
+

@@ -1,6 +1,8 @@
 # Some ditch attempt to get sprig.last() (for a start) to work on some 
 # json expressions stored in as workflow parameters.
 #
+# This workflow was submitted for discussion on github, refer to
+#  https://github.com/argoproj/argo-workflows/discussions/7220
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -14,7 +16,7 @@ spec:
   arguments:
     parameters:
     - name: persistedVolume   
-      value: /data/host
+      value: /within-container-mount-point/
     - name: json
       # Note that the following value definition uses a surounding double 
       # quote. Otherwise whalesay won't work at all: that is whalesay won't 

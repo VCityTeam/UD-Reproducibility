@@ -1,4 +1,5 @@
-# First fix the issue of the loop. Then uncomment the commented out section...
+# Workflow submitted for discussion on github
+#  https://github.com/argoproj/argo-workflows/discussions/7218
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -12,7 +13,7 @@ spec:
   arguments:
     parameters:
     - name: persistedVolume   
-      value: /data/host
+      value: /within-container-mount-point/
     - name: json
       # Seems to be a valid JSON according to some online validators e.g.
       # https://jsonlint.com/ or https://jsononline.net/json-validator
@@ -89,7 +90,7 @@ spec:
           f.write("{{inputs.parameters.some-file-content}}" + "\n")
       volumeMounts:
        - name: workdir
-         mountPath: /data/host
+         mountPath: "{{workflow.parameters.persistedVolume}}"
     outputs:
       parameters:
       - name: results-values
