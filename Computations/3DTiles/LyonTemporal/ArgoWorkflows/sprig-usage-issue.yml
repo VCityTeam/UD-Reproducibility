@@ -108,6 +108,13 @@ spec:
 
   # When whalesay fails/crashed we need a plan B print
   - name: print-python
+    # The usage of the 
+    # [following mutex](https://github.com/argoproj/argo-workflows/blob/master/examples/synchronization-mutex-tmpl-level.yaml) 
+    # is to constrain the workflow to execute a loop (using this template)
+    # to be executed sequentially
+    synchronization:
+      mutex:
+        name: print-python-mutex-name
     inputs:
       parameters:
       - name: message

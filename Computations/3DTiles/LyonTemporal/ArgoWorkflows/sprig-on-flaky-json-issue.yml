@@ -1,7 +1,8 @@
 # Some ditch attempt to get sprig.last() (for a start) to work on some 
 # json expressions stored in as workflow parameters.
 #
-# This workflow was submitted for discussion on github, refer to
+# The original version of this workflow was submitted for discussion
+# on github, refer to
 #  https://github.com/argoproj/argo-workflows/discussions/7220
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
@@ -23,6 +24,8 @@ spec:
       # show anything when trying to use
       #       value: ['one', 'two', 'three']
       value: "['one', 'two', 'three']"
+    - name: jsonarray
+      value: ["one", "two", "three"]
     - name: json-with-returns
       # Well stictly speaking these are not returns (since \n is here a two
       # characters string as opposed to the single return character)
@@ -58,6 +61,17 @@ spec:
             #     < ['one', 'two', 'three'] >
             #      ------------------------------------- 
             value: "{{ workflow.parameters.json }}"
+            
+    - - name: print-some-json-string-with-toJson
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But here the whale will say
+            #     ___________________________
+            #    < "['one', 'two', 'three']" >
+            #     --------------------------- 
+            value: "{{=toJson( workflow.parameters.json ) }}"
 
     - - name: print-sprig-of-that-json-string
         template: whalesay
@@ -70,6 +84,41 @@ spec:
             #    \ ) }                                     /
             #     ----------------------------------------- 
             value: "{{=sprig.last( workflow.parameters.json ) }}"
+
+    - - name: print-some-json-string-with-parsing 
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But here the whale will say
+            #      _________________________________ 
+            #     / {{=sprig.last( toJson(          \
+            #     \ workflow.parameters.json ) ) }} /
+            #      --------------------------------- 
+            value: "{{=sprig.last( toJson( workflow.parameters.json ) ) }}"
+
+    - - name: print-some-jsonarray
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # The whale will say
+            #      ___ 
+            #     <   >
+            #      --- 
+            value: "{{ workflow.parameters.jsonarray }}"
+
+    - - name: print-sprig-of-that-jsonarray
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But here the whale will say
+            #     _______________________________________ 
+            #    / {{=sprig.last(                        \
+            #    \ workflow.parameters.jsonarray ) }}    /
+            #     --------------------------------------- 
+            value: "{{=sprig.last( workflow.parameters.jsonarray ) }}"
 
     - - name: print-some-json-with-return-string
         template: whalesay
