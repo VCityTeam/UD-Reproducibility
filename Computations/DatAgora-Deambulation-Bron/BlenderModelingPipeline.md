@@ -19,7 +19,7 @@ The two resulting offsets applied for the specific case of the detailed model of
 # Exporting the model for importation inside UD-Viz
 The first step to export the detailed model is to reverse the offsets.
 Directly in Blender, this can be done by typing `G, <translation in X>, Tab, <translation in Y>, Tab, <translation in Z>, Enter`.
-So apply the reverse offsets in reverse order (70874.5625, -49223.44, 194.8617) and (5100000, -1800000, 0).
+So apply the reverse offsets (70874.5625, -49223.44, 194.8617) and (5100000, -1800000, 0).
 
 Then, there are two possibilities : exporting to OBJ (which will be converted to 3DTiles) or exporting to GLB (which is imported directly as an asset/GameObject in UD-Viz).
 
