@@ -4,9 +4,9 @@ The convertion between CityGML and OBJ (Wavefront) files is done with the tool `
 DA-POM-VilleUnity/CityGMLTool BRON_BATI_2018.gml --obj BRON_BATI_2018.obj
 ```
 Warning ! The vanilla code of the `GMLtoOBJ` tool applies an offset (-1800000, -5100000) and then swaps axes ((x, y, z) becomes (y, z, x)). See the following lines in the code:
-https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/DataProfile.cpp#L68
-https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/main.cpp#L49
-https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/GMLtoOBJ.cpp#L149
+- https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/DataProfile.cpp#L68
+- https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/main.cpp#L49
+- https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/GMLtoOBJ.cpp#L149
 
 # Import of OBJ for detailed modeling inside Blender
 First, the OBJ file is imported inside Blender : `File->Import->Wavefront (.obj)`.
