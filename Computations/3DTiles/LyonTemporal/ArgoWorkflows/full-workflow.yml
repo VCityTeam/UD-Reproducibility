@@ -198,7 +198,7 @@ spec:
       - name: results_dir
       - name: vintage
     container:
-      image: vcity:collect_lyon_data
+      image: vcity/collect_lyon_data
       imagePullPolicy: Never
       args: ["python3", "entrypoint.py",
             "--borough",     "{{inputs.parameters.borough}}",
@@ -238,7 +238,7 @@ spec:
       # Filename (relative to output_dir)
       - name: output_filename
     container:
-      image: vcity:3Duse
+      image: vcity/3Duse
       imagePullPolicy: Never
       workingDir: /root/3DUSE/Build/src/utils/cmdline/
       # https://github.com/VCityTeam/UD-Reproducibility/blob/master/Computations/3DTiles/LyonTemporal/PythonCallingDocker/docker_split_buildings.py

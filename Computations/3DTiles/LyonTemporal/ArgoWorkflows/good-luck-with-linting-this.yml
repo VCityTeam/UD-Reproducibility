@@ -73,7 +73,7 @@ spec:
       - name: results_dir
       - name: vintage
     container:
-      image: vcity:collect_lyon_data
+      image: vcity/collect_lyon_data
       imagePullPolicy: Never
       args: ["python3", "entrypoint.py",
             "--borough",     "{{inputs.parameters.borough}}",
@@ -105,7 +105,7 @@ spec:
      # of two spaces. Note that, to be faire, in this case `argo lint` can be
      # of some help
       container:
-      image: vcity:3Duse
+      image: vcity/3Duse
       workingDir: /root/3DUSE/Build/src/utils/cmdline/
       # The third line is bugged because of the args definition that misses 
       # a trailing coma (,)

@@ -91,7 +91,7 @@ aligned with the workflow volume definition.
 # User Minikube's built-in docker command, refer e.g. to
 # https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube
 eval $(minikube docker-env)
-docker build -t vcity:collect_lyon_data Docker/Collect-DockerContext/
+docker build -t vcity/collect_lyon_data Docker/Collect-DockerContext/
 ```
 
 ```bash
@@ -100,7 +100,7 @@ docker build -t vcity:collect_lyon_data Docker/Collect-DockerContext/
 # https://stackoverflow.com/questions/25509828/can-a-docker-build-use-the-url-of-a-git-branch#27295336 )
 # we designate the Dockerfile through a relative path notation (which creates
 # an implicit dependency within this repository):
-docker  -t vcity:3DUse ../Docker/3DUse-DockerContext/
+docker build --no-cache -t vcity/3DUse ../Docker/3DUse-DockerContext/
 ```
 
 ### Run the pipeline
