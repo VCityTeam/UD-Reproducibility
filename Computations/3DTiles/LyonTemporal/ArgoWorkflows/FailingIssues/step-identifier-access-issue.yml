@@ -1,0 +1,38 @@
+# This workflow illustrates that  to 
+# Workflow submitted for discussion on github
+#  https://github.com/argoproj/argo-workflows/discussions/7218
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    - name: persistedVolume   
+      value: /within-container-mount-point/
+
+  templates:
+  - name: main
+    steps:
+    - - name: failing-step
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # The folling value is not properly resolved:
+            #   templates.main.steps failed to resolve {{steps.failing-step.id}}
+            value: "{{steps.failing-step.id}}" 
+
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]

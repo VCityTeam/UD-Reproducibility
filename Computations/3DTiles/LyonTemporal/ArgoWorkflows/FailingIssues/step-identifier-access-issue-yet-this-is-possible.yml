@@ -1,0 +1,47 @@
+# This workflow illustrates that the access to the id is possible
+# once the step is declared/ran... 
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    - name: persistedVolume   
+      value: /within-container-mount-point/
+
+  templates:
+  - name: main
+    steps:
+    - - name: failing-step
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # If you were to try using
+            #    value: "{{steps.failing-step.id}}" 
+            # then the workflow will fail with message:
+            #   templates.main.steps failed to resolve {{steps.failing-step.id}}
+            value: "Would not work here"
+
+    - - name: afterwards
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # But afterwards the id is available
+            value: "{{steps.failing-step.id}}" 
+
+  - name: whalesay
+    inputs:
+      parameters:
+      - name: message
+    container:
+      image: docker/whalesay:latest
+      command: [cowsay]
+      args: ["{{inputs.parameters.message}}"]
