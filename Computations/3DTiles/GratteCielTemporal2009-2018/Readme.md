@@ -15,28 +15,28 @@ docker build -t vcity/citygml2stripper cityGMLto3DTiles/Docker/CityGML2Stripper-
 ```
 
 ### Stage 1: Strip Building Attributes
-1. Launch a CityGML2Stripper-Docker shell console
+1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
+2. Launch a CityGML2Stripper-Docker shell console
 ```bash
 docker run --name cgmls1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citygml2stripper
 ```
-2. From the container's shell console, split the datasets output from stage 1:
+3. From the container's shell console, split the datasets output from stage 1:
 ```bash
 python /src/CityGML2Stripper.py --input /io/[input filename] --output /io/[output filename] --remove-building-parts
 ```
-3. Repeat step 2 for each stage 1 output file
+4. Repeat step 3 for each input file
 
 ### Stage 2: Split Buildings
-1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
-2. Launch a 3DUse-Docker shell console
+1. Launch a 3DUse-Docker shell console
 ```bash
 docker run --name 3duse1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/3duse
 ```
-3. From the container's shell console, split the dataset buildings:
+2. From the container's shell console, split the dataset buildings:
 ```bash
 cd /root/3DUSE/Build/src/utils/cmdline/
 splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[output filename]
 ```
-4. Repeat step 3 for each input file
+4. Repeat step 2 for each stage 1 output file
 5. Leave this console open to be reused in Stage 3
 
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
