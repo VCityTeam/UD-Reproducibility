@@ -346,7 +346,7 @@ sudo python3 run_strip_attributes_static.py
 Yet this cannot be recommend for two reasons
 
 - using `sudo python3 ...` does 
-  [NOT use the python interpreter that you would would think of](#UbuntuWithSudo)
+  [NOT use the python interpreter that you would would think of](#running-the-workflow-on-ubuntu-with-sudo-docker)
 
 - some portions of the resulting data directory will belong to root, and
   accessing them or deleting will also require you to used `sudo`
