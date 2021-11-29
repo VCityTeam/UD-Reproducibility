@@ -42,8 +42,10 @@ spec:
             # as illustrated by the whale that will say
             #      __________________ 
             #     < {"scalar": "20"} >
-            #      ------------------ 
+            #      ------------------
             value: "{{workflow.parameters.name-with-dash}}"
+            # Note: for this step the evaluator is here Expr (as opposed to 
+            # sprig)
 
     - - name: with-dash-pythonsay
         template: pythonsay
@@ -54,7 +56,21 @@ spec:
             # seems to fail since the python say here goes
             #   {{=jsonpath(workflow.parameters.name-with-dash, '$.scalar')}}
             value: "{{=jsonpath(workflow.parameters.name-with-dash, '$.scalar')}}"
+            # Note: as a partial explanation for the above fails notice that
+            # in this context the evaluator is now sprig (as opposed to Expr).
     
+    - - name: with-dash-workaround
+        template: whalesay
+        arguments:
+          parameters:
+          - name: message
+            # It suffice to use the bracket notations for this example to be
+            # properly evaluated by sprig. Indeed the whale will here say
+            #      ____ 
+            #     < 20 >
+            #      ---- 
+            value: "{{=jsonpath(workflow.parameters['name-with-dash'], '$.scalar')}}"
+
     - - name: with-dash-whalesay
         template: whalesay
         arguments:

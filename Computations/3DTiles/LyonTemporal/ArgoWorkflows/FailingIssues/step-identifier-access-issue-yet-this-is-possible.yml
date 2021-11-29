@@ -1,5 +1,5 @@
 # This workflow illustrates that the access to the id is possible
-# once the step is declared/ran... 
+# only once the step is declared/ran... 
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:

@@ -27,6 +27,9 @@
   [only possible with IntelliJ](https://docs.google.com/document/d/1BCPQx10mq4GO8x6ZRIt1XMONDxcR3OoHdBAEPYP4WiM) (starting from
   [this blog post](https://blog.argoproj.io/argo-workflows-v2-10-d20beeee5df3)
   and [with this StackOverflow](https://stackoverflow.com/questions/63650784/adding-argo-crd-validations-to-vscode)).
+- Working with expressions is hell (does it work at all ?):
+  References
+  - The [original use case (as issue)](https://github.com/argoproj/argo-workflows/issues/4585)
 
 ## Pros
 
