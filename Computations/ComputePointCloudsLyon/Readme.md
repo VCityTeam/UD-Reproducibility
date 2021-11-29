@@ -6,8 +6,8 @@ To [visualize cloud points](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/exampl
   -     wget "https://download.data.grandlyon.com/files/grandlyon/imagerie/mnt2015/lidar/1842_5172.zip" 
   -     unzip 1842_5172.zip
 
-* Install and use [LASzip](https://laszip.org/) to convert data to .las
-  -     laszip -i 1842_5172/*.laz 
+* [Install LASzip](https://laszip.org/) (on OSX use `brew install laszip`)
+  and convert data to .las with `laszip -i 1842_5172/*.laz`
 
 * Use [py3Dtiles](https://github.com/Oslandia/py3dtiles) to create 3DTiles from cloud points : 
   -      py3dtiles convert 1842_5172/*.las --out /dest
