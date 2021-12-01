@@ -1,8 +1,14 @@
-# Change Detection Pipeline
+# Temporal Tilesset for Gratte Ceil
 This is a manual calculation of a 3DTiles+temporal extention of a small data set of the Gratte Ciel neighborhood
 
+The input and the output data for each stage - as calculated thus - far can be found on [nextcloud](https://partage.liris.cnrs.fr/index.php/f/723258567)
+
 ## Manual steps
-Before starting, [install Docker](https://docs.docker.com/engine/install/) 
+Before starting:
+- install [Docker](https://docs.docker.com/engine/install/)
+- install [Docker Compose](https://docs.docker.com/compose/install/)
+- install [3dcitydb/importer-exporter v4.3.0](https://github.com/3dcitydb/importer-exporter/releases/tag/v4.3.0) (don't install v5.0.0)
+
 
 Using docker components from the [cityGMLto3DTiles](https://github.com/VCityTeam/cityGMLto3DTiles) repository the following pipeline can be realized
 
@@ -16,22 +22,22 @@ docker build -t vcity/citygml2stripper cityGMLto3DTiles/Docker/CityGML2Stripper-
 
 ### Stage 1: Strip Building Attributes
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
-2. Launch a CityGML2Stripper-Docker shell console
+2. Launch a CityGML2Stripper container with bash as the entrypoint
 ```bash
 docker run --name cgmls1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citygml2stripper
 ```
-3. From the container's shell console, split the datasets output from stage 1:
+3. From within the container's bash session, split the datasets output from stage 1:
 ```bash
 python /src/CityGML2Stripper.py --input /io/[input filename] --output /io/[output filename] --remove-building-parts
 ```
 4. Repeat step 3 for each input file
 
 ### Stage 2: Split Buildings
-1. Launch a 3DUse-Docker shell console
+1. Launch a 3DUse container with bash as the entrypoint
 ```bash
 docker run --name 3duse1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/3duse
 ```
-2. From the container's shell console, split the dataset buildings:
+2. From within the container's bash session, split the dataset buildings:
 ```bash
 cd /root/3DUSE/Build/src/utils/cmdline/
 splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[output filename]
@@ -40,7 +46,7 @@ splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[outpu
 5. Leave this console open to be reused in Stage 3
 
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
-1. From the 3DUse-Docker shell console, split the datasets output from stage 2:
+1. From the 3DUse container's bash session, split the datasets output from stage 2:
 ```bash
 cd /root/3DUSE/Build/src/utils/cmdline/
 extractBuildingDates --first_date [1st input dataset year] \
@@ -49,6 +55,37 @@ extractBuildingDates --first_date [1st input dataset year] \
                      --second_file /io/[2nd output filename] \
                      --output_dir /io/
 ```
-3. Repeat step 1 for each pair of sequential stage 2 output files and years
+2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
-### Stage 4: Create a 3DTiles tileset
+### Stage 4 (part 1) : Create and Load 3DCityDB Databases
+1. Edit the 4 password fields in the `.env` file with passwords of your choosing
+2. Edit each `CityTilerDBConfig20xx.yml` file so that the password corresponds with what was set in step 1 
+3. Launch the 4 3DCityDB docker containers with docker compose
+```
+docker-compose up
+```
+4. Launch 3dcitydb/importer-exporter and load each output from stage 3 into each corresponding database 
+
+### Stage 4 (part 2): Create a 3DTiles tileset with a temporal extention
+1. Launch a CityTiler container with bash as the entrypoint (make sure the `CityTilerDBConfig20xx.yml` files are in the `[host folder]`)
+```bash
+docker run --name citytiler1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citytiler
+```
+2. From within the container's bash session, run the temporal tiler:
+```bash
+cd /py3dtiles.git/Tilers/CityTiler/
+python CityTemporalTiler.py  \
+  --db_config_path /io/CityTilerDBConfig2009.yml  \
+                   /io/CityTilerDBConfig2012.yml  \
+                   /io/CityTilerDBConfig2015.yml  \
+                   /io/CityTilerDBConfig2018.yml  \
+  --time_stamp 2009 2012 2015 2018  \
+  --temporal_graph /io/[2009 difference graph]  \
+                   /io/[2012 difference graph]  \
+                   /io/[2015 difference graph]  \
+                   /io/[2018 difference graph]
+```
+3. Copy the contents of the `junk` folder to the output folder
+```
+cp -r ./junk /io/[output folder]
+```
