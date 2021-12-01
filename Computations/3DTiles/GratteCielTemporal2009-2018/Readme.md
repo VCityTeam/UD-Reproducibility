@@ -67,6 +67,7 @@ docker-compose up
 4. Launch 3dcitydb/importer-exporter and load each output from stage 3 into each corresponding database 
 
 ### Stage 4 (part 2): Create a 3DTiles tileset with a temporal extention
+⚠️ this is not yet working ⚠️
 1. Launch a CityTiler container with bash as the entrypoint (make sure the `CityTilerDBConfig20xx.yml` files are in the `[host folder]`)
 ```bash
 docker run --name citytiler1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citytiler
