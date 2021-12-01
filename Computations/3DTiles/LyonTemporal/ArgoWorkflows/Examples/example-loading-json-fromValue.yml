@@ -1,5 +1,6 @@
 # Workflow illustrating how to read a json file by means of a valueFrom.
 # Refer to read-json-file-with-valueFrom template.
+# Compare this method with loading-json-with-python.yml.
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -15,7 +16,7 @@ spec:
     - name: persistedVolume   
       value: /within-container-mount-point/
     - name: json-filepath
-      value: Examples/loading-json-input-values-example.json
+      value: Examples/example-loading-json-input-values.json
 
   templates:
   - name: main

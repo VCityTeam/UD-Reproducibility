@@ -1,11 +1,5 @@
 # TODO list
 
-- Pour une boucle on doit différencier les noms des fichiers intermédiaires
-  ou on fera le valueFrom LORSQUE "le" fichier de sortie est sur la partition
-  partagée. Afin d'éviter cette différenciation, peut-on utiliser des
-  répertoires différents dans chacun des conteneurs (avec e.g. la directive
-  emptyDir ?)
-
 - Constatons que l'exemple AW de loop qui fait un withParam sur la sortie d'un
   job Python est effectif pour
   - README_FIRST: en fait le bout de python DOIT faire l'extraction/traitement
@@ -35,6 +29,8 @@
     sorties d'un traitement en json. Le penser comme une feature imposé d'un
     traitement ? i.e. généraliser l'approche de AW a d'autres modes d'écriture
     de workflow ?
+  - utiliser emptyDir (cf example-loop-faning-in-results-through-emptydir.yml)
+    pour collecter les resultats de boucle.
 
 - Use case: restart partiel on fail (re-execution partielle)
   - Peut-on changer l'entrypoint comme un argument de la ligne de commande
@@ -47,6 +43,12 @@ Olivier said:
 - regarder comment AW peut faire usage d'un S3 bucket
 
 ## Done
+
+- Pour une boucle on doit différencier les noms des fichiers intermédiaires
+  ou on fera le valueFrom LORSQUE "le" fichier de sortie est sur la partition
+  partagée. Afin d'éviter cette différenciation, peut-on utiliser des
+  répertoires différents dans chacun des conteneurs (avec e.g. la directive
+  emptyDir ?)
 
 - Regarder si on peut faire des boucles en sequences
 

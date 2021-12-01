@@ -16,7 +16,7 @@ spec:
     - name: persistedVolume   
       value: /within-container-mount-point/
     - name: json-filepath
-      value: Examples/loading-json-input-values-example.json
+      value: Examples/example-loading-json-input-values.json
 
   templates:
   - name: main

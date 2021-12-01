@@ -1,5 +1,13 @@
-# Refer to the lenghty comment section within
-#   write-some-result.script.source 
+# With some inspiration taken in
+#   https://github.com/argoproj/argo-workflows/blob/master/examples/loops-param-result.yaml
+# or
+#   https://github.com/argoproj/argo-workflows/blob/master/examples/parameter-aggregation-dag.yaml
+# this workflow aggregates the results at the level of the workflow.
+# Refer to the comments of the write-some-result template.
+#
+# Warning: because this workflow creates a `results.txt` in the persisted
+# volume, it is not re-entrant. In other terms, before running this workflow
+# make sure that are no previously exising `results.txt` file.
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -30,11 +38,14 @@ spec:
           - "three"
 
     - - name: print-loop-result
-        template: whalesay
+        templateRef:
+          name: workflow-template-utils-whalesay-template
+          template: whalesay-template
         arguments:
           parameters:
           - name: message
-            # This whale should say
+            # This whale should say (unless you had a pre-existing results.txt
+            # file in the persisted volume):
             #         ________________________ 
             #         < ["one","two","three"] >
             #         ------------------------ 
@@ -82,11 +93,3 @@ spec:
         valueFrom:
           path: "{{workflow.parameters.persistedVolume}}/{{inputs.parameters.some-file-content}}-results.txt"
 
-  - name: whalesay
-    inputs:
-      parameters:
-      - name: message
-    container:
-      image: docker/whalesay:latest
-      command: [cowsay]
-      args: ["{{inputs.parameters.message}}"]
