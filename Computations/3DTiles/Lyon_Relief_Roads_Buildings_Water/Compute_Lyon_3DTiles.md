@@ -1,6 +1,6 @@
 # Compute Lyon 3DTiles
 
-This document explains how to create 3DTiles models of buildings, relief, roads and water bodies from Lyon's open data with [py3dtilers](https://github.com/VCityTeam/py3dtilers).
+This document explains how to create 3DTiles models of buildings, relief, roads, bridges and water bodies from Lyon's open data with [py3dtilers](https://github.com/VCityTeam/py3dtilers).
 
 To be able to use the Tilers from py3dtilers, follow the [installation notes](https://github.com/VCityTeam/py3dtilers#installation-from-sources).
 
@@ -90,4 +90,18 @@ To create the relief as 3DTiles, run:
 
 ```bash
 citygml-tiler <path_to_file>/Config.yml relief
+```
+
+### __Bridges__
+
+Download the cityGML data from [Data Grand Lyon](https://data.grandlyon.com/jeux-de-donnees/maquettes-3d-texturees-2018-communes-metropole-lyon/info) (you can choose which districts of Lyon you want to download). Then, import the bridges into a 3DCityDB database:
+
+![import_bridges](pictures/import_bridges.png)
+
+To use the Tiler, see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md)
+
+To create the bridges as 3DTiles, run:
+
+```bash
+citygml-tiler <path_to_file>/Config.yml bridge
 ```
