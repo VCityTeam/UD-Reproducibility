@@ -57,7 +57,7 @@ extractBuildingDates --first_date [1st input dataset year] \
 ```
 2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
-### Stage 4 (part 1) : Create and Load 3DCityDB Databases
+### Stage 4 : Create and Load 3DCityDB Databases
 1. Edit the 4 password fields in the `.env` file with passwords of your choosing
 2. Edit each `CityTilerDBConfig20xx.yml` file so that the password corresponds with what was set in step 1 
 3. Launch the 4 3DCityDB docker containers with docker compose
@@ -66,7 +66,7 @@ docker-compose up
 ```
 4. Launch 3dcitydb/importer-exporter and load each output from stage 3 into each corresponding database 
 
-### Stage 4 (part 2): Create a 3DTiles tileset with a temporal extention
+### Stage 5 : Create a 3DTiles tileset with a temporal extention
 ⚠️ this is not yet working ⚠️
 1. Launch a CityTiler container with bash as the entrypoint (make sure the `CityTilerDBConfig20xx.yml` files are in the `[host folder]`)
 ```bash
