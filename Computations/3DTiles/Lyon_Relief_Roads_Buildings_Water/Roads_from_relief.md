@@ -2,7 +2,7 @@
 
 This document explains how to use the 3DTiles models of the relief and the bridges to update the roads data with the correct altitudes.
 
-We use the [Roads-from-relief](https://github.com/LorenzoMarnat/Roads-From-Relief) application to update the altitudes of the roads.
+We use the [Roads-from-relief](https://github.com/VCityTeam/UD-Demo-VCity-UI-driven-data-computation-Lyon) application to update the altitudes of the roads.
 
 ## Roads data
 
@@ -22,7 +22,7 @@ The data must be saved as __GeoJSON__ with the EPSG 3946 projection.
 
 ## Update the altitudes
 
-To update the altitudes of the roads, first [install and launch the Roads-from-relief](https://github.com/LorenzoMarnat/Roads-From-Relief#installation) application.
+To update the altitudes of the roads, first [install and launch the Roads-from-relief](https://github.com/VCityTeam/UD-Demo-VCity-UI-driven-data-computation-Lyon#installation) application.
 
 Then, you can update a file by drag-and-dropping it on the browser. The altitudes will be updated by raycasting on __all visible 3DTiles layers__.
 If you don't want to use the relief or the bridges to update your file, hide the corresponding layer.
