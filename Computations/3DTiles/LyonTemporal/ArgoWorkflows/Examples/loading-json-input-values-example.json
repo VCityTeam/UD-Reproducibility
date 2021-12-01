@@ -1,0 +1,9 @@
+{
+  "output-filename": "some_output.xml",
+  "size": "12345",
+  "input-parameters": [
+    {"vintage": "2012"},
+    {"input-filename": "2012_LYON1.xml"},
+    {"pattern": "Building"}
+  ]
+}

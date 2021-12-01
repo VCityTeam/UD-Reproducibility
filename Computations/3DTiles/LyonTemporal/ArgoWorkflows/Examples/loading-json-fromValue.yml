@@ -1,0 +1,126 @@
+# Workflow illustrating how to read a json file by means of a valueFrom.
+# Refer to read-json-file-with-valueFrom template.
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    - name: persistedVolume   
+      value: /within-container-mount-point/
+    - name: json-filepath
+      value: Examples/loading-json-input-values-example.json
+
+  templates:
+  - name: main
+    steps:
+
+    - - name: read-json-file-step
+        template: read-json-file-with-valueFrom
+        arguments:
+          parameters:
+          - name: file-name
+            value: "{{workflow.parameters.json-filepath}}"
+
+    - - name: print-size
+        templateRef:
+          name: workflow-template-utils-whalesay-template
+          template: whalesay-template
+        arguments:
+          parameters:
+          - name: message
+            # The whale will duly say
+            #      _______ 
+            #     < 12345 >
+            #      ------- 
+            value: "{{=jsonpath(steps['read-json-file-step'].outputs.parameters.result, '$.size')}}"
+
+    - - name: print-vintage
+        templateRef:
+          name: workflow-template-utils-whalesay-template
+          template: whalesay-template
+        arguments:
+          parameters:
+          - name: message
+            # The whale will duly say
+            #      ______ 
+            #     < 2012 >
+            #      ------ 
+            value: "{{=sprig.mustFirst(jsonpath(steps['read-json-file-step'].outputs.parameters.result, '$.input-parameters.vintage'))}}"
+   
+    - - name: print-debug-success
+        templateRef:
+          name: workflow-template-utils-jsondumpstdout-template
+          template: jsondumpstdout-template
+        arguments:
+          parameters:
+          - name: persistedVolume
+            value: "{{workflow.parameters.persistedVolume}}"
+          - name: file-name
+            value: "{{workflow.parameters.json-filepath}}"
+
+    - - name: print-debug-fail
+        templateRef:
+          name: workflow-template-utils-pythonsay-template
+          template: pythonsay-template
+        arguments:
+          parameters:
+          - name: message
+            # When debugging the access a field of a fairly complex json 
+            # variable (refer above for examples) it is nice to have at hand
+            # the full json. Yet, when trying to print the json variable with
+            # the help of the following "value:" fields, the current debug
+            # printing will fail (both for pythonsay or whalesay). This 
+            # seems apparently due to the fact that the argo interpreter will
+            # fail (even before the call) as illustrated below for different 
+            # expressions of the "value:" field: 
+            # 
+            # value: "{{=steps['read-json-file-step'].outputs.parameters.result}}"
+            # as well as
+            # value: "{{steps.read-json-file-step.outputs.parameters.result}}"
+            # will both fail with message
+            #   File "/argo/staging/script", line 1
+            #       print("{   
+            #              ^
+            #   SyntaxError: EOL while scanning string literal
+            #
+            # value: "{{=sprig.toPrettyJson(steps['read-json-file-step'].outputs.parameters.result)}}"
+            # will fail as above (that is on the first encounted accolage) with
+            #  message
+            #   File "/argo/staging/script", line 1
+            #      print(""{\n  \"output-filename\": \"some_output.xml\",\n  \"size\": \"12345\",\n  \"input-parameters\": [\n    {\"vintage\": \"2012\"},\n    {\"input-filename\": \"2012_LYON1.xml\"},\n    {\"pattern\": \"Building\"}\n  ]\n}"")
+            #              ^
+            #   SyntaxError: invalid syntax
+            # 
+            # value: "{{steps['read-json-file-step'].outputs.parameters.result}}"
+            # will simply print the incoming string (apparently without Expr
+            # resolving the variable) that is
+            #     {{steps['read-json-file-step'].outputs.parameters.result}}
+            # 
+            # value: "{{steps.read-json-file-step.outputs.parameters.result}}"
+            value: "FAIL"
+
+  - name: read-json-file-with-valueFrom
+    inputs:
+      parameters:
+      - name: file-name
+    container:
+      # Really lightweight container that does nothing ("no operation" i.e. 
+      # noop) but is only used to trigger the valueFrom loading of the file
+      # at the outputs "stage":
+      image: refstudycentre/scratch-base
+      command: ["/noop"]
+      volumeMounts:
+        - name: workdir
+          mountPath: "{{workflow.parameters.persistedVolume}}"
+    outputs:
+      parameters:
+      - name: result
+        valueFrom:
+          path: "{{workflow.parameters.persistedVolume}}/{{inputs.parameters.file-name}}"

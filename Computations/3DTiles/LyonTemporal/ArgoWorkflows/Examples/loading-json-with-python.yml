@@ -1,0 +1,60 @@
+# Workflow illustrating how to read a json file by means of a jsondump
+# running with a container. Refer to jsondumpstdout-template templateRef.
+# Compare this method with loading-json-fromValue.yml
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: parameters-
+spec:
+  entrypoint: main
+  volumes:
+  - name: workdir
+    hostPath:
+      path: /data/host
+  arguments:
+    parameters:
+    - name: persistedVolume   
+      value: /within-container-mount-point/
+    - name: json-filepath
+      value: Examples/loading-json-input-values-example.json
+
+  templates:
+  - name: main
+    steps:
+
+    - - name: read-json-file-step
+        templateRef:
+          name: workflow-template-utils-jsondumpstdout-template
+          template: jsondumpstdout-template
+        arguments:
+          parameters:
+          - name: persistedVolume
+            value: "{{workflow.parameters.persistedVolume}}"
+          - name: file-name
+            value: "{{workflow.parameters.json-filepath}}"
+
+    - - name: print-size
+        templateRef:
+          name: workflow-template-utils-whalesay-template
+          template: whalesay-template
+        arguments:
+          parameters:
+          - name: message
+            # The whale will duly say
+            #      _______ 
+            #     < 12345 >
+            #      ------- 
+            value: "{{=jsonpath(steps['read-json-file-step'].outputs.result, '$.size')}}"
+
+    - - name: print-vintage
+        templateRef:
+          name: workflow-template-utils-whalesay-template
+          template: whalesay-template
+        arguments:
+          parameters:
+          - name: message
+            # The whale will duly say
+            #      ______ 
+            #     < 2012 >
+            #      ------ 
+            value: "{{=sprig.mustFirst(jsonpath(steps['read-json-file-step'].outputs.result, '$.input-parameters.vintage'))}}"
