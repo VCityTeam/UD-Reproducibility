@@ -2,6 +2,18 @@
 
 - Constatons que l'exemple AW de loop qui fait un withParam sur la sortie d'un
   job Python est effectif pour
+  - README_REALLY_FIRST (that is before the following README_FIRS): en fait
+    le travail ci-dessous est déjà fait (cf example-loading-json-with-python.yml).
+    Il suffit de le completer avec un exemple illustrant que l'on peut profiter
+    de l'occasion d'un read au niveau python pour faire un traitement.
+    En fait
+     1. on utilise la méthode fromValue (cf example-loading-json-fromValue.yml)
+        quand on a pas de traitement à faire sur les sorties précédentes (mais
+        juste les utiliser)
+     2. on utilise la méthode loading-json-with-python quand on doit pré-traiter
+        élégamment (i.e. par opposition avec Expr/sprig) les outputs précédents
+        pour en faire des inputs du suivant (i.e. faire un dataflow mapping
+        entre deux steps).
   - README_FIRST: en fait le bout de python DOIT faire l'extraction/traitement
      puisque cela merdoie avec expt/templatelib
   - fabriquer a la mano  un fichier /data/host/input.tx
@@ -20,8 +32,8 @@
   workflow en laissant leur valeur dans le yml de de param. Cela aiderait le
   linter
 
-- A mettre dans les Lesson learned: 
-  - il faut systématiquement promouvoir tous les fichiers de sortie en 
+- A mettre dans les Lesson learned d'Expedata:
+  - il faut systématiquement promouvoir tous les fichiers de sortie en
     paramètre d'un traitement
   - de manière générale, c'est une bonne pratique que toutes les entrees et
     sorties doivent être paramétrables.
@@ -29,6 +41,8 @@
     sorties d'un traitement en json. Le penser comme une feature imposé d'un
     traitement ? i.e. généraliser l'approche de AW a d'autres modes d'écriture
     de workflow ?
+
+- Mettre dans les Lessons Learned d'AW:
   - utiliser emptyDir (cf example-loop-faning-in-results-through-emptydir.yml)
     pour collecter les resultats de boucle.
 
