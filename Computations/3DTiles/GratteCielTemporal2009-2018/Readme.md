@@ -1,4 +1,4 @@
-# Temporal Tilesset for Gratte Ceil
+# Temporal Tileset for Gratte Ceil
 This is a manual calculation of a 3DTiles+temporal extention of a small data set of the Gratte Ciel neighborhood
 
 The input and the output data for each stage - as calculated thus - far can be found on [nextcloud](https://partage.liris.cnrs.fr/index.php/f/723258567)
