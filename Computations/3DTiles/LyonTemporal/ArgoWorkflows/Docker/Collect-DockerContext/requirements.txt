@@ -1,4 +1,0 @@
-patch
-wget
-pyyaml
-psutil

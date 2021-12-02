@@ -1,9 +1,0 @@
-# !/bin/sh
-
-echo "Halting the 3dcitydb-postgis database server."
-###### Stop the 3dcitydb-postgis
-echo "  Stoping container:"
-docker stop citydb-container-{{PG_VINTAGE}}
-echo "  Removing container:"
-docker rm   citydb-container-{{PG_VINTAGE}}
-echo "3dcitydb-postgis database server now halted."

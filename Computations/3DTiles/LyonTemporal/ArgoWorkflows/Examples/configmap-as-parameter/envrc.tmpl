@@ -1,8 +1,0 @@
-export NAMESPACE=argo        # Used by kubectl command
-export ARGO_NAMESPACE=argo   # Used by argo command
-
-if ! has kubectl; then
-  echo "Kubectl command not available."
-fi
-kubectl config set-context --current --namespace=$ARGO_NAMESPACE
-alias k='kubectl'
