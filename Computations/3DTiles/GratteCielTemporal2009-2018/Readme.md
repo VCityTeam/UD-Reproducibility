@@ -27,7 +27,6 @@ docker build -t vcity/citygml2stripper cityGMLto3DTiles/Docker/CityGML2Stripper-
 docker run --name cgmls1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citygml2stripper
 ```
 3. From within the container's bash session, split the datasets output from stage 1:
-   * *is the `--remove-building-parts` flag neccessary? it workes for other datasets without it...* 
 ```bash
 python /src/CityGML2Stripper.py --input /io/[input filename] --output /io/[output filename] --remove-building-parts
 ```
