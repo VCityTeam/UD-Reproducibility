@@ -1,9 +1,13 @@
 # Convertion between CityGML and OBJ
-The convertion between CityGML and OBJ (Wavefront) files is done with the tool `GMLtoOBJ` (see repo [`Da-POM-Ville-Unity`](https://github.com/VCityTeam/UD-Demo-DatAgora-Deambulation-Bron)).
+The convertion between CityGML and OBJ (Wavefront) files is done with the tool `GMLtoOBJ` (see repo [`Da-POM-Ville-Unity`](https://github.com/VCityTeam/DA-POM-VilleUnity)):
+```bash
+git clone https://github.com/VCityTeam/DA-POM-VilleUnity
+git checkout a6a2295ecb8b827bcbd7799d97703ffa989e58b7
+cd DA-POM-VilleUnity
+make GMLtoOBJ
+CityGMLTool BRON_BATI_2018.gml --obj BRON_BATI_2018.obj
 ```
-DA-POM-VilleUnity/CityGMLTool BRON_BATI_2018.gml --obj BRON_BATI_2018.obj
-```
-Warning ! The vanilla code of the `GMLtoOBJ` tool applies an offset (-1800000, -5100000) and then swaps axes ((x, y, z) becomes (y, z, x)). See the following lines in the code:
+Warning! The vanilla code of the `GMLtoOBJ` tool applies an offset (-1800000, -5100000) and then swaps axes ((x, y, z) becomes (y, z, x)). See the following lines in the code:
 - https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/DataProfile.cpp#L68
 - https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/main.cpp#L49
 - https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/GMLtoOBJ.cpp#L149
@@ -31,7 +35,20 @@ This can be done by typing `G, <translation in X>, Tab, <translation in Y>, Tab,
 The cumulated reverse offset is (5170874.5625, -1849223.44, 194.8617).
 
 Then, still in Blender, go to `File->Export->Wavefront (.obj)`, then in the `Transform` panel of the newly opened window, be sure to select `-X Forward` and `Z Up` before clicking `Export OBJ`.
-Then, the convertion from the OBJ file to a 3DTile is done by the [`ObjTiler`](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/ObjTiler) tool of the [`py3dtilers`](https://github.com/VCityTeam/py3dtilers) repo : `obj-tiler --paths <obj_repository_path>`.
+Then, the convertion from the OBJ file to a 3DTile is done by the [`ObjTiler`](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/ObjTiler) tool of the [`py3dtilers`](https://github.com/VCityTeam/py3dtilers) repo:
+```bash
+git clone https://github.com/VCityTeam/py3dtilers
+git checkout 2993bb06a366cc2474ec28c194d23b276d68e277
+
+# Installation of the py3dtilers (see documentation at https://github.com/VCityTeam/py3dtilers for more insights).
+cd py3dtilers
+sudo apt install git python3 python3-pip virtualenv liblaszip-dev libopenblas-base libpq-dev
+virtualenv -p python3 venv
+. venv/bin/activate
+pip install -e .
+
+obj-tiler --paths <obj_repository_path>
+```
 If all went well, the resulting 3DTile can be found in the `obj_tilesets` subdirectory of `py3dtilers` and can be added to the `3DTilesLayers` of UD-Viz.
 
 ## GLB
