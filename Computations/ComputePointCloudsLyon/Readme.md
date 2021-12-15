@@ -18,4 +18,6 @@ To [visualize cloud points](http://rict2.liris.cnrs.fr/UD-Viz/UD-Viz-Core/exampl
 
 For information : Itowns can load colored cloud points natively
 
+Note: the [generated data set](https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/2018/2018/Point_Cloud_Lyon_2018) is 3.9Gb, has ~44 000 files in the top level directory and 14 347 sub-directories... 
+
 
