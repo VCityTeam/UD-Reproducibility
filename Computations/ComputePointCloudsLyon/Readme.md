@@ -12,6 +12,6 @@ To [visualize cloud points](https://point-cloud.vcityliris.data.alpha.grandlyon.
 * Use [py3Dtiles](https://github.com/Oslandia/py3dtiles) to create 3DTiles from cloud points : 
   - `py3dtiles convert 1842_5172/*.las --out /dest`
 
-Note: the [generated data set](https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/2018/2018/Point_Cloud_Lyon_2018) is 3.9Gb, has ~44 000 files in the top level directory and 14 347 sub-directories... 
+
 
 
