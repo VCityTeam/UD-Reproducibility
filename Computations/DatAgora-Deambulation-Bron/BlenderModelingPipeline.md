@@ -2,10 +2,10 @@
 The convertion between CityGML and OBJ (Wavefront) files is done with the tool `GMLtoOBJ` (see repo [`Da-POM-Ville-Unity`](https://github.com/VCityTeam/DA-POM-VilleUnity)):
 ```bash
 git clone https://github.com/VCityTeam/DA-POM-VilleUnity
-git checkout a6a2295ecb8b827bcbd7799d97703ffa989e58b7
 cd DA-POM-VilleUnity
+git checkout a6a2295ecb8b827bcbd7799d97703ffa989e58b7
 make GMLtoOBJ
-CityGMLTool BRON_BATI_2018.gml --obj BRON_BATI_2018.obj
+src/Modules/GMLtoOBJ/GMLtoOBJ BRON_BATI_2018.gml --obj BRON_BATI_2018.obj
 ```
 Warning! The vanilla code of the `GMLtoOBJ` tool applies an offset (-1800000, -5100000) and then swaps axes ((x, y, z) becomes (y, z, x)). See the following lines in the code:
 - https://github.com/VCityTeam/DA-POM-VilleUnity/blob/a6a2295ecb8b827bcbd7799d97703ffa989e58b7/src/Modules/GMLtoOBJ/DataProfile.cpp#L68
@@ -38,10 +38,10 @@ Then, still in Blender, go to `File->Export->Wavefront (.obj)`, then in the `Tra
 Then, the convertion from the OBJ file to a 3DTile is done by the [`ObjTiler`](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/ObjTiler) tool of the [`py3dtilers`](https://github.com/VCityTeam/py3dtilers) repo:
 ```bash
 git clone https://github.com/VCityTeam/py3dtilers
+cd py3dtilers
 git checkout 2993bb06a366cc2474ec28c194d23b276d68e277
 
 # Installation of the py3dtilers (see documentation at https://github.com/VCityTeam/py3dtilers for more insights).
-cd py3dtilers
 sudo apt install git python3 python3-pip virtualenv liblaszip-dev libopenblas-base libpq-dev
 virtualenv -p python3 venv
 . venv/bin/activate
@@ -55,7 +55,7 @@ If all went well, the resulting 3DTile can be found in the `obj_tilesets` subdir
 The GLB format allows textures to be embedded into the model, but the offset correction and an additionnal axes swap are currently done on the fly inside of UD-Viz.
 To export the model to the GLB format, inside Blender, go to `File->Export->glTF 2.0 (.glb/.gltf)`, then in the `Transform` panel of the newly opened window, be sure to let `+Y Up` checked before clicking on `Export glTF 2.0` as it is assures the canonical transformation between the Blender and the gltf 2.0 referentials is applied.
 The resulting GLB file can then be described as a UD-Viz asset in the file `local_game_config.json` and loaded as a `GameObject`.
-Once loaded inside UD-Viz, the axes swap can be described by a rotation either through the parameter `rotation` of the asset (`"rotation": {"x": 0, "y": 1.5707, "z": 0}`) or equivalently in the Javascript source code of the application/demonstration (see the code below).
+Once loaded inside UD-Viz, the axes swap can be described by a rotation either through the parameter `rotation` of the asset (`"rotation": {"x": 0, "y": 1.5707, "z": 0}`) or equivalently in the Javascript source code of the application/demonstration (see the code below, or directly [inside the source of the demo](https://github.com/VCityTeam/UD-Demo-DatAgora-Deambulation-Bron/blob/72e6c0f4b1942b8ac7b38d5eda55888218fdaee1/assets/localScripts/avatar.js#L320)).
 ```js
 const campus = gV.assetsManager.createRenderData('campus').object;
 //Swap the axes.
