@@ -2,6 +2,7 @@
 This is a manual calculation of a 3DTiles+temporal extention of a small data set of the Gratte Ciel neighborhood
 
 The input and the output data for each stage - as calculated thus - far can be found on [nextcloud](https://partage.liris.cnrs.fr/index.php/f/151016)
+The final dataset is online and available [here](https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Villeurbanne_GratteCiel_Temporal_2009-2012-2015-2018_TileSet/)
 
 ## Manual steps
 Before starting:
