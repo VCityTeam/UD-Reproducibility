@@ -1,0 +1,5 @@
+PG_HOST: 134.214.142.35
+PG_PORT: 8018
+PG_NAME: gratteciel2018
+PG_USER: postgres2018
+PG_PASSWORD: [change me!]
