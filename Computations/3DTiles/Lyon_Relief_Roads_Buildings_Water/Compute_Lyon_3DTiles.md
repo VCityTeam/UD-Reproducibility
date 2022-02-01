@@ -60,7 +60,7 @@ See the [GeojsonTiler README](https://github.com/VCityTeam/py3dtilers/blob/maste
 Creating 3DTiles with the [CityGML Tiler](https://github.com/VCityTeam/py3dtilers/tree/master/py3dtilers/CityTiler) require [Postgres/PostGIS](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) and [3DCityDB](https://www.3dcitydb.org/3dcitydb/downloads/). The cityGML data must be hosted in a 3DCityDB database to be used by the CityGML Tiler.  
 To host cityGML in database, you can follow [__this tutorial__](https://github.com/VCityTeam/UD-SV/blob/master/ImplementationKnowHow/PostgreSQL_for_cityGML.md) (recommended) or use the [docker](https://github.com/VCityTeam/UD-SV/blob/master/Install/Install3DCityDB.md#1a-installing-a-3dcitydbpostgis-server-the-docker-deployment-case) (may be outdated).
 
-Copy the [configuration file](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/CityTilerDBConfigReference.yml) and add the details of your database.
+You should also copy the [configuration file](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/CityTilerDBConfigReference.yml) (for example `py3dtilers/CityTiler/CityTilerDBConfig.yml`) and add the details of your database in this new file.
 
 ### __Buildings__
 
@@ -68,14 +68,18 @@ Download the cityGML data from [Data Grand Lyon](https://data.grandlyon.com/jeux
 
 ![import_buildings](pictures/import_buildings.png)
 
-To use the Tiler, see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md)
+To use the Tiler, target your database config file and choose the type `building` (see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md) for more details):
+
+```bash
+citygml-tiler --db_config_path <path_to_file>/Config.yml --type building
+```
 
 To create [LOA](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md#loa), you can for example use _BDTOPO/1_DONNEES_LIVRAISON/ADMINISTRATIF/__ARRONDISSEMENT.shp___ from [BD Topo](https://geoservices.ign.fr/ressource/161992) ([IGN](https://geoservices.ign.fr/telechargement)). To be able to use it, export the .shp as GeoJson with QGIS (the projection must be the same as buildings, i.e EPSG:3946 most of the time for Lyon's data).
 
 To create the 3DTiles with levels of detail, run:
 
 ```bash
-citygml-tiler <path_to_file>/Config.yml --lod1 --loa polygons.geojson
+citygml-tiler --db_config_path <path_to_file>/Config.yml --lod1 --loa polygons.geojson
 ```
 
 ### __Relief__
@@ -84,12 +88,12 @@ Download the cityGML data from [Data Grand Lyon](https://data.grandlyon.com/jeux
 
 ![import_relief](pictures/import_relief.png)
 
-To use the Tiler, see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md)
+To use the Tiler, target your database config file and choose the type `relief` (see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md) for more details):
 
 To create the relief as 3DTiles, run:
 
 ```bash
-citygml-tiler <path_to_file>/Config.yml relief
+citygml-tiler --db_config_path <path_to_file>/Config.yml --type relief
 ```
 
 ### __Bridges__
@@ -98,10 +102,10 @@ Download the cityGML data from [Data Grand Lyon](https://data.grandlyon.com/jeux
 
 ![import_bridges](pictures/import_bridges.png)
 
-To use the Tiler, see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md)
+To use the Tiler, target your database config file and choose the type `bridge` (see the [CityTiler usage](https://github.com/VCityTeam/py3dtilers/blob/master/py3dtilers/CityTiler/README.md) for more details):
 
 To create the bridges as 3DTiles, run:
 
 ```bash
-citygml-tiler <path_to_file>/Config.yml bridge
+citygml-tiler --db_config_path <path_to_file>/Config.yml --type bridge
 ```
