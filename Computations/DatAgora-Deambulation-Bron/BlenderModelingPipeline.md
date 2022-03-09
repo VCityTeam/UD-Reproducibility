@@ -1,4 +1,5 @@
 # Convertion between CityGML and OBJ
+<a name="anchor-convertion-CityGML-to-OBJ"</a>
 The convertion between CityGML and OBJ (Wavefront) files is done with the tool `GMLtoOBJ` (see repo [`Da-POM-Ville-Unity`](https://github.com/VCityTeam/DA-POM-VilleUnity)):
 ```bash
 git clone https://github.com/VCityTeam/DA-POM-VilleUnity
