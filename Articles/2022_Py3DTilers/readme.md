@@ -19,7 +19,7 @@ docker build -t vcity/py3dtilers Context
 
 ## 3D Tiles colored by height
 
-Download the GeoJSON file available [here]().
+Download the GeoJSON file available [here](https://raw.githubusercontent.com/VCityTeam/UD-Sample-data/master/GeoJSON/buildings_lyon1.geojson).
 
 ### With the application
 
