@@ -2,11 +2,11 @@ This is a tutorial to reproduce two 3DTiles tilesets showed in the article.
 
 ## Installation
 
-You can use either the Python application or the docker.
+You can use either the Python application or the docker of Py3DTilers.
 
-### Install Py3DTilers
+### Install the application
 
-Follow [installation steps](https://github.com/VCityTeam/py3dtilers#installation-from-sources) to install Py3DTilers
+Follow [installation steps](https://github.com/VCityTeam/py3dtilers#installation-from-sources) to install Py3DTilers.
 
 ### Install the docker
 
@@ -29,10 +29,17 @@ Run the following command:
 geojson-tiler --path path/to/buildings_lyon1.geojson --add_color HAUTEUR -o buildings_colored_by_height
 ```
 
-The tileset will be created in a folder named `buildings_colored_by_height`
+The tileset will be created in a folder named `buildings_colored_by_height`.
 
 ### With the docker
 
 ```bash
 docker run --rm -t vcity/py3dtilers geojson-tiler --path path/to/buildings_lyon1.geojson --add_color HAUTEUR -o buildings_colored_by_height
 ```
+
+
+The tileset will be created in a folder named `buildings_colored_by_height`.
+
+## Visualise the 3D Tiles
+
+If you want to visualise 3D Tiles tilesets, refer to [this tutorial](https://github.com/VCityTeam/UD-SV/blob/master/ImplementationKnowHow/Visualize3DTiles.md) 
