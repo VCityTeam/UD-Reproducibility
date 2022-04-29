@@ -14,6 +14,7 @@ Requires [Docker](https://docs.docker.com/get-docker/)
 
 ```bash
 git clone https://github.com/VCityTeam/py3dtilers-docker
+cd py3dtilers-docker
 docker build -t vcity/py3dtilers Context
 ```
 
@@ -26,19 +27,22 @@ Download the GeoJSON file available [here](https://raw.githubusercontent.com/VCi
 Run the following command:
 
 ```bash
-geojson-tiler --path path/to/buildings_lyon1.geojson --add_color HAUTEUR -o buildings_colored_by_height
+geojson-tiler --path <path/to>/buildings_lyon1.geojson --add_color HAUTEUR -o buildings_colored_by_height
 ```
 
-The tileset will be created in a folder named `buildings_colored_by_height`.
+Where `<path/to>` is the relative or absolute path to the folder containing the GeoJSON file.
+
+The tileset will be created in the root directory of the application in a folder named `buildings_colored_by_height`.
 
 ### With the docker
 
 ```bash
-docker run --rm -t vcity/py3dtilers geojson-tiler --path path/to/buildings_lyon1.geojson --add_color HAUTEUR -o buildings_colored_by_height
+docker run --rm -v <absolute/path/to/folder>:/mnt/data/ -t vcity/py3dtilers geojson-tiler --path /mnt/data/buildings_lyon1.geojson --add_color HAUTEUR -o /mnt/data/buildings_colored_by_height
 ```
 
+Where `<absolute/path/to/folder>` is the __absolute path__ to the folder containing the GeoJSON file.
 
-The tileset will be created in a folder named `buildings_colored_by_height`.
+The tileset will be created in a folder named `<absolute/path/to/folder>/buildings_colored_by_height`.
 
 ## Visualise the 3D Tiles
 
