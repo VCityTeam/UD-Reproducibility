@@ -20,6 +20,16 @@ docker build -t vcity/3duse cityGMLto3DTiles/Docker/3DUse-DockerContext
 docker build -t vcity/citygml2stripper cityGMLto3DTiles/Docker/CityGML2Stripper-DockerContext
 ```
 
+### Optional Stage: Data Cleaning
+Some malformed geometry issues can cause problems during stages 2 and 3, to avoid this data cleaning may be required.
+The [CityGMLPatcher](./CityGMLPatcher.py) python script can be used in conjunction with a CityDoctor2 output file.
+For documentation on how to install and use CityDoctor2, see https://transfer.hft-stuttgart.de/gitlab/citydoctor/citydoctor2.
+
+CityGMLPatcher documentation can be found using:
+```bash
+python CityGMLPatcher.py --help
+```
+
 ### Stage 1: Strip Building Attributes
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
 2. Launch a CityGML2Stripper container with bash as the entrypoint
