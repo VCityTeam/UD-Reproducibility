@@ -1,4 +1,5 @@
 import argparse
+import logging
 from unittest.mock import patch
 from lxml import etree
 
@@ -11,13 +12,18 @@ def main():
     parser.add_argument('input_file', help='Specify the input file')
     parser.add_argument('error_file', help='Specify the error file output from CityDoctor')
     parser.add_argument('output_file', help='Specify the output file')
-    parser.add_argument('--ignore_errors', default='', help='Specify a comma separated list of errors to ignore during patching')
+    parser.add_argument('-i', '--ignore_errors', default='', help='Specify a comma separated list of errors to ignore during patching')
+    parser.add_argument('-l', '--log', default='output.log', help='Specify logfile')
     args = parser.parse_args()
 
-    print(f'patching input file: {args.input_file}...')
+    logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                        filename=args.log,
+                        level=logging.WARNING)
+
+    logging.info(f'patching input file: {args.input_file}...')
     patcher = GMLPatcher(args.input_file, args.error_file, args.output_file, args.ignore_errors)
     patcher.patch()
-    print('done')
+    logging.info('done')
 
 
 # It removes all buildings from the input xml that have errors in the error xml
@@ -49,20 +55,22 @@ class GMLPatcher():
         gml = r'{http://www.opengis.net/gml}'
         bldg = r'{http://www.opengis.net/citygml/building/2.0}'     # citygml building namespace
         patch_count = 0
-        # print('error count:')
+        # logging.info('error count:')
         # for error in self.error_xml.findall(f'.//{cd}global_statistics/{cd}errors/{cd}error'):
-        #     print(f'  {error.attrib["name"]} {error.text}')
+        #     logging.info(f'  {error.attrib["name"]} {error.text}')
         for building in self.error_xml.getroot().findall(f'.//{cd}validation_results/{cd}building_report'):
             tag = building.attrib["gml_id"]
             error_list = [error.attrib['name'] for error
                 in building.findall(f'.//{cd}error_statistics/{cd}error')
                 if error.attrib['name'] not in self.ignore_list]
             if len(error_list) > 0:
-                print(f'found error(s): {error_list} in {tag}')
+                logging.info(f'found error(s): {error_list} in {tag}')
                 output_building = self.output_xml.find(f'.//{bldg}Building[@{gml}id=\"{tag}\"]')
+                if output_building is None:
+                    logging.warning(f'building {tag} not found in input file')
                 output_building.getparent().getparent().remove(output_building.getparent())
                 patch_count += 1
-        print(f'removed {patch_count} building(s), writing output to file...')
+        logging.info(f'removed {patch_count} building(s), writing output to file...')
         # write patched xml to output
         with open(self.output_file, 'wb') as file:
             file.write(etree.tostring(self.output_xml, pretty_print=True, xml_declaration=True))
