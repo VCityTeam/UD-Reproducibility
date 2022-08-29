@@ -5,11 +5,12 @@ The input and the output data for each stage - as calculated thus - far can be f
 The final dataset is online and available [here](https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Villeurbanne_GratteCiel_Temporal_2009-2012-2015-2018_TileSet/)
 
 ## Manual steps
+
 Before starting:
+
 - install [Docker](https://docs.docker.com/engine/install/)
 - install [Docker Compose](https://docs.docker.com/compose/install/)
 - install [3dcitydb/importer-exporter v5.0.0](https://github.com/3dcitydb/3dcitydb-suite/releases/tag/v2021.1.0) (this version will work with 3DCityDB 4.2.0)
-
 
 Using docker components from the [cityGMLto3DTiles](https://github.com/VCityTeam/cityGMLto3DTiles) repository the following pipeline can be realized
 
@@ -18,6 +19,19 @@ Docker images can be found [here](https://github.com/VCityTeam/cityGMLto3DTiles/
 git clone https://github.com/VCityTeam/cityGMLto3DTiles.git
 docker build -t vcity/3duse cityGMLto3DTiles/Docker/3DUse-DockerContext
 docker build -t vcity/citygml2stripper cityGMLto3DTiles/Docker/CityGML2Stripper-DockerContext
+```
+
+### Stage 0: obtain the reference original data
+
+This boils down to importing data from [`dataset-dl.liris.cnrs.fr`](https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/):
+
+```bash
+cd cityGMLto3DTiles
+mkdir stage_1 && cd stage_1
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2009/VILLEURBANNE_BATI_2009_patched.gml
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2012/VILLEURBANNE_BATI_2012_patched.gml
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2015/VILLEURBANNE_BATI_2015_patched.gml
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2018/VILLEURBANNE_BATI_2018_patched.gml
 ```
 
 ### Optional Stage: Data Cleaning
