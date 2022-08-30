@@ -47,13 +47,26 @@ python CityGMLPatcher.py --help
 ### Stage 1: Strip Building Attributes
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
 2. Launch a CityGML2Stripper container with bash as the entrypoint
-```bash
-docker run --name cgmls1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/citygml2stripper
-```
-3. From within the container's bash session, split the datasets output from stage 1:
-```bash
-python /src/CityGML2Stripper.py --input /io/[input filename] --output /io/[output filename] --remove-building-parts
-```
+   ```bash
+   docker run --name cgmls1 -it --entrypoint /bin/bash -v [absolute-path-to-host-folder]:/io vcity/citygml2stripper
+   ```
+   e.g. for a bash shell
+   ```bash
+   docker run --rm --name cgmls1 -it --entrypoint /bin/bash -v $(pwd):/io vcity/citygml2stripper
+   ```
+3. Create the output directory
+   ```bash
+   mkdir stage_2
+   ```
+3. From within the container's bash session, split the datasets output from `stage_1`:
+   ```bash
+   python /src/CityGML2Stripper.py --input /io/stage_1/[input-filename] --output /io/stage_2/[output-filename] --remove-building-parts
+   ```
+   e.g. for a bash shell (and all the successive inputs)
+   ```bash
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --remove-building-parts
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --remove-building-parts
+   ```
 4. Repeat step 3 for each input file
 
 ### Stage 2: Split Buildings
