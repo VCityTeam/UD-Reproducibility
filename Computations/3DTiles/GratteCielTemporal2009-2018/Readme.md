@@ -93,15 +93,21 @@ python CityGMLPatcher.py --help
 5. Leave this console open to be reused in Stage 3
 
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
-1. From the 3DUse container's bash session, split the datasets output from stage 2:
-```bash
-cd /root/3DUSE/Build/src/utils/cmdline/
-extractBuildingDates --first_date [1st input dataset year] \
-                     --first_file /io/[1st input filename] \
-                     --second_date [2nd input dataset year] \
-                     --second_file /io/[2nd output filename] \
-                     --output_dir /io/[[1st input dataset year]-[2nd input dataset year]]
-```
+1. Create the output directories of this stage
+   ```bash
+   mkdir stage_4/2009-2012-differences
+   mkdir stage_4/2012-2015-differences
+   mkdir stage_4/2015-2018-differences
+   ```
+3. From the 3DUse container's bash session, split the datasets output from stage 2:
+   ```bash
+   cd /root/3DUSE/Build/src/utils/cmdline/
+   extractBuildingDates --first_date [1st input dataset year] \
+                        --first_file /io/[1st input filename] \
+                        --second_date [2nd input dataset year] \
+                        --second_file /io/[2nd output filename] \
+                        --output_dir /io/[[1st input dataset year]-[2nd input dataset year]]
+   ```
 2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
 ### Stage 4 : Create and Load 3DCityDB Databases
