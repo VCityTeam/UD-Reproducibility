@@ -89,8 +89,14 @@ python CityGMLPatcher.py --help
    splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml
    splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml
    ```
-4. Repeat step 2 for each stage 1 vintage **before 2015**. See [this comment](https://github.com/VCityTeam/cityGMLto3DTiles/blob/3c10f8235f6ab6c8a28df60f7b065ae8865b7623/PythonCallingDocker/demo_split_buildings.py#L32) for more info.
-5. Leave this console open to be reused in Stage 3
+4. Repeat step 2 for each stage 1 vintage **before 2015**. 
+   See [this comment](https://github.com/VCityTeam/cityGMLto3DTiles/blob/3c10f8235f6ab6c8a28df60f7b065ae8865b7623/PythonCallingDocker/demo_split_buildings.py#L32) for more info.
+5. For vintages from 2015 and after simply copy the files and relabel them e.g.
+   ```bash
+   cp stage_2/VILLEURBANNE_BATI_2015_stripped.gml stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml
+   cp stage_2/VILLEURBANNE_BATI_2018_stripped.gml stage_3/VILLEURBANNE_BATI_2018_stripped_split.gml
+   ```
+6. Leave this console open to be reused in Stage 3
 
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
 1. Create the output directories of this stage
@@ -107,6 +113,11 @@ python CityGMLPatcher.py --help
                         --second_date [2nd input dataset year] \
                         --second_file /io/[2nd output filename] \
                         --output_dir /io/[[1st input dataset year]-[2nd input dataset year]]
+   ```
+   e.g. 
+   ```bash
+   extractBuildingDates --first_date 2009 --first_file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml --second_date 2012 --second_file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml --output_dir /io/stage_4/2009-2012-differences
+   extractBuildingDates --first_date 2012 --first_file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml --second_date 2015 --second_file /io/stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml --output_dir /io/stage_4/2012-2015-differences
    ```
 2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
