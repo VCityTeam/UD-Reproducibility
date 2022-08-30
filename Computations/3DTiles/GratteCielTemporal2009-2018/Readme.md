@@ -66,6 +66,8 @@ python CityGMLPatcher.py --help
    ```bash
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --remove-building-parts
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2015_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2015_stripped.gml --remove-building-parts
+  python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2018_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2018_stripped.gml --remove-building-parts
    ```
 4. Repeat step 3 for each input file
 
