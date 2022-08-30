@@ -48,7 +48,7 @@ python CityGMLPatcher.py --help
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
 2. Launch a CityGML2Stripper container with bash as the entrypoint
    ```bash
-   docker run --name cgmls1 -it --entrypoint /bin/bash -v [absolute-path-to-host-folder]:/io vcity/citygml2stripper
+   docker run --rm --name cgmls1 -it --entrypoint /bin/bash -v [absolute-path-to-host-folder]:/io vcity/citygml2stripper
    ```
    e.g. for a bash shell
    ```bash
@@ -67,20 +67,20 @@ python CityGMLPatcher.py --help
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2015_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2015_stripped.gml --remove-building-parts
-  python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2018_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2018_stripped.gml --remove-building-parts
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2018_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2018_stripped.gml --remove-building-parts
    ```
 4. Repeat step 3 for each input file
 
 ### Stage 2: Split Buildings
 1. Launch a 3DUse container with bash as the entrypoint
-```bash
-docker run --name 3duse1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/3duse
-```
+   ```bash
+   docker run --rm --name 3duse1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/3duse
+   ```
 2. From within the container's bash session, split the dataset buildings:
-```bash
-cd /root/3DUSE/Build/src/utils/cmdline/
-splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[output filename]
-```
+   ```bash
+   cd /root/3DUSE/Build/src/utils/cmdline/
+   splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[output filename]
+   ```
 4. Repeat step 2 for each stage 1 vintage **before 2015**. See [this comment](https://github.com/VCityTeam/cityGMLto3DTiles/blob/3c10f8235f6ab6c8a28df60f7b065ae8865b7623/PythonCallingDocker/demo_split_buildings.py#L32) for more info.
 5. Leave this console open to be reused in Stage 3
 
