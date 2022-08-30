@@ -27,7 +27,9 @@ This boils down to importing data from [`dataset-dl.liris.cnrs.fr`](https://data
 
 ```bash
 cd cityGMLto3DTiles
-mkdir stage_1 && cd stage_1
+# Create all the output directories
+mkdir stage_1 stage_2 stage_3 stage_4 
+cd stage_1
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2009/VILLEURBANNE_BATI_2009_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2012/VILLEURBANNE_BATI_2012_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2015/VILLEURBANNE_BATI_2015_patched.gml
@@ -45,6 +47,7 @@ python CityGMLPatcher.py --help
 ```
 
 ### Stage 1: Strip Building Attributes
+
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
 2. Launch a CityGML2Stripper container with bash as the entrypoint
    ```bash
@@ -54,15 +57,11 @@ python CityGMLPatcher.py --help
    ```bash
    docker run --rm --name cgmls1 -it --entrypoint /bin/bash -v $(pwd):/io vcity/citygml2stripper
    ```
-3. Create the output directory
-   ```bash
-   mkdir stage_2
-   ```
 3. From within the container's bash session, split the datasets output from `stage_1`:
    ```bash
    python /src/CityGML2Stripper.py --input /io/stage_1/[input-filename] --output /io/stage_2/[output-filename] --remove-building-parts
    ```
-   e.g. for a bash shell (and all the successive inputs)
+   e.g. (and all the successive inputs)
    ```bash
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --remove-building-parts
@@ -76,10 +75,19 @@ python CityGMLPatcher.py --help
    ```bash
    docker run --rm --name 3duse1 -it --entrypoint /bin/bash -v [host folder]:/io vcity/3duse
    ```
+   e.g. for a bash shell
+   ```bash
+   docker run --rm --name 3duse1 -it --entrypoint /bin/bash -v $(pwd):/io vcity/3duse
+   ```
 2. From within the container's bash session, split the dataset buildings:
    ```bash
    cd /root/3DUSE/Build/src/utils/cmdline/
    splitCityGMLBuildings --input-file /io/[input filename] --output-file /io/[output filename]
+   ```
+   e.g.
+   ```bash
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml
    ```
 4. Repeat step 2 for each stage 1 vintage **before 2015**. See [this comment](https://github.com/VCityTeam/cityGMLto3DTiles/blob/3c10f8235f6ab6c8a28df60f7b065ae8865b7623/PythonCallingDocker/demo_split_buildings.py#L32) for more info.
 5. Leave this console open to be reused in Stage 3
