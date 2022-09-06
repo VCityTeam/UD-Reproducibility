@@ -10,7 +10,8 @@ Before starting:
 
 - install [Docker](https://docs.docker.com/engine/install/)
 - install [Docker Compose](https://docs.docker.com/compose/install/)
-- install [3dcitydb/importer-exporter v5.0.0](https://github.com/3dcitydb/3dcitydb-suite/releases/tag/v2021.1.0) (this version will work with 3DCityDB 4.2.0)
+- install [3dcitydb/importer-exporter](https://github.com/3dcitydb/3dcitydb-suite/releases)
+  - Note: make sure your release of the importer/exporter works with the latest image of the 3dcitydb docker
 
 Using docker components from the [cityGMLto3DTiles](https://github.com/VCityTeam/cityGMLto3DTiles) repository the following pipeline can be realized
 
@@ -101,9 +102,7 @@ python CityGMLPatcher.py --help
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
 1. Create the output directories of this stage
    ```bash
-   mkdir stage_4/2009-2012-differences
-   mkdir stage_4/2012-2015-differences
-   mkdir stage_4/2015-2018-differences
+   mkdir stage_4/2009-2012-differences stage_4/2012-2015-differences stage_4/2015-2018-differences
    ```
 3. From the 3DUse container's bash session, split the datasets output from stage 2:
    ```bash
