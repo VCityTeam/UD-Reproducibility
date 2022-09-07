@@ -132,15 +132,27 @@ docker-compose up
 ### Stage 5 : Create a 3DTiles tileset with a temporal extention
 1. Install [py3dtilers](https://github.com/VCityTeam/py3dtilers#installation-from-sources) to create a 3DTile tileset with the data.
 2. Once installed run the [CityTemporalTiler](https://github.com/VCityTeam/py3dtilers/tree/master/py3dtilers/CityTiler#citytemporaltiler-features).
-   - Use the 4 `CityTilerDBConfig20xx.yml` files as the `--db_config_path` arguments.
-```
-citygml-tiler-temporal                                         \
-  --db_config_path [Path to config]/CityTilerDBConfig2009.yml  \
-                   [Path to config]/CityTilerDBConfig2012.yml  \
-                   [Path to config]/CityTilerDBConfig2015.yml  \
-                   [Path to config]/CityTilerDBConfig2018.yml  \
-  --time_stamps 2009 2012 2015 2018                            \
-  --temporal_graph [host folder]/2009-2012/DifferencesAsGraph.json  \
-                   [host folder]/2012-2015/DifferencesAsGraph.json  \
-                   [host folder]/2015-2018/DifferencesAsGraph.json
-```
+   - Use the 4 `CityTilerDBConfig20xx.yml` files as the `-i` arguments.
+   ```bash
+   citygml-tiler-temporal \
+      -i [path to this directory]/CityTilerDBConfig2009.yml \
+         [path to this directory]/CityTilerDBConfig2012.yml \
+         [path to this directory]/CityTilerDBConfig2015.yml \
+         [path to this directory]/CityTilerDBConfig2018.yml \
+      --time_stamps 2009 2012 2015 2018 \
+      --temporal_graph [path to this directory]/stage_4/2009-2012-differences/DifferencesAsGraph.json \
+                       [path to this directory]/stage_4/2012-2015-differences/DifferencesAsGraph.json \
+                       [path to this directory]/stage_4/2015-2018-differences/DifferencesAsGraph.json
+   ```
+   e.g.
+   ```bash
+   citygml-tiler-temporal \
+      -i ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2009.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2012.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2015.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2018.yml \
+      --time_stamps 2009 2012 2015 2018 \
+      --temporal_graph ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2009-2012-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2012-2015-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2015-2018-differences/DifferencesAsGraph.json
+   ```
