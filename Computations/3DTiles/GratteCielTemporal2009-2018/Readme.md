@@ -10,7 +10,8 @@ Before starting:
 
 - install [Docker](https://docs.docker.com/engine/install/)
 - install [Docker Compose](https://docs.docker.com/compose/install/)
-- install [3dcitydb/importer-exporter](https://github.com/3dcitydb/3dcitydb-suite/releases) (make sure that this version supports the latest docker image of 3dcitydb)
+- install [3dcitydb/importer-exporter](https://github.com/3dcitydb/3dcitydb-suite/releases)
+  - Note: make sure your release of the importer/exporter works with the latest image of the 3dcitydb docker
 
 Using docker components from the [cityGMLto3DTiles](https://github.com/VCityTeam/cityGMLto3DTiles) repository the following pipeline can be realized
 
@@ -120,9 +121,7 @@ docker-compose up
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
 1. Create the output directories of this stage
    ```bash
-   mkdir stage_4/2009-2012-differences
-   mkdir stage_4/2012-2015-differences
-   mkdir stage_4/2015-2018-differences
+   mkdir stage_4/2009-2012-differences stage_4/2012-2015-differences stage_4/2015-2018-differences
    ```
 3. From the 3DUse container's bash session, split the datasets output from stage 2:
    ```bash
@@ -158,15 +157,27 @@ docker-compose up
 ### Stage 5 : Create a 3DTiles tileset with a temporal extention
 1. Install [py3dtilers](https://github.com/VCityTeam/py3dtilers#installation-from-sources) to create a 3DTile tileset with the data.
 2. Once installed run the [CityTemporalTiler](https://github.com/VCityTeam/py3dtilers/tree/master/py3dtilers/CityTiler#citytemporaltiler-features).
-   - Use the 4 `CityTilerDBConfig20xx.yml` files as the `--db_config_path` arguments.
-```
-citygml-tiler-temporal                                         \
-  --db_config_path [Path to config]/CityTilerDBConfig2009.yml  \
-                   [Path to config]/CityTilerDBConfig2012.yml  \
-                   [Path to config]/CityTilerDBConfig2015.yml  \
-                   [Path to config]/CityTilerDBConfig2018.yml  \
-  --time_stamps 2009 2012 2015 2018                            \
-  --temporal_graph [host folder]/2009-2012/DifferencesAsGraph.json  \
-                   [host folder]/2012-2015/DifferencesAsGraph.json  \
-                   [host folder]/2015-2018/DifferencesAsGraph.json
-```
+   - Use the 4 `CityTilerDBConfig20xx.yml` files as the `-i` arguments.
+   ```bash
+   citygml-tiler-temporal \
+      -i [path to this directory]/CityTilerDBConfig2009.yml \
+         [path to this directory]/CityTilerDBConfig2012.yml \
+         [path to this directory]/CityTilerDBConfig2015.yml \
+         [path to this directory]/CityTilerDBConfig2018.yml \
+      --time_stamps 2009 2012 2015 2018 \
+      --temporal_graph [path to this directory]/stage_4/2009-2012-differences/DifferencesAsGraph.json \
+                       [path to this directory]/stage_4/2012-2015-differences/DifferencesAsGraph.json \
+                       [path to this directory]/stage_4/2015-2018-differences/DifferencesAsGraph.json
+   ```
+   e.g.
+   ```bash
+   citygml-tiler-temporal \
+      -i ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2009.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2012.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2015.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2018.yml \
+      --time_stamps 2009 2012 2015 2018 \
+      --temporal_graph ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2009-2012-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2012-2015-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2015-2018-differences/DifferencesAsGraph.json
+   ```
