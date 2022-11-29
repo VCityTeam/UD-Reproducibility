@@ -1,5 +1,5 @@
 PG_HOST: 134.214.142.35
 PG_PORT: 8009
-PG_NAME: gratteciel2009
+PG_NAME: db2009
 PG_USER: postgres2009
 PG_PASSWORD: [change me!]
