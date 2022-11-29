@@ -1,6 +1,22 @@
 version: '2'
 services:
-  gratteciel-2009:
+  strip:
+    build: 
+      context: https://github.com/VCityTeam/cityGMLto3DTiles.git
+      dockerfile: Docker/CityGML2Stripper-DockerContext/Dockerfile
+    entrypoint: /bin/bash
+    volumes:
+      - ./:/io
+  3duse:
+    build: 
+      context: https://github.com/VCityTeam/cityGMLto3DTiles.git
+      dockerfile: Docker/3DUse-DockerContext/Dockerfile
+    entrypoint: /bin/bash
+    volumes:
+      - ./:/io
+  # py3dtilers:
+  #   image: https://github.com/VCityTeam/cityGMLto3DTiles/Docker/3DUse-DockerContext
+  db-2009:
     image: 3dcitydb/3dcitydb-pg
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2009}
@@ -9,7 +25,7 @@ services:
       - SRID=${SRID_2009}
     ports:
       - "${POSTGRES_PORT_2009}:5432"
-  gratteciel-2012:
+  db-2012:
     image: 3dcitydb/3dcitydb-pg
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2012}
@@ -18,7 +34,7 @@ services:
       - SRID=${SRID_2012}
     ports:
       - "${POSTGRES_PORT_2012}:5432"
-  gratteciel-2015:
+  db-2015:
     image: 3dcitydb/3dcitydb-pg
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2015}
@@ -27,7 +43,7 @@ services:
       - SRID=${SRID_2015}
     ports:
       - "${POSTGRES_PORT_2015}:5432"
-  gratteciel-2018:
+  db-2018:
     image: 3dcitydb/3dcitydb-pg
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2018}

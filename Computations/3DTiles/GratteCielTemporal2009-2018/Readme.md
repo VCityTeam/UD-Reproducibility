@@ -10,7 +10,7 @@ Before starting:
 
 - install [Docker](https://docs.docker.com/engine/install/)
 - install [Docker Compose](https://docs.docker.com/compose/install/)
-- install [3dcitydb/importer-exporter v5.0.0](https://github.com/3dcitydb/3dcitydb-suite/releases/tag/v2021.1.0) (this version will work with 3DCityDB 4.2.0)
+- install [3dcitydb/importer-exporter](https://github.com/3dcitydb/3dcitydb-suite/releases) (make sure that this version supports the latest docker image of 3dcitydb)
 
 Using docker components from the [cityGMLto3DTiles](https://github.com/VCityTeam/cityGMLto3DTiles) repository the following pipeline can be realized
 
@@ -39,13 +39,32 @@ wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/sta
 ### Optional Stage: Data Cleaning
 Some malformed geometry issues can cause problems during stages 2 and 3, to avoid this data cleaning may be required.
 The [CityGMLPatcher](./CityGMLPatcher.py) python script can be used in conjunction with a CityDoctor2 output file.
-For documentation on how to install and use CityDoctor2, see https://transfer.hft-stuttgart.de/gitlab/citydoctor/citydoctor2.
+For documentation on how to install and use CityDoctor2, see the CityDoctor2 [Website](https://projekt.bht-berlin.de/citydoctor2/downloads/) (recommended) or [Github](https://transfer.hft-stuttgart.de/gitlab/citydoctor/citydoctor2). Note that the CityGML patcher currently only works with CityGML 2.0 namespaces.
 
 CityGMLPatcher documentation can be found using:
 ```bash
 python CityGMLPatcher.py --help
 ```
-
+For example:
+```bash
+python CityGMLPatcher.py \
+   VILLEURBANNE_BATI_2009_patched.gml \
+   2009-bat.xml \ # citydoctor error report
+   stage_1/VILLEURBANNE_BATI_2009_patched.gml \
+   -i SE_ATTRIBUTE_MISSING
+```
+### Optional Stage: Extract Region of Interest
+1. Edit the 4 password fields in the `.env` file with passwords of your choosing
+2. Edit each `CityTilerDBConfig20xx.yml` file so that the password corresponds with what was set in step 1 
+3. Launch the 4 3DCityDB docker containers with docker compose
+```
+docker-compose up
+```
+4. Launch 3dcitydb/importer-exporter and import each output from stage 3 into each corresponding database filtering out features outside of the following region of interest:
+   - Xmin: 4.8742
+   - Xmax: 4.8834
+   - Ymin: 45.765
+   - Ymax: 45.7735
 ### Stage 1: Strip Building Attributes
 
 1. Place your CityGML datasets in a folder; for this example the folder refered to as `[host folder]`
@@ -122,13 +141,19 @@ python CityGMLPatcher.py --help
 2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
 ### Stage 4 : Create and Load 3DCityDB Databases
+If already done in the optional stage 0 skip this stage.
+If not already done in the optional stage 0:
 1. Edit the 4 password fields in the `.env` file with passwords of your choosing
 2. Edit each `CityTilerDBConfig20xx.yml` file so that the password corresponds with what was set in step 1 
 3. Launch the 4 3DCityDB docker containers with docker compose
 ```
 docker-compose up
 ```
-4. Launch 3dcitydb/importer-exporter and load each output from stage 3 into each corresponding database 
+4. Launch 3dcitydb/importer-exporter and import each output from stage 3 into each corresponding database filtering out features outside of the following region of interest:
+   - Xmin: 4.8742
+   - Xmax: 4.8834
+   - Ymin: 45.765
+   - Ymax: 45.7735
 
 ### Stage 5 : Create a 3DTiles tileset with a temporal extention
 1. Install [py3dtilers](https://github.com/VCityTeam/py3dtilers#installation-from-sources) to create a 3DTile tileset with the data.
