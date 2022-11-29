@@ -29,8 +29,8 @@ This boils down to importing data from [`dataset-dl.liris.cnrs.fr`](https://data
 ```bash
 cd cityGMLto3DTiles
 # Create all the output directories
-mkdir stage_1 stage_2 stage_3 stage_4 
-cd stage_1
+mkdir stage_0 stage_1 stage_2 stage_3 stage_4 
+cd stage_0
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2009/VILLEURBANNE_BATI_2009_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2012/VILLEURBANNE_BATI_2012_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2015/VILLEURBANNE_BATI_2015_patched.gml
@@ -49,8 +49,8 @@ python CityGMLPatcher.py --help
 For example:
 ```bash
 python CityGMLPatcher.py \
-   VILLEURBANNE_BATI_2009_patched.gml \
-   2009-bat.xml \ # citydoctor error report
+   stage_0/VILLEURBANNE_BATI_2009.gml \
+   2009-bat.xml \
    stage_1/VILLEURBANNE_BATI_2009_patched.gml \
    -i SE_ATTRIBUTE_MISSING
 ```
@@ -140,15 +140,14 @@ docker-compose up
 2. Repeat step 1 for each pair of sequential stage 2 output files and years
 
 ### Stage 4 : Create and Load 3DCityDB Databases
-If already done in the optional stage 0 skip this stage.
-If not already done in the optional stage 0:
 1. Edit the 4 password fields in the `.env` file with passwords of your choosing
+   - If this was already done in the optional stage 0, either a new `POSTGRES_DB_XXXX` variable must be declared for each database or the volumes for each database must be deleted to remove unstripped/unsplit CityGML buildings :
 2. Edit each `CityTilerDBConfig20xx.yml` file so that the password corresponds with what was set in step 1 
 3. Launch the 4 3DCityDB docker containers with docker compose
 ```
 docker-compose up
 ```
-4. Launch 3dcitydb/importer-exporter and import each output from stage 3 into each corresponding database filtering out features outside of the following region of interest:
+1. Launch 3dcitydb/importer-exporter and import each output from stage 3 into each corresponding database filtering out features outside of the following region of interest:
    - Xmin: 4.8742
    - Xmax: 4.8834
    - Ymin: 45.765
