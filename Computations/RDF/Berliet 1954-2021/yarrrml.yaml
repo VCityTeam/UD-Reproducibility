@@ -1,0 +1,54 @@
+# made using the proposed RDF elements in this GeoSPARQL PR: https://github.com/opengeospatial/ogc-geosparql/pull/48
+
+prefixes:
+  data: "https://github.com/VCityTeam/Datasets/berliet#"
+  geo: "http://www.opengis.net/ont/geosparql#"
+
+mappings:
+  feature:
+    sources:
+      - ['data.json~jsonpath', '$.features[*]']
+    s: data:feature_$(properties.ID)
+    po:
+      - [a, geo:Feature]
+      - [data:NATURE, $(properties.NATURE)]
+      - [data:USAGE1, $(properties.USAGE1)]
+      - [data:USAGE2, $(properties.USAGE2)]
+      - [data:LEGER, $(properties.LEGER)]
+      - [data:ETAT, $(properties.ETAT)]
+      - [data:DATE_CREAT, $(properties.DATE_CREAT)]
+      - [data:DATE_MAJ, $(properties.DATE_MAJ)]
+      - [data:DATE_APP, $(properties.DATE_APP)]
+      - [data:DATE_CONF, $(properties.DATE_CONF)]
+      - [data:SOURCE, $(properties.SOURCE)]
+      - [data:ID_SOURCE, $(properties.ID_SOURCE)]
+      - [data:PREC_PLANI, $(properties.PREC_PLANI)]
+      - [data:PREC_ALTI, $(properties.PREC_ALTI)]
+      - [data:NB_LOGTS, $(properties.NB_LOGTS)]
+      - [data:NB_ETAGES, $(properties.NB_ETAGES)]
+      - [data:MAT_MURS, $(properties.MAT_MURS)]
+      - [data:MAT_TOITS, $(properties.MAT_TOITS)]
+      - [data:HAUTEUR, $(properties.HAUTEUR)]
+      - [data:Z_MIN_SOL, $(properties.Z_MIN_SOL)]
+      - [data:Z_MIN_TOIT, $(properties.Z_MIN_TOIT)]
+      - [data:Z_MAX_TOIT, $(properties.Z_MAX_TOIT)]
+      - [data:Z_MAX_SOL, $(properties.Z_MAX_SOL)]
+      - [data:ORIGIN_BAT, $(properties.ORIGIN_BAT)]
+      - [data:APP_FF, $(properties.APP_FF)]
+      - [data:NATURE_2, $(properties.NATURE_2)]
+      - p: geo:hasGeometry
+        o:
+          mapping: geometry
+          condition:
+            function: equal
+            parameters:
+              - [str1, $(properties.ID, s]
+              - [str2, $(properties.ID, o]
+  geometry:
+    sources:
+      - ['data.json~jsonpath', '$.features[*]']
+    s: data:geometry_$(properties.ID)
+    po:
+      - [a, geo:Geometry]
+      - [a, geo:$(geometry.type)]
+      - [geo:asGeoJSON, $(geometry), geo:geoJSONLiteral]
