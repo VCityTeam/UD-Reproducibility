@@ -1,5 +1,5 @@
-# Transform Berliet 1954-2021 Building Dataset from GeoJSON (JSON) to GeoJSON (RDF/XML)
-An RML-based transformation is used to convert this GeoJSON data to RDF/XML.
+# Transform Berliet 1954-2021 Building Dataset from GeoJSON (JSON) to GeoSPARQL (RDF)
+An RML-based transformation is used to convert this data from GeoJSON (JSON) to GeoSPARQL (RDF).
 The RML mappings were generated and effectuated using [Matey](https://rml.io/yarrrml/matey/#) and [YARRRML](https://rml.io/yarrrml/spec/) (see below).
 
 ## Supplementary reading
