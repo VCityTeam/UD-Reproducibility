@@ -1,0 +1,5 @@
+PG_HOST: 134.214.142.35
+PG_PORT: 8012
+PG_NAME: db2012
+PG_USER: postgres2012
+PG_PASSWORD: [change me!]

@@ -1,0 +1,54 @@
+version: '2'
+services:
+  strip:
+    build: 
+      context: https://github.com/VCityTeam/cityGMLto3DTiles.git
+      dockerfile: Docker/CityGML2Stripper-DockerContext/Dockerfile
+    entrypoint: /bin/bash
+    volumes:
+      - ./:/io
+  3duse:
+    build: 
+      context: https://github.com/VCityTeam/cityGMLto3DTiles.git
+      dockerfile: Docker/3DUse-DockerContext/Dockerfile
+    entrypoint: /bin/bash
+    volumes:
+      - ./:/io
+  # py3dtilers:
+  #   image: https://github.com/VCityTeam/cityGMLto3DTiles/Docker/3DUse-DockerContext
+  db-2009:
+    image: 3dcitydb/3dcitydb-pg
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_2009}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2009}
+      - POSTGRES_DB=${POSTGRES_DB_2009}
+      - SRID=${SRID_2009}
+    ports:
+      - "${POSTGRES_PORT_2009}:5432"
+  db-2012:
+    image: 3dcitydb/3dcitydb-pg
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_2012}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2012}
+      - POSTGRES_DB=${POSTGRES_DB_2012}
+      - SRID=${SRID_2012}
+    ports:
+      - "${POSTGRES_PORT_2012}:5432"
+  db-2015:
+    image: 3dcitydb/3dcitydb-pg
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_2015}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2015}
+      - POSTGRES_DB=${POSTGRES_DB_2015}
+      - SRID=${SRID_2015}
+    ports:
+      - "${POSTGRES_PORT_2015}:5432"
+  db-2018:
+    image: 3dcitydb/3dcitydb-pg
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_2018}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2018}
+      - POSTGRES_DB=${POSTGRES_DB_2018}
+      - SRID=${SRID_2018}
+    ports:
+      - "${POSTGRES_PORT_2018}:5432"
