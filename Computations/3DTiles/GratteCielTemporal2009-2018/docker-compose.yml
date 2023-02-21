@@ -17,7 +17,7 @@ services:
   # py3dtilers:
   #   image: https://github.com/VCityTeam/cityGMLto3DTiles/Docker/3DUse-DockerContext
   db-2009:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2009}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2009}
@@ -26,7 +26,7 @@ services:
     ports:
       - "${POSTGRES_PORT_2009}:5432"
   db-2009-alt:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2009_alt}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2009_alt}
@@ -35,7 +35,7 @@ services:
     ports:
       - "${POSTGRES_PORT_2009_alt}:5432"
   db-2012:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2012}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2012}
@@ -44,7 +44,7 @@ services:
     ports:
       - "${POSTGRES_PORT_2012}:5432"
   db-2012-alt:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2012_alt}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2012_alt}
@@ -53,7 +53,7 @@ services:
     ports:
       - "${POSTGRES_PORT_2012_alt}:5432"
   db-2015:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2015}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2015}
@@ -62,7 +62,7 @@ services:
     ports:
       - "${POSTGRES_PORT_2015}:5432"
   db-2018:
-    image: 3dcitydb/3dcitydb-pg
+    image: 3dcitydb/3dcitydb-pg:latest
     environment:
       - POSTGRES_USER=${POSTGRES_USER_2018}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_2018}
