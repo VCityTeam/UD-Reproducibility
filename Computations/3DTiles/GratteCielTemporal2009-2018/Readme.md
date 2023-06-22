@@ -1,5 +1,7 @@
 # Temporal Tileset for Gratte Ciel
-This is a manual calculation of a 3DTiles+temporal extention of a small data set of the Gratte Ciel neighborhood
+This is a manual calculation of a 3DTiles+temporal extention of a small data set of the Gratte Ciel neighborhood with 2 scenarios of evolutuion.
+
+![gratte-ciel-workspace illustration](./gratte-ciel-workspace.svg)
 
 The input and the output data for each stage - as calculated thus - far can be found on [nextcloud](https://partage.liris.cnrs.fr/index.php/f/151016)
 The final dataset is online and available [here](https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Villeurbanne_GratteCiel_Temporal_2009-2012-2015-2018_TileSet/)
@@ -29,10 +31,12 @@ This boils down to importing data from [`dataset-dl.liris.cnrs.fr`](https://data
 ```bash
 cd cityGMLto3DTiles
 # Create all the output directories
-mkdir stage_0 stage_1 stage_2 stage_3 stage_4 
+mkdir stage_0 stage_1 stage_2 stage_3 stage_4 stage_5
 cd stage_0
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2009/VILLEURBANNE_BATI_2009_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2012/VILLEURBANNE_BATI_2012_patched.gml
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2009/VILLEURBANNE_BATI_2009_alt_patched.gml
+wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2012/VILLEURBANNE_BATI_2012_alt_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2015/VILLEURBANNE_BATI_2015_patched.gml
 wget  https://dataset-dl.liris.cnrs.fr/citygml-to-three-d-tiles-computations/stage_1/2018/VILLEURBANNE_BATI_2018_patched.gml
 ```
@@ -85,6 +89,8 @@ docker-compose up
    ```bash
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --remove-building-parts
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2009_alt_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2009_alt_stripped.gml --remove-building-parts
+   python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2012_alt_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2012_alt_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2015_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2015_stripped.gml --remove-building-parts
    python /src/CityGML2Stripper.py --input /io/stage_1/VILLEURBANNE_BATI_2018_patched.gml --output /io/stage_2/VILLEURBANNE_BATI_2018_stripped.gml --remove-building-parts
    ```
@@ -106,24 +112,27 @@ docker-compose up
    ```
    e.g.
    ```bash
-   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml
-   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml
+   cd /root/3DUSE/Build/src/utils/cmdline/;\
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2009_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2009_stripped.gml;\
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2009_alt_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2009_alt_stripped.gml;\
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2012_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2012_stripped.gml;\
+   splitCityGMLBuildings --input-file /io/stage_2/VILLEURBANNE_BATI_2012_alt_stripped.gml --output-file /io/stage_3/VILLEURBANNE_BATI_2012_alt_stripped.gml
    ```
-4. Repeat step 2 for each stage 1 vintage **before 2015**. 
+1. Repeat step 2 for each stage 1 vintage **before 2015**. 
    See [this comment](https://github.com/VCityTeam/cityGMLto3DTiles/blob/3c10f8235f6ab6c8a28df60f7b065ae8865b7623/PythonCallingDocker/demo_split_buildings.py#L32) for more info.
-5. For vintages from 2015 and after simply copy the files and relabel them e.g.
+2. For vintages from 2015 and after simply copy the files and relabel them e.g.
    ```bash
    cp stage_2/VILLEURBANNE_BATI_2015_stripped.gml stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml
    cp stage_2/VILLEURBANNE_BATI_2018_stripped.gml stage_3/VILLEURBANNE_BATI_2018_stripped_split.gml
    ```
-6. Leave this console open to be reused in Stage 3
+3. Leave this console open to be reused in Stage 3
 
 ### Stage 3: Extract Building Dates (create change graphs with change detection)
 1. Create the output directories of this stage
    ```bash
    mkdir stage_4/2009-2012-differences stage_4/2012-2015-differences stage_4/2015-2018-differences
    ```
-3. From the 3DUse container's bash session, split the datasets output from stage 2:
+2. From the 3DUse container's bash session, split the datasets output from stage 2:
    ```bash
    cd /root/3DUSE/Build/src/utils/cmdline/
    extractBuildingDates --first_date [1st input dataset year] \
@@ -136,8 +145,25 @@ docker-compose up
    ```bash
    extractBuildingDates --first_date 2009 --first_file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml --second_date 2012 --second_file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml --output_dir /io/stage_4/2009-2012-differences
    extractBuildingDates --first_date 2012 --first_file /io/stage_3/VILLEURBANNE_BATI_2012_stripped_split.gml --second_date 2015 --second_file /io/stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml --output_dir /io/stage_4/2012-2015-differences
+   extractBuildingDates --first_date 2015 --first_file /io/stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml --second_date 2018 --second_file /io/stage_3/VILLEURBANNE_BATI_2018_stripped_split.gml --output_dir /io/stage_4/2015-2018-differences
+   extractBuildingDates --first_date 2009 --first_file /io/stage_3/VILLEURBANNE_BATI_2009_stripped_split.gml --second_date 2010 --second_file /io/stage_3/VILLEURBANNE_BATI_2009_alt_stripped_split.gml --output_dir /io/stage_4/2009-2009alt-differences
+   extractBuildingDates --first_date 2010 --first_file /io/stage_3/VILLEURBANNE_BATI_2009_alt_stripped_split.gml --second_date 2013 --second_file /io/stage_3/VILLEURBANNE_BATI_2012_alt_stripped_split.gml --output_dir /io/stage_4/2009alt-2012alt-differences
+   extractBuildingDates --first_date 2013 --first_file /io/stage_3/VILLEURBANNE_BATI_2012_alt_stripped_split.gml --second_date 2015 --second_file /io/stage_3/VILLEURBANNE_BATI_2015_stripped_split.gml --output_dir /io/stage_4/2012alt-2015-differences
    ```
-2. Repeat step 1 for each pair of sequential stage 2 output files and years
+3. Repeat step 1 for each pair of sequential stage 2 output files and years:
+   1. ```mermaid
+      %%{init: {'gitGraph': {'mainBranchName': 'Scenario1'}} }%%
+      gitGraph
+         commit id: "2009"
+         branch Scenario2
+         commit id: "2009_alt"
+         commit id: "2012_alt"
+         checkout Scenario1
+         commit id: "2012"
+         merge Scenario2
+         commit id: "2015"
+         commit id: "2018"
+      ```
 
 ### Stage 4 : Create and Load 3DCityDB Databases
 1. Edit the 4 password fields in the `.env` file with passwords of your choosing
@@ -180,3 +206,37 @@ docker-compose up
                        ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2012-2015-differences/DifferencesAsGraph.json \
                        ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2015-2018-differences/DifferencesAsGraph.json
    ```
+   and then:
+      ```bash
+   citygml-tiler-temporal \
+      -i ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2009.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2009-alt.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2012-alt.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2015.yml \
+         ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/CityTilerDBConfig2018.yml \
+      --time_stamps 2009 2010 2013 2015 2018 \
+      --temporal_graph ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2009-2009alt-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2009alt-2012alt-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2012alt-2015-differences/DifferencesAsGraph.json \
+                       ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2015-2018-differences/DifferencesAsGraph.json
+   ```
+
+#### Optional docker approach
+*Optionally*, a dockerized version of Py3DTilers is available for temporal tiling. However, temporally tiling very large datasets may run into memory limitations.
+To execute a dockerized version of this step:
+1. Launch a CityTiler container with the following arguments configuration.
+```bash
+docker build -t vcity/citytiler cityGMLto3DTiles/Docker/CityTiler-DockerContext
+```
+2. Execute the transformation with the following commands
+```bash
+docker run --name citytiler1 -it -v [host folder]:/io vcity/citytiler TemporalTiler \
+  --db_config_path /io/CityTilerDBConfig2009.yml  \
+                   /io/CityTilerDBConfig2012.yml  \
+                   /io/CityTilerDBConfig2015.yml  \
+                   /io/CityTilerDBConfig2018.yml  \
+  --time_stamps 2009 2012 2015 2018                            \
+  --temporal_graph /io/2009-2012/DifferencesAsGraph.json  \
+                   /io/2012-2015/DifferencesAsGraph.json  \
+                   /io/2015-2018/DifferencesAsGraph.json
+```
