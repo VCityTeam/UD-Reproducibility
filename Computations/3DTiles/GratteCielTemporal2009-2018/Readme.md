@@ -220,4 +220,23 @@ docker-compose up
                        ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2012alt-2015-differences/DifferencesAsGraph.json \
                        ../UD-Reproducibility/Computations/3DTiles/GratteCielTemporal2009-2018/stage_4/2015-2018-differences/DifferencesAsGraph.json
    ```
-   
+
+#### Optional docker approach
+*Optionally*, a dockerized version of Py3DTilers is available for temporal tiling. However, temporally tiling very large datasets may run into memory limitations.
+To execute a dockerized version of this step:
+1. Launch a CityTiler container with the following arguments configuration.
+```bash
+docker build -t vcity/citytiler cityGMLto3DTiles/Docker/CityTiler-DockerContext
+```
+2. Execute the transformation with the following commands
+```bash
+docker run --name citytiler1 -it -v [host folder]:/io vcity/citytiler TemporalTiler \
+  --db_config_path /io/CityTilerDBConfig2009.yml  \
+                   /io/CityTilerDBConfig2012.yml  \
+                   /io/CityTilerDBConfig2015.yml  \
+                   /io/CityTilerDBConfig2018.yml  \
+  --time_stamps 2009 2012 2015 2018                            \
+  --temporal_graph /io/2009-2012/DifferencesAsGraph.json  \
+                   /io/2012-2015/DifferencesAsGraph.json  \
+                   /io/2015-2018/DifferencesAsGraph.json
+```
