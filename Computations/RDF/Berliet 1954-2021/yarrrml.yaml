@@ -42,8 +42,8 @@ mappings:
           condition:
             function: equal
             parameters:
-              - [str1, $(properties.ID, s]
-              - [str2, $(properties.ID, o]
+              - [str1, $(properties.ID), s]
+              - [str2, $(properties.ID), o]
   geometry:
     sources:
       - ['data.json~jsonpath', '$.features[*]']
