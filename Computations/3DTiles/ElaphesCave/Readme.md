@@ -74,6 +74,7 @@ docker run -it --rm -v `pwd`:/data ubuntu-patch /data/Exp-Cloud-ELAPHS-94M-3DTil
 ## "Sanitized" data and derived formats
 
 ### "Sanitizing" the original data
+<a name="anchor-sanitizing-the-original-data"></a>
 
 The original 3D lasergrammetric data 
 [Exp-Cloud-ELAPHS-94M.laz file](https://dataset-dl.liris.cnrs.fr/elaphes-cave/Exp-Cloud-ELAPHS-94M.laz)
