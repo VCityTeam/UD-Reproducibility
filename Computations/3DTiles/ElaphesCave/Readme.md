@@ -79,7 +79,7 @@ docker run -it --rm -v `pwd`:/data ubuntu-patch /data/Exp-Cloud-ELAPHS-94M-3DTil
 The original 3D lasergrammetric data 
 [Exp-Cloud-ELAPHS-94M.laz file](https://dataset-dl.liris.cnrs.fr/elaphes-cave/Exp-Cloud-ELAPHS-94M.laz)
 has some (acquisition related?) artefacts: 
-[three isolated points standing well aside from the rest of cave geometry](https://dataset-dl.liris.cnrs.fr/elaphes-cave/index.html#why-sanitize-and-what-was-sanitized).
+[three isolated points standing well aside from the rest of cave geometry](https://dataset-dl.liris.cnrs.fr/elaphes-cave/index.html#anchor-why-sanitize-and-what-was-sanitized).
 Weeding out the three artifact points can be done with simple geometrical 
 criteria with the help of the 
 [`lastolas` LasTools utility](https://lastools.github.io/)
