@@ -63,13 +63,16 @@ Convert  [`LAZ`](https://en.wikipedia.org/wiki/LAS_file_format#Compression) form
 docker run -it --rm -v `pwd`:/data registry.gitlab.com/py3dtiles/py3dtiles:v7.0.0 convert /data/Exp-Cloud-ELAPHS-94M.laz --out /data/Exp-Cloud-ELAPHS-94M-3DTiles
 ```
 
-Change the origin of the 3DTiles to "anchor" the tile-set the midst of 
+Provide 3DTiles [tile-set "anchor"](#concerning-the-geographical-anchoring) in
+the midst of 
 [Lyon City](https://en.wikipedia.org/wiki/Lyon) 
 
 ```bash
 docker build -t ubuntu-patch DockerContexts/PatchContext
-docker run -it --rm -v `pwd`:/data ubuntu-patch /data/Exp-Cloud-ELAPHS-94M-3DTiles
+docker run -it --rm -v `pwd`:/data ubuntu-patch /data/Exp-Cloud-ELAPHS-94M-3DTiles/tileset.json
 ```
+which should create a new `tileset-lyon_offset.json` file in the same directory
+as the original `tileset.json`.
 
 ## "Sanitized" data and derived formats
 
@@ -90,18 +93,34 @@ docker run -v `pwd`:/lastools hakonamdal/lastools las2las -i Exp-Cloud-ELAPHS-94
 
 ### Offering different formats of the sanitized data
 
+From [`LAZ`](https://en.wikipedia.org/wiki/LAS_file_format#Compression) to [`LAS`](https://en.wikipedia.org/wiki/LAS_file_format)
 ```bash
-docker run -it --rm -v `pwd`:/data registry.gitlab.com/py3dtiles/py3dtiles:v7.0.0 convert /data/Exp-Cloud-ELAPHS-94M-sanitized.laz --out /data/Exp-Cloud-ELAPHS-94M-sanitized.las
+docker run -v `pwd`:/lastools hakonamdal/lastools las2las -i Exp-Cloud-ELAPHS-94M-sanitized.laz -o Exp-Cloud-ELAPHS-94M-sanitized.las
 ```
 
+From  [`LAS`](https://en.wikipedia.org/wiki/LAS_file_format) to [`PLY`](https://en.wikipedia.org/wiki/PLY_(file_format))
+```bash
+docker run -it --rm -v `pwd`:/data pdal/pdal pdal translate /data/Exp-Cloud-ELAPHS-94M-sanitized.las /data/Exp-Cloud-ELAPHS-94M-sanitized.ply
+```
 
 ### 3DTiles derivation of the sanitized data
 
 Convert [`LAZ`](https://en.wikipedia.org/wiki/LAS_file_format#Compression) format to [`3dTiles`](https://github.com/CesiumGS/3d-tiles) format
 
 ```bash
-docker run -it --rm -v `pwd`:/data registry.gitlab.com/py3dtiles/py3dtiles:v7.0.0 convert /data/Exp-Cloud-ELAPHS-94M-sanitized.laz --out /data/Exp-Cloud-ELAPHS-94M-3DTiles-sanitized
+docker run -it --rm -v `pwd`:/data registry.gitlab.com/py3dtiles/py3dtiles:v7.0.0 convert /data/Exp-Cloud-ELAPHS-94M-sanitized.laz --out /data/Exp-Cloud-ELAPHS-94M-sanitized-3DTiles
 ```
+
+Provide 3DTiles [tile-set "anchor"](#concerning-the-geographical-anchoring) in
+the midst of 
+[Lyon City](https://en.wikipedia.org/wiki/Lyon) 
+
+```bash
+docker build -t ubuntu-patch DockerContexts/PatchContext
+docker run -it --rm -v `pwd`:/data ubuntu-patch /data/Exp-Cloud-ELAPHS-94M-sanitized-3DTiles/tileset.json
+```
+which should create a new `tileset-lyon_offset.json` file in the same directory
+as the original `tileset.json`.
 
 ## Technical notes
 
@@ -134,9 +153,11 @@ you can cherry-pick among the following commands
 Concerning the original data
 
 ```bash
+# The original laz file was sourced in
 scp Exp-Cloud-ELAPHS-94M.las connect:/dataset/elaphes-cave/
 scp Exp-Cloud-ELAPHS-94M.ply connect:/dataset/elaphes-cave/
 scp -r Exp-Cloud-ELAPHS-94M-3DTiles/ connect:/dataset/elaphes-cave/
+scp -r Exp-Cloud-ELAPHS-94M-3DTiles/tileset-lyon_offset.json connect:/dataset/elaphes-cave/Exp-Cloud-ELAPHS-94M-3DTiles/
 ```
 
 Concerning the sanitized (derived) data
@@ -145,4 +166,5 @@ scp Exp-Cloud-ELAPHS-94M-sanitized.laz connect:/dataset/elaphes-cave/
 scp Exp-Cloud-ELAPHS-94M-sanitized.las connect:/dataset/elaphes-cave/
 scp Exp-Cloud-ELAPHS-94M-sanitized.ply connect:/dataset/elaphes-cave/
 scp -r Exp-Cloud-ELAPHS-94M-sanitized-3DTiles/ connect:/dataset/elaphes-cave/
+scp -r Exp-Cloud-ELAPHS-94M-sanitized-3DTiles/tileset-lyon_offset.json connect:/dataset/elaphes-cave/Exp-Cloud-ELAPHS-94M-sanitized-3DTiles/tileset-lyon_offset.json
 ```

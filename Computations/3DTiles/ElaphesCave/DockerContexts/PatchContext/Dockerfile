@@ -2,9 +2,8 @@
 
 FROM ubuntu:20.04
 RUN  apt-get update \
-  && apt-get install -y patch \
+  && apt-get install -y sed \
   && rm -rf /var/lib/apt/lists/*
-COPY Exp-Cloud-ELAPHS-94M-3DTiles-Lyon.patch Exp-Cloud-ELAPHS-94M-3DTiles-Lyon.patch
-COPY patch_tileset.sh patch_tileset.sh
-RUN chmod a+x /patch_tileset.sh
-ENTRYPOINT ["/patch_tileset.sh"]
+COPY localize_tileset.sh localize_tileset.sh
+RUN chmod a+x /localize_tileset.sh
+ENTRYPOINT ["/localize_tileset.sh"]
