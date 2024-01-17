@@ -14,7 +14,7 @@
   - [DTiles derivation of the sanitized data](#dtiles-derivation-of-the-sanitized-data)
 - [Technical notes](#technical-notes)
   - [Concerning the geographical anchoring](#concerning-the-geographical-anchoring)
-  - [Admin notes](#admin-notes)
+- [Admin notes](#admin-notes)
 
 <!-- /TOC -->
 
@@ -22,7 +22,8 @@
 
 ### Initial download of the original data
 
-The original `LAZ` raw data is hosted within the
+The original [`LAZ`](https://en.wikipedia.org/wiki/LAS_file_format#Compression)
+raw data is hosted within the
 [elaphes-cave LIRIS dataset](https://dataset-dl.liris.cnrs.fr/elaphes-cave/)
 and more specifically in the 
 https://dataset-dl.liris.cnrs.fr/elaphes-cave/Exp-Cloud-ELAPHS-94M.laz file.
@@ -144,7 +145,7 @@ transformation matrix) this tool can _only_ be used for 3DTiles that wrap
 `b3dm` data as opposed to `.pnts` data (point cloud). We thus cannot use it
 in this context.
 
-### Admin notes
+## Admin notes
 
 If your administrator role is to maintain the 
 ["elaphes-cave" LIRIS' dataset](https://dataset-dl.liris.cnrs.fr/elaphes-cave/)
