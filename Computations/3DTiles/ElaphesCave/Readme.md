@@ -15,7 +15,8 @@
 - [Technical notes](#technical-notes)
   - [Concerning the geographical anchoring](#concerning-the-geographical-anchoring)
 - [Admin notes](#admin-notes)
-- [UNDER CONSTRUCTION](#under-construction)
+- [UNDER CONSTRUCTION: computing the normals](#under-construction-computing-the-normals)
+  - [Automating above process IN docker](#automating-above-process-in-docker)
 
 <!-- /TOC -->
 
@@ -183,7 +184,7 @@ scp Exp-Cloud-ELAPHS-94M-sanitized-just-normals-with-CloudCompare.pts connect:/d
 ```
 
 
-## UNDER CONSTRUCTION
+## UNDER CONSTRUCTION: computing the normals
 From [`LAZ`](https://en.wikipedia.org/wiki/LAS_file_format#Compression) to 
 [`PTS-with-normals](https://paulbourke.net/dataformats/pts/).
 Alas this process is a manual one and is realized with CloudCompare (version at
@@ -218,32 +219,55 @@ The process goes:
   rm Exp-Cloud-ELAPHS-94M-sanitized-normals-with-CloudCompare.asc
   rm Exp-Cloud-ELAPHS-94M-sanitized-normals-with-CloudCompare.pts
   ```
-* Notes: there is some hope for dockerizing the above process
-  - on OSX
-    ```bash
-    /Applications/CloudCompare.app/Contents/MacOS/CloudCompare -SILENT -O Exp-Cloud-ELAPHS-94M-sanitized.laz -OCTREE_NORMALS 10 -C_EXPORT_FMT ASC -SAVE_CLOUDS -PREC 10 -SEP SPACE
-    ```
-    References:
-    * https://www.cloudcompare.org/doc/wiki/index.php?title=Command_line_mode
-    * https://stackoverflow.com/questions/76129221/automated-way-to-convert-point-clouds-from-asc-to-ply-format-and-compute-norma
-  - CloudCompare dockers:
-    * https://github.com/dockerstuff/docker-cloudcompare
-    * https://hub.docker.com/r/saracen9/cloudcompare#!
-    * https://github.com/tyson-swetnam/cloudcompare-docker
-    * ...
-  - [pdal offers a normal filter](https://pdal.io/en/2.6.0/stages/filters.normal.html). 
-    Can this be easily scripted (for CLI usage) or is one required to write an
-    adhoc CXX, build it with cmake ... ?
 
-```bash
-cd $ELAPHE_DIR
-docker build -t pc2vol DockerContexts/pc2volContext
-docker run --rm -v `pwd`/data:/data -it pc2vol /home/pc2vol/pc2vol/build/pc2vol -i /data/Exp-Cloud-ELAPHS-94M-sanitized-just-normals-with-CloudCompare.pts -o /data/Exp-Cloud-ELAPHS-94M-sanitized.vol
-```
+### Automating above process IN docker
+- Concerning the Command LIne (CLI).
+  <br>
+  Version `2.12.x`
+  [Cloud Compare command line mode](https://www.cloudcompare.org/doc/wiki/index.php?title=Command_line_mode)
+  exposes some filters e.g.
+  ```bash
+  CloudCompare -SILENT -O Exp-Cloud-ELAPHS-94M-sanitized.laz -OCTREE_NORMALS 10 -C_EXPORT_FMT ASC -SAVE_CLOUDS -PREC 10 -SEP SPACE
+  ```
+  Alas it seems that the
+  [PCL wrapper](https://www.cloudcompare.org/doc/wiki/index.php/Point_Cloud_Library_Wrapper_(plugin))
+  related commands are NOT yet available from the CLI.
+  <br>
+  Reference: [computing normals](https://stackoverflow.com/questions/76129221/automated-way-to-convert-point-clouds-from-asc-to-ply-format-and-compute-norma)
 
-```bash
-cd $ELAPHE_DIR
-docker build -t cloudcompare DockerContexts/CloudCompareContext
-docker run --rm -it cloudcompare /bin/bash
-  ----> $xvfb-run /usr/local/bin/CloudCompare -SILENT
-```
+- We couldn't get CouldCompare to work within docker.
+  <br>
+  CouldCompare 
+  [can be used from the CLI](https://www.danielgm.net/cc/forum/viewtopic.php?t=3552)
+  with the `xvfb` trick (in combo with the `-SILENT` option).
+  ```bash
+  cd $ELAPHE_DIR
+  docker build -t cloudcompare DockerContexts/CloudCompareContext
+  docker run --rm -v  `pwd`/data:/data -it cloudcompare bash
+    $ xvfb-run /usr/local/bin/CloudCompare -SILENT -O /datata/bunny.pts -OCTREE_NORMALS -C_EXPORT_FMT ASC -SAVE_CLOUDS
+  ```
+  the above command won't complain but no file output is produced...
+
+- Concerning alternative CloudCompare dockers
+  <br>
+  Although we 
+  [selected `dockerstuff/docker-cloudcompare`](DockerContexts/CloudCompareContext/Dockerfile)
+  docker container, they are many available versions like
+  * https://hub.docker.com/r/saracen9/cloudcompare#
+  * https://github.com/tyson-swetnam/cloudcompare-docker
+
+- The good way probably is the C++ way by using PDAL or PCL:
+  <br>
+  [pcl offers normal estimation](https://pcl.readthedocs.io/projects/tutorials/en/latest/normal_estimation.html)
+  and
+  [pdal offers a normal filter](https://pdal.io/en/2.6.0/stages/filters.normal.html).
+  But using such methods from CLI requires to write the ad-hoc C++ filter...
+
+- Anyhow, and eventually, computing the VOL out of the PTS fails. The command
+  goes
+  ```bash
+  cd $ELAPHE_DIR
+  docker build -t pc2vol DockerContexts/pc2volContext
+  docker run --rm -v `pwd`/data:/data -it pc2vol /home/pc2vol/pc2vol/build/pc2vol -i /data/Exp-Cloud-ELAPHS-94M-sanitized-just-normals-with-CloudCompare.pts -o /data/Exp-Cloud-ELAPHS-94M-sanitized.vol
+  ```
+  but [this pc2vol issue reports the failure](https://github.com/dcoeurjo/pc2vol/issues/1)
