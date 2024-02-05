@@ -1,0 +1,447 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix app:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/appearance#> .
+@prefix brid: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/bridge#> .
+@prefix bldg: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/building#> .
+@prefix pcl:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/pointcloud#> .
+@prefix frn:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/cityfurniture#> .
+@prefix grp:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/cityobjectgroup#> .
+@prefix con:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/construction#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#> .
+@prefix dyn:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/dynamizer#> .
+@prefix gen:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/generics#> .
+@prefix luse: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/landuse#> .
+@prefix dem:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/relief#> .
+@prefix tran: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/transportation#> .
+@prefix tun:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/tunnel#> .
+@prefix veg:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/vegetation#> .
+@prefix vers: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/versioning#> .
+@prefix wtr:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/waterbody#> .
+@prefix doc:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#> .
+
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/Codelists>
+        a                owl:Ontology ;
+        rdfs:label       "CodeLists"@en ;
+        skos:definition  "An ontology containing CityGML 3.0 Codelists as SKOS Concept Schemes."@en .
+
+brid:BridgeClassValue a skos:ConceptScheme ;
+    rdfs:label "BridgeClassValue"@en .
+
+brid:BridgeFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BridgeFunctionValue"@en .
+
+brid:BridgeUsageValue a skos:ConceptScheme ;
+    rdfs:label "BridgeUsageValue"@en .
+
+brid:BridgeRoomClassValue a skos:ConceptScheme ;
+    rdfs:label "BridgeRoomClassValue"@en .
+
+brid:BridgeRoomFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BridgeRoomFunctionValue"@en .
+
+brid:BridgeRoomUsageValue a skos:ConceptScheme ;
+    rdfs:label "BridgeRoomUsageValue"@en .
+
+brid:BridgeInstallationClassValue a skos:ConceptScheme ;
+    rdfs:label "BridgeInstallationClassValue"@en .
+
+brid:BridgeInstallationFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BridgeInstallationFunctionValue"@en .
+
+brid:BridgeInstallationUsageValue a skos:ConceptScheme ;
+    rdfs:label "BridgeInstallationUsageValue"@en .
+
+brid:BridgeFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "BridgeFurnitureClassValue"@en .
+
+brid:BridgeFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BridgeFurnitureFunctionValue"@en .
+
+brid:BridgeFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "BridgeFurnitureUsageValue"@en .
+
+brid:BridgeConstructiveElementClassValue a skos:ConceptScheme ;
+    rdfs:label "BridgeConstructiveElementClassValue"@en .
+
+brid:BridgeConstructiveElementFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BridgeConstructiveElementFunctionValue"@en .
+
+brid:BridgeConstructiveElementUsageValue a skos:ConceptScheme ;
+    rdfs:label "BridgeConstructiveElementUsageValue"@en .
+
+bldg:BuildingClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingClassValue"@en .
+
+bldg:BuildingFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFunctionValue"@en .
+
+bldg:BuildingUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingUsageValue"@en .
+
+bldg:RoofTypeValue a skos:ConceptScheme ;
+    rdfs:label "RoofTypeValue"@en .
+
+bldg:BuildingSubdivisionClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionClassValue"@en .
+
+bldg:BuildingSubdivisionFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionFunctionValue"@en .
+
+bldg:BuildingSubdivisionUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionUsageValue"@en .
+
+bldg:BuildingRoomClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomClassValue"@en .
+
+bldg:BuildingRoomFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomFunctionValue"@en .
+
+bldg:BuildingRoomUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomUsageValue"@en .
+
+bldg:BuildingInstallationClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationClassValue"@en .
+
+bldg:BuildingInstallationFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationFunctionValue"@en .
+
+bldg:BuildingInstallationUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationUsageValue"@en .
+
+bldg:BuildingFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureClassValue"@en .
+
+bldg:BuildingFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureFunctionValue"@en .
+
+bldg:BuildingFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureUsageValue"@en .
+
+bldg:BuildingConstructiveElementClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementClassValue"@en .
+
+bldg:BuildingConstructiveElementFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementFunctionValue"@en .
+
+bldg:BuildingConstructiveElementUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementUsageValue"@en .
+
+bldg:RoomElevationReferenceValue a skos:ConceptScheme ;
+    rdfs:label "RoomElevationReferenceValue"@en .
+
+frn:CityFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureClassValue"@en .
+
+frn:CityFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureFunctionValue"@en .
+
+frn:CityFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureUsageValue"@en .
+
+grp:CityObjectGroupClassValue a skos:ConceptScheme ;
+    rdfs:label "CityObjectGroupClassValue"@en .
+
+grp:CityObjectGroupFunctionValue a skos:ConceptScheme ;
+    rdfs:label "CityObjectGroupFunctionValue"@en .
+
+grp:CityObjectGroupUsageValue a skos:ConceptScheme ;
+    rdfs:label "CityObjectGroupUsageValue"@en .
+
+con:EventValue a skos:ConceptScheme ;
+    rdfs:label "EventValue"@en .
+
+con:OtherConstructionClassValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionClassValue"@en .
+
+con:OtherConstructionFunctionValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionFunctionValue"@en .
+
+con:OtherConstructionUsageValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionUsageValue"@en .
+
+con:WindowClassValue a skos:ConceptScheme ;
+    rdfs:label "WindowClassValue"@en .
+
+con:WindowFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WindowFunctionValue"@en .
+
+con:WindowUsageValue a skos:ConceptScheme ;
+    rdfs:label "WindowUsageValue"@en .
+
+con:DoorClassValue a skos:ConceptScheme ;
+    rdfs:label "DoorClassValue"@en .
+
+con:DoorFunctionValue a skos:ConceptScheme ;
+    rdfs:label "DoorFunctionValue"@en .
+
+con:DoorUsageValue a skos:ConceptScheme ;
+    rdfs:label "DoorUsageValue"@en .
+
+con:ElevationReferenceValue a skos:ConceptScheme ;
+    rdfs:label "ElevationReferenceValue"@en .
+
+core:RelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "RelationTypeValue"@en .
+
+core:TopologicalRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "TopologicalRelationTypeValue"@en .
+
+core:OtherRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "OtherRelationTypeValue"@en .
+
+core:TemporalRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "TemporalRelationTypeValue"@en .
+
+core:QualifiedVolumeTypeValue a skos:ConceptScheme ;
+    rdfs:label "QualifiedVolumeTypeValue"@en .
+
+core:QualifiedAreaTypeValue a skos:ConceptScheme ;
+    rdfs:label "QualifiedAreaTypeValue"@en .
+
+core:IntervalValue a skos:ConceptScheme ;
+    rdfs:label "IntervalValue"@en .
+
+core:OccupantTypeValue a skos:ConceptScheme ;
+    rdfs:label "OccupantTypeValue"@en .
+
+core:MimeTypeValue a skos:ConceptScheme ;
+    rdfs:label "MimeTypeValue"@en .
+
+core:NilReasonEnumeration a skos:ConceptScheme ;
+    rdfs:label "NilReasonEnumeration"@en .
+
+doc:PurposeTypeValue a skos:ConceptScheme ;
+    rdfs:label "PurposeTypeValue"@en .
+
+dyn:SensorConnectionTypeValue a skos:ConceptScheme ;
+    rdfs:label "SensorConnectionTypeValue"@en .
+
+dyn:StandardFileTypeValue a skos:ConceptScheme ;
+    rdfs:label "StandardFileTypeValue"@en .
+
+dyn:TabulatedFileTypeValue a skos:ConceptScheme ;
+    rdfs:label "TabulatedFileTypeValue"@en .
+
+dyn:AuthenticationTypeValue a skos:ConceptScheme ;
+    rdfs:label "AuthenticationTypeValue"@en .
+
+gen:GenericLogicalSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceFunctionValue"@en .
+
+gen:GenericLogicalSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceClassValue"@en .
+
+gen:GenericLogicalSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceUsageValue"@en .
+
+gen:GenericOccupiedSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceClassValue"@en .
+
+gen:GenericOccupiedSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceFunctionValue"@en .
+
+gen:GenericOccupiedSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceUsageValue"@en .
+
+gen:GenericUnoccupiedSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceClassValue"@en .
+
+gen:GenericUnoccupiedSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceFunctionValue"@en .
+
+gen:GenericUnoccupiedSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceUsageValue"@en .
+
+gen:GenericThematicSurfaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceClassValue"@en .
+
+gen:GenericThematicSurfaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceFunctionValue"@en .
+
+gen:GenericThematicSurfaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceUsageValue"@en .
+
+luse:LandUseClassValue a skos:ConceptScheme ;
+    rdfs:label "LandUseClassValue"@en .
+
+luse:LandUseFunctionValue a skos:ConceptScheme ;
+    rdfs:label "LandUseFunctionValue"@en .
+
+luse:LandUseUsageValue a skos:ConceptScheme ;
+    rdfs:label "LandUseUsageValue"@en .
+
+tran:AuxiliaryTrafficAreaFunctionValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaFunctionValue"@en .
+
+tran:TrafficSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceClassValue"@en .
+
+tran:TrafficSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceUsageValue"@en .
+
+tran:AuxiliaryTrafficSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceClassValue"@en .
+
+tran:TrafficAreaUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaUsageValue"@en .
+
+tran:ClearanceSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "ClearanceSpaceClassValue"@en .
+
+tran:SurfaceMaterialValue a skos:ConceptScheme ;
+    rdfs:label "SurfaceMaterialValue"@en .
+
+tran:TrafficSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceFunctionValue"@en .
+
+tran:AuxiliaryTrafficAreaUsageValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaUsageValue"@en .
+
+tran:AuxiliaryTrafficAreaClassValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaClassValue"@en .
+
+tran:TrafficAreaFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaFunctionValue"@en .
+
+tran:AuxiliaryTrafficSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceFunctionValue"@en .
+
+tran:TrafficAreaClassValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaClassValue"@en .
+
+tran:AuxiliaryTrafficSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceUsageValue"@en .
+
+tran:SectionClassValue a skos:ConceptScheme ;
+    rdfs:label "SectionClassValue"@en .
+
+tran:IntersectionClassValue a skos:ConceptScheme ;
+    rdfs:label "IntersectionClassValue"@en .
+
+tran:MarkingClassValue a skos:ConceptScheme ;
+    rdfs:label "MarkingClassValue"@en .
+
+tran:HoleClassValue a skos:ConceptScheme ;
+    rdfs:label "HoleClassValue"@en .
+
+tran:TrackClassValue a skos:ConceptScheme ;
+    rdfs:label "TrackClassValue"@en .
+
+tran:TrackFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrackFunctionValue"@en .
+
+tran:TrackUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrackUsageValue"@en .
+
+tran:RoadClassValue a skos:ConceptScheme ;
+    rdfs:label "RoadClassValue"@en .
+
+tran:RoadFunctionValue a skos:ConceptScheme ;
+    rdfs:label "RoadFunctionValue"@en .
+
+tran:RoadUsageValue a skos:ConceptScheme ;
+    rdfs:label "RoadUsageValue"@en .
+
+tran:WaterwayClassValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayClassValue"@en .
+
+tran:WaterwayUsageValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayUsageValue"@en .
+
+tran:WaterwayFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayFunctionValue"@en .
+
+tran:RailwayClassValue a skos:ConceptScheme ;
+    rdfs:label "RailwayClassValue"@en .
+
+tran:RailwayFunctionValue a skos:ConceptScheme ;
+    rdfs:label "RailwayFunctionValue"@en .
+
+tran:RailwayUsageValue a skos:ConceptScheme ;
+    rdfs:label "RailwayUsageValue"@en .
+
+tran:SquareClassValue a skos:ConceptScheme ;
+    rdfs:label "SquareClassValue"@en .
+
+tran:SquareFunctionValue a skos:ConceptScheme ;
+    rdfs:label "SquareFunctionValue"@en .
+
+tran:SquareUsageValue a skos:ConceptScheme ;
+    rdfs:label "SquareUsageValue"@en .
+
+tun:TunnelClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelClassValue"@en .
+
+tun:TunnelFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFunctionValue"@en .
+
+tun:TunnelUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelUsageValue"@en .
+
+tun:HollowSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceClassValue"@en .
+
+tun:HollowSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceFunctionValue"@en .
+
+tun:HollowSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceUsageValue"@en .
+
+tun:TunnelInstallationClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationClassValue"@en .
+
+tun:TunnelInstallationFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationFunctionValue"@en .
+
+tun:TunnelInstallationUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationUsageValue"@en .
+
+tun:TunnelFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureClassValue"@en .
+
+tun:TunnelFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureFunctionValue"@en .
+
+tun:TunnelFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureUsageValue"@en .
+
+tun:TunnelConstructiveElementClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementClassValue"@en .
+
+tun:TunnelConstructiveElementFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementFunctionValue"@en .
+
+tun:TunnelConstructiveElementUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementUsageValue"@en .
+
+veg:SolitaryVegetationObjectClassValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectClassValue"@en .
+
+veg:SolitaryVegetationObjectFunctionValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectFunctionValue"@en .
+
+veg:SolitaryVegetationObjectUsageValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectUsageValue"@en .
+
+veg:SpeciesValue a skos:ConceptScheme ;
+    rdfs:label "SpeciesValue"@en .
+
+veg:PlantCoverClassValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverClassValue"@en .
+
+veg:PlantCoverFunctionValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverFunctionValue"@en .
+
+veg:PlantCoverUsageValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverUsageValue"@en .
+
+wtr:WaterBodyClassValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyClassValue"@en .
+
+wtr:WaterBodyFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyFunctionValue"@en .
+
+wtr:WaterBodyUsageValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyUsageValue"@en .
+
+wtr:WaterLevelValue a skos:ConceptScheme ;
+    rdfs:label "WaterLevelValue"@en .
