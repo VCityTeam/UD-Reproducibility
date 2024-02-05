@@ -1,4 +1,7 @@
 input/*
 stage-*
 logs/*
+*.log
 StandardMapEntries_iso19107-owl.xml
+add_triples.py
+ontologyPatcher.py
