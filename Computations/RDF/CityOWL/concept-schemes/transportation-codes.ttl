@@ -1,0 +1,98 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tran: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/transportation#> .
+
+tran:AuxiliaryTrafficAreaFunctionValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaFunctionValue"@en .
+
+tran:TrafficSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceClassValue"@en .
+
+tran:TrafficSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceUsageValue"@en .
+
+tran:AuxiliaryTrafficSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceClassValue"@en .
+
+tran:TrafficAreaUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaUsageValue"@en .
+
+tran:ClearanceSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "ClearanceSpaceClassValue"@en .
+
+tran:SurfaceMaterialValue a skos:ConceptScheme ;
+    rdfs:label "SurfaceMaterialValue"@en .
+
+tran:TrafficSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrafficSpaceFunctionValue"@en .
+
+tran:AuxiliaryTrafficAreaUsageValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaUsageValue"@en .
+
+tran:AuxiliaryTrafficAreaClassValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficAreaClassValue"@en .
+
+tran:TrafficAreaFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaFunctionValue"@en .
+
+tran:AuxiliaryTrafficSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceFunctionValue"@en .
+
+tran:TrafficAreaClassValue a skos:ConceptScheme ;
+    rdfs:label "TrafficAreaClassValue"@en .
+
+tran:AuxiliaryTrafficSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "AuxiliaryTrafficSpaceUsageValue"@en .
+
+tran:SectionClassValue a skos:ConceptScheme ;
+    rdfs:label "SectionClassValue"@en .
+
+tran:IntersectionClassValue a skos:ConceptScheme ;
+    rdfs:label "IntersectionClassValue"@en .
+
+tran:MarkingClassValue a skos:ConceptScheme ;
+    rdfs:label "MarkingClassValue"@en .
+
+tran:HoleClassValue a skos:ConceptScheme ;
+    rdfs:label "HoleClassValue"@en .
+
+tran:TrackClassValue a skos:ConceptScheme ;
+    rdfs:label "TrackClassValue"@en .
+
+tran:TrackFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TrackFunctionValue"@en .
+
+tran:TrackUsageValue a skos:ConceptScheme ;
+    rdfs:label "TrackUsageValue"@en .
+
+tran:RoadClassValue a skos:ConceptScheme ;
+    rdfs:label "RoadClassValue"@en .
+
+tran:RoadFunctionValue a skos:ConceptScheme ;
+    rdfs:label "RoadFunctionValue"@en .
+
+tran:RoadUsageValue a skos:ConceptScheme ;
+    rdfs:label "RoadUsageValue"@en .
+
+tran:WaterwayClassValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayClassValue"@en .
+
+tran:WaterwayUsageValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayUsageValue"@en .
+
+tran:WaterwayFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WaterwayFunctionValue"@en .
+
+tran:RailwayClassValue a skos:ConceptScheme ;
+    rdfs:label "RailwayClassValue"@en .
+
+tran:RailwayFunctionValue a skos:ConceptScheme ;
+    rdfs:label "RailwayFunctionValue"@en .
+
+tran:RailwayUsageValue a skos:ConceptScheme ;
+    rdfs:label "RailwayUsageValue"@en .
+
+tran:SquareClassValue a skos:ConceptScheme ;
+    rdfs:label "SquareClassValue"@en .
+
+tran:SquareFunctionValue a skos:ConceptScheme ;
+    rdfs:label "SquareFunctionValue"@en .

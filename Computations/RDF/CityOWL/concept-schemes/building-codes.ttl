@@ -1,0 +1,62 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bldg: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/building#> .
+
+bldg:BuildingClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingClassValue"@en .
+
+bldg:BuildingFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFunctionValue"@en .
+
+bldg:BuildingUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingUsageValue"@en .
+
+bldg:RoofTypeValue a skos:ConceptScheme ;
+    rdfs:label "RoofTypeValue"@en .
+
+bldg:BuildingSubdivisionClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionClassValue"@en .
+
+bldg:BuildingSubdivisionFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionFunctionValue"@en .
+
+bldg:BuildingSubdivisionUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingSubdivisionUsageValue"@en .
+
+bldg:BuildingRoomClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomClassValue"@en .
+
+bldg:BuildingRoomFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomFunctionValue"@en .
+
+bldg:BuildingRoomUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingRoomUsageValue"@en .
+
+bldg:BuildingInstallationClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationClassValue"@en .
+
+bldg:BuildingInstallationFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationFunctionValue"@en .
+
+bldg:BuildingInstallationUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingInstallationUsageValue"@en .
+
+bldg:BuildingFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureClassValue"@en .
+
+bldg:BuildingFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureFunctionValue"@en .
+
+bldg:BuildingFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingFurnitureUsageValue"@en .
+
+bldg:BuildingConstructiveElementClassValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementClassValue"@en .
+
+bldg:BuildingConstructiveElementFunctionValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementFunctionValue"@en .
+
+bldg:BuildingConstructiveElementUsageValue a skos:ConceptScheme ;
+    rdfs:label "BuildingConstructiveElementUsageValue"@en .
+
+bldg:RoomElevationReferenceValue a skos:ConceptScheme ;
+    rdfs:label "RoomElevationReferenceValue"@en .

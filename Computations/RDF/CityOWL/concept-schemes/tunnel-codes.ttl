@@ -1,0 +1,47 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix tun:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/tunnel#> .
+
+tun:TunnelClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelClassValue"@en .
+
+tun:TunnelFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFunctionValue"@en .
+
+tun:TunnelUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelUsageValue"@en .
+
+tun:HollowSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceClassValue"@en .
+
+tun:HollowSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceFunctionValue"@en .
+
+tun:HollowSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "HollowSpaceUsageValue"@en .
+
+tun:TunnelInstallationClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationClassValue"@en .
+
+tun:TunnelInstallationFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationFunctionValue"@en .
+
+tun:TunnelInstallationUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelInstallationUsageValue"@en .
+
+tun:TunnelFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureClassValue"@en .
+
+tun:TunnelFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureFunctionValue"@en .
+
+tun:TunnelFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelFurnitureUsageValue"@en .
+
+tun:TunnelConstructiveElementClassValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementClassValue"@en .
+
+tun:TunnelConstructiveElementFunctionValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementFunctionValue"@en .
+
+tun:TunnelConstructiveElementUsageValue a skos:ConceptScheme ;
+    rdfs:label "TunnelConstructiveElementUsageValue"@en .

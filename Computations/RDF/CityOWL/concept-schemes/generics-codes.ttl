@@ -1,0 +1,38 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix gen:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/generics#> .
+
+gen:GenericLogicalSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceFunctionValue"@en .
+
+gen:GenericLogicalSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceClassValue"@en .
+
+gen:GenericLogicalSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericLogicalSpaceUsageValue"@en .
+
+gen:GenericOccupiedSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceClassValue"@en .
+
+gen:GenericOccupiedSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceFunctionValue"@en .
+
+gen:GenericOccupiedSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericOccupiedSpaceUsageValue"@en .
+
+gen:GenericUnoccupiedSpaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceClassValue"@en .
+
+gen:GenericUnoccupiedSpaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceFunctionValue"@en .
+
+gen:GenericUnoccupiedSpaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericUnoccupiedSpaceUsageValue"@en .
+
+gen:GenericThematicSurfaceClassValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceClassValue"@en .
+
+gen:GenericThematicSurfaceFunctionValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceFunctionValue"@en .
+
+gen:GenericThematicSurfaceUsageValue a skos:ConceptScheme ;
+    rdfs:label "GenericThematicSurfaceUsageValue"@en .

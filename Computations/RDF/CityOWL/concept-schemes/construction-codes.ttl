@@ -1,0 +1,35 @@
+skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix con:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/construction#> .
+
+con:EventValue a skos:ConceptScheme ;
+    rdfs:label "EventValue"@en .
+
+con:OtherConstructionClassValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionClassValue"@en .
+
+con:OtherConstructionFunctionValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionFunctionValue"@en .
+
+con:OtherConstructionUsageValue a skos:ConceptScheme ;
+    rdfs:label "OtherConstructionUsageValue"@en .
+
+con:WindowClassValue a skos:ConceptScheme ;
+    rdfs:label "WindowClassValue"@en .
+
+con:WindowFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WindowFunctionValue"@en .
+
+con:WindowUsageValue a skos:ConceptScheme ;
+    rdfs:label "WindowUsageValue"@en .
+
+con:DoorClassValue a skos:ConceptScheme ;
+    rdfs:label "DoorClassValue"@en .
+
+con:DoorFunctionValue a skos:ConceptScheme ;
+    rdfs:label "DoorFunctionValue"@en .
+
+con:DoorUsageValue a skos:ConceptScheme ;
+    rdfs:label "DoorUsageValue"@en .
+
+con:ElevationReferenceValue a skos:ConceptScheme ;
+    rdfs:label "ElevationReferenceValue"@en .

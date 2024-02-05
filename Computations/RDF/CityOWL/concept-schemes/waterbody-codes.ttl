@@ -1,0 +1,14 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix wtr:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/waterbody#> .
+
+wtr:WaterBodyClassValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyClassValue"@en .
+
+wtr:WaterBodyFunctionValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyFunctionValue"@en .
+
+wtr:WaterBodyUsageValue a skos:ConceptScheme ;
+    rdfs:label "WaterBodyUsageValue"@en .
+
+wtr:WaterLevelValue a skos:ConceptScheme ;
+    rdfs:label "WaterLevelValue"@en .

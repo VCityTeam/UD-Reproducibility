@@ -1,0 +1,23 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix veg:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/vegetation#> .
+
+veg:SolitaryVegetationObjectClassValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectClassValue"@en .
+
+veg:SolitaryVegetationObjectFunctionValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectFunctionValue"@en .
+
+veg:SolitaryVegetationObjectUsageValue a skos:ConceptScheme ;
+    rdfs:label "SolitaryVegetationObjectUsageValue"@en .
+
+veg:SpeciesValue a skos:ConceptScheme ;
+    rdfs:label "SpeciesValue"@en .
+
+veg:PlantCoverClassValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverClassValue"@en .
+
+veg:PlantCoverFunctionValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverFunctionValue"@en .
+
+veg:PlantCoverUsageValue a skos:ConceptScheme ;
+    rdfs:label "PlantCoverUsageValue"@en .

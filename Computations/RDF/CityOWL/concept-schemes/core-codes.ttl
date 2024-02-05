@@ -1,0 +1,32 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#> .
+
+core:RelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "RelationTypeValue"@en .
+
+core:TopologicalRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "TopologicalRelationTypeValue"@en .
+
+core:OtherRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "OtherRelationTypeValue"@en .
+
+core:TemporalRelationTypeValue a skos:ConceptScheme ;
+    rdfs:label "TemporalRelationTypeValue"@en .
+
+core:QualifiedVolumeTypeValue a skos:ConceptScheme ;
+    rdfs:label "QualifiedVolumeTypeValue"@en .
+
+core:QualifiedAreaTypeValue a skos:ConceptScheme ;
+    rdfs:label "QualifiedAreaTypeValue"@en .
+
+core:IntervalValue a skos:ConceptScheme ;
+    rdfs:label "IntervalValue"@en .
+
+core:OccupantTypeValue a skos:ConceptScheme ;
+    rdfs:label "OccupantTypeValue"@en .
+
+core:MimeTypeValue a skos:ConceptScheme ;
+    rdfs:label "MimeTypeValue"@en .
+
+core:NilReasonEnumeration a skos:ConceptScheme ;
+    rdfs:label "NilReasonEnumeration"@en .

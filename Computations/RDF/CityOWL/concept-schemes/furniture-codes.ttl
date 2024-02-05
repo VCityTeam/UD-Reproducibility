@@ -1,0 +1,11 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix frn:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/cityfurniture#> .
+
+frn:CityFurnitureClassValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureClassValue"@en .
+
+frn:CityFurnitureFunctionValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureFunctionValue"@en .
+
+frn:CityFurnitureUsageValue a skos:ConceptScheme ;
+    rdfs:label "CityFurnitureUsageValue"@en .
