@@ -14,13 +14,13 @@ TODO: fix SHA1 versions
 ## Dependencies
 
 - [ShapeChange](https://shapechange.github.io/ShapeChange/3.0.0/get%20started/Get_Started.html) v3.0.0
+  - These instructions assume the ShapeChange jar (and its dependencies) are stored in this directory. 
 - UD-Graph scripts:
   - Requires [Python3](https://www.python.org/downloads/)
   - To download:
       ```bash
       git clone https://github.com/VCityTeam/UD-Graph.git
       cd UD-Graph
-
       ```
   - Move the [ontology patcher](https://github.com/VCityTeam/UD-Graph/tree/master/Transformations/ShapeChange#to-run-the-ontology-patcher) script to the same folder as this readme
       ```bash
@@ -32,7 +32,13 @@ TODO: fix SHA1 versions
       ```
 
 ## Instructions
+Run the entire workflow using recommended inputs and configurations:
+```bash
+./run-workflow.sh
+```
+- Note: run `./clean.sh` to remove workflow results if you need
 
+To run each stage, follow these step:
 1. Setup a staging folder, `input`, to get started:
    ```bash
    mkdir input
@@ -54,9 +60,9 @@ TODO: fix SHA1 versions
       <parameter name="inputModelType" value="EA7"/>
       <!-- <parameter name="inputModelType" value="SCXML"/> -->
       ```
-4. Transform with ShapeChange. For example, to transform using the OWA configuration (Update paths in brackets):
+4. Transform with ShapeChange. For example, to transform using the OWA configuration:
       ```bash
-      java -jar [path to ShapeChange jar] -Dfile.encoding=UTF-8 \
+      java -jar ./ShapeChange-3.0.0.jar -Dfile.encoding=UTF-8 \
          -c ./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml \
          -x '$input$' './input/CityGML_3.0-workspaces-documents_shapechange-export.xml' \
          -x '$output$' 'stage-1'
