@@ -5,8 +5,6 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
 - CityOWL CWA (Closed World Assumption) - Much more constrained and expressive
 - CityOWL OWA (Open World Assumption) - Much less constrained. Only contains classes, properties, and datatypes. Properties only contain `rdfs:domain` and `rdfs:range` declarations.
 
-TODO: fix SHA1 versions
-
 - [How to generate CityOWL](#how-to-generate-cityowl)
   - [Dependencies](#dependencies)
   - [Instructions](#instructions)
@@ -21,6 +19,7 @@ TODO: fix SHA1 versions
       ```bash
       git clone https://github.com/VCityTeam/UD-Graph.git
       cd UD-Graph
+      checkout 354fddb
       ```
   - Move the [ontology patcher](https://github.com/VCityTeam/UD-Graph/tree/master/Transformations/ShapeChange#to-run-the-ontology-patcher) script to the same folder as this readme
       ```bash
@@ -46,11 +45,11 @@ To run each stage, follow these step:
 2. Download one (or both) of the CityGML 3.0 CMs (with the Document and Workspace ADEs) [from UD-Graph](https://github.com/VCityTeam/UD-Graph/tree/a012111a935e0dd8eb9d661fbbfb4110e55561d0/Transformations/test-data/UML):
    - `CityGML_3.0-workspaces-documents_shapechange-export.xml` (Recommended) - An optimized ShapeChange UML format. Produces much faster ShapeChange transformations.
       ```bash
-      wget -O ./input/CityGML_3.0-workspaces-documents_shapechange-export.xml https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/test-data/UML/CityGML_3.0-workspaces-documents_shapechange-export.xml
+      cp ./UD-Graph/Transformations/test-data/UML/CityGML_3.0-workspaces-documents_shapechange-export.xml ./input
       ```
    - `CityGML_3.0-workspaces-documents.eap` - Enterprise Architect (EA) format. Transformation requires Windows and following the [ShapeChange installation instructions](#dependencies) for enabeling Enterprise Architect models.
       ```bash
-      wget -O ./input/CityGML_3.0-workspaces-documents.eap https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/test-data/UML/CityGML_3.0-workspaces-documents.eap
+      cp ./UD-Graph/Transformations/test-data/UML/CityGML_3.0-workspaces-documents.eap ./input
       ```
 3. Choose one (or both) of the following ShapeChange configuration files based on your needs:
    - For CityOWL OWA: [./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml](./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml)
