@@ -12,10 +12,22 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
 ## Dependencies
 
 - [ShapeChange](https://shapechange.github.io/ShapeChange/3.0.0/get%20started/Get_Started.html) v3.0.0
-- UD-Graph:
+- UD-Graph scripts:
   - Requires [Python3](https://www.python.org/downloads/)
-  - Download the [ontology patcher](https://github.com/VCityTeam/UD-Graph/blob/a012111a935e0dd8eb9d661fbbfb4110e55561d0/Transformations/ShapeChange/ontologyPatcher.py) script to the same folder as this readme
-  - Download [addTriples](https://github.com/VCityTeam/UD-Graph/blob/a012111a935e0dd8eb9d661fbbfb4110e55561d0/Transformations/utilities/add_triples.py) script to the same folder as this readme
+  - To download:
+      ```bash
+      git clone https://github.com/VCityTeam/UD-Graph.git
+      cd UD-Graph
+      # FIXME git checkout [SHA1]
+      ```
+  - Move the [ontology patcher](https://github.com/VCityTeam/UD-Graph/tree/master/Transformations/ShapeChange#to-run-the-ontology-patcher) script to the same folder as this readme
+      ```bash
+      cp ./UD-Graph/Transformations/ShapeChange/ontologyPatcher.py [path to this directory]
+      ```
+  - Download [addTriples](https://github.com/VCityTeam/UD-Graph/tree/master/Transformations/utilities#add_triplespy) script to the same folder as this readme
+      ```bash
+      cp ./UD-Graph/Transformations/utilities/add_triples.py [path to this directory]
+      ```
 
 ## Instructions
 
@@ -32,16 +44,10 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
       ```bash
       wget -O ./input/CityGML_3.0-workspaces-documents.eap https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/test-data/UML/CityGML_3.0-workspaces-documents.eap
       ```
-3. Download one (or both) of the following ShapeChange configuration files:
-   - For CityOWL OWA: `CityGML3.0_to_OWL_lite_config.xml`
-      ```bash
-      wget -O ./input/CityGML3.0_to_OWL_lite_config.xml https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/ShapeChange/CityGML3.0_to_OWL_lite_config.xml
-      ```
-   - For CityOWL CWA: `CityGML3.0_to_OWL_config.xml`
-      ```bash
-      wget -O ./input/CityGML3.0_to_OWL_config.xml https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/ShapeChange/CityGML3.0_to_OWL_config.xml
-      ```
-   - If using the EA format, comment line 4 and uncomment line 3 in the downloaded config.
+3. Choose one (or both) of the following ShapeChange configuration files based on your needs:
+   - For CityOWL OWA: [./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml](./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml)
+   - For CityOWL CWA: [./shapechange-configs/CityGML3.0_to_OWL_config.xml](./shapechange-configs/CityGML3.0_to_OWL_config.xml)
+   - If using the EA format, comment line 4 and uncomment line 3 in the config.
       ```xml
       <parameter name="inputModelType" value="EA7"/>
       <!-- <parameter name="inputModelType" value="SCXML"/> -->
