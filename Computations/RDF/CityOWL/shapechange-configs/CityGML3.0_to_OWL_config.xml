@@ -106,7 +106,7 @@
       <xi:include href="https://shapechange.net/resources/config/StandardMapEntries_iso19136_2007-owl.xml"/>
       <xi:include href="StandardMapEntries_iso19107-owl.xml"/>
       <rdfMapEntries>
-        <RdfTypeMapEntry type="AnyFeature" target="iso19109:AnyFeature"/>
+        <RdfTypeMapEntry type="AnyFeature" target="gsp:AnyFeature"/>
         <RdfTypeMapEntry type="CV_DiscreteGridPointCoverage" target="iso19123:CV_DiscreteGridPointCoverage"/>
         <RdfTypeMapEntry type="EngineeringCRS" target="iso19111-2019:EngineeringCRS"/>
         <RdfTypeMapEntry type="MeasureOrNilReasonList" target="iso19136-bt:MeasureOrNilReasonList"/>

@@ -5,6 +5,8 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
 - CityOWL CWA (Closed World Assumption) - Much more constrained and expressive
 - CityOWL OWA (Open World Assumption) - Much less constrained. Only contains classes, properties, and datatypes. Properties only contain `rdfs:domain` and `rdfs:range` declarations.
 
+TODO: fix SHA1 versions
+
 - [How to generate CityOWL](#how-to-generate-cityowl)
   - [Dependencies](#dependencies)
   - [Instructions](#instructions)
@@ -18,7 +20,7 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
       ```bash
       git clone https://github.com/VCityTeam/UD-Graph.git
       cd UD-Graph
-      # FIXME git checkout [SHA1]
+
       ```
   - Move the [ontology patcher](https://github.com/VCityTeam/UD-Graph/tree/master/Transformations/ShapeChange#to-run-the-ontology-patcher) script to the same folder as this readme
       ```bash
@@ -47,41 +49,27 @@ CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). T
 3. Choose one (or both) of the following ShapeChange configuration files based on your needs:
    - For CityOWL OWA: [./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml](./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml)
    - For CityOWL CWA: [./shapechange-configs/CityGML3.0_to_OWL_config.xml](./shapechange-configs/CityGML3.0_to_OWL_config.xml)
-   - If using the EA format, comment line 4 and uncomment line 3 in the config.
+   - If using a EA format for step 2, comment line 4 and uncomment line 3 in the selected config.
       ```xml
       <parameter name="inputModelType" value="EA7"/>
       <!-- <parameter name="inputModelType" value="SCXML"/> -->
       ```
-4. Download this configuration file dependency:
-      ```bash
-      wget -O ./StandardMapEntries_iso19107-owl.xml https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/ShapeChange/StandardMapEntries_iso19107-owl.xml
-      ```
-5. Transform with ShapeChange. For example, to transform using the OWA configuration (Update paths in brackets):
+4. Transform with ShapeChange. For example, to transform using the OWA configuration (Update paths in brackets):
       ```bash
       java -jar [path to ShapeChange jar] -Dfile.encoding=UTF-8 \
-         -c ./input/CityGML3.0_to_OWL_lite_config.xml \
+         -c ./shapechange-configs/CityGML3.0_to_OWL_lite_config.xml \
          -x '$input$' './input/CityGML_3.0-workspaces-documents_shapechange-export.xml' \
          -x '$output$' 'stage-1'
       ```
-6. Next we must patch and modify the generated ontologies. Run the UD-Graph ontology patcher on each generated ontology:
+5. Next we must patch and modify the generated ontologies. Run the UD-Graph ontology patcher on each generated ontology:
       ```bash
       ./patch-ontologies.sh
       ```
-7. Add CodeLists. Currently, the shapechange rule to generate codelists automatically as SKOS concept schemes does not work with the CityGML CM. These have been created manually as an external files and must be added to each ontology. This can be done by using the AddTriples script:
+   -  This script also fixes the URIs of the Document and Workspace ADEs.
+6. Add CodeLists, CityModelMember modifications, and proposed alignments between CityGML, GeoSPARQL, and OWL-Time. Currently, the shapechange rule to generate codelists automatically as SKOS concept schemes does not work with the CityGML CM. These have been created manually as an external files and must be added to each ontology. Run the UD-Graph add_triples and update_rdf scripts on each generated ontology:
    ```bash
-   ./add-codes.sh
+   ./update-triples.sh
    ```
-8. FIXME - union transformation
-9. FIXME - gml:boundedby -> hasGeometry
-<!-- 9.  FIXME - double check alignments -->
-1.  Update ADE namespaces. The Document and Workspace ADE ontologies contain incorrect URIs. To fix this, perform a ctrl+F replace in your favorite text editor or IDE
-   1. For the Document ontology, 
-      - Replace `https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/document`
-      - With `https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document`. 
-   2. For the Workspace ontology, 
-      - Replace `https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/workspace`
-      - With `https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Workspace/3.0/workspace`
-2.  Other
-3.  (Optional) test with [Protégé](https://protege.stanford.edu/software.php#desktop-protege) that the ontologies load.
+7.   (Optional) test with [Protégé](https://protege.stanford.edu/software.php#desktop-protege) that the ontologies load.
    1. Test with and without importing external ontologies online.
    2. Test ontologies are logically sound with a reasoner.

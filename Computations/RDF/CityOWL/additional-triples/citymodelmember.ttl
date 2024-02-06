@@ -1,0 +1,24 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#> .
+
+core:CityModel.cityModelMember a owl:ObjectProperty ;
+    rdfs:label "cityModelMember"@en ;
+    rdfs:domain core:CityModel ;
+    skos:definition "Relates to all objects that are part of the CityModel."@en .
+
+core:CityModel.cityModelMember_appearanceMember rdfs:subPropertyOf core:cityModelMember ;
+    skos:prefLabel "appearanceMember"@en .
+
+core:CityModel.cityModelMember_cityObjectMember rdfs:subPropertyOf core:cityModelMember ;
+    skos:prefLabel "cityObjectMember"@en .
+
+core:CityModel.cityModelMember_featureMember rdfs:subPropertyOf core:cityModelMember ;
+    skos:prefLabel "featureMember"@en .
+
+core:CityModel.cityModelMember_versionMember rdfs:subPropertyOf core:cityModelMember ;
+    skos:prefLabel "versionMember"@en .
+
+core:CityModel.cityModelMember_versionTransitionMember rdfs:subPropertyOf core:cityModelMember ;
+    skos:prefLabel "versionTransitionMember"@en .
