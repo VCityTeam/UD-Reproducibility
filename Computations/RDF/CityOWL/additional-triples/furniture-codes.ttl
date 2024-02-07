@@ -2,11 +2,14 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix frn:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/cityfurniture#> .
 
-frn:CityFurnitureClassValue a skos:ConceptScheme ;
+frn:CityFurnitureClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "CityFurnitureClassValue"@en .
 
-frn:CityFurnitureFunctionValue a skos:ConceptScheme ;
+frn:CityFurnitureFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "CityFurnitureFunctionValue"@en .
 
-frn:CityFurnitureUsageValue a skos:ConceptScheme ;
+frn:CityFurnitureUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "CityFurnitureUsageValue"@en .

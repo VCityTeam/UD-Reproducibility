@@ -2,23 +2,30 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix veg:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/vegetation#> .
 
-veg:SolitaryVegetationObjectClassValue a skos:ConceptScheme ;
+veg:SolitaryVegetationObjectClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "SolitaryVegetationObjectClassValue"@en .
 
-veg:SolitaryVegetationObjectFunctionValue a skos:ConceptScheme ;
+veg:SolitaryVegetationObjectFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "SolitaryVegetationObjectFunctionValue"@en .
 
-veg:SolitaryVegetationObjectUsageValue a skos:ConceptScheme ;
+veg:SolitaryVegetationObjectUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "SolitaryVegetationObjectUsageValue"@en .
 
-veg:SpeciesValue a skos:ConceptScheme ;
+veg:SpeciesValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "SpeciesValue"@en .
 
-veg:PlantCoverClassValue a skos:ConceptScheme ;
+veg:PlantCoverClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "PlantCoverClassValue"@en .
 
-veg:PlantCoverFunctionValue a skos:ConceptScheme ;
+veg:PlantCoverFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "PlantCoverFunctionValue"@en .
 
-veg:PlantCoverUsageValue a skos:ConceptScheme ;
+veg:PlantCoverUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "PlantCoverUsageValue"@en .

@@ -2,47 +2,62 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix tun:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/tunnel#> .
 
-tun:TunnelClassValue a skos:ConceptScheme ;
+tun:TunnelClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelClassValue"@en .
 
-tun:TunnelFunctionValue a skos:ConceptScheme ;
+tun:TunnelFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelFunctionValue"@en .
 
-tun:TunnelUsageValue a skos:ConceptScheme ;
+tun:TunnelUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelUsageValue"@en .
 
-tun:HollowSpaceClassValue a skos:ConceptScheme ;
+tun:HollowSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "HollowSpaceClassValue"@en .
 
-tun:HollowSpaceFunctionValue a skos:ConceptScheme ;
+tun:HollowSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "HollowSpaceFunctionValue"@en .
 
-tun:HollowSpaceUsageValue a skos:ConceptScheme ;
+tun:HollowSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "HollowSpaceUsageValue"@en .
 
-tun:TunnelInstallationClassValue a skos:ConceptScheme ;
+tun:TunnelInstallationClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelInstallationClassValue"@en .
 
-tun:TunnelInstallationFunctionValue a skos:ConceptScheme ;
+tun:TunnelInstallationFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelInstallationFunctionValue"@en .
 
-tun:TunnelInstallationUsageValue a skos:ConceptScheme ;
+tun:TunnelInstallationUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelInstallationUsageValue"@en .
 
-tun:TunnelFurnitureClassValue a skos:ConceptScheme ;
+tun:TunnelFurnitureClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelFurnitureClassValue"@en .
 
-tun:TunnelFurnitureFunctionValue a skos:ConceptScheme ;
+tun:TunnelFurnitureFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelFurnitureFunctionValue"@en .
 
-tun:TunnelFurnitureUsageValue a skos:ConceptScheme ;
+tun:TunnelFurnitureUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelFurnitureUsageValue"@en .
 
-tun:TunnelConstructiveElementClassValue a skos:ConceptScheme ;
+tun:TunnelConstructiveElementClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelConstructiveElementClassValue"@en .
 
-tun:TunnelConstructiveElementFunctionValue a skos:ConceptScheme ;
+tun:TunnelConstructiveElementFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelConstructiveElementFunctionValue"@en .
 
-tun:TunnelConstructiveElementUsageValue a skos:ConceptScheme ;
+tun:TunnelConstructiveElementUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "TunnelConstructiveElementUsageValue"@en .

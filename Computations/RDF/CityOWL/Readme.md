@@ -70,6 +70,12 @@ TODO: fix SHA1 versions
    ```bash
    ./update-triples.sh
    ```
-7.   (Optional) test with [Protégé](https://protege.stanford.edu/software.php#desktop-protege) that the ontologies load.
+7. Manually delete the following triples from the [versioning.ttl](./output/versioning.ttl) output
+   ```sparql
+   vers:TransactionTypeValue owl:equivalentClass [ a rdfs:Datatype ;
+         owl:oneOf ( "insert" "delete" "replace" ) ] ;
+   ```
+   - TODO: Automate me!
+8. (Optional) test with [Protégé](https://protege.stanford.edu/software.php#desktop-protege) that the ontologies load.
    1. Test with and without importing external ontologies online.
    2. Test ontologies are logically sound with a reasoner.

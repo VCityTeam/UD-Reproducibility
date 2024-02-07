@@ -2,38 +2,50 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix gen:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/generics#> .
 
-gen:GenericLogicalSpaceFunctionValue a skos:ConceptScheme ;
+gen:GenericLogicalSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericLogicalSpaceFunctionValue"@en .
 
-gen:GenericLogicalSpaceClassValue a skos:ConceptScheme ;
+gen:GenericLogicalSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericLogicalSpaceClassValue"@en .
 
-gen:GenericLogicalSpaceUsageValue a skos:ConceptScheme ;
+gen:GenericLogicalSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericLogicalSpaceUsageValue"@en .
 
-gen:GenericOccupiedSpaceClassValue a skos:ConceptScheme ;
+gen:GenericOccupiedSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericOccupiedSpaceClassValue"@en .
 
-gen:GenericOccupiedSpaceFunctionValue a skos:ConceptScheme ;
+gen:GenericOccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericOccupiedSpaceFunctionValue"@en .
 
-gen:GenericOccupiedSpaceUsageValue a skos:ConceptScheme ;
+gen:GenericOccupiedSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericOccupiedSpaceUsageValue"@en .
 
-gen:GenericUnoccupiedSpaceClassValue a skos:ConceptScheme ;
+gen:GenericUnoccupiedSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericUnoccupiedSpaceClassValue"@en .
 
-gen:GenericUnoccupiedSpaceFunctionValue a skos:ConceptScheme ;
+gen:GenericUnoccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericUnoccupiedSpaceFunctionValue"@en .
 
-gen:GenericUnoccupiedSpaceUsageValue a skos:ConceptScheme ;
+gen:GenericUnoccupiedSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericUnoccupiedSpaceUsageValue"@en .
 
-gen:GenericThematicSurfaceClassValue a skos:ConceptScheme ;
+gen:GenericThematicSurfaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericThematicSurfaceClassValue"@en .
 
-gen:GenericThematicSurfaceFunctionValue a skos:ConceptScheme ;
+gen:GenericThematicSurfaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericThematicSurfaceFunctionValue"@en .
 
-gen:GenericThematicSurfaceUsageValue a skos:ConceptScheme ;
+gen:GenericThematicSurfaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "GenericThematicSurfaceUsageValue"@en .

@@ -39,12 +39,12 @@ echo 'Adding cityModelMember modifications'
 python3 add_triples.py ./output/core.ttl ./additional-triples/citymodelmember.ttl ./output/core.ttl
 echo 'Adding GeoSPARQL and OWL-Time alignments'
 python3 add_triples.py ./output/core.ttl ./additional-triples/alignments.ttl ./output/core.ttl
-echo 'Removing outdated triples'
+echo 'Removing outdated core triples'
 python3 update_graph.py ./output/core.ttl ./output/core.ttl \
    'PREFIX owl:  <http://www.w3.org/2002/07/owl#>
-    PREFIX core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+    PREFIX core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#>
 
     DELETE DATA {
         core:AbstractFeatureWithLifespan.validFrom a owl:DatatypeProperty ;
@@ -56,6 +56,20 @@ python3 update_graph.py ./output/core.ttl ./output/core.ttl \
         core:AbstractFeatureWithLifespan.terminationDate a owl:DatatypeProperty ;
             rdfs:range xsd:dateTime .
     }'
+echo 'Removing outdated versioning triples'
+python3 update_graph.py ./output/versioning.ttl ./output/versioning.ttl \
+'PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX vers: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/versioning#>
+
+DELETE DATA {
+    vers:TransactionTypeValue a rdfs:Datatype .
+} ;
+INSERT DATA {
+    vers:TransactionTypeValue a owl:Class ;
+        rdfs:subClassOf skos:Concept .
+}'
+
 
 ### Copy remaining files ###
 for file in ./stage-2/*
@@ -69,3 +83,5 @@ done
 
 echo 'Copying CityOWL.ttl to output'
 cp ./additional-triples/CityOWL.ttl ./output
+echo 'Copying transactiontypevalues.ttl to output'
+cp ./additional-triples/transactiontypevalues.ttl ./output

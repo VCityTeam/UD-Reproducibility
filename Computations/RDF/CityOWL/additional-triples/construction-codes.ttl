@@ -2,35 +2,46 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix con:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/construction#> .
 
-con:EventValue a skos:ConceptScheme ;
+con:EventValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "EventValue"@en .
 
-con:OtherConstructionClassValue a skos:ConceptScheme ;
+con:OtherConstructionClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OtherConstructionClassValue"@en .
 
-con:OtherConstructionFunctionValue a skos:ConceptScheme ;
+con:OtherConstructionFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OtherConstructionFunctionValue"@en .
 
-con:OtherConstructionUsageValue a skos:ConceptScheme ;
+con:OtherConstructionUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "OtherConstructionUsageValue"@en .
 
-con:WindowClassValue a skos:ConceptScheme ;
+con:WindowClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "WindowClassValue"@en .
 
-con:WindowFunctionValue a skos:ConceptScheme ;
+con:WindowFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "WindowFunctionValue"@en .
 
-con:WindowUsageValue a skos:ConceptScheme ;
+con:WindowUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "WindowUsageValue"@en .
 
-con:DoorClassValue a skos:ConceptScheme ;
+con:DoorClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "DoorClassValue"@en .
 
-con:DoorFunctionValue a skos:ConceptScheme ;
+con:DoorFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "DoorFunctionValue"@en .
 
-con:DoorUsageValue a skos:ConceptScheme ;
+con:DoorUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "DoorUsageValue"@en .
 
-con:ElevationReferenceValue a skos:ConceptScheme ;
+con:ElevationReferenceValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
     rdfs:label "ElevationReferenceValue"@en .
