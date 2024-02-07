@@ -22,7 +22,7 @@
   <transformers>
     <Transformer id="ACMAPPER" class="de.interactive_instruments.ShapeChange.Transformation.Flattening.AssociationClassMapper" mode="enabled"/>
     <!-- Union alternative 1 transformer -->
-    <Transformer id="FLATTENER1" class="de.interactive_instruments.ShapeChange.Transformation.Flattening.Flattener" input="ACMAPPER" mode="disabled">
+    <Transformer id="FLATTENER1" class="de.interactive_instruments.ShapeChange.Transformation.Flattening.Flattener" input="ACMAPPER" mode="enabled">
       <parameters>
         <ProcessParameter name="includeUnionIdentifierTaggedValue" value="true"/>
         <ProcessParameter name="separatorForPropertyFromUnion" value="."/>
@@ -49,7 +49,7 @@
   </transformers>
   <targets>
     <!-- <TargetOwl class="de.interactive_instruments.ShapeChange.Target.Ontology.OWLISO19150" mode="enabled"> -->
-    <TargetOwl class="de.interactive_instruments.ShapeChange.Target.Ontology.OWLISO19150" mode="enabled" inputs="ACMAPPER">
+    <TargetOwl class="de.interactive_instruments.ShapeChange.Target.Ontology.OWLISO19150" mode="enabled" inputs="FLATTENER1">
       <targetParameter name="outputDirectory" value="$output$"/>
       <!-- <targetParameter name="outputDirectory" value="../Data-IO/OWL/CityGML_3.0_Conceptual_Model"/> -->
       <targetParameter name="defaultEncodingRule" value="CityGML_RDF_Encoding_Rules"/>
@@ -90,6 +90,7 @@
         <Namespace nsabr="iso19123" ns="http://def.isotc211.org/iso19123/2005/DiscreteCoverages#"/>
         <Namespace nsabr="iso19136-bt" ns="http://def.isotc211.org/iso19136/2007/BasicTypes#"/>
         <Namespace nsabr="orph" ns="http://def.isotc211.org/orphans/Orphans#"/>
+        <Namespace nsabr="time" ns="http://www.w3.org/2006/time#" location="http://www.w3.org/2006/time"/>
         <!-- OGC Standard namespaces -->
         <Namespace nsabr="tsml" ns="http://www.opengis.net/tsml/1.0#"/>
         <Namespace nsabr="sos" ns="http://www.opengis.net/sos/1.0#"/>
@@ -104,7 +105,8 @@
       <xi:include href="https://shapechange.net/resources/config/StandardMapEntries_iso19107-owl-gml.xml"/>
       <xi:include href="https://shapechange.net/resources/config/StandardMapEntries_iso19108-owl.xml"/>
       <xi:include href="https://shapechange.net/resources/config/StandardMapEntries_iso19136_2007-owl.xml"/>
-      <xi:include href="StandardMapEntries_iso19107-owl.xml"/>
+      <xi:include href="./shapechange-configs/StandardMapEntries_iso19107-owl.xml"/>
+      <xi:include href="./shapechange-configs/CityGML3.0CodeListMapEntries.xml"/>
       <rdfMapEntries>
         <RdfTypeMapEntry type="AnyFeature" target="gsp:AnyFeature"/>
         <RdfTypeMapEntry type="CV_DiscreteGridPointCoverage" target="iso19123:CV_DiscreteGridPointCoverage"/>
