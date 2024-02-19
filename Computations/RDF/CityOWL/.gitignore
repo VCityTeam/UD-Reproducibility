@@ -1,0 +1,9 @@
+input/*
+output/*
+stage-*
+logs/*
+*.log
+add_triples.py
+ontologyPatcher.py
+update_graph.py
+*.jar

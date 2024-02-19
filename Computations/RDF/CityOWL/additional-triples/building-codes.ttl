@@ -1,0 +1,83 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bldg: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/building#> .
+
+bldg:BuildingClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingClassValue"@en .
+
+bldg:BuildingFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingFunctionValue"@en .
+
+bldg:BuildingUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingUsageValue"@en .
+
+bldg:RoofTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RoofTypeValue"@en .
+
+bldg:BuildingSubdivisionClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingSubdivisionClassValue"@en .
+
+bldg:BuildingSubdivisionFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingSubdivisionFunctionValue"@en .
+
+bldg:BuildingSubdivisionUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingSubdivisionUsageValue"@en .
+
+bldg:BuildingRoomClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingRoomClassValue"@en .
+
+bldg:BuildingRoomFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingRoomFunctionValue"@en .
+
+bldg:BuildingRoomUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingRoomUsageValue"@en .
+
+bldg:BuildingInstallationClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingInstallationClassValue"@en .
+
+bldg:BuildingInstallationFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingInstallationFunctionValue"@en .
+
+bldg:BuildingInstallationUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingInstallationUsageValue"@en .
+
+bldg:BuildingFurnitureClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingFurnitureClassValue"@en .
+
+bldg:BuildingFurnitureFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingFurnitureFunctionValue"@en .
+
+bldg:BuildingFurnitureUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingFurnitureUsageValue"@en .
+
+bldg:BuildingConstructiveElementClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingConstructiveElementClassValue"@en .
+
+bldg:BuildingConstructiveElementFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingConstructiveElementFunctionValue"@en .
+
+bldg:BuildingConstructiveElementUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BuildingConstructiveElementUsageValue"@en .
+
+bldg:RoomElevationReferenceValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RoomElevationReferenceValue"@en .

@@ -1,0 +1,60 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix geo:  <http://www.opengis.net/ont/geosparql#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#> .
+
+# GeoSPARQL alignments
+core:AbstractSpace.lod0MultiCurve rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod0MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod0Point rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod1Solid rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod2MultiCurve rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod2MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod2Solid rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod3MultiCurve rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod3MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractSpace.lod3Solid rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractThematicSurface.lod0MultiCurve rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractThematicSurface.lod0MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractThematicSurface.lod1MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractThematicSurface.lod2MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:AbstractThematicSurface.lod3MultiSurface rdfs:subPropertyOf geo:hasGeometry .
+
+core:ImplicitGeometry.referencePoint rdfs:subPropertyOf geo:hasGeometry .
+
+core:ImplicitGeometry.relativeGeometry rdfs:subPropertyOf geo:hasGeometry .
+
+core:Address.multiPoint rdfs:subPropertyOf geo:hasGeometry .
+
+# OWL-Time alignments
+core:AbstractFeatureWithLifespan.validFrom a owl:ObjectProperty ;
+    rdfs:subPropertyOf time:hasBeginning ;
+    rdfs:range time:Instant .
+
+core:AbstractFeatureWithLifespan.validTo a owl:ObjectProperty ;
+    rdfs:subPropertyOf time:hasEnd ;
+    rdfs:range time:Instant .
+
+core:AbstractFeatureWithLifespan.creationDate a owl:ObjectProperty ;
+    rdfs:subPropertyOf time:hasBeginning ;
+    rdfs:range time:Instant .
+
+core:AbstractFeatureWithLifespan.terminationDate a owl:ObjectProperty ;
+    rdfs:subPropertyOf time:hasEnd ;
+    rdfs:range time:Instant .

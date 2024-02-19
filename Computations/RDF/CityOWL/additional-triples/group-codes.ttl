@@ -1,0 +1,15 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix grp:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/cityobjectgroup#> .
+
+grp:CityObjectGroupClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "CityObjectGroupClassValue"@en .
+
+grp:CityObjectGroupFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "CityObjectGroupFunctionValue"@en .
+
+grp:CityObjectGroupUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "CityObjectGroupUsageValue"@en .

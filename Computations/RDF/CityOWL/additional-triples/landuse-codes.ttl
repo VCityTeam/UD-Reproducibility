@@ -1,0 +1,15 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix luse: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/landuse#> .
+
+luse:LandUseClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "LandUseClassValue"@en .
+
+luse:LandUseFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "LandUseFunctionValue"@en .
+
+luse:LandUseUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "LandUseUsageValue"@en .

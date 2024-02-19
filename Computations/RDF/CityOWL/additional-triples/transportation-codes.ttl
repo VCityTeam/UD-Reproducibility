@@ -1,0 +1,131 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tran: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/transportation#> .
+
+tran:AuxiliaryTrafficAreaFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficAreaFunctionValue"@en .
+
+tran:TrafficSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficSpaceClassValue"@en .
+
+tran:TrafficSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficSpaceUsageValue"@en .
+
+tran:AuxiliaryTrafficSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficSpaceClassValue"@en .
+
+tran:TrafficAreaUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficAreaUsageValue"@en .
+
+tran:ClearanceSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "ClearanceSpaceClassValue"@en .
+
+tran:SurfaceMaterialValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "SurfaceMaterialValue"@en .
+
+tran:TrafficSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficSpaceFunctionValue"@en .
+
+tran:AuxiliaryTrafficAreaUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficAreaUsageValue"@en .
+
+tran:AuxiliaryTrafficAreaClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficAreaClassValue"@en .
+
+tran:TrafficAreaFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficAreaFunctionValue"@en .
+
+tran:AuxiliaryTrafficSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficSpaceFunctionValue"@en .
+
+tran:TrafficAreaClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrafficAreaClassValue"@en .
+
+tran:AuxiliaryTrafficSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuxiliaryTrafficSpaceUsageValue"@en .
+
+tran:SectionClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "SectionClassValue"@en .
+
+tran:IntersectionClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "IntersectionClassValue"@en .
+
+tran:MarkingClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "MarkingClassValue"@en .
+
+tran:HoleClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "HoleClassValue"@en .
+
+tran:TrackClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrackClassValue"@en .
+
+tran:TrackFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrackFunctionValue"@en .
+
+tran:TrackUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TrackUsageValue"@en .
+
+tran:RoadClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RoadClassValue"@en .
+
+tran:RoadFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RoadFunctionValue"@en .
+
+tran:RoadUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RoadUsageValue"@en .
+
+tran:WaterwayClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "WaterwayClassValue"@en .
+
+tran:WaterwayUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "WaterwayUsageValue"@en .
+
+tran:WaterwayFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "WaterwayFunctionValue"@en .
+
+tran:RailwayClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RailwayClassValue"@en .
+
+tran:RailwayFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RailwayFunctionValue"@en .
+
+tran:RailwayUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RailwayUsageValue"@en .
+
+tran:SquareClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "SquareClassValue"@en .
+
+tran:SquareFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "SquareFunctionValue"@en .

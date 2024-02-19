@@ -1,0 +1,63 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix brid: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/bridge#> .
+
+brid:BridgeClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeClassValue"@en .
+
+brid:BridgeFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeFunctionValue"@en .
+
+brid:BridgeUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeUsageValue"@en .
+
+brid:BridgeRoomClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeRoomClassValue"@en .
+
+brid:BridgeRoomFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeRoomFunctionValue"@en .
+
+brid:BridgeRoomUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeRoomUsageValue"@en .
+
+brid:BridgeInstallationClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeInstallationClassValue"@en .
+
+brid:BridgeInstallationFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeInstallationFunctionValue"@en .
+
+brid:BridgeInstallationUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeInstallationUsageValue"@en .
+
+brid:BridgeFurnitureClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeFurnitureClassValue"@en .
+
+brid:BridgeFurnitureFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeFurnitureFunctionValue"@en .
+
+brid:BridgeFurnitureUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeFurnitureUsageValue"@en .
+
+brid:BridgeConstructiveElementClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeConstructiveElementClassValue"@en .
+
+brid:BridgeConstructiveElementFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeConstructiveElementFunctionValue"@en .
+
+brid:BridgeConstructiveElementUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "BridgeConstructiveElementUsageValue"@en .

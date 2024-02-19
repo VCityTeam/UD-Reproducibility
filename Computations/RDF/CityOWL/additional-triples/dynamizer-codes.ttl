@@ -1,0 +1,19 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dyn:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/dynamizer#> .
+
+dyn:SensorConnectionTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "SensorConnectionTypeValue"@en .
+
+dyn:StandardFileTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "StandardFileTypeValue"@en .
+
+dyn:TabulatedFileTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TabulatedFileTypeValue"@en .
+
+dyn:AuthenticationTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "AuthenticationTypeValue"@en .

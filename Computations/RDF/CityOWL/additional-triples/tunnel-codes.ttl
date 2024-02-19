@@ -1,0 +1,63 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tun:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/tunnel#> .
+
+tun:TunnelClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelClassValue"@en .
+
+tun:TunnelFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelFunctionValue"@en .
+
+tun:TunnelUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelUsageValue"@en .
+
+tun:HollowSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "HollowSpaceClassValue"@en .
+
+tun:HollowSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "HollowSpaceFunctionValue"@en .
+
+tun:HollowSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "HollowSpaceUsageValue"@en .
+
+tun:TunnelInstallationClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelInstallationClassValue"@en .
+
+tun:TunnelInstallationFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelInstallationFunctionValue"@en .
+
+tun:TunnelInstallationUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelInstallationUsageValue"@en .
+
+tun:TunnelFurnitureClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelFurnitureClassValue"@en .
+
+tun:TunnelFurnitureFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelFurnitureFunctionValue"@en .
+
+tun:TunnelFurnitureUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelFurnitureUsageValue"@en .
+
+tun:TunnelConstructiveElementClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelConstructiveElementClassValue"@en .
+
+tun:TunnelConstructiveElementFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelConstructiveElementFunctionValue"@en .
+
+tun:TunnelConstructiveElementUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TunnelConstructiveElementUsageValue"@en .

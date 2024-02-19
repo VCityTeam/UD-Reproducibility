@@ -1,0 +1,51 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gen:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/generics#> .
+
+gen:GenericLogicalSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericLogicalSpaceFunctionValue"@en .
+
+gen:GenericLogicalSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericLogicalSpaceClassValue"@en .
+
+gen:GenericLogicalSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericLogicalSpaceUsageValue"@en .
+
+gen:GenericOccupiedSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericOccupiedSpaceClassValue"@en .
+
+gen:GenericOccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericOccupiedSpaceFunctionValue"@en .
+
+gen:GenericOccupiedSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericOccupiedSpaceUsageValue"@en .
+
+gen:GenericUnoccupiedSpaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericUnoccupiedSpaceClassValue"@en .
+
+gen:GenericUnoccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericUnoccupiedSpaceFunctionValue"@en .
+
+gen:GenericUnoccupiedSpaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericUnoccupiedSpaceUsageValue"@en .
+
+gen:GenericThematicSurfaceClassValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericThematicSurfaceClassValue"@en .
+
+gen:GenericThematicSurfaceFunctionValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericThematicSurfaceFunctionValue"@en .
+
+gen:GenericThematicSurfaceUsageValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "GenericThematicSurfaceUsageValue"@en .

@@ -1,0 +1,43 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#> .
+
+core:RelationTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "RelationTypeValue"@en .
+
+core:TopologicalRelationTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TopologicalRelationTypeValue"@en .
+
+core:OtherRelationTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "OtherRelationTypeValue"@en .
+
+core:TemporalRelationTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "TemporalRelationTypeValue"@en .
+
+core:QualifiedVolumeTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "QualifiedVolumeTypeValue"@en .
+
+core:QualifiedAreaTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "QualifiedAreaTypeValue"@en .
+
+core:IntervalValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "IntervalValue"@en .
+
+core:OccupantTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "OccupantTypeValue"@en .
+
+core:MimeTypeValue a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "MimeTypeValue"@en .
+
+core:NilReasonEnumeration a owl:Class ;
+    rdfs:subClassOf skos:Concept ;
+    rdfs:label "NilReasonEnumeration"@en .
