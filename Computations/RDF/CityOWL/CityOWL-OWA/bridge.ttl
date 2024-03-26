@@ -1,0 +1,278 @@
+@prefix brid: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/bridge#> .
+@prefix con: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/construction#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core#> .
+@prefix iso19150-2: <http://def.isotc211.org/iso19150/-2/2012/base#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/bridge> a owl:Ontology ;
+    rdfs:label "Bridge"@en ;
+    owl:imports <http://def.isotc211.org/iso19150/-2/2012/base>,
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/construction>,
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core> ;
+    skos:definition "The Bridge module supports representation of thematic and spatial aspects of bridges, bridge parts, bridge installations, and interior bridge structures."@en .
+
+brid:AbstractBridge.address a owl:ObjectProperty ;
+    rdfs:label "address"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range core:Address ;
+    skos:definition "Relates the addresses to the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.adeOfAbstractBridge a owl:ObjectProperty ;
+    rdfs:label "adeOfAbstractBridge"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:ADEOfAbstractBridge ;
+    skos:definition "Augments AbstractBridge with properties defined in an ADE."@en .
+
+brid:AbstractBridge.bridgeConstructiveElement a owl:ObjectProperty ;
+    rdfs:label "bridgeConstructiveElement"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeConstructiveElement ;
+    skos:definition "Relates the constructive elements to the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.bridgeFurniture a owl:ObjectProperty ;
+    rdfs:label "bridgeFurniture"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeFurniture ;
+    skos:definition "Relates the furniture objects to the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.bridgeInstallation a owl:ObjectProperty ;
+    rdfs:label "bridgeInstallation"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeInstallation ;
+    skos:definition "Relates the installation objects to the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.bridgeRoom a owl:ObjectProperty ;
+    rdfs:label "bridgeRoom"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeRoom ;
+    skos:definition "Relates the rooms to the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.class a owl:ObjectProperty ;
+    rdfs:label "class"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeClassValue ;
+    skos:definition "Indicates the specific type of the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.function a owl:ObjectProperty ;
+    rdfs:label "function"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeFunctionValue ;
+    skos:definition "Specifies the intended purposes of the Bridge or BridgePart."@en .
+
+brid:AbstractBridge.isMovable a owl:DatatypeProperty ;
+    rdfs:label "isMovable"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Indicates whether the Bridge or BridgePart can be moved to allow for watercraft to pass."@en .
+
+brid:AbstractBridge.usage a owl:ObjectProperty ;
+    rdfs:label "usage"@en ;
+    rdfs:domain brid:AbstractBridge ;
+    rdfs:range brid:BridgeUsageValue ;
+    skos:definition "Specifies the actual uses of the Bridge or BridgePart."@en .
+
+brid:Bridge.adeOfBridge a owl:ObjectProperty ;
+    rdfs:label "adeOfBridge"@en ;
+    rdfs:domain brid:Bridge ;
+    rdfs:range brid:ADEOfBridge ;
+    skos:definition "Augments the Bridge with properties defined in an ADE."@en .
+
+brid:Bridge.bridgePart a owl:ObjectProperty ;
+    rdfs:label "bridgePart"@en ;
+    rdfs:domain brid:Bridge ;
+    rdfs:range brid:BridgePart ;
+    skos:definition "Relates the bridge parts to the Bridge."@en .
+
+brid:BridgeConstructiveElement.adeOfBridgeConstructiveElement a owl:ObjectProperty ;
+    rdfs:label "adeOfBridgeConstructiveElement"@en ;
+    rdfs:domain brid:BridgeConstructiveElement ;
+    rdfs:range brid:ADEOfBridgeConstructiveElement ;
+    skos:definition "Augments the BridgeConstructiveElement with properties defined in an ADE."@en .
+
+brid:BridgeConstructiveElement.class a owl:ObjectProperty ;
+    rdfs:label "class"@en ;
+    rdfs:domain brid:BridgeConstructiveElement ;
+    rdfs:range brid:BridgeConstructiveElementClassValue ;
+    skos:definition "Indicates the specific type of the BridgeConstructiveElement."@en .
+
+brid:BridgeConstructiveElement.function a owl:ObjectProperty ;
+    rdfs:label "function"@en ;
+    rdfs:domain brid:BridgeConstructiveElement ;
+    rdfs:range brid:BridgeConstructiveElementFunctionValue ;
+    skos:definition "Specifies the intended purposes of the BridgeConstructiveElement."@en .
+
+brid:BridgeConstructiveElement.usage a owl:ObjectProperty ;
+    rdfs:label "usage"@en ;
+    rdfs:domain brid:BridgeConstructiveElement ;
+    rdfs:range brid:BridgeConstructiveElementUsageValue ;
+    skos:definition "Specifies the actual uses of the BridgeConstructiveElement."@en .
+
+brid:BridgeFurniture.adeOfBridgeFurniture a owl:ObjectProperty ;
+    rdfs:label "adeOfBridgeFurniture"@en ;
+    rdfs:domain brid:BridgeFurniture ;
+    rdfs:range brid:ADEOfBridgeFurniture ;
+    skos:definition "Augments the BridgeFurniture with properties defined in an ADE."@en .
+
+brid:BridgeFurniture.class a owl:ObjectProperty ;
+    rdfs:label "class"@en ;
+    rdfs:domain brid:BridgeFurniture ;
+    rdfs:range brid:BridgeFurnitureClassValue ;
+    skos:definition "Indicates the specific type of the BridgeFurniture."@en .
+
+brid:BridgeFurniture.function a owl:ObjectProperty ;
+    rdfs:label "function"@en ;
+    rdfs:domain brid:BridgeFurniture ;
+    rdfs:range brid:BridgeFurnitureFunctionValue ;
+    skos:definition "Specifies the intended purposes of the BridgeFurniture."@en .
+
+brid:BridgeFurniture.usage a owl:ObjectProperty ;
+    rdfs:label "usage"@en ;
+    rdfs:domain brid:BridgeFurniture ;
+    rdfs:range brid:BridgeFurnitureUsageValue ;
+    skos:definition "Specifies the actual uses of the BridgeFurniture."@en .
+
+brid:BridgeInstallation.adeOfBridgeInstallation a owl:ObjectProperty ;
+    rdfs:label "adeOfBridgeInstallation"@en ;
+    rdfs:domain brid:BridgeInstallation ;
+    rdfs:range brid:ADEOfBridgeInstallation ;
+    skos:definition "Augments the BridgeInstallation with properties defined in an ADE."@en .
+
+brid:BridgeInstallation.class a owl:ObjectProperty ;
+    rdfs:label "class"@en ;
+    rdfs:domain brid:BridgeInstallation ;
+    rdfs:range brid:BridgeInstallationClassValue ;
+    skos:definition "Indicates the specific type of the BridgeInstallation."@en .
+
+brid:BridgeInstallation.function a owl:ObjectProperty ;
+    rdfs:label "function"@en ;
+    rdfs:domain brid:BridgeInstallation ;
+    rdfs:range brid:BridgeInstallationFunctionValue ;
+    skos:definition "Specifies the intended purposes of the BridgeInstallation."@en .
+
+brid:BridgeInstallation.usage a owl:ObjectProperty ;
+    rdfs:label "usage"@en ;
+    rdfs:domain brid:BridgeInstallation ;
+    rdfs:range brid:BridgeInstallationUsageValue ;
+    skos:definition "Specifies the actual uses of the BridgeInstallation."@en .
+
+brid:BridgePart.adeOfBridgePart a owl:ObjectProperty ;
+    rdfs:label "adeOfBridgePart"@en ;
+    rdfs:domain brid:BridgePart ;
+    rdfs:range brid:ADEOfBridgePart ;
+    skos:definition "Augments the BridgePart with properties defined in an ADE."@en .
+
+brid:BridgeRoom.adeOfBridgeRoom a owl:ObjectProperty ;
+    rdfs:label "adeOfBridgeRoom"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:ADEOfBridgeRoom ;
+    skos:definition "Augments the BridgeRoom with properties defined in an ADE."@en .
+
+brid:BridgeRoom.boundary a owl:ObjectProperty ;
+    rdfs:label "boundary"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range core:AbstractThematicSurface ;
+    skos:definition "Relates to the surfaces that bound the BridgeRoom. This relation is inherited from the Core module."@en .
+
+brid:BridgeRoom.bridgeFurniture a owl:ObjectProperty ;
+    rdfs:label "bridgeFurniture"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:BridgeFurniture ;
+    skos:definition "Relates the furniture objects to the BridgeRoom."@en .
+
+brid:BridgeRoom.bridgeInstallation a owl:ObjectProperty ;
+    rdfs:label "bridgeInstallation"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:BridgeInstallation ;
+    skos:definition "Relates to the installation objects to the BridgeRoom."@en .
+
+brid:BridgeRoom.class a owl:ObjectProperty ;
+    rdfs:label "class"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:BridgeRoomClassValue ;
+    skos:definition "Indicates the specific type of the BridgeRoom."@en .
+
+brid:BridgeRoom.function a owl:ObjectProperty ;
+    rdfs:label "function"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:BridgeRoomFunctionValue ;
+    skos:definition "Specifies the intended purposes of the BridgeRoom."@en .
+
+brid:BridgeRoom.usage a owl:ObjectProperty ;
+    rdfs:label "usage"@en ;
+    rdfs:domain brid:BridgeRoom ;
+    rdfs:range brid:BridgeRoomUsageValue ;
+    skos:definition "Specifies the actual uses of the BridgeRoom."@en .
+
+brid:ADEOfAbstractBridge a owl:Class ;
+    rdfs:label "ADEOfAbstractBridge"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfAbstractBridge acts as a hook to define properties within an ADE that are to be added to AbstractBridge."@en .
+
+brid:ADEOfBridge a owl:Class ;
+    rdfs:label "ADEOfBridge"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridge acts as a hook to define properties within an ADE that are to be added to a Bridge."@en .
+
+brid:ADEOfBridgeConstructiveElement a owl:Class ;
+    rdfs:label "ADEOfBridgeConstructiveElement"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridgeConstructiveElement acts as a hook to define properties within an ADE that are to be added to a BridgeConstructiveElement."@en .
+
+brid:ADEOfBridgeFurniture a owl:Class ;
+    rdfs:label "ADEOfBridgeFurniture"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridgeFurniture acts as a hook to define properties within an ADE that are to be added to a BridgeFurniture."@en .
+
+brid:ADEOfBridgeInstallation a owl:Class ;
+    rdfs:label "ADEOfBridgeInstallation"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridgeInstallation acts as a hook to define properties within an ADE that are to be added to a BridgeInstallation."@en .
+
+brid:ADEOfBridgePart a owl:Class ;
+    rdfs:label "ADEOfBridgePart"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridgePart acts as a hook to define properties within an ADE that are to be added to a BridgePart."@en .
+
+brid:ADEOfBridgeRoom a owl:Class ;
+    rdfs:label "ADEOfBridgeRoom"@en ;
+    iso19150-2:isAbstract true ;
+    skos:definition "ADEOfBridgeRoom acts as a hook to define properties within an ADE that are to be added to a BridgeRoom."@en .
+
+brid:Bridge a owl:Class ;
+    rdfs:label "Bridge"@en ;
+    rdfs:subClassOf brid:AbstractBridge ;
+    skos:definition "A Bridge represents a structure that affords the passage of pedestrians, animals, vehicles, and service(s) above obstacles or between two points at a height above ground. [cf. ISO 6707-1]"@en .
+
+brid:BridgePart a owl:Class ;
+    rdfs:label "BridgePart"@en ;
+    rdfs:subClassOf brid:AbstractBridge ;
+    skos:definition "A BridgePart is a physical or functional subdivision of a Bridge. It would be considered a Bridge, if it were not part of a collection of other BridgeParts."@en .
+
+brid:BridgeConstructiveElement a owl:Class ;
+    rdfs:label "BridgeConstructiveElement"@en ;
+    rdfs:subClassOf con:AbstractConstructiveElement ;
+    skos:definition "A BridgeConstructiveElement is an element of a bridge which is essential from a structural point of view. Examples are pylons, anchorages, slabs, beams."@en .
+
+brid:BridgeFurniture a owl:Class ;
+    rdfs:label "BridgeFurniture"@en ;
+    rdfs:subClassOf con:AbstractFurniture ;
+    skos:definition "A BridgeFurniture is an equipment for occupant use, usually not fixed to the bridge. [cf. ISO 6707-1]"@en .
+
+brid:BridgeInstallation a owl:Class ;
+    rdfs:label "BridgeInstallation"@en ;
+    rdfs:subClassOf con:AbstractInstallation ;
+    skos:definition "A BridgeInstallation is a permanent part of a Bridge (inside and/or outside) which does not have the significance of a BridgePart. In contrast to BridgeConstructiveElements, a BridgeInstallation is not essential from a structural point of view. Examples are stairs, antennas or railways."@en .
+
+brid:BridgeRoom a owl:Class ;
+    rdfs:label "BridgeRoom"@en ;
+    rdfs:subClassOf core:AbstractUnoccupiedSpace ;
+    skos:definition "A BridgeRoom is a space within a Bridge or BridgePart intended for human occupancy (e.g. a place of work or recreation) and/or containment (storage) of animals or things. A BridgeRoom is bounded physically and/or virtually (e.g. by ClosureSurfaces or GenericSurfaces)."@en .
+
+brid:AbstractBridge a owl:Class ;
+    rdfs:label "AbstractBridge"@en ;
+    iso19150-2:isAbstract true ;
+    rdfs:subClassOf con:AbstractConstruction ;
+    skos:definition "AbstractBridge is an abstract superclass representing the common attributes and associations of the classes Bridge and BridgePart."@en .

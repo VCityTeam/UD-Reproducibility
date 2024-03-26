@@ -1,0 +1,42 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vers:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-CWA/3.0/versioning#> .
+@prefix type:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-CWA/3.0/type#> .
+
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-CWA/3.0/type> a owl:Ontology ;
+    rdfs:label "Type"@en ;
+    owl:imports <http://www.w3.org/2004/02/skos/core>,
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-CWA/3.0/versioning>
+    skos:definition "An ontology containing the default values, schemes, and collections for the CityGML 3.0 transactionType concept."@en .
+
+
+type:transactionTypeScheme a    skos:ConceptScheme,
+                                owl:NamedIndividual ;
+    skos:definition  "An SKOS Concept Scheme of the TransactionTypeValues from the CityGML 3.0 Versioning module."@en .
+
+type:insert a   vers:TransactionTypeValue,
+                owl:NamedIndividual ;
+    rdfs:label       "insert"@en ;
+    skos:inScheme    vers:transactionTypeScheme ;
+    skos:definition  "A new feature is added to the version."@en .
+
+type:delete a   vers:TransactionTypeValue,
+                owl:NamedIndividual ;
+    rdfs:label       "delete"@en ;
+    skos:inScheme    vers:transactionTypeScheme ;
+    skos:definition  "An old feature is removed from the version."@en .
+
+type:replace a  vers:TransactionTypeValue,
+                owl:NamedIndividual ;
+    rdfs:label       "replace"@en ;
+    skos:inScheme    vers:transactionTypeScheme ;
+    skos:definition  "An old feature is replaced with a new feature between versions."@en .
+
+type:defaultTransactionTypes a  skos:Collection,
+                                owl:NamedIndividual ;
+    rdfs:label       "defaultTransactionTypes"@en ;
+    skos:member      type:insert,
+                     type:delete,
+                     type:replace ;
+    skos:definition  "An SKOS collection for the default transaction type values from the CityGML 3.0 Versioning module."@en .
