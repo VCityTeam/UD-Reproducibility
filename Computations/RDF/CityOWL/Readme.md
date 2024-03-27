@@ -2,8 +2,8 @@
 
 CityOWL is an OWL/RDF representation of the CityGML 3.0 Conceptual Model (CM). This folder contains instructions for how to generate CityOWL and two experimental CityGML extensions (or ADEs). Two CityGML transformations are proposed:
 
-- CityOWL CWA (Closed World Assumption) - Much more constrained and expressive
-- CityOWL OWA (Open World Assumption) - Much less constrained. Only contains classes, properties, and datatypes. Properties only contain `rdfs:domain` and `rdfs:range` declarations.
+- [CityOWL CWA (Closed World Assumption)](./CityOWL-CWA/) - Much more constrained and expressive
+- [CityOWL OWA (Open World Assumption)](./CityOWL-OWA/) - Much less constrained. Only contains classes, properties, and datatypes. Properties only contain `rdfs:domain` and `rdfs:range` declarations.
 
 - [How to generate CityOWL](#how-to-generate-cityowl)
   - [Dependencies](#dependencies)
