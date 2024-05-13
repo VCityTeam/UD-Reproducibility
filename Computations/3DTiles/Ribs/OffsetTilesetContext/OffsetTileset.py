@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import argparse
 
@@ -44,16 +45,49 @@ def define_parser():
     return parser
 
 
+default_transform = [
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+]
+
+
 def main():
     parser = define_parser()
     args = parser.parse_args()
 
     tileset_filename = os.path.join(args.input_dir, "tileset.json")
 
+    if not os.path.isfile(tileset_filename):
+        print("Directory ", args.input_dir, " has not tileset.json file.")
+        print("Exiting")
+        sys.exit(1)
     with open(tileset_filename, "r") as read_file:
         data = json.load(read_file)
 
-    transform = data["root"]["transform"]
+    if "root" not in data:
+        print("Tileset entry file ", tileset_filename, " has not root tile!?!?")
+        print("Exiting")
+        sys.exit(1)
+    root_tile = data["root"]
+    if "transform" not in root_tile:
+        root_tile["transform"] = default_transform
+        print("Root tile had no transform matrix. A default one was provided.")
+    transform = root_tile["transform"]
+
     if args.offset_x:
         transform[12] += args.offset_x
     if args.offset_y:
