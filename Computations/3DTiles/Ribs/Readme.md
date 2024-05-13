@@ -30,7 +30,7 @@ Building the images boils down to
 docker build -t vcity/ribs https://github.com/VCityTeam/TT-Ribs.git -f Docker/Dockerfile
 docker build -t py3dtiles/py3dtiles:v7.0.0 https://gitlab.com/py3dtiles/py3dtiles.git#v7.0.0 -f docker/Dockerfile
 docker build -t vcity/py3dtilers https://github.com/VCityTeam/py3dtilers-docker.git -f Context/Dockerfile
-docker build -t vcity/offsetthreedtilesettolyon https://github.com/VCityTeam/UD-Reproducibility.git#master:Computations/3DTiles/ElaphesCave/DockerContexts/PatchContext FIXME FIXME see at bottom
+docker build -t vcity/offsetthreedtilesettolyon https://github.com/VCityTeam/UD-Reproducibility.git#master:Computations/3DTiles/Ribs/OffsetTilesetContext
 ```
 
 ## For tunnel system
@@ -78,7 +78,7 @@ docker run --rm -v $(pwd)/data:/data vcity/ribs Cave.py -v --subdivision 1 --out
 docker run --rm -v $(pwd)/data:/data py3dtiles/py3dtiles:v7.0.0 convert /data/cave_sub_1_grid_size_x_1_grid_size_y_1_point_cloud.ply --out /data/cave_sub_1_grid_size_x_1_grid_size_y_1_point_cloud-3dtiles
 docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon /data/cave_sub_1_grid_size_x_1_grid_size_y_1_point_cloud-3dtiles/tileset.json
 docker run --rm -v $(pwd)/data:/data vcity/py3dtilers obj-tiler -i /data/cave_sub_1_grid_size_x_1_grid_size_y_1_triangulation.obj --output_dir  /data/cave_sub_1_grid_size_x_1_grid_size_y_1_triangulation-3dtiles
-docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon /data/cave_sub_1_grid_size_x_1_grid_size_y_1_triangulation-3dtiles/tileset.json
+docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon  --input-dir /data/cave_sub_1_grid_size_x_1_grid_size_y_1_triangulation-3dtiles --offset-x 1841761.4663378098 --offset-y 5175204.0252315905 --offset-z 265.1 --rename-string translated-to-lyon
 ```
 
 ```bash
@@ -86,7 +86,7 @@ docker run --rm -v $(pwd)/data:/data vcity/ribs Cave.py -v --subdivision 2 --out
 docker run --rm -v $(pwd)/data:/data py3dtiles/py3dtiles:v7.0.0 convert /data/cave_sub_2_grid_size_x_1_grid_size_y_1_point_cloud.ply --out /data/cave_sub_2_grid_size_x_1_grid_size_y_1_point_cloud-3dtiles
 docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon /data/cave_sub_2_grid_size_x_1_grid_size_y_1_point_cloud-3dtiles/tileset.json
 docker run --rm -v $(pwd)/data:/data vcity/py3dtilers obj-tiler -i /data/cave_sub_2_grid_size_x_1_grid_size_y_1_triangulation.obj --output_dir  /data/cave_sub_2_grid_size_x_1_grid_size_y_1_triangulation-3dtiles
-docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon /data/cave_sub_2_grid_size_x_1_grid_size_y_1_triangulation-3dtiles/tileset.json
+docker run -it --rm -v $(pwd)/data:/data vcity/offsetthreedtilesettolyon  --input-dir /data/cave_sub_2_grid_size_x_1_grid_size_y_1_triangulation-3dtiles --offset-x 1841761.4663378098 --offset-y 5175204.0252315905 --offset-z 265.1 --rename-string translated-to-lyon
 ```
 
 ### Deploying the cave files
