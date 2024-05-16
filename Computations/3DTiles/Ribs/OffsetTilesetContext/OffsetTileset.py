@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import argparse
+import math
 
 
 def define_parser():
@@ -31,6 +32,12 @@ def define_parser():
         type=float,
     )
     parser.add_argument(
+        "--angle-around-z",
+        help="Angle of rotation aroung the Z axis (in degrees as float number)",
+        default=0.0,
+        type=float,
+    )
+    parser.add_argument(
         "--input-dir",
         help="Directory where the tileset.json is to be found",
         default=".",
@@ -50,14 +57,17 @@ default_transform = [
     0.0,
     0.0,
     0.0,
+    #
     0.0,
     1.0,
     0.0,
     0.0,
+    #
     0.0,
     0.0,
     1.0,
     0.0,
+    #
     0.0,
     0.0,
     0.0,
@@ -94,7 +104,21 @@ def main():
         transform[13] += args.offset_y
     if args.offset_z:
         transform[14] += args.offset_z
+    if args.angle_around_z:
+        angle = math.radians(args.angle_around_z)
+        # The rotation matrix around Z goes
+        # [  cos(angle), sin(angle), 0 ]
+        # [ -sin(angle), cos(angle), 0 ]
+        # [           0,          0, 1 ]
+        # and we are left with the matrix product
+        transform[0] = transform[0] * math.cos(angle) - transform[1] * math.sin(angle)
+        transform[1] = transform[0] * math.sin(angle) + transform[1] * math.cos(angle)
+        transform[4] = transform[4] * math.cos(angle) - transform[5] * math.sin(angle)
+        transform[5] = transform[4] * math.sin(angle) + transform[5] * math.cos(angle)
+        transform[8] = transform[8] * math.cos(angle) - transform[9] * math.sin(angle)
+        transform[9] = transform[8] * math.sin(angle) + transform[9] * math.cos(angle)
 
+    #### Write the output tileset header:
     output_filename = os.path.join(
         os.path.dirname(tileset_filename),
         os.path.basename(tileset_filename).split(".", 1)[0]
