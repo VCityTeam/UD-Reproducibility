@@ -52,22 +52,18 @@ pcl:PointCloud.points a owl:ObjectProperty ;
 pcl:PointCloud a owl:Class ;
     rdfs:label "PointCloud"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty pcl:PointCloud.pointFile ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass core:MimeTypeValue ;
             owl:onProperty pcl:PointCloud.mimeType ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty pcl:PointCloud.pointFileSrsName ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass gmlowl:MultiPoint ;
             owl:onProperty pcl:PointCloud.points ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onDataRange xsd:string ;
+            owl:allValuesFrom core:MimeTypeValue ;
+            owl:onProperty pcl:PointCloud.mimeType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
             owl:onProperty pcl:PointCloud.pointFileSrsName ],
         [ a owl:Restriction ;
             owl:allValuesFrom gmlowl:MultiPoint ;
@@ -80,7 +76,12 @@ pcl:PointCloud a owl:Class ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty pcl:PointCloud.pointFile ],
         [ a owl:Restriction ;
-            owl:allValuesFrom core:MimeTypeValue ;
-            owl:onProperty pcl:PointCloud.mimeType ],
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty pcl:PointCloud.pointFile ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty pcl:PointCloud.pointFileSrsName ],
         core:AbstractPointCloud ;
     skos:definition "A PointCloud is an unordered collection of points that is a sampling of the geometry of a space or space boundary."@en .
+

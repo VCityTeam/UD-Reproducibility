@@ -101,8 +101,9 @@ vers:VersionTransition.type a owl:DatatypeProperty ;
     rdfs:range vers:TransitionTypeValue ;
     skos:definition "Indicates the specific type of the VersionTransition."@en .
 
-vers:TransactionTypeValue a rdfs:Datatype ;
+vers:TransactionTypeValue a owl:Class ;
     rdfs:label "TransactionTypeValue"@en ;
+    rdfs:subClassOf skos:Concept ;
     owl:equivalentClass [ a rdfs:Datatype ;
             owl:oneOf ( "insert" "delete" "replace" ) ] ;
     skos:definition "TransactionTypeValue enumerates the three possible types of transactions: insert, delete, or replace."@en .
@@ -141,46 +142,46 @@ vers:Transaction a owl:Class ;
 vers:VersionTransition a owl:Class ;
     rdfs:label "VersionTransition"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty vers:VersionTransition.clonePredecessor ;
-            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty vers:VersionTransition.reason ],
         [ a owl:Restriction ;
             owl:allValuesFrom vers:Transaction ;
             owl:onProperty vers:VersionTransition.transaction ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onDataRange vers:TransitionTypeValue ;
-            owl:onProperty vers:VersionTransition.type ],
+            owl:onDataRange xsd:string ;
+            owl:onProperty vers:VersionTransition.reason ],
         [ a owl:Restriction ;
-            owl:allValuesFrom vers:TransitionTypeValue ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty vers:VersionTransition.clonePredecessor ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass vers:Version ;
+            owl:onProperty vers:VersionTransition.from ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onDataRange vers:TransitionTypeValue ;
             owl:onProperty vers:VersionTransition.type ],
         [ a owl:Restriction ;
             owl:allValuesFrom vers:Version ;
             owl:onProperty vers:VersionTransition.to ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty vers:VersionTransition.reason ],
+            owl:allValuesFrom vers:TransitionTypeValue ;
+            owl:onProperty vers:VersionTransition.type ],
         [ a owl:Restriction ;
             owl:allValuesFrom vers:ADEOfVersionTransition ;
             owl:onProperty vers:VersionTransition.adeOfVersionTransition ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass vers:Version ;
-            owl:onProperty vers:VersionTransition.from ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass vers:Version ;
             owl:onProperty vers:VersionTransition.to ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty vers:VersionTransition.reason ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:boolean ;
-            owl:onProperty vers:VersionTransition.clonePredecessor ],
         [ a owl:Restriction ;
             owl:allValuesFrom vers:Version ;
             owl:onProperty vers:VersionTransition.from ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty vers:VersionTransition.clonePredecessor ],
         core:AbstractVersionTransition ;
     skos:definition "VersionTransition describes the change of the state of a city model from one version to another. Version transitions can have names, a description and can be further qualified by a type and a reason."@en .
 
@@ -197,3 +198,4 @@ vers:Version a owl:Class ;
             owl:onProperty vers:Version.tag ],
         core:AbstractVersion ;
     skos:definition "Version represents a defined state of a city model consisting of the dedicated versions of all city object instances that belong to the respective city model version. Versions can have names, a description and can be labeled with an arbitrary number of user defined tags."@en .
+

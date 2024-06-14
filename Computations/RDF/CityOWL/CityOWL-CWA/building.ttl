@@ -385,11 +385,31 @@ bldg:BuildingConstructiveElement.class a owl:ObjectProperty ;
     rdfs:range bldg:BuildingConstructiveElementClassValue ;
     skos:definition "Indicates the specific type of the BuildingConstructiveElement."@en .
 
+bldg:BuildingConstructiveElementFunctionValue a owl:Class ;
+    rdfs:label "BuildingConstructiveElementFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingConstructiveElementUsageValue a owl:Class ;
+    rdfs:label "BuildingConstructiveElementUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingFunctionValue a owl:Class ;
+    rdfs:label "BuildingFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 bldg:BuildingFurniture.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
     rdfs:domain bldg:BuildingFurniture ;
     rdfs:range bldg:BuildingFurnitureClassValue ;
     skos:definition "Indicates the specific type of the BuildingFurniture."@en .
+
+bldg:BuildingFurnitureFunctionValue a owl:Class ;
+    rdfs:label "BuildingFurnitureFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingFurnitureUsageValue a owl:Class ;
+    rdfs:label "BuildingFurnitureUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 bldg:BuildingInstallation.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
@@ -397,11 +417,39 @@ bldg:BuildingInstallation.class a owl:ObjectProperty ;
     rdfs:range bldg:BuildingInstallationClassValue ;
     skos:definition "Indicates the specific type of the BuildingInstallation."@en .
 
+bldg:BuildingInstallationFunctionValue a owl:Class ;
+    rdfs:label "BuildingInstallationFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingInstallationUsageValue a owl:Class ;
+    rdfs:label "BuildingInstallationUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 bldg:BuildingRoom.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
     rdfs:domain bldg:BuildingRoom ;
     rdfs:range bldg:BuildingRoomClassValue ;
     skos:definition "Indicates the specific type of the BuildingRoom."@en .
+
+bldg:BuildingRoomFunctionValue a owl:Class ;
+    rdfs:label "BuildingRoomFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingRoomUsageValue a owl:Class ;
+    rdfs:label "BuildingRoomUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingSubdivisionFunctionValue a owl:Class ;
+    rdfs:label "BuildingSubdivisionFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingSubdivisionUsageValue a owl:Class ;
+    rdfs:label "BuildingSubdivisionUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingUsageValue a owl:Class ;
+    rdfs:label "BuildingUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 bldg:RoomHeight.highReference a owl:ObjectProperty ;
     rdfs:label "highReference"@en ;
@@ -427,6 +475,34 @@ bldg:RoomHeight.value a owl:DatatypeProperty ;
     rdfs:range sc:Measure ;
     skos:definition "Specifies the value of the room height."@en .
 
+bldg:BuildingClassValue a owl:Class ;
+    rdfs:label "BuildingClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingConstructiveElementClassValue a owl:Class ;
+    rdfs:label "BuildingConstructiveElementClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingFurnitureClassValue a owl:Class ;
+    rdfs:label "BuildingFurnitureClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingInstallationClassValue a owl:Class ;
+    rdfs:label "BuildingInstallationClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingRoomClassValue a owl:Class ;
+    rdfs:label "BuildingRoomClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:BuildingSubdivisionClassValue a owl:Class ;
+    rdfs:label "BuildingSubdivisionClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+bldg:RoofTypeValue a owl:Class ;
+    rdfs:label "RoofTypeValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 bldg:BuildingPart a owl:Class ;
     rdfs:label "BuildingPart"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -450,21 +526,29 @@ bldg:BuildingUnit a owl:Class ;
     owl:disjointWith bldg:Storey ;
     skos:definition "A BuildingUnit is a logical subdivision of a Building. BuildingUnits are formed according to some homogeneous property like function, ownership, management, or accessibility. They may be separately sold, rented out, inherited, managed, etc."@en .
 
+bldg:RoomElevationReferenceValue a owl:Class ;
+    rdfs:label "RoomElevationReferenceValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 bldg:RoomHeight a owl:Class ;
     rdfs:label "RoomHeight"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom bldg:RoomElevationReferenceValue ;
-            owl:onProperty bldg:RoomHeight.lowReference ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom con:HeightStatusValue ;
-            owl:onProperty bldg:RoomHeight.status ],
+            owl:allValuesFrom sc:Measure ;
+            owl:onProperty bldg:RoomHeight.value ],
         [ a owl:Restriction ;
             owl:onClass bldg:RoomElevationReferenceValue ;
             owl:onProperty bldg:RoomHeight.lowReference ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ;
+            owl:onClass con:HeightStatusValue ;
+            owl:onProperty bldg:RoomHeight.status ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom con:HeightStatusValue ;
+            owl:onProperty bldg:RoomHeight.status ],
+        [ a owl:Restriction ;
             owl:allValuesFrom bldg:RoomElevationReferenceValue ;
-            owl:onProperty bldg:RoomHeight.highReference ],
+            owl:onProperty bldg:RoomHeight.lowReference ],
         [ a owl:Restriction ;
             owl:onClass bldg:RoomElevationReferenceValue ;
             owl:onProperty bldg:RoomHeight.highReference ;
@@ -474,12 +558,8 @@ bldg:RoomHeight a owl:Class ;
             owl:onProperty bldg:RoomHeight.value ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ;
-            owl:allValuesFrom sc:Measure ;
-            owl:onProperty bldg:RoomHeight.value ],
-        [ a owl:Restriction ;
-            owl:onClass con:HeightStatusValue ;
-            owl:onProperty bldg:RoomHeight.status ;
-            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] ;
+            owl:allValuesFrom bldg:RoomElevationReferenceValue ;
+            owl:onProperty bldg:RoomHeight.highReference ] ;
     skos:definition "The RoomHeight represents a vertical distance (measured or estimated) between a low reference and a high reference. [cf. INSPIRE]"@en .
 
 bldg:Storey a owl:Class ;
@@ -562,24 +642,11 @@ bldg:BuildingInstallation a owl:Class ;
 bldg:BuildingRoom a owl:Class ;
     rdfs:label "BuildingRoom"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom core:AbstractThematicSurface ;
-            owl:onProperty bldg:BuildingRoom.boundary ],
+            owl:allValuesFrom bldg:BuildingRoomUsageValue ;
+            owl:onProperty bldg:BuildingRoom.usage ],
         [ a owl:Restriction ;
             owl:allValuesFrom bldg:RoomHeight ;
             owl:onProperty bldg:BuildingRoom.roomHeight ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:ADEOfBuildingRoom ;
-            owl:onProperty bldg:BuildingRoom.adeOfBuildingRoom ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingRoomClassValue ;
-            owl:onProperty bldg:BuildingRoom.class ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass bldg:BuildingRoomClassValue ;
-            owl:onProperty bldg:BuildingRoom.class ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingRoomUsageValue ;
-            owl:onProperty bldg:BuildingRoom.usage ],
         [ a owl:Restriction ;
             owl:allValuesFrom bldg:BuildingRoomFunctionValue ;
             owl:onProperty bldg:BuildingRoom.function ],
@@ -587,8 +654,21 @@ bldg:BuildingRoom a owl:Class ;
             owl:allValuesFrom bldg:BuildingFurniture ;
             owl:onProperty bldg:BuildingRoom.buildingFurniture ],
         [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingRoomClassValue ;
+            owl:onProperty bldg:BuildingRoom.class ],
+        [ a owl:Restriction ;
             owl:allValuesFrom bldg:BuildingInstallation ;
             owl:onProperty bldg:BuildingRoom.buildingInstallation ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass bldg:BuildingRoomClassValue ;
+            owl:onProperty bldg:BuildingRoom.class ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:AbstractThematicSurface ;
+            owl:onProperty bldg:BuildingRoom.boundary ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:ADEOfBuildingRoom ;
+            owl:onProperty bldg:BuildingRoom.adeOfBuildingRoom ],
         core:AbstractUnoccupiedSpace ;
     skos:definition "A BuildingRoom is a space within a Building or BuildingPart intended for human occupancy (e.g. a place of work or recreation) and/or containment of animals or things. A BuildingRoom is bounded physically and/or virtually (e.g. by ClosureSurfaces or GenericSurfaces)."@en .
 
@@ -596,21 +676,36 @@ bldg:AbstractBuildingSubdivision a owl:Class ;
     rdfs:label "AbstractBuildingSubdivision"@en ;
     iso19150-2:isAbstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingSubdivisionFunctionValue ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.function ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingFurniture ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.buildingFurniture ],
+        [ a owl:Restriction ;
             owl:allValuesFrom bldg:BuildingSubdivisionClassValue ;
             owl:onProperty bldg:AbstractBuildingSubdivision.class ],
         [ a owl:Restriction ;
-            owl:allValuesFrom bldg:ADEOfAbstractBuildingSubdivision ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.adeOfAbstractBuildingSubdivision ],
+            owl:allValuesFrom bldg:BuildingRoom ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.buildingRoom ],
         [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingSubdivisionFunctionValue ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.function ],
+            owl:allValuesFrom bldg:BuildingSubdivisionUsageValue ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.usage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom con:Elevation ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.elevation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingConstructiveElement ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.buildingConstructiveElement ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass bldg:BuildingSubdivisionClassValue ;
             owl:onProperty bldg:AbstractBuildingSubdivision.class ],
         [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingConstructiveElement ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.buildingConstructiveElement ],
+            owl:allValuesFrom bldg:BuildingInstallation ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.buildingInstallation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:ADEOfAbstractBuildingSubdivision ;
+            owl:onProperty bldg:AbstractBuildingSubdivision.adeOfAbstractBuildingSubdivision ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onDataRange xsd:double ;
@@ -618,21 +713,6 @@ bldg:AbstractBuildingSubdivision a owl:Class ;
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:double ;
             owl:onProperty bldg:AbstractBuildingSubdivision.sortKey ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingInstallation ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.buildingInstallation ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingFurniture ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.buildingFurniture ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom con:Elevation ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.elevation ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingRoom ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.buildingRoom ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingSubdivisionUsageValue ;
-            owl:onProperty bldg:AbstractBuildingSubdivision.usage ],
         core:AbstractLogicalSpace ;
     skos:definition "AbstractBuildingSubdivision is the abstract superclass for different kinds of logical building subdivisions."@en .
 
@@ -640,21 +720,25 @@ bldg:AbstractBuilding a owl:Class ;
     rdfs:label "AbstractBuilding"@en ;
     iso19150-2:isAbstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingClassValue ;
-            owl:onProperty bldg:AbstractBuilding.class ],
+            owl:allValuesFrom bldg:RoofTypeValue ;
+            owl:onProperty bldg:AbstractBuilding.roofType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:ADEOfAbstractBuilding ;
+            owl:onProperty bldg:AbstractBuilding.adeOfAbstractBuilding ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass iso19136-bt:MeasureOrNilReasonList ;
+            owl:onProperty bldg:AbstractBuilding.storeyHeightsAboveGround ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingUsageValue ;
+            owl:onProperty bldg:AbstractBuilding.usage ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onDataRange xsd:integer ;
             owl:onProperty bldg:AbstractBuilding.storeysAboveGround ],
         [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingUsageValue ;
-            owl:onProperty bldg:AbstractBuilding.usage ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:integer ;
-            owl:onProperty bldg:AbstractBuilding.storeysAboveGround ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom core:Address ;
-            owl:onProperty bldg:AbstractBuilding.address ],
+            owl:allValuesFrom iso19136-bt:MeasureOrNilReasonList ;
+            owl:onProperty bldg:AbstractBuilding.storeyHeightsBelowGround ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:integer ;
             owl:onProperty bldg:AbstractBuilding.storeysBelowGround ],
@@ -663,42 +747,12 @@ bldg:AbstractBuilding a owl:Class ;
             owl:onClass bldg:RoofTypeValue ;
             owl:onProperty bldg:AbstractBuilding.roofType ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass bldg:BuildingClassValue ;
-            owl:onProperty bldg:AbstractBuilding.class ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass iso19136-bt:MeasureOrNilReasonList ;
-            owl:onProperty bldg:AbstractBuilding.storeyHeightsAboveGround ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingRoom ;
-            owl:onProperty bldg:AbstractBuilding.buildingRoom ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:ADEOfAbstractBuilding ;
-            owl:onProperty bldg:AbstractBuilding.adeOfAbstractBuilding ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:AbstractBuildingSubdivision ;
-            owl:onProperty bldg:AbstractBuilding.buildingSubdivision ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingConstructiveElement ;
-            owl:onProperty bldg:AbstractBuilding.buildingConstructiveElement ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom iso19136-bt:MeasureOrNilReasonList ;
-            owl:onProperty bldg:AbstractBuilding.storeyHeightsBelowGround ],
+            owl:allValuesFrom bldg:BuildingFurniture ;
+            owl:onProperty bldg:AbstractBuilding.buildingFurniture ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onDataRange xsd:integer ;
             owl:onProperty bldg:AbstractBuilding.storeysBelowGround ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingInstallation ;
-            owl:onProperty bldg:AbstractBuilding.buildingInstallation ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass iso19136-bt:MeasureOrNilReasonList ;
-            owl:onProperty bldg:AbstractBuilding.storeyHeightsBelowGround ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom bldg:RoofTypeValue ;
-            owl:onProperty bldg:AbstractBuilding.roofType ],
         [ a owl:Restriction ;
             owl:allValuesFrom iso19136-bt:MeasureOrNilReasonList ;
             owl:onProperty bldg:AbstractBuilding.storeyHeightsAboveGround ],
@@ -706,7 +760,34 @@ bldg:AbstractBuilding a owl:Class ;
             owl:allValuesFrom bldg:BuildingFunctionValue ;
             owl:onProperty bldg:AbstractBuilding.function ],
         [ a owl:Restriction ;
-            owl:allValuesFrom bldg:BuildingFurniture ;
-            owl:onProperty bldg:AbstractBuilding.buildingFurniture ],
+            owl:allValuesFrom bldg:BuildingInstallation ;
+            owl:onProperty bldg:AbstractBuilding.buildingInstallation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:AbstractBuildingSubdivision ;
+            owl:onProperty bldg:AbstractBuilding.buildingSubdivision ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingClassValue ;
+            owl:onProperty bldg:AbstractBuilding.class ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass bldg:BuildingClassValue ;
+            owl:onProperty bldg:AbstractBuilding.class ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingConstructiveElement ;
+            owl:onProperty bldg:AbstractBuilding.buildingConstructiveElement ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:Address ;
+            owl:onProperty bldg:AbstractBuilding.address ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass iso19136-bt:MeasureOrNilReasonList ;
+            owl:onProperty bldg:AbstractBuilding.storeyHeightsBelowGround ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:integer ;
+            owl:onProperty bldg:AbstractBuilding.storeysAboveGround ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom bldg:BuildingRoom ;
+            owl:onProperty bldg:AbstractBuilding.buildingRoom ],
         con:AbstractConstruction ;
     skos:definition "AbstractBuilding is an abstract superclass representing the common attributes and associations of the classes Building and BuildingPart."@en .
+

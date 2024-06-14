@@ -2,6 +2,7 @@
 @prefix doc: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -11,11 +12,10 @@
         <http://www.w3.org/2006/time>,
         <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/CWA/3.0/core> .
 
-doc:DocumentableVersion a owl:Class ;
-    rdfs:label "DocumentableVersion"@en .
-
-doc:DocumentableVersionTransition a owl:Class ;
-    rdfs:label "DocumentableVersionTransition"@en .
+doc:Document.referringTo a owl:ObjectProperty ;
+    rdfs:label "referringTo"@en ;
+    rdfs:domain doc:Document ;
+    rdfs:range doc:Reference .
 
 doc:Document.tag a owl:ObjectProperty ;
     rdfs:label "tag"@en ;
@@ -50,7 +50,7 @@ doc:Reference.coveragePeriod a owl:ObjectProperty ;
 doc:Reference.purposeType a owl:ObjectProperty ;
     rdfs:label "purposeType"@en ;
     rdfs:domain doc:Reference ;
-    rdfs:range <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#PurposeTypeValue> .
+    rdfs:range doc:PurposeTypeValue .
 
 doc:Reference.referenceText a owl:DatatypeProperty ;
     rdfs:label "referenceText"@en ;
@@ -62,16 +62,28 @@ doc:Reference.referringDate a owl:DatatypeProperty ;
     rdfs:domain doc:Reference ;
     rdfs:range xsd:dateTime .
 
+doc:Reference.referringTo a owl:ObjectProperty ;
+    rdfs:label "referringTo"@en ;
+    rdfs:domain doc:Reference ;
+    rdfs:range core:AbstractFeatureWithLifespan .
+
 doc:Tag.text a owl:DatatypeProperty ;
     rdfs:label "text"@en ;
     rdfs:domain doc:Tag ;
     rdfs:range xsd:string .
+
+doc:PurposeTypeValue a owl:Class ;
+    rdfs:label "PurposeTypeValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 doc:Document a owl:Class ;
     rdfs:label "Document"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom doc:Tag ;
             owl:onProperty doc:Document.tag ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom doc:Reference ;
+            owl:onProperty doc:Document.referringTo ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:anyURI ;
             owl:onProperty doc:Document.uri ],
@@ -96,33 +108,41 @@ doc:Tag a owl:Class ;
 doc:Reference a owl:Class ;
     rdfs:label "Reference"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onDataRange xsd:string ;
-            owl:onProperty doc:Reference.referenceText ;
+            owl:allValuesFrom time:Interval ;
+            owl:onProperty doc:Reference.coveragePeriod ],
+        [ a owl:Restriction ;
+            owl:onClass core:AbstractFeatureWithLifespan ;
+            owl:onProperty doc:Reference.referringTo ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:dateTime ;
             owl:onProperty doc:Reference.referringDate ],
+        [ a owl:Restriction ;
+            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass doc:PurposeTypeValue ;
+            owl:onProperty doc:Reference.purposeType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:AbstractFeatureWithLifespan ;
+            owl:onProperty doc:Reference.referringTo ],
+        [ a owl:Restriction ;
+            owl:onDataRange xsd:dateTime ;
+            owl:onProperty doc:Reference.referringDate ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom doc:PurposeTypeValue ;
+            owl:onProperty doc:Reference.purposeType ],
         [ a owl:Restriction ;
             owl:onClass time:Interval ;
             owl:onProperty doc:Reference.coveragePeriod ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty doc:Reference.purpose ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#PurposeTypeValue> ;
-            owl:onProperty doc:Reference.purposeType ],
-        [ a owl:Restriction ;
-            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#PurposeTypeValue> ;
-            owl:onProperty doc:Reference.purposeType ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
             owl:onProperty doc:Reference.referenceText ],
         [ a owl:Restriction ;
-            owl:onDataRange xsd:dateTime ;
-            owl:onProperty doc:Reference.referringDate ;
-            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty doc:Reference.purpose ],
         [ a owl:Restriction ;
-            owl:allValuesFrom time:Interval ;
-            owl:onProperty doc:Reference.coveragePeriod ] .
+            owl:onDataRange xsd:string ;
+            owl:onProperty doc:Reference.referenceText ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
+

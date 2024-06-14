@@ -243,24 +243,25 @@ dem:AbstractReliefComponent a owl:Class ;
     rdfs:label "AbstractReliefComponent"@en ;
     iso19150-2:isAbstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass core:IntegerBetween0and3 ;
+            owl:onProperty dem:AbstractReliefComponent.lod ;
+            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
             owl:allValuesFrom core:IntegerBetween0and3 ;
             owl:onProperty dem:AbstractReliefComponent.lod ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom gmlowl:Surface ;
-            owl:onProperty dem:AbstractReliefComponent.extent ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass gmlowl:Surface ;
             owl:onProperty dem:AbstractReliefComponent.extent ],
         [ a owl:Restriction ;
+            owl:allValuesFrom gmlowl:Surface ;
+            owl:onProperty dem:AbstractReliefComponent.extent ],
+        [ a owl:Restriction ;
             owl:allValuesFrom dem:ADEOfAbstractReliefComponent ;
             owl:onProperty dem:AbstractReliefComponent.adeOfAbstractReliefComponent ],
-        [ a owl:Restriction ;
-            owl:onClass core:IntegerBetween0and3 ;
-            owl:onProperty dem:AbstractReliefComponent.lod ;
-            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         core:AbstractSpaceBoundary ;
     skos:definition "An AbstractReliefComponent represents an element of the terrain surface - either a TIN, a raster or grid, mass points or break lines."@en .
 
 [] a owl:AllDisjointClasses ;
     owl:members ( dem:BreaklineRelief dem:MassPointRelief dem:RasterRelief dem:TINRelief ) .
+

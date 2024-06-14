@@ -172,9 +172,6 @@ gen:DateAttribute.value a owl:DatatypeProperty ;
 gen:DoubleAttribute a owl:Class ;
     rdfs:label "DoubleAttribute"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:double ;
-            owl:onProperty gen:DoubleAttribute.value ],
-        [ a owl:Restriction ;
             owl:onDataRange xsd:double ;
             owl:onProperty gen:DoubleAttribute.value ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
@@ -185,6 +182,9 @@ gen:DoubleAttribute a owl:Class ;
             owl:onDataRange xsd:string ;
             owl:onProperty gen:DoubleAttribute.name ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:double ;
+            owl:onProperty gen:DoubleAttribute.value ],
         core:AbstractGenericAttribute ;
     skos:definition "DoubleAttribute is a data type used to define generic attributes of type \"Double\"."@en .
 
@@ -224,11 +224,27 @@ gen:GenericLogicalSpace.class a owl:ObjectProperty ;
     rdfs:range gen:GenericLogicalSpaceClassValue ;
     skos:definition "Indicates the specific type of the GenericLogicalSpace."@en .
 
+gen:GenericLogicalSpaceFunctionValue a owl:Class ;
+    rdfs:label "GenericLogicalSpaceFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericLogicalSpaceUsageValue a owl:Class ;
+    rdfs:label "GenericLogicalSpaceUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 gen:GenericOccupiedSpace.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
     rdfs:domain gen:GenericOccupiedSpace ;
     rdfs:range gen:GenericOccupiedSpaceClassValue ;
     skos:definition "Indicates the specific type of the GenericOccupiedSpace."@en .
+
+gen:GenericOccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:label "GenericOccupiedSpaceFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericOccupiedSpaceUsageValue a owl:Class ;
+    rdfs:label "GenericOccupiedSpaceUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 gen:GenericThematicSurface.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
@@ -236,11 +252,27 @@ gen:GenericThematicSurface.class a owl:ObjectProperty ;
     rdfs:range gen:GenericThematicSurfaceClassValue ;
     skos:definition "Indicates the specific type of the GenericThematicSurface."@en .
 
+gen:GenericThematicSurfaceFunctionValue a owl:Class ;
+    rdfs:label "GenericThematicSurfaceFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericThematicSurfaceUsageValue a owl:Class ;
+    rdfs:label "GenericThematicSurfaceUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 gen:GenericUnoccupiedSpace.class a owl:ObjectProperty ;
     rdfs:label "class"@en ;
     rdfs:domain gen:GenericUnoccupiedSpace ;
     rdfs:range gen:GenericUnoccupiedSpaceClassValue ;
     skos:definition "Indicates the specific type of the GenericUnoccupiedSpace."@en .
+
+gen:GenericUnoccupiedSpaceFunctionValue a owl:Class ;
+    rdfs:label "GenericUnoccupiedSpaceFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericUnoccupiedSpaceUsageValue a owl:Class ;
+    rdfs:label "GenericUnoccupiedSpaceUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 gen:IntAttribute a owl:Class ;
     rdfs:label "IntAttribute"@en ;
@@ -372,16 +404,12 @@ gen:GenericAttributeSet a owl:Class ;
             owl:allValuesFrom core:AbstractGenericAttribute ;
             owl:onProperty gen:GenericAttributeSet.genericAttribute ],
         [ a owl:Restriction ;
-            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass core:AbstractGenericAttribute ;
-            owl:onProperty gen:GenericAttributeSet.genericAttribute ],
-        [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty gen:GenericAttributeSet.name ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onDataRange xsd:anyURI ;
-            owl:onProperty gen:GenericAttributeSet.codeSpace ],
+            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass core:AbstractGenericAttribute ;
+            owl:onProperty gen:GenericAttributeSet.genericAttribute ],
         [ a owl:Restriction ;
             owl:onDataRange xsd:string ;
             owl:onProperty gen:GenericAttributeSet.name ;
@@ -389,8 +417,28 @@ gen:GenericAttributeSet a owl:Class ;
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:anyURI ;
             owl:onProperty gen:GenericAttributeSet.codeSpace ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty gen:GenericAttributeSet.codeSpace ],
         core:AbstractGenericAttribute ;
     skos:definition "A GenericAttributeSet is a named collection of generic attributes."@en .
+
+gen:GenericLogicalSpaceClassValue a owl:Class ;
+    rdfs:label "GenericLogicalSpaceClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericOccupiedSpaceClassValue a owl:Class ;
+    rdfs:label "GenericOccupiedSpaceClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericThematicSurfaceClassValue a owl:Class ;
+    rdfs:label "GenericThematicSurfaceClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+gen:GenericUnoccupiedSpaceClassValue a owl:Class ;
+    rdfs:label "GenericUnoccupiedSpaceClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 gen:GenericLogicalSpace a owl:Class ;
     rdfs:label "GenericLogicalSpace"@en ;
@@ -475,3 +523,4 @@ gen:GenericUnoccupiedSpace a owl:Class ;
             owl:onProperty gen:GenericUnoccupiedSpace.class ],
         core:AbstractUnoccupiedSpace ;
     skos:definition "A GenericUnoccupiedSpace is a space that is not represented by any explicitly modelled AbstractUnoccupiedSpace subclass within CityGML."@en .
+

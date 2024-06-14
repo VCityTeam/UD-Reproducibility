@@ -41,6 +41,18 @@ frn:CityFurniture.class a owl:ObjectProperty ;
     rdfs:range frn:CityFurnitureClassValue ;
     skos:definition "Indicates the specific type of the CityFurniture."@en .
 
+frn:CityFurnitureFunctionValue a owl:Class ;
+    rdfs:label "CityFurnitureFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+frn:CityFurnitureUsageValue a owl:Class ;
+    rdfs:label "CityFurnitureUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+frn:CityFurnitureClassValue a owl:Class ;
+    rdfs:label "CityFurnitureClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 frn:CityFurniture a owl:Class ;
     rdfs:label "CityFurniture"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -61,3 +73,4 @@ frn:CityFurniture a owl:Class ;
             owl:onProperty frn:CityFurniture.class ],
         core:AbstractOccupiedSpace ;
     skos:definition "CityFurniture is an object or piece of equipment installed in the outdoor environment for various purposes. Examples include street signs, traffic signals, street lamps, benches, fountains."@en .
+

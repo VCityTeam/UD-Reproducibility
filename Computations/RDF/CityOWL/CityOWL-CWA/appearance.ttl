@@ -356,31 +356,31 @@ app:GeoreferencedTexture a owl:Class ;
     rdfs:label "GeoreferencedTexture"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onDataRange xsd:boolean ;
-            owl:onProperty app:GeoreferencedTexture.preferWorldFile ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass gmlowl:Point ;
             owl:onProperty app:GeoreferencedTexture.referencePoint ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom core:TransformationMatrix2x2 ;
-            owl:onProperty app:GeoreferencedTexture.orientation ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom app:ADEOfGeoreferencedTexture ;
-            owl:onProperty app:GeoreferencedTexture.adeOfGeoreferencedTexture ],
         [ a owl:Restriction ;
             owl:allValuesFrom gmlowl:Point ;
             owl:onProperty app:GeoreferencedTexture.referencePoint ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:boolean ;
-            owl:onProperty app:GeoreferencedTexture.preferWorldFile ],
-        [ a owl:Restriction ;
             owl:allValuesFrom xsd:anyURI ;
             owl:onProperty app:GeoreferencedTexture.target ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:TransformationMatrix2x2 ;
+            owl:onProperty app:GeoreferencedTexture.orientation ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty app:GeoreferencedTexture.preferWorldFile ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom app:ADEOfGeoreferencedTexture ;
+            owl:onProperty app:GeoreferencedTexture.adeOfGeoreferencedTexture ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass core:TransformationMatrix2x2 ;
             owl:onProperty app:GeoreferencedTexture.orientation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty app:GeoreferencedTexture.preferWorldFile ],
         app:AbstractTexture ;
     owl:disjointWith app:ParameterizedTexture ;
     skos:definition "A GeoreferencedTexture is a texture that uses a planimetric projection. It contains an implicit parameterization that is either stored within the image file, an accompanying world file or specified using the orientation and referencePoint elements."@en .
@@ -405,24 +405,15 @@ app:AbstractTexture a owl:Class ;
     rdfs:label "AbstractTexture"@en ;
     iso19150-2:isAbstract true ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom app:TextureType ;
-            owl:onProperty app:AbstractTexture.textureType ],
+            owl:allValuesFrom app:WrapMode ;
+            owl:onProperty app:AbstractTexture.wrapMode ],
         [ a owl:Restriction ;
             owl:allValuesFrom app:ColorPlusOpacity ;
             owl:onProperty app:AbstractTexture.borderColor ],
         [ a owl:Restriction ;
-            owl:allValuesFrom app:ADEOfAbstractTexture ;
-            owl:onProperty app:AbstractTexture.adeOfAbstractTexture ],
-        [ a owl:Restriction ;
             owl:onDataRange xsd:anyURI ;
             owl:onProperty app:AbstractTexture.imageURI ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom core:MimeTypeValue ;
-            owl:onProperty app:AbstractTexture.mimeType ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom app:WrapMode ;
-            owl:onProperty app:AbstractTexture.wrapMode ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onDataRange app:WrapMode ;
@@ -433,15 +424,24 @@ app:AbstractTexture a owl:Class ;
             owl:onProperty app:AbstractTexture.textureType ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass core:MimeTypeValue ;
+            owl:onProperty app:AbstractTexture.mimeType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:MimeTypeValue ;
+            owl:onProperty app:AbstractTexture.mimeType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass app:ColorPlusOpacity ;
             owl:onProperty app:AbstractTexture.borderColor ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom app:TextureType ;
+            owl:onProperty app:AbstractTexture.textureType ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:anyURI ;
             owl:onProperty app:AbstractTexture.imageURI ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass core:MimeTypeValue ;
-            owl:onProperty app:AbstractTexture.mimeType ],
+            owl:allValuesFrom app:ADEOfAbstractTexture ;
+            owl:onProperty app:AbstractTexture.adeOfAbstractTexture ],
         app:AbstractSurfaceData ;
     owl:disjointWith app:X3DMaterial ;
     skos:definition "AbstractTexture is the abstract superclass to represent the common attributes of the classes ParameterizedTexture and GeoreferencedTexture."@en .
@@ -456,58 +456,59 @@ app:X3DMaterial a owl:Class ;
     rdfs:label "X3DMaterial"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass app:Color ;
-            owl:onProperty app:X3DMaterial.diffuseColor ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass core:DoubleBetween0and1 ;
             owl:onProperty app:X3DMaterial.ambientIntensity ],
         [ a owl:Restriction ;
-            owl:allValuesFrom app:Color ;
-            owl:onProperty app:X3DMaterial.diffuseColor ],
-        [ a owl:Restriction ;
             owl:allValuesFrom core:DoubleBetween0and1 ;
-            owl:onProperty app:X3DMaterial.shininess ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty app:X3DMaterial.target ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom core:DoubleBetween0and1 ;
-            owl:onProperty app:X3DMaterial.transparency ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:boolean ;
-            owl:onProperty app:X3DMaterial.isSmooth ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom app:ADEOfX3DMaterial ;
-            owl:onProperty app:X3DMaterial.adeOfX3DMaterial ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom app:Color ;
-            owl:onProperty app:X3DMaterial.specularColor ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass app:Color ;
-            owl:onProperty app:X3DMaterial.emissiveColor ],
+            owl:onProperty app:X3DMaterial.ambientIntensity ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass core:DoubleBetween0and1 ;
             owl:onProperty app:X3DMaterial.transparency ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass core:DoubleBetween0and1 ;
-            owl:onProperty app:X3DMaterial.shininess ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom core:DoubleBetween0and1 ;
-            owl:onProperty app:X3DMaterial.ambientIntensity ],
+            owl:onClass app:Color ;
+            owl:onProperty app:X3DMaterial.diffuseColor ],
         [ a owl:Restriction ;
             owl:allValuesFrom app:Color ;
             owl:onProperty app:X3DMaterial.emissiveColor ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom core:DoubleBetween0and1 ;
+            owl:onProperty app:X3DMaterial.shininess ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onDataRange xsd:boolean ;
             owl:onProperty app:X3DMaterial.isSmooth ],
         [ a owl:Restriction ;
+            owl:allValuesFrom core:DoubleBetween0and1 ;
+            owl:onProperty app:X3DMaterial.transparency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom app:Color ;
+            owl:onProperty app:X3DMaterial.diffuseColor ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty app:X3DMaterial.target ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom app:ADEOfX3DMaterial ;
+            owl:onProperty app:X3DMaterial.adeOfX3DMaterial ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty app:X3DMaterial.isSmooth ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass app:Color ;
             owl:onProperty app:X3DMaterial.specularColor ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass core:DoubleBetween0and1 ;
+            owl:onProperty app:X3DMaterial.shininess ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom app:Color ;
+            owl:onProperty app:X3DMaterial.specularColor ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass app:Color ;
+            owl:onProperty app:X3DMaterial.emissiveColor ],
         app:AbstractSurfaceData ;
     skos:definition "X3DMaterial defines properties for surface geometry objects based on the material definitions from the X3D and COLLADA standards."@en .
+

@@ -41,6 +41,18 @@ luse:LandUse.class a owl:ObjectProperty ;
     rdfs:range luse:LandUseClassValue ;
     skos:definition "Indicates the specific type of the LandUse."@en .
 
+luse:LandUseFunctionValue a owl:Class ;
+    rdfs:label "LandUseFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+luse:LandUseUsageValue a owl:Class ;
+    rdfs:label "LandUseUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+luse:LandUseClassValue a owl:Class ;
+    rdfs:label "LandUseClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 luse:LandUse a owl:Class ;
     rdfs:label "LandUse"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -61,3 +73,4 @@ luse:LandUse a owl:Class ;
             owl:onProperty luse:LandUse.class ],
         core:AbstractThematicSurface ;
     skos:definition "A LandUse object is an area of the earth's surface dedicated to a specific land use or having a specific land cover with or without vegetation, such as sand, rock, mud flats, forest, grasslands, or wetlands."@en .
+

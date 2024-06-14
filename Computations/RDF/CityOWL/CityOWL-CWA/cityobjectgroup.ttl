@@ -53,6 +53,14 @@ grp:CityObjectGroup.parent a owl:ObjectProperty ;
     rdfs:range core:AbstractCityObject ;
     skos:definition "Relates to a city object to which the CityObjectGroup belongs."@en .
 
+grp:CityObjectGroupFunctionValue a owl:Class ;
+    rdfs:label "CityObjectGroupFunctionValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
+grp:CityObjectGroupUsageValue a owl:Class ;
+    rdfs:label "CityObjectGroupUsageValue"@en ;
+    rdfs:subClassOf skos:Concept .
+
 grp:Role.groupMember a owl:ObjectProperty ;
     rdfs:label "groupMember"@en ;
     rdfs:domain grp:Role ;
@@ -64,6 +72,10 @@ grp:Role.role a owl:DatatypeProperty ;
     rdfs:domain grp:Role ;
     rdfs:range xsd:string ;
     skos:definition "Describes the role the city object plays within the CityObjectGroup."@en .
+
+grp:CityObjectGroupClassValue a owl:Class ;
+    rdfs:label "CityObjectGroupClassValue"@en ;
+    rdfs:subClassOf skos:Concept .
 
 grp:Role a owl:Class ;
     rdfs:label "Role"@en ;
@@ -86,22 +98,12 @@ grp:Role a owl:Class ;
 grp:CityObjectGroup a owl:Class ;
     rdfs:label "CityObjectGroup"@en ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onClass core:AbstractCityObject ;
-            owl:onProperty grp:CityObjectGroup.parent ],
+            owl:allValuesFrom grp:CityObjectGroupFunctionValue ;
+            owl:onProperty grp:CityObjectGroup.function ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
             owl:onClass grp:CityObjectGroupClassValue ;
             owl:onProperty grp:CityObjectGroup.class ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom grp:CityObjectGroupFunctionValue ;
-            owl:onProperty grp:CityObjectGroup.function ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom grp:Role ;
-            owl:onProperty grp:CityObjectGroup.groupMember ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom grp:CityObjectGroupUsageValue ;
-            owl:onProperty grp:CityObjectGroup.usage ],
         [ a owl:Restriction ;
             owl:allValuesFrom grp:CityObjectGroupClassValue ;
             owl:onProperty grp:CityObjectGroup.class ],
@@ -111,5 +113,16 @@ grp:CityObjectGroup a owl:Class ;
         [ a owl:Restriction ;
             owl:allValuesFrom grp:ADEOfCityObjectGroup ;
             owl:onProperty grp:CityObjectGroup.adeOfCityObjectGroup ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom grp:Role ;
+            owl:onProperty grp:CityObjectGroup.groupMember ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom grp:CityObjectGroupUsageValue ;
+            owl:onProperty grp:CityObjectGroup.usage ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass core:AbstractCityObject ;
+            owl:onProperty grp:CityObjectGroup.parent ],
         core:AbstractLogicalSpace ;
     skos:definition "A CityObjectGroup represents an application-specific aggregation of city objects according to some user-defined criteria. Examples for groups are the buildings in a specific region, the result of a query, or objects put together for visualization purposes. Each member of a group may be qualified by a role name, reflecting the role each city object plays in the context of the group."@en .
+
