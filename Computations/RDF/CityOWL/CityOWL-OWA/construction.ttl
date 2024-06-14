@@ -1,5 +1,5 @@
-@prefix con: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/construction#> .
-@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core#> .
+@prefix con: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/construction#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core#> .
 @prefix gmlowl: <http://www.opengis.net/ont/gml#> .
 @prefix iso19150-2: <http://def.isotc211.org/iso19150/-2/2012/base#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -9,12 +9,12 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/construction> a owl:Ontology ;
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/construction> a owl:Ontology ;
     rdfs:label "Construction"@en ;
     owl:imports <http://def.isotc211.org/iso19150/-2/2012/base>,
         <http://shapechange.net/resources/ont/base>,
         <http://www.opengis.net/ont/gml>,
-        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core> ;
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core> ;
     skos:definition "The Construction module supports representation of key elements of different types of constructions. These key elements include construction surfaces (e.g floor and ceiling), windows and doors, constructive elements (e.g. beams and slabs), installations, and furniture."@en .
 
 con:AbstractConstruction.adeOfAbstractConstruction a owl:ObjectProperty ;

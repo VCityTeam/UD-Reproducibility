@@ -1,15 +1,15 @@
-@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core#> .
 @prefix iso19150-2: <http://def.isotc211.org/iso19150/-2/2012/base#> .
-@prefix luse: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/landuse#> .
+@prefix luse: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/landuse#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/landuse> a owl:Ontology ;
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/landuse> a owl:Ontology ;
     rdfs:label "LandUse"@en ;
     owl:imports <http://def.isotc211.org/iso19150/-2/2012/base>,
-        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core> ;
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core> ;
     skos:definition "The LandUse module supports representation of areas of the earth’s surface dedicated to a specific land use."@en .
 
 luse:LandUse.adeOfLandUse a owl:ObjectProperty ;

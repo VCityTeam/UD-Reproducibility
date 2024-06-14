@@ -1,4 +1,4 @@
-@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core#> .
+@prefix core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core#> .
 @prefix gmlowl: <http://www.opengis.net/ont/gml#> .
 @prefix gsp: <http://www.opengis.net/ont/geosparql#> .
 @prefix iso19111-2019: <http://def.isotc211.org/iso19111/2019/CoordinateReferenceSystems#> .
@@ -10,7 +10,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL-OWA/3.0/core> a owl:Ontology ;
+<https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityOWL/OWA/3.0/core> a owl:Ontology ;
     rdfs:label "Core"@en ;
     owl:imports <http://def.isotc211.org/iso19150/-2/2012/base>,
         <http://shapechange.net/resources/ont/base>,
