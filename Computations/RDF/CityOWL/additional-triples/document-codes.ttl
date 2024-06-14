@@ -1,6 +1,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix doc:  <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
 doc:PurposeTypeValue a owl:Class ;
     rdfs:subClassOf skos:Concept ;

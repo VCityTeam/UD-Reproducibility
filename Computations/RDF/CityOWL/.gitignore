@@ -7,3 +7,4 @@ add_triples.py
 ontologyPatcher.py
 update_graph.py
 *.jar
+lib/
