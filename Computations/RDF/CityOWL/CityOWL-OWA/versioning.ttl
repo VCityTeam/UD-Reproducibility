@@ -25,7 +25,7 @@ vers:Transaction.oldFeature a owl:ObjectProperty ;
     rdfs:range core:AbstractFeatureWithLifespan ;
     skos:definition "Relates to the version of the city object prior to the Transaction."@en .
 
-vers:Transaction.type a owl:DatatypeProperty ;
+vers:Transaction.type a owl:ObjectProperty ;
     rdfs:label "type"@en ;
     rdfs:domain vers:Transaction ;
     rdfs:range vers:TransactionTypeValue ;
@@ -101,10 +101,8 @@ vers:ADEOfVersionTransition a owl:Class ;
     iso19150-2:isAbstract true ;
     skos:definition "ADEOfVersionTransition acts as a hook to define properties within an ADE that are to be added to a VersionTransition."@en .
 
-vers:TransactionTypeValue a rdfs:Datatype ;
+vers:TransactionTypeValue a owl:Class ;
     rdfs:label "TransactionTypeValue"@en ;
-    owl:equivalentClass [ a rdfs:Datatype ;
-            owl:oneOf ( "insert" "delete" "replace" ) ] ;
     skos:definition "TransactionTypeValue enumerates the three possible types of transactions: insert, delete, or replace."@en .
 
 vers:TransitionTypeValue a rdfs:Datatype ;

@@ -1,3 +1,4 @@
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -43,6 +44,36 @@ core:ImplicitGeometry.relativeGeometry rdfs:subPropertyOf geo:hasGeometry .
 core:Address.multiPoint rdfs:subPropertyOf geo:hasGeometry .
 
 # OWL-Time alignments
+core:AbstractFeatureWithLifespan rdfs:subClassOf
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.validTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.validTo ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.validFrom ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.validFrom ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.creationDate ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.creationDate ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onClass time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.terminationDate ] ,
+        [ a owl:Restriction ;
+            owl:allValuesFrom time:Instant ;
+            owl:onProperty core:AbstractFeatureWithLifespan.terminationDate ] .
+
 core:AbstractFeatureWithLifespan.validFrom a owl:ObjectProperty ;
     rdfs:subPropertyOf time:hasBeginning ;
     rdfs:range time:Instant .

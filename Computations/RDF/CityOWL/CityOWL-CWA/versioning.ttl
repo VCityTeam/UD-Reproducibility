@@ -65,7 +65,7 @@ vers:Transaction.oldFeature a owl:ObjectProperty ;
     rdfs:range core:AbstractFeatureWithLifespan ;
     skos:definition "Relates to the version of the city object prior to the Transaction."@en .
 
-vers:Transaction.type a owl:DatatypeProperty ;
+vers:Transaction.type a owl:ObjectProperty ;
     rdfs:label "type"@en ;
     rdfs:domain vers:Transaction ;
     rdfs:range vers:TransactionTypeValue ;
@@ -104,8 +104,6 @@ vers:VersionTransition.type a owl:DatatypeProperty ;
 vers:TransactionTypeValue a owl:Class ;
     rdfs:label "TransactionTypeValue"@en ;
     rdfs:subClassOf skos:Concept ;
-    owl:equivalentClass [ a rdfs:Datatype ;
-            owl:oneOf ( "insert" "delete" "replace" ) ] ;
     skos:definition "TransactionTypeValue enumerates the three possible types of transactions: insert, delete, or replace."@en .
 
 vers:TransitionTypeValue a rdfs:Datatype ;
@@ -124,7 +122,7 @@ vers:Transaction a owl:Class ;
             owl:allValuesFrom vers:TransactionTypeValue ;
             owl:onProperty vers:Transaction.type ],
         [ a owl:Restriction ;
-            owl:onDataRange vers:TransactionTypeValue ;
+            owl:onClass vers:TransactionTypeValue ;
             owl:onProperty vers:Transaction.type ;
             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ],
         [ a owl:Restriction ;

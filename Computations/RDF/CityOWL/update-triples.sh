@@ -58,6 +58,23 @@ python update_graph.py ./output/core.ttl ./output/core.ttl \
         core:AbstractFeatureWithLifespan.terminationDate a owl:DatatypeProperty ;
             rdfs:range xsd:dateTime .
     }'
+echo 'Removing hanging restrictions'
+python update_graph.py ./output/core.ttl ./output/core.ttl \
+   'PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+    PREFIX core: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/core#>
+
+    DELETE {
+        ?restriction ?predicate ?object .
+        core:AbstractFeatureWithLifespan rdfs:subClassOf ?restriction .
+    }
+    WHERE {
+        core:AbstractFeatureWithLifespan rdfs:subClassOf ?restriction .
+        ?restriction a owl:Restriction ;
+            owl:allValuesFrom|owl:onDataRange xsd:dateTime ;
+            ?predicate ?object .
+    }'
 echo 'Removing outdated versioning triples'
 python update_graph.py ./output/versioning.ttl ./output/versioning.ttl \
     'PREFIX owl:  <http://www.w3.org/2002/07/owl#>
@@ -71,7 +88,18 @@ python update_graph.py ./output/versioning.ttl ./output/versioning.ttl \
         vers:TransactionTypeValue a owl:Class ;
             rdfs:subClassOf skos:Concept .
     }'
+echo 'patching room height status'
+python update_graph.py ./output/versioning.ttl ./output/versioning.ttl \
+   'PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX bldg: <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/CityGML/3.0/building#>
 
+    DELETE DATA {
+        bldg:RoomHeight.status a owl:ObjectProperty .
+    } ;
+    INSERT DATA {
+        bldg:RoomHeight.status a owl:DatatypeProperty .
+    }'
 
 ### Copy remaining files ###
 for file in ./stage-2/*

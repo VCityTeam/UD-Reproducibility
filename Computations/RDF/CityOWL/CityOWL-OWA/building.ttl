@@ -335,7 +335,7 @@ bldg:RoomHeight.lowReference a owl:ObjectProperty ;
     rdfs:range bldg:RoomElevationReferenceValue ;
     skos:definition "Indicates the low point used to calculate the value of the room height."@en .
 
-bldg:RoomHeight.status a owl:ObjectProperty ;
+bldg:RoomHeight.status a owl:DatatypeProperty ;
     rdfs:label "status"@en ;
     rdfs:domain bldg:RoomHeight ;
     rdfs:range con:HeightStatusValue ;
