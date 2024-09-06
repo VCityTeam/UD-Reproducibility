@@ -264,6 +264,23 @@ dockerun vcity/py3dtilers obj-tiler -i /data/cave_sub_4_grid_size_x_1_grid_size_
 dockerun vcity/offsetthreedtilesettolyon  --input-dir /data/cave_sub_4_grid_size_x_1_grid_size_y_1_triangulation-3dtiles $cave_to_lyon_cathedral
 ```
 
+#### Additionnal triangulations with no boundaries
+
+By default the modeling of the cave is a triangulation with [boundaries](https://en.wikipedia.org/wiki/Surface_(topology)#Surfaces_with_boundary).
+You might wish to run, on the cave triangulations, some algorithms that require the triangulated surface to be _without_ boundaries
+(e.g. extracting the [homotopy groups generators](https://en.wikipedia.org/wiki/Fundamental_group) or the [skeleton extaction](https://doc.cgal.org/latest/Surface_mesh_skeletonization/index.html).
+
+Here are the commands
+
+```bash
+dockerun vcity/ribs Cave.py -v --subdivision 1 --outputdir /data --fill_holes true
+dockerun vcity/ribs Cave.py -v --subdivision 2 --outputdir /data --fill_holes true
+dockerun vcity/ribs Cave.py -v --subdivision 3 --outputdir /data --fill_holes true
+dockerun vcity/ribs Cave.py -v --subdivision 4 --outputdir /data --fill_holes true
+```
+
+and the resulting files should be of the form `data/cave_sub_*_grid_size_x_1_grid_size_y_1_no_boundaries_triangulation.obj`.
+
 ### Deploying the cave files
 
 ```bash
